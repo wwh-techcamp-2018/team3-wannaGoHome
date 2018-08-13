@@ -16,6 +16,43 @@ cache:
 #소스코드가 형상에 배포됬을때 실행할 명령어를 설정한다 (여기선 build를 진행)
 script: "./gradlew clean build"
 
+
+#deploy하기 전에 해야할 동작을 입력한다. 아래서는 zip파일로 만든 후 deploy 디렉터리에 압축된 파일을 옮겨놓는다.
+before_deploy:
+- zip -r WannaGoHome *
+- mkdir -p deploy
+- mv WannaGoHome.zip deploy/WannaGoHome.zip
+
+#build된 결과를 S3에 deploy 하도록 설정.
+deploy:
+- provider: s3
+  access_key_id: $AWS_ACCESS_KEY # IAM 사용자 생성시 발급받은 access_key_id
+  secret_access_key: $AWS_SECRET_KEY # IAM 사용자 생성시 발급받은 secret_access_key
+  bucket: wannagohome-deploy # 생성한 S3 버켓
+  region: ap-northeast-2  # 리전 설정
+  skip_cleanup: true
+  acl: public_read
+  local_dir: deploy #S3에 배포할 파일이 있는 디렉터리를 설정.
+  wait-until-deployed: true
+  on:
+    repo: wwh-techcamp-2018/team3-wannaGoHome #Github 주소
+    branch: develop  #배포할 브랜치 설정
+
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_KEY # IAM 사용자 생성시 발급받은 access_key_id
+  secret_access_key: $AWS_SECRET_KEY # IAM 사용자 생성시 발급받은 secret_access_key
+  bucket: wannagohome-deploy # 생성한 S3 버켓
+  key: WannaGoHome.zip # 빌드 파일을 압축해서 전달
+  bundle_type: zip
+  application: WannaGoHome-deploy # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+  deployment_group: WannaGoHome-deploy-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+  region: ap-northeast-2
+  wait-until-deployed: true
+  on:
+    repo: wwh-techcamp-2018/team3-wannaGoHome #Github 주소
+    branch: develop  #배포할 브랜치 설정
+
+
 #notifications을 설정하여 알림을 보낼 수 있다.
 notifications:
   email :

@@ -1,0 +1,26 @@
+#언어 및 jdk 설정
+language: java
+jdk:
+  - openjdk8
+
+#푸쉬됬을 때 Travis를 통해 빌드 및 테스트를 자동화할 브랜치를 설정
+branches:
+  only:
+  - develop
+# gradle 파일을 cache 하여 변경사항이 없다면 배포할때 캐쉬에 있는 설정을 이용하도록한다.
+cache:
+  directories:
+  - '$HOME/.m2/repository'
+  - '$HOME/.gradle'
+
+#소스코드가 형상에 배포됬을때 실행할 명령어를 설정한다 (여기선 build를 진행)
+script: "./gradlew clean build"
+
+#notifications을 설정하여 알림을 보낼 수 있다.
+notifications:
+  email :
+    recipients:
+    - tech_its@woowahan.com
+    - tech_yk@woowahan.com
+    - tech_jsl@woowahan.com
+    - jhyang123494@gmail.com

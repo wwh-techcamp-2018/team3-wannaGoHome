@@ -1,6 +1,9 @@
 package wannagohome.domain;
 
 
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -9,10 +12,13 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
+@Builder
+@EqualsAndHashCode
 public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @NotBlank

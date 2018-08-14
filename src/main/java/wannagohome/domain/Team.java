@@ -1,5 +1,6 @@
 package wannagohome.domain;
 
+import lombok.Builder;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
+@Builder
 public class Team {
 
     @Id

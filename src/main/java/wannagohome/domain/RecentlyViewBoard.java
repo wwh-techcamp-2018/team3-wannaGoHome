@@ -1,9 +1,13 @@
 package wannagohome.domain;
 
+
+import lombok.Builder;
+
 import javax.persistence.*;
 
 @Entity
-public class UserIncludedInBoard {
+@Builder
+public class RecentlyViewBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +20,4 @@ public class UserIncludedInBoard {
     @ManyToOne
     @JoinColumn(name = "BOARD_ID")
     private Board board;
-
-    @Enumerated(EnumType.ORDINAL)
-    private UserPermission permission;
 }

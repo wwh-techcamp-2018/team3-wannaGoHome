@@ -10,7 +10,7 @@ import wannagohome.domain.SignInDto;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AcceptanceTest {
+public abstract class AcceptanceTest {
 
     @Autowired
     private TestRestTemplate template;

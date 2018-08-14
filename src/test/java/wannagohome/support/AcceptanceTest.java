@@ -1,0 +1,39 @@
+package wannagohome.support;
+
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+import wannagohome.domain.LoginDto;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class AcceptanceTest {
+
+    @Autowired
+    private TestRestTemplate template;
+
+    protected TestRestTemplate template() {
+        return template;
+    }
+
+    protected ResponseEntity basicAuthRequest(RequestEntity requestEntity, LoginDto user) {
+
+        return request(
+                template.withBasicAuth(user.getEmail(), user.getPassword()), requestEntity
+        );
+    }
+
+    protected ResponseEntity request(TestRestTemplate template, RequestEntity requestEntity) {
+        return template.exchange(
+                requestEntity.getUrl(),
+                requestEntity.getMethod(),
+                requestEntity.getBody(),
+                requestEntity.getReturnType()
+        );
+    }
+
+
+}

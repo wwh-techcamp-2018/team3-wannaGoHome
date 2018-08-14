@@ -1,0 +1,70 @@
+html, body {
+    background-color: #0079bf;
+    height: 100%;
+}
+
+div {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.board-container {
+    padding-top: 10px;
+    position: relative;
+    height: 100%;
+    font-size: 0;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+}
+
+.task-item {
+    vertical-align: top;
+    margin-left: 6px;
+    font-size: 16px;
+    border-radius: 3px;
+
+}
+
+.task-item:hover {
+    cursor: pointer;
+}
+
+.add-list-button {
+    background-color: #005485;
+    padding: 10px 12px 10px 12px;
+    display: inline-block;
+    width: 272px;
+    color: #ddd;
+}
+
+.task-list-holder {
+    position: relative;
+    width: 272px;
+    display: inline-block;
+    height: 100%;
+}
+
+.task-list-wrapper {
+    background-color: #005485;
+    border-radius: 3px;
+}
+
+.task-list-content {
+
+    background-color: #e2e4e6;
+    padding: 8px 12px 8px 12px;
+    border-radius: 3px;
+}
+
+.task-list-title {
+    padding-top: 4px;
+    font-weight: bold;
+}

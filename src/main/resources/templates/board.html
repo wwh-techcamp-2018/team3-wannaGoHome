@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/css/common.css"/>
+    <link rel="stylesheet" href="/css/board.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script src="/js/class/Task.js"></script>
+    <script src="/js/class/Board.js"></script>
+    <script src="/js/board/board.js"></script>
+</head>
+<body>
+    <div class="board-container">
+        <div class="task-list-holder task-item">
+            <div class="task-list-content">
+                <div class="task-list-title">
+                    ASDFASDFQWER
+                </div>
+            </div>
+        </div>
+        <div class="task-item add-list-button">
+            + Add another list
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        {{precompile "precompile/board/task_list_template"}}
+    </script>
+</body>
+</html>

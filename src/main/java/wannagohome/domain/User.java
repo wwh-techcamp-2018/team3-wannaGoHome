@@ -41,6 +41,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserIncludedInTeam> includedTeams;
 
+    @OneToMany(mappedBy = "user")
+    private List<UserIncludedInBoard> includedBoards;
+
     @Column(nullable = false)
     private boolean deleted;
 

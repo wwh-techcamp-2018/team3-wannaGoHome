@@ -69,4 +69,5 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(signInDto.getEmail()).isEqualTo(user.getEmail());
         assertThat(passwordEncoder.matches(signInDto.getPassword(), user.getPassword())).isTrue();
     }
+
 }

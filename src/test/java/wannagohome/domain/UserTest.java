@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import wannagohome.exception.UnauthenticationException;
+import wannagohome.exception.UnAuthenticationException;
 
 public class UserTest {
     private static final Logger log = LoggerFactory.getLogger(UserTest.class);
@@ -29,7 +29,7 @@ public class UserTest {
         user.signIn(new SignInDto("jhyang@good.looking", "password1"), passwordEncoder);
     }
 
-    @Test(expected = UnauthenticationException.class)
+    @Test(expected = UnAuthenticationException.class)
     public void signIn_잘못된_비밀번호() {
         user.signIn(new SignInDto("jhyang@good.looking", "wrongpassword"), passwordEncoder);
     }

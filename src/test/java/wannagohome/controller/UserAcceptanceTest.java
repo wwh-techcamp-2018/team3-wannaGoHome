@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import wannagohome.domain.SignInDto;
 import wannagohome.domain.SignUpDto;
 import wannagohome.domain.User;
 import wannagohome.support.AcceptanceTest;
@@ -17,6 +18,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     private static final Logger log = LoggerFactory.getLogger(UserAcceptanceTest.class);
 
     private static final String SIGNUP_URL = "/api/users";
+    private static final String SIGNIN_URL = "/api/users/signin";
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -54,5 +56,17 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
         // TODO: 2018. 8. 14. BadRequest 시 에러메세지가 정해지면 이에 대해 테스트하자
+    }
+
+    @Test
+    public void signIn() {
+        SignInDto signInDto = new SignInDto("songintae@woowahan.com", "password1");
+        ResponseEntity<User> responseEntity = template().postForEntity(SIGNIN_URL, signInDto, User.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        User user = responseEntity.getBody();
+        assertThat(signInDto.getEmail()).isEqualTo(user.getEmail());
+        assertThat(passwordEncoder.matches(signInDto.getPassword(), user.getPassword())).isTrue();
     }
 }

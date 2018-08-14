@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import wannagohome.exception.UnauthenticationException;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -48,5 +48,10 @@ public class User {
                 .name(dto.getName())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
+    }
+
+    public void signIn(SignInDto dto, PasswordEncoder passwordEncoder) {
+        if (!passwordEncoder.matches(dto.getPassword(), password))
+            throw new UnauthenticationException("아이디 / 비밀번호 를 확인해주세요.");
     }
 }

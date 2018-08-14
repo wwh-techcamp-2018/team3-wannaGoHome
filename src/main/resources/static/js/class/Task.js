@@ -2,12 +2,15 @@ class Task {
     constructor(board, taskObject) {
         this.board = board;
         this.taskObject = taskObject;
+        this.title = taskObject.title;
 
-        this.startDrag = {x: 0, y: 0};
+        this.dragPoint = {x: 0, y: 0};
         this.moving = false;
 
         // placeholder for task html element
         this.task = null;
+
+        this.taskContainer = null;
 
         this.init();
         this.addListeners();
@@ -17,27 +20,28 @@ class Task {
         this.taskListTemplate = Handlebars.templates["precompile/board/task_list_template"];
 
         const newTask = createElementFromHTML(this.taskListTemplate(this.taskObject));
-        this.board.container.insertBefore(newTask, this.board.selector(".task-item:first-child"));
+        this.board.container.insertBefore(newTask, this.board.selector(".task-item:last-child"));
 
+        this.taskContainer = newTask;
         this.task = newTask.querySelector(".task-list-content");
+        this.taskWrapper = newTask.querySelector(".task-list-wrapper");
     }
 
     addListeners() {
 
         this.task.addEventListener("mousedown", function(evt) {
             this.moving = true;
+
             this.board.startDrag.x = evt.clientX;
             this.board.startDrag.y = evt.clientY;
-            console.log(this.startDrag);
 
             this.setDraggable.call(this, this.task);
         }.bind(this));
 
-
     }
 
     getCurrentCoords(evt) {
-        const coordObj = {x: evt.clientX - this.startDrag.x, y: evt.clientY - this.startDrag.y};
+        const coordObj = {x: evt.clientX - this.board.startDrag.x, y: evt.clientY - this.board.startDrag.y};
         return coordObj;
     }
 
@@ -54,6 +58,8 @@ class Task {
         this.board.dragObject = this;
         this.board.dragCallBack = this.moveTaskPosition;
         this.board.dragEndCallBack = this.unsetDraggable;
+
+        elem.classList.toggle("task-list-dragging");
     }
 
     moveTaskPosition(evt) {
@@ -61,9 +67,13 @@ class Task {
         const coords = this.getCurrentCoords(evt);
         this.task.style.left = coords.x + "px";
         this.task.style.top = coords.y + "px";
+
+
     }
 
     unsetDraggable() {
+        if(!this.moving) return;
+
         this.task.style.position = "static";
         this.task.style.left = "0px";
         this.task.style.top = "0px";
@@ -71,10 +81,37 @@ class Task {
         const parent = this.task.parentNode;
         parent.style.height = null;
 
+        this.task.classList.toggle("task-list-dragging");
+
+        this.moving = false;
+
+        const rect = this.getBoundingRect(this.task);
+        const centerX = (rect.left + rect.right) / 2;
+        for(const task of this.board.taskList) {
+            task.handleInsideBound.call(task, centerX, this);
+        }
     }
 
-    getBoundingRect() {
+    handleInsideBound(x, task) {
+        const rect = this.getBoundingRect(this.taskWrapper);
+        if(rect.left < x && rect.right > x && (this != task)) {
+            console.log(this.task.title, "inside!");
+
+            const newRect = this.getBoundingRect(this.taskContainer.nextSibling);
+            const originRect = task.getBoundingRect(task.taskContainer);
+
+            // this.board.startDrag.x = this.board.startDrag.x + (newRect - originRect);
+
+            this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);
+        }
+
+
+        return (rect.left < x && rect.right > x);
+    }
+
+    // top right bottom left
+    getBoundingRect(element) {
         const rect = element.getBoundingClientRect();
-        console.log(rect.top, rect.right, rect.bottom, rect.left);
+        return rect;
     }
 }

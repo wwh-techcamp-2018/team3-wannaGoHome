@@ -38,7 +38,7 @@ div {
 }
 
 .add-list-button {
-    background-color: #005485;
+    background-color: #006cab;
     padding: 10px 12px 10px 12px;
     display: inline-block;
     width: 272px;
@@ -58,10 +58,14 @@ div {
 }
 
 .task-list-content {
-
     background-color: #e2e4e6;
     padding: 8px 12px 8px 12px;
     border-radius: 3px;
+}
+
+.task-list-dragging {
+    transform: rotate(5deg);
+    transform-origin: 50% 0%;
 }
 
 .task-list-title {

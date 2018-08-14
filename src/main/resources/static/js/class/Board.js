@@ -39,6 +39,12 @@ class Board {
         }.bind(this));
     }
 
+    setBoardTasks(tasks) {
+        for(const task of tasks) {
+            this.taskList.push(new Task(this, task));
+        }
+    }
+
     selector(nodeSelector) {
         return this.container.querySelector(nodeSelector);
     }

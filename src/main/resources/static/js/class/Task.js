@@ -64,9 +64,17 @@ class Task {
 
     moveTaskPosition(evt) {
         if(!this.moving) return;
+
+        const rect = this.getBoundingRect(this.task);
+        const centerX = (rect.left + rect.right) / 2;
+        for(const task of this.board.taskList) {
+            task.handleInsideBound.call(task, centerX, this);
+        }
+
         const coords = this.getCurrentCoords(evt);
         this.task.style.left = coords.x + "px";
         this.task.style.top = coords.y + "px";
+
 
 
     }
@@ -85,23 +93,17 @@ class Task {
 
         this.moving = false;
 
-        const rect = this.getBoundingRect(this.task);
-        const centerX = (rect.left + rect.right) / 2;
-        for(const task of this.board.taskList) {
-            task.handleInsideBound.call(task, centerX, this);
-        }
     }
 
     handleInsideBound(x, task) {
         const rect = this.getBoundingRect(this.taskWrapper);
+        console.log(rect);
         if(rect.left < x && rect.right > x && (this != task)) {
             console.log(this.task.title, "inside!");
-
-            const newRect = this.getBoundingRect(this.taskContainer.nextSibling);
-            const originRect = task.getBoundingRect(task.taskContainer);
-
-            // this.board.startDrag.x = this.board.startDrag.x + (newRect - originRect);
-
+            const newRect = this.getBoundingRect(this.taskContainer);
+            const originRect = task.getBoundingRect(task.taskWrapper);
+            console.log(newRect, originRect);
+            this.board.startDrag.x = this.board.startDrag.x + (newRect.left - originRect.left);
             this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);
         }
 

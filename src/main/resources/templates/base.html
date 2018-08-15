@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="team3">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>WannaGoHome</title>
+    <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/header.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="/js/common/common.js"></script>
+    <script src="/js/common/header.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="row">
+        <div class="col-2">
+            <button class="header-button ml-1" type="button">Boards</button>
+            <ul class="header-button-boardlist" style="display: none">
+                <ul >
+                    <li class="header-button-boardlist-title">RECENT BOARD</li>
+                    <li class="header-button-boardlist-content">foodload</li>
+                    <li class="header-button-boardlist-content">junsuload</li>
+                    <li class="header-button-boardlist-content">limeload</li>
+                </ul>
+                <ul >
+                    <li class="header-button-boardlist-title">RECENT BOARD</li>
+                    <li class="header-button-boardlist-content">foodload</li>
+                    <li class="header-button-boardlist-content">junsuload</li>
+                    <li class="header-button-boardlist-content">limeload</li>
+                </ul>
+                <ul >
+                    <li class="header-button-boardlist-title">RECENT BOARD</li>
+                    <li class="header-button-boardlist-content">foodload</li>
+                    <li class="header-button-boardlist-content">junsuload</li>
+                    <li class="header-button-boardlist-content">limeload</li>
+                </ul>
+            </ul>
+        </div>
+        <div class="col-8 header-logo">
+            logo
+        </div>
+        <div class="col-2 text-right">
+            <button class="header-button">1</button>
+            <button class="header-button">2</button>
+            <button class="header-button mr-1">3</button>
+        </div>
+    </div>
+
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            {{#block "sidebar"}}
+            {{/block}}
+        </div>
+        <div class="col-9">
+            {{#block "contents"}}
+            {{/block}}
+        </div>
+    </div>
+
+
+</div>
+
+
+
+{{#block "footer"}}
+{{/block}}
+
+</body>
+</html>

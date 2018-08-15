@@ -1,5 +1,7 @@
 package wannagohome.domain;
 
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -7,12 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
+@Builder
+@Getter
 @Entity
 public class Team {
 
@@ -37,4 +38,8 @@ public class Team {
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;
+
+    public UserIncludedInTeam createRelation(User user, Team team) {
+        return new UserIncludedInTeam(user, team);
+    }
 }

@@ -2,6 +2,7 @@ package wannagohome.domain;
 
 
 import lombok.Builder;
+import lombok.Getter;
 
 import javax.persistence.*;
 
@@ -17,6 +18,7 @@ public class RecentlyViewBoard {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "BOARD_ID")
     private Board board;

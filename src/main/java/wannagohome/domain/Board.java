@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Builder
@@ -31,8 +32,8 @@ public class Board {
 
 //    private List<Task> tasks;
 //    private List<Activity> activities;
-
-//    private Color color;
+    @Enumerated(EnumType.ORDINAL)
+    private Color color;
 
     @NotBlank
     @Column(nullable = false)

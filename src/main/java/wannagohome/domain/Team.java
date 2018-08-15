@@ -1,6 +1,6 @@
 package wannagohome.domain;
 
-import lombok.Builder;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -9,8 +9,12 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Builder
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Team {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

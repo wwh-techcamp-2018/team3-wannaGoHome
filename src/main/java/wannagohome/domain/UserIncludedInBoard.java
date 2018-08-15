@@ -1,8 +1,11 @@
 package wannagohome.domain;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 
 @Entity
+@Builder
 public class UserIncludedInBoard {
 
     @Id

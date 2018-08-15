@@ -1,8 +1,12 @@
 package wannagohome.domain;
 
+import lombok.Builder;
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Builder
 public class UserIncludedInTeam {
 
     @Id
@@ -13,6 +17,7 @@ public class UserIncludedInTeam {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;

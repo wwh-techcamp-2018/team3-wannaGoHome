@@ -1,0 +1,41 @@
+.sidebar {
+
+}
+
+.sidebar-board-button {
+    font-size: 15px;
+    height: 30px;
+    padding: 3px;
+    margin: 3px;
+    background-color: #e2eff7;
+    border-radius: 5px;
+    border-style: none;
+    width: 100%;
+    display: block;
+    color: #026aa7;
+    text-align: left;
+    font-weight: bold;
+}
+
+.sidebar > div > p {
+    font-weight: bold;
+    font-size: 14px;
+    color: #888888;
+    margin: 10px 5px;
+}
+
+.sidebar-team-list {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.sidebar-team-list > li {
+    margin: 15px 5px;
+}
+
+.sidebar-makeTeam-button {
+    color: #888888;
+    font-size: 13px;
+    margin: 15px 5px;
+
+}

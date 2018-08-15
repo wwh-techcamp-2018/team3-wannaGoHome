@@ -12,12 +12,21 @@ ul {
     padding-left:0px;
 }
 
-.header-logo {
+.header-logo-div {
     text-align: center;
-    line-height: 40px;
-    font-size: 20px;
 }
 
+.header-logo {
+     line-height: 45px;
+     font-size: 20px;
+     color: #5497c2;
+     font-family: fantasy;
+ }
+
+.header-logo:hover {
+    color: #e4f0f6;
+    text-decoration-line: none;
+}
 .header-button {
     background-color: #5497c2;
     margin: 2px auto;

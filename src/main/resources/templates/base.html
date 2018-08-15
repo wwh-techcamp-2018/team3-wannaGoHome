@@ -11,13 +11,15 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="/js/common/common.js"></script>
     <script src="/js/common/header.js"></script>
+    {{#block "head"}}
+    {{/block}}
 </head>
 <body>
 
 <header>
     <div class="row">
         <div class="col-2">
-            <button class="header-button ml-1" type="button">Boards</button>
+            <button class="header-button ml-1" type="button"><i class="fa fa-th-list"></i> Boards</button>
             <ul class="header-button-boardlist" style="display: none">
                 <ul >
                     <li class="header-button-boardlist-title">RECENT BOARD</li>
@@ -39,9 +41,13 @@
                 </ul>
             </ul>
         </div>
-        <div class="col-8 header-logo">
-            logo
+
+        <div class="col-8 header-logo-div">
+            <a href="/" class="header-logo">
+                <i class="fa fa-home"></i> WannaGoHome
+            </a>
         </div>
+
         <div class="col-2 text-right">
             <button class="header-button">1</button>
             <button class="header-button">2</button>

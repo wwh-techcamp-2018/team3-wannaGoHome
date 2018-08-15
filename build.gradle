@@ -31,6 +31,12 @@ dependencies {
 	compile('org.hibernate:hibernate-java8')
 	compile('mysql:mysql-connector-java:8.0.12')
 	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0')
+
+	compile("org.springframework.boot:spring-boot-starter-websocket")
+	compile("org.webjars:webjars-locator-core")
+	compile("org.webjars:stomp-websocket:2.3.3")
+	compile("org.webjars:sockjs-client:1.0.2")
+
 	compile('io.springfox:springfox-swagger2:2.9.2')
 	compile('io.springfox:springfox-swagger-ui:2.9.2')
 	runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1')

@@ -43,6 +43,7 @@ div {
 
 .add-list-button:hover {
     cursor: pointer;
+    background-color: #006098;
 }
 
 .task-list-holder {
@@ -53,14 +54,14 @@ div {
 }
 
 .task-list-wrapper {
-    background-color: #005485;
+    background-color: #006098;
     border-radius: 3px;
 }
 
 .task-list-content {
     background-color: #e2e4e6;
-    padding: 8px 12px 8px 12px;
     border-radius: 3px;
+    overflow: hidden;
 
 }
 
@@ -74,10 +75,23 @@ div {
 }
 
 .task-list-title {
-    padding-top: 2px;
+    padding: 10px 12px 10px 12px;
     font-weight: bold;
     vertical-align: middle;
-    height: 22px;
+    height: 36px;
 
+
+}
+
+.add-card-button {
+    padding: 10px 12px 10px 12px;
+    color: #8c8c8c;
+    font-size: 0.9em;
+}
+
+.add-card-button:hover {
+    background-color: #b4b6b8;
+    color: #464646;
+    text-decoration: underline;
 }
 

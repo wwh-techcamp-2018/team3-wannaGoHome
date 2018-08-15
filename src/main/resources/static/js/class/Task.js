@@ -32,7 +32,7 @@ class Task {
 
     addListeners() {
 
-        this.task.addEventListener("mousedown", function(evt) {
+        this.task.querySelector(".task-list-title").addEventListener("mousedown", function(evt) {
             this.moving = true;
 
             this.board.startDrag.x = evt.clientX;
@@ -60,7 +60,7 @@ class Task {
 
         this.task.style.position = "absolute";
 
-        this.task.style.boxShadow = "2px 2px 3px 2px rgba(51,51,51,0.7)";
+        this.task.style.boxShadow = "2px 2px 2px 2px rgba(51,51,51,0.3)";
 
         this.board.dragObject = this;
         this.board.dragCallBack = this.moveTaskPosition;
@@ -89,7 +89,7 @@ class Task {
             }
             i++;
         }
-        console.log(destTaskIndex);
+
         if(destTaskIndex !== -1) {
             if(thisTaskIndex > destTaskIndex) {
                 this.board.taskList[destTaskIndex].handleInsideBound.call(this.board.taskList[destTaskIndex], centerX, this, true);
@@ -102,7 +102,7 @@ class Task {
             }
         }
 
-        console.log(this.board.taskList);
+
 
         const coords = this.getCurrentCoords(evt);
         this.task.style.left = coords.x + "px";
@@ -140,13 +140,12 @@ class Task {
     handleInsideBound(x, task, prev) {
         const rect = this.getBoundingRect(this.taskWrapper);
         if(rect.left < x && rect.right > x && (this != task)) {
-            console.log(this.task.title, "inside!");
+
             const newRect = this.getBoundingRect(this.taskContainer);
             const originRect = task.getBoundingRect(task.taskWrapper);
-            console.log(newRect, originRect);
-            console.log(this.board.startDrag.x);
+
             this.board.startDrag.x = this.board.startDrag.x + (newRect.left - originRect.left);
-            console.log(this.board.startDrag.x);
+
             if(prev) {
                 this.board.container.insertBefore(task.taskContainer, this.taskContainer);
             } else {

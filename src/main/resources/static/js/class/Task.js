@@ -10,6 +10,9 @@ class Task {
         // placeholder for task html element
         this.task = null;
 
+        // placeholder for card list
+        this.cards = [];
+
         this.taskContainer = null;
 
         this.init();
@@ -56,6 +59,8 @@ class Task {
         this.task.style.zIndex = '10';
 
         this.task.style.position = "absolute";
+
+        this.task.style.boxShadow = "2px 2px 3px 2px rgba(51,51,51,0.7)";
 
         this.board.dragObject = this;
         this.board.dragCallBack = this.moveTaskPosition;
@@ -114,12 +119,16 @@ class Task {
 
         this.task.style.zIndex = null;
 
+        this.task.style.boxShadow = null;
+
         const parent = this.task.parentNode;
         parent.style.height = null;
 
         this.task.classList.toggle("task-list-dragging");
 
         this.moving = false;
+
+        this.board.updateBoardState();
 
     }
 
@@ -143,7 +152,6 @@ class Task {
             } else {
                 this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);
             }
-
 
         }
 

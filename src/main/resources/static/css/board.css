@@ -41,6 +41,10 @@ div {
     color: #ddd;
 }
 
+.add-list-button:hover {
+    cursor: pointer;
+}
+
 .task-list-holder {
     position: relative;
     width: 272px;

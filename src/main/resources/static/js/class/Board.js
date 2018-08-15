@@ -45,6 +45,10 @@ class Board {
         }
     }
 
+    updateBoardState() {
+        console.log("Updating Board State");
+    }
+
     selector(nodeSelector) {
         return this.container.querySelector(nodeSelector);
     }

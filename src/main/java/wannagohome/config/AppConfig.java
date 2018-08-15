@@ -12,8 +12,10 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import wannagohome.interceptor.BasicAuthInterceptor;
+import wannagohome.interceptor.LoginInterceptor;
 import wannagohome.interceptor.LoginUserHandlerMethodArgumentResolver;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -48,6 +50,19 @@ public class AppConfig implements WebMvcConfigurer {
         argumentResolvers.add(loginUserArgumentResolver());
     }
 
+    @Bean
+    public LoginInterceptor loginInterceptor() {
+        return new LoginInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor()).order(1).excludePathPatterns(Arrays.asList(
+                "/users/signup",
+                "/users/signin"
+        ));
+    }
+
     @Configuration
     @Profile(value = {"dev", "build"})
     class TestConfig extends AppConfig {
@@ -60,7 +75,7 @@ public class AppConfig implements WebMvcConfigurer {
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
             super.addInterceptors(registry);
-            registry.addInterceptor(basicAuthInterceptor());
+            registry.addInterceptor(basicAuthInterceptor()).order(0);
         }
     }
 

@@ -32,4 +32,9 @@ public class ApiUserController {
         return user;
     }
 
+    @PostMapping("/logout")
+    public void logout(HttpSession session) {
+        SessionUtil.removeUserSession(session);
+    }
+
 }

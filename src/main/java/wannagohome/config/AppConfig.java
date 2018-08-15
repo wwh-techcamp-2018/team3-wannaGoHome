@@ -59,7 +59,9 @@ public class AppConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor()).order(1).excludePathPatterns(Arrays.asList(
                 "/users/signup",
-                "/users/signin"
+                "/users/signin",
+                "/api/users/signin",
+                "/api/users"
         ));
     }
 

@@ -35,7 +35,7 @@ class Task {
             this.board.startDrag.x = evt.clientX;
             this.board.startDrag.y = evt.clientY;
 
-            this.setDraggable.call(this, this.task);
+            this.setDraggable.call(this);
         }.bind(this));
 
     }
@@ -45,21 +45,23 @@ class Task {
         return coordObj;
     }
 
-    setDraggable(elem) {
-        const parent = elem.parentNode;
-        parent.style.width = elem.offsetWidth + "px";
-        parent.style.height = elem.offsetHeight + "px";
+    setDraggable() {
+        const parent = this.task.parentNode;
+        parent.style.width = this.task.offsetWidth + "px";
+        parent.style.height = this.task.offsetHeight + "px";
 
-        elem.style.width = elem.offsetWidth + "px";
-        elem.style.height = elem.offsetHeight + "px";
+        this.task.style.width = this.task.offsetWidth + "px";
+        this.task.style.height = this.task.offsetHeight + "px";
 
-        elem.style.position = "absolute";
+        this.task.style.zIndex = '10';
+
+        this.task.style.position = "absolute";
 
         this.board.dragObject = this;
         this.board.dragCallBack = this.moveTaskPosition;
         this.board.dragEndCallBack = this.unsetDraggable;
 
-        elem.classList.toggle("task-list-dragging");
+        this.task.classList.toggle("task-list-dragging");
     }
 
     moveTaskPosition(evt) {
@@ -67,15 +69,39 @@ class Task {
 
         const rect = this.getBoundingRect(this.task);
         const centerX = (rect.left + rect.right) / 2;
+
+        // placeholders for current index and destination index
+        let thisTaskIndex = -1;
+        let destTaskIndex = -1;
+        let i = 0;
         for(const task of this.board.taskList) {
-            task.handleInsideBound.call(task, centerX, this);
+            const insideBound = task.isInsideBound.call(task, centerX, this);
+            if(insideBound) {
+                destTaskIndex = i;
+            }
+            if(this == task) {
+                thisTaskIndex = i;
+            }
+            i++;
         }
+        console.log(destTaskIndex);
+        if(destTaskIndex !== -1) {
+            if(thisTaskIndex > destTaskIndex) {
+                this.board.taskList[destTaskIndex].handleInsideBound.call(this.board.taskList[destTaskIndex], centerX, this, true);
+                this.board.taskList.splice(thisTaskIndex, 1);
+                this.board.taskList.splice(destTaskIndex, 0, this);
+            } else {
+                this.board.taskList[destTaskIndex].handleInsideBound.call(this.board.taskList[destTaskIndex], centerX, this, false);
+                this.board.taskList.splice(thisTaskIndex, 1);
+                this.board.taskList.splice(destTaskIndex, 0, this);
+            }
+        }
+
+        console.log(this.board.taskList);
 
         const coords = this.getCurrentCoords(evt);
         this.task.style.left = coords.x + "px";
         this.task.style.top = coords.y + "px";
-
-
 
     }
 
@@ -86,6 +112,8 @@ class Task {
         this.task.style.left = "0px";
         this.task.style.top = "0px";
 
+        this.task.style.zIndex = null;
+
         const parent = this.task.parentNode;
         parent.style.height = null;
 
@@ -95,20 +123,30 @@ class Task {
 
     }
 
-    handleInsideBound(x, task) {
+    isInsideBound(x, task) {
         const rect = this.getBoundingRect(this.taskWrapper);
-        console.log(rect);
+        return (rect.left < x && rect.right > x && (this != task));
+    }
+
+    handleInsideBound(x, task, prev) {
+        const rect = this.getBoundingRect(this.taskWrapper);
         if(rect.left < x && rect.right > x && (this != task)) {
             console.log(this.task.title, "inside!");
             const newRect = this.getBoundingRect(this.taskContainer);
             const originRect = task.getBoundingRect(task.taskWrapper);
             console.log(newRect, originRect);
+            console.log(this.board.startDrag.x);
             this.board.startDrag.x = this.board.startDrag.x + (newRect.left - originRect.left);
-            this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);
+            console.log(this.board.startDrag.x);
+            if(prev) {
+                this.board.container.insertBefore(task.taskContainer, this.taskContainer);
+            } else {
+                this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);
+            }
+
+
         }
 
-
-        return (rect.left < x && rect.right > x);
     }
 
     // top right bottom left

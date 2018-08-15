@@ -33,10 +33,6 @@ div {
 
 }
 
-.task-item:hover {
-    cursor: pointer;
-}
-
 .add-list-button {
     background-color: #006cab;
     padding: 10px 12px 10px 12px;
@@ -61,6 +57,11 @@ div {
     background-color: #e2e4e6;
     padding: 8px 12px 8px 12px;
     border-radius: 3px;
+
+}
+
+.task-list-content:hover {
+    cursor: pointer;
 }
 
 .task-list-dragging {
@@ -69,6 +70,10 @@ div {
 }
 
 .task-list-title {
-    padding-top: 4px;
+    padding-top: 2px;
     font-weight: bold;
+    vertical-align: middle;
+    height: 22px;
+
 }
+

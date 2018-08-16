@@ -48,9 +48,9 @@ class Task {
         const currentHeight = this.board.container.style.width.trim();
         const rect = this.getBoundingRect(this.board.selector(".add-list-button"));
         if(!currentHeight) {
-            this.board.container.style.width = (rect.right - rect.left) * 2 + "px";
+            this.board.container.style.width = (rect.right - rect.left + 6) * 2 + "px";
         } else {
-            this.board.container.style.width = parseInt(currentHeight.substring(0, currentHeight.length - 2)) + (rect.right - rect.left) + "px";
+            this.board.container.style.width = parseInt(currentHeight.substring(0, currentHeight.length - 2)) + (rect.right - rect.left + 6) + "px";
         }
     }
 

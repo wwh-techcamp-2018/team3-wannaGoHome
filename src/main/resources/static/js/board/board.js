@@ -6,4 +6,6 @@ document.addEventListener("DOMContentLoaded", function(evt) {
        {title: "아무거나 써봄"}
    ];
    board.setBoardTasks(tasks);
+
 });
+

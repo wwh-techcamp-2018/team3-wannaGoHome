@@ -4,7 +4,6 @@ class Task {
         this.taskObject = taskObject;
         this.title = taskObject.title;
 
-        this.dragPoint = {x: 0, y: 0};
         this.moving = false;
 
         // placeholder for task html element
@@ -41,6 +40,16 @@ class Task {
             this.setDraggable.call(this);
         }.bind(this));
 
+    }
+
+    getSocketObject() {
+        const obj = {};
+        obj.title = this.title;
+
+        // need to implement later
+        obj.cards = this.cards;
+        obj.deleted = false;
+        return obj;
     }
 
     getCurrentCoords(evt) {

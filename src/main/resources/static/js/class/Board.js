@@ -1,7 +1,7 @@
 class Board {
     constructor() {
-        this.init();
-        this.addListeners();
+        this.taskList = [];
+        this.stompClient = null;
 
         // placeholder to hold mousedown coords
         this.startDrag = {x: 0, y: 0};
@@ -10,12 +10,15 @@ class Board {
         this.dragObject = null;
         this.dragCallBack = function(evt) {};
         this.dragEndCallBack = function() {};
+
+        this.init();
+        this.addListeners();
     }
 
     init () {
         this.container = $(".board-container");
         this.addButton = $(".add-list-button");
-        this.taskList = [];
+        this.connectSocket();
 
     }
 
@@ -30,7 +33,6 @@ class Board {
         }.bind(this));
 
         this.container.addEventListener("mouseleave", function(evt) {
-            console.log("mouseout!");
             this.dragEndCallBack.call(this.dragObject);
         }.bind(this));
 
@@ -46,10 +48,35 @@ class Board {
     }
 
     updateBoardState() {
-        console.log("Updating Board State");
+        const obj = {};
+        obj.title = "Any title";
+        obj.tasks = [];
+        for(const task of this.taskList) {
+            obj.tasks.push(task.getSocketObject());
+        }
+        this.sendBoard(obj);
     }
 
     selector(nodeSelector) {
         return this.container.querySelector(nodeSelector);
+    }
+
+    connectSocket() {
+        const socket = new SockJS('/gs-guide-websocket');
+        this.stompClient = Stomp.over(socket);
+        console.log(this.stompClient);
+        this.stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            console.log(this);
+            this.stompClient.subscribe('/topic/board', function (board) {
+
+            });
+
+        }.bind(this))
+    }
+
+    sendBoard(obj) {
+
+        this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
     }
 }

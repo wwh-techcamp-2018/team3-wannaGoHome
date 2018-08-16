@@ -3,6 +3,7 @@ package wannagohome.domain;
 import java.util.Arrays;
 
 public enum ErrorType {
+    UNAUTHORIZED("unauthorized"),
     USER_EMAIL("email"),
     USER_NAME("name"),
     USER_PASSWORD("password");

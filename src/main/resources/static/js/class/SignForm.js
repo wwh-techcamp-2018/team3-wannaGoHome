@@ -32,7 +32,7 @@ class SignForm {
         Object.keys(this.inputForms).map((key) => {
             data[key] = this.inputForms[key].value;
         });
-        fetchRequest({
+        fetchManager({
             url: this.url,
             method: "POST",
             body: JSON.stringify(data),

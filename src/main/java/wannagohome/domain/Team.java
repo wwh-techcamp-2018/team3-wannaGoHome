@@ -38,7 +38,4 @@ public class Team {
     @ColumnDefault(value = "false")
     private boolean deleted;
 
-    public UserIncludedInTeam createRelation(User user, Team team) {
-        return new UserIncludedInTeam(user, team);
-    }
 }

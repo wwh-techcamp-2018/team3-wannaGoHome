@@ -3,7 +3,9 @@ package wannagohome.domain;
 import java.util.Arrays;
 
 public enum Color {
-    RED("#FF0000");
+    RED("#FF0000"),
+    BLUE("#026aa7"),
+    GRAY("#aaaaaa");
 
     private String code;
 

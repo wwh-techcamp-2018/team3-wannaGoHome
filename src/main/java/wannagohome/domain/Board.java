@@ -23,6 +23,7 @@ public class Board {
     @NotBlank
     @Size(max = 20)
     @Column(length = 20, nullable = false)
+    @Getter
     private String title;
 
     @ManyToOne
@@ -37,4 +38,8 @@ public class Board {
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;
+
+    public String getColor() {
+        return color.getCode();
+    }
 }

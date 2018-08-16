@@ -4,11 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import wannagohome.domain.SignInDto;
 import wannagohome.domain.Team;
+import wannagohome.repository.TeamRepository;
 import wannagohome.support.AcceptanceTest;
 import wannagohome.support.RequestEntity;
 
@@ -22,6 +24,9 @@ public class TeamAcceptanceTest extends AcceptanceTest {
 
     private static final String CREATE_URL = "/api/teams";
     private static final String READ_URL = "/api/teams";
+
+    @Autowired
+    TeamRepository teamRepository;
 
 
     private Team team;
@@ -42,37 +47,7 @@ public class TeamAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    public void create() {
-        ResponseEntity<Team> responseEntity = basicAuthRequest(new RequestEntity.Builder()
-                .withUrl(CREATE_URL)
-                .withBody(team)
-                .withMethod(HttpMethod.POST)
-                .withReturnType(Team.class)
-                .build(),
-                new SignInDto("kimyeon@woowahan.com", "password1")
-        );
-
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        Team responseTeam = responseEntity.getBody();
-        log.debug("description: {}", responseTeam.getDescription());
-        log.debug("name: {}", responseTeam.getName());
-
-        assertThat(team.getName()).isEqualTo(responseTeam.getName());
-        assertThat(team.getDescription()).isEqualTo(responseTeam.getDescription());
-    }
-
-    @Test
-    public void readTeam() {
-        ResponseEntity<Team> responseEntity = template().getForEntity(READ_URL+"/1", Team.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Team responseTeam = responseEntity.getBody();
-        log.debug("description: {}", responseTeam.getDescription());
-        log.debug("name: {}", responseTeam.getName());
-        assertThat(responseTeam.getName()).isEqualTo("JunsuLime");
-    }
-
-    @Test
-    public void readTeamsAfterCreate() {
+    public void createAndReadTeam() {
         ResponseEntity<Team> createResponseEntity = basicAuthRequest(new RequestEntity.Builder()
                         .withUrl(CREATE_URL)
                         .withBody(team)
@@ -81,7 +56,13 @@ public class TeamAcceptanceTest extends AcceptanceTest {
                         .build(),
                 new SignInDto("kimyeon@woowahan.com", "password1")
         );
+        Team responseTeam = createResponseEntity.getBody();
+        log.debug("description: {}", responseTeam.getDescription());
+        log.debug("name: {}", responseTeam.getName());
         assertThat(createResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(team.getName()).isEqualTo(responseTeam.getName());
+        assertThat(team.getDescription()).isEqualTo(responseTeam.getDescription());
+
 
         ResponseEntity<Team> createResponseEntity2 = basicAuthRequest(new RequestEntity.Builder()
                         .withUrl(CREATE_URL)
@@ -92,6 +73,13 @@ public class TeamAcceptanceTest extends AcceptanceTest {
                 new SignInDto("kimyeon@woowahan.com", "password1")
         );
         assertThat(createResponseEntity2.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        Team responseTeam2 = createResponseEntity2.getBody();
+        log.debug("description: {}", responseTeam2.getDescription());
+        log.debug("name: {}", responseTeam2.getName());
+        assertThat(createResponseEntity2.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(team2.getName()).isEqualTo(responseTeam2.getName());
+        assertThat(team2.getDescription()).isEqualTo(responseTeam2.getDescription());
+
 
         ResponseEntity<Team[]> responseEntity  = basicAuthRequest(new RequestEntity.Builder()
                         .withUrl(READ_URL)
@@ -103,32 +91,22 @@ public class TeamAcceptanceTest extends AcceptanceTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Team> responseTeams = Arrays.asList(responseEntity.getBody());
-        for (Team responseTeam : responseTeams) {
-            log.debug("description: {}", responseTeam.getDescription());
-            log.debug("name: {}", responseTeam.getName());
-            assertThat(responseTeam.getName()).contains("test");
+        for (Team team : responseTeams) {
+            log.debug("description: {}", team.getDescription());
+            log.debug("name: {}", team.getName());
+            assertThat(team.getName()).contains("test");
         }
     }
 
+
     @Test
-    public void readTeamAfterCreate() {
-        ResponseEntity<Team> createResponseEntity = basicAuthRequest(new RequestEntity.Builder()
-                        .withUrl(CREATE_URL)
-                        .withBody(team)
-                        .withMethod(HttpMethod.POST)
-                        .withReturnType(Team.class)
-                        .build(),
-                new SignInDto("kimyeon@woowahan.com", "password1")
-        );
-        assertThat(createResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        Team createResponseTeam = createResponseEntity.getBody();
-
-        ResponseEntity<Team> readResponseEntity = template().getForEntity(READ_URL+"/4", Team.class);
+    public void readTeam() {
+        ResponseEntity<Team> readResponseEntity = template().getForEntity(READ_URL+"/1", Team.class);
         assertThat(readResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Team readResponseTeam = readResponseEntity.getBody();
-
-        assertThat(createResponseTeam.getName()).isEqualTo(readResponseTeam.getName());
-        assertThat(createResponseTeam.getDescription()).isEqualTo(readResponseTeam.getDescription());
-
+        Team responseTeam = readResponseEntity.getBody();
+        log.debug("description: {}", responseTeam.getDescription());
+        log.debug("name: {}", responseTeam.getName());
+        assertThat(responseTeam.getName()).isEqualTo("JunsuLime");
     }
+
 }

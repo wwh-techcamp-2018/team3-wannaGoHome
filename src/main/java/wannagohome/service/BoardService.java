@@ -81,7 +81,7 @@ public class BoardService {
 
 
     @Transactional
-    public Board createBoard(User user, CreateBoardDTO createBoardDTO) {
+    public Board createBoard(User user, CreateBoardDto createBoardDTO) {
         Board board = Board.builder()
                 .team(teamService.findTeamById(createBoardDTO.getTeamId()))
                 .title(createBoardDTO.getTitle())

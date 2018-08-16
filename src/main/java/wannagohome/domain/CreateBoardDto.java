@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 @Builder
-public class CreateBoardDTO {
+public class CreateBoardDto {
 
     @NotBlank
     @Size(max = 20)

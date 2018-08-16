@@ -117,7 +117,7 @@ public class BoardServiceTest {
 
     @Test
     public void createBoard_생성() {
-        CreateBoardDTO boardDTO = CreateBoardDTO.builder()
+        CreateBoardDto boardDTO = CreateBoardDto.builder()
                 .teamId(team.getId())
                 .title("create board")
                 .color("#FF0000")

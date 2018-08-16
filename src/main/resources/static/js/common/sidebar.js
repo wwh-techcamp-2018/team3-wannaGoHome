@@ -69,6 +69,7 @@ function createTeam() {
             "description": $_value(".sidebar-makeTeam-description-box")
         };
         console.log("submit");
+        $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
 
         fetchManager({
             url: "/api/teams",
@@ -77,6 +78,8 @@ function createTeam() {
             body: JSON.stringify(postObject),
             callback: displayTeam
         });
+        $(".sidebar-makeTeam-name-box").innerText = "";
+        $(".sidebar-makeTeam-description-box").innerText = "";
     })
 
 }

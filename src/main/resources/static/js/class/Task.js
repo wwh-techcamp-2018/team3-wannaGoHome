@@ -29,6 +29,11 @@ class Task {
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
     }
 
+    remove() {
+        console.log("Remove called");
+        this.taskContainer.remove();
+    }
+
     addListeners() {
 
         this.task.querySelector(".task-list-title").addEventListener("mousedown", function(evt) {

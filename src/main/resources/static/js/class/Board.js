@@ -42,6 +42,16 @@ class Board {
     }
 
     setBoardTasks(tasks) {
+        console.log("Removing tasks");
+        while(this.taskList.length) {
+            const task = this.taskList[0];
+            task.remove();
+            this.taskList.splice(0, 1);
+        }
+        for(const task of this.taskList) {
+            this.taskList.splice(0, 1);
+            task.remove();
+        }
         for(const task of tasks) {
             this.taskList.push(new Task(this, task));
         }
@@ -67,10 +77,10 @@ class Board {
         console.log(this.stompClient);
         this.stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
-            console.log(this);
             this.stompClient.subscribe('/topic/board', function (board) {
-                console.log(board);
-            });
+                console.log(JSON.parse(board.body));
+                this.setBoardTasks(JSON.parse(board.body).tasks);
+            }.bind(this));
 
         }.bind(this))
     }

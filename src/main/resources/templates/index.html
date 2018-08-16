@@ -1,9 +1,10 @@
 {{#partial "head"}}
 <link rel="stylesheet" type="text/css" href="/css/sidebar.css"/>
-<link rel="stylesheet" type="text/css" href="/css/mainBoard.css"/>
+<link rel="stylesheet" type="text/css" href="/css/boardsummary.css"/>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
 <script src="/js/common/sidebar.js"></script>
+<script src="/js/class/MainBoard.js"></script>
 {{/partial}}
 
 {{#partial "sidebar"}}
@@ -51,7 +52,7 @@
 {{/partial}}
 
 {{#partial "contents"}}
-<div>
+<div class = "main-board">
     <div class="recent-board-list">
         <div class="board-title"><i class="fa fa-clock-o"></i> Recently Viewed</div>
         <div class="board-card">board number1</div>

@@ -10,6 +10,7 @@ import wannagohome.domain.*;
 import wannagohome.repository.BoardRepository;
 import wannagohome.repository.RecentlyViewBoardRepository;
 import wannagohome.repository.UserIncludedInBoardRepository;
+import wannagohome.repository.UserIncludedInTeamRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,8 @@ public class BoardServiceTest {
     private RecentlyViewBoardRepository recentlyViewBoardRepository;
     @Mock
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
+    @Mock
+    private UserIncludedInTeamRepository userIncludedInTeamRepository;
     @Mock
     private TeamService teamService;
 
@@ -53,9 +56,6 @@ public class BoardServiceTest {
                 .email("jhyang@good.looking")
                 .name("jhyang")
                 .password("password1")
-                .includedTeams(Arrays.asList(
-                        UserIncludedInTeam.builder().team(team).build()
-                ))
                 .build();
 
         boards = Arrays.asList(
@@ -101,8 +101,10 @@ public class BoardServiceTest {
 
     @Test
     public void getBoardSummary_조회() {
+        UserIncludedInTeam userIncludedInTeam = UserIncludedInTeam.builder().team(team).build();
         when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user)).thenReturn(recentlyViewBoards);
         when(boardRepository.findAllByTeamAndDeletedFalse(team)).thenReturn(boards);
+        when(userIncludedInTeamRepository.findAllByUser(user)).thenReturn(Arrays.asList(userIncludedInTeam));
         BoardSummaryDto boardSummaryDTO = boardService.getBoardSummary(user);
         assertThat(boardSummaryDTO.getRecentlyViewBoards().size()).isEqualTo(4);
         assertThat(boardSummaryDTO.getBoardOfTeamDtos().size()).isEqualTo(1);

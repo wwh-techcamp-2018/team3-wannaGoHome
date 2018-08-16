@@ -12,7 +12,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -38,12 +37,6 @@ public class User {
     @Size(min = 1, max = 10)
     @Column(length = 10, nullable = false)
     private String name;
-
-    @OneToMany(mappedBy = "user")
-    private List<UserIncludedInTeam> includedTeams;
-
-    @OneToMany(mappedBy = "user")
-    private List<UserIncludedInBoard> includedBoards;
 
     @Column(nullable = false)
     private boolean deleted;

@@ -1,5 +1,6 @@
 package wannagohome.controller.api;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,17 @@ public class ApiTeamController {
         return teamService.findTeamById(id);
     }
 
+//    @GetMapping("")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Team> readTeams(User user) {
+//        return teamService.findTeamsByUser(user);
+//    }
+
+    //유저없어서 임시로 테스트하려고
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public List<Team> readTeams(User user) {
-        return teamService.findTeamsByUser(user);
+    public List<Team> readTeams() {
+        return teamService.findAll();
     }
 
 

@@ -84,7 +84,7 @@ public class TeamServiceTest {
 
     @Test
     public void findTeamsByUser() {
-        when(userIncludedInTeamRepository.findAllByUser(user)).thenReturn(Optional.of(userIncludedInTeams));
+        when(userIncludedInTeamRepository.findAllByUser(user)).thenReturn(userIncludedInTeams);
         teamService.findTeamsByUser(user);
         verify(userIncludedInTeamRepository, times(1)).findAllByUser(user);
     }

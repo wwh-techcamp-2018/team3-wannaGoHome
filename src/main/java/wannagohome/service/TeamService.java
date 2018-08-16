@@ -23,6 +23,7 @@ public class TeamService {
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
 
     public Team create(Team team, User user) {
+        //TODO
         userIncludedInTeamRepository.save(team.createRelation(user, team));
         return teamRepository.save(team);
     }
@@ -35,13 +36,16 @@ public class TeamService {
 
     public List<Team> findTeamsByUser(User user) {
         List<Team> teams = new ArrayList<>();
-        List<UserIncludedInTeam> userIncludedInTeams = userIncludedInTeamRepository.findAllByUser(user)
-                .orElseThrow(() -> new NotFoundException("user의 Team이 존재하지 않습니다."));
+        List<UserIncludedInTeam> userIncludedInTeams = userIncludedInTeamRepository.findAllByUser(user);
         //TODO 멘붕... 유저와 팀을 이어주는 테이블을 가져왔는데 거기서 이제 팀들을 뽑아서 팀리스트를 만들어야함
-
+        //TODO Map 사용
         for (UserIncludedInTeam userIncludedInTeam : userIncludedInTeams) {
             teams.add(userIncludedInTeam.getTeam());
         }
         return teams;
+    }
+
+    public List<Team> findAll() {
+        return teamRepository.findAll();
     }
 }

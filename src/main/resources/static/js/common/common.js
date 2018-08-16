@@ -9,3 +9,13 @@ function $_all(selector) {
 function $_value(selector) {
     return $(selector).value;
 }
+
+function getManager({url, method, headers, callback}) {
+    fetch(url, {method, headers, credentials: "same-origin"})
+        .then((response) => {
+            const value = response;
+            return value.json();
+        }).then((result) => {
+        callback(result);
+    });
+}

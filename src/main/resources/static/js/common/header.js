@@ -1,9 +1,8 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
-    init();
-
+    initHeader();
 });
 
-function init() {
+function initHeader() {
     $(".header-button").addEventListener("click", (evt) => {
         console.log("click");
         console.log($(".header-button-boardlist").style.display);

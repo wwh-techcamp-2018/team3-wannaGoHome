@@ -20,6 +20,7 @@ import java.util.List;
 @Builder
 @Entity
 public class User {
+    public static User GUEST_USER = new GuestUser();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,5 +59,16 @@ public class User {
     public void signIn(SignInDto dto, PasswordEncoder passwordEncoder) {
         if (!passwordEncoder.matches(dto.getPassword(), password))
             throw new UnAuthenticationException("아이디 / 비밀번호 를 확인해주세요.");
+    }
+
+    public boolean isGuestUser() {
+        return false;
+    }
+
+    static class GuestUser extends User {
+        @Override
+        public boolean isGuestUser() {
+            return true;
+        }
     }
 }

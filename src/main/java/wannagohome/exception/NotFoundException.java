@@ -1,8 +1,10 @@
 package wannagohome.exception;
 
-public class NotFoundException extends RuntimeException {
+import wannagohome.domain.ErrorType;
 
-    public NotFoundException(String message) {
-        super(message);
+public class NotFoundException extends ErrorEntityException {
+
+    public NotFoundException(ErrorType errorType, String message) {
+        super(errorType, message);
     }
 }

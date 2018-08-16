@@ -57,7 +57,6 @@ function drawTeams(result) {
     for(team of result) {
        html  += template(team);
     }
-
     $(".sidebar-team-list").innerHTML += html;
 
 }
@@ -69,7 +68,6 @@ function createTeam() {
             "description": $_value(".sidebar-makeTeam-description-box")
         };
         console.log("submit");
-        $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
 
         fetchManager({
             url: "/api/teams",
@@ -78,29 +76,23 @@ function createTeam() {
             body: JSON.stringify(postObject),
             callback: displayTeam
         });
-        $(".sidebar-makeTeam-name-box").innerText = "";
-        $(".sidebar-makeTeam-description-box").innerText = "";
     })
 
 }
 
 function displayTeam(status, result) {
-    console.log(status);
-    console.log(result.name);
-    console.log(result.description);
-    const template = Handlebars.templates["precompile/sidebar_template"];
-    $(".sidebar-team-list").innerHTML += template(result);
+    if(status === 201) {
+        $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+        $(".sidebar-makeTeam-name-box").innerText = "";
+        $(".sidebar-makeTeam-description-box").innerText = "";
 
-    // if(!result) {
-    //     window.location.href = "";
-    // }
+        const template = Handlebars.templates["precompile/sidebar_template"];
+        $(".sidebar-team-list").innerHTML += template(result);
 
-    // let appendText = "";
-    // $(".error-message-holder").innerHTML = ""
-    // for(message of result.errors) {
-    //     appendText += message.errorMessage + "<br />";
-    //
-    // }
-    // $(".error-message-holder").innerHTML = appendText;
+    } else {
+        result.errors.forEach(function(error){
+            document.getElementsByName(error.field)[0].placeholder = error.defaultMessage;
+        });
+    }
 
 }

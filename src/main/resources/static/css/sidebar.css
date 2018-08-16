@@ -103,6 +103,10 @@
     background-color: #ffffff;
 }
 
+.sidebar-makeTeam-name-box::placeholder, .sidebar-makeTeam-description-box::placeholder {
+    color: #e25b52;
+    padding: 1px;
+}
 .sidebar-makeTeam-submit-button {
     text-align: center;
     background-color: #f8f9f9;

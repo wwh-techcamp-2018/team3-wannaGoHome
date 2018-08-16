@@ -6,7 +6,9 @@ public enum ErrorType {
     UNAUTHORIZED("unauthorized"),
     USER_EMAIL("email"),
     USER_NAME("name"),
-    USER_PASSWORD("password");
+    USER_PASSWORD("password"),
+    TEAM_NAME("team name"),
+    TEAM_DESC("team description");
 
     private String errorType;
 

@@ -61,22 +61,24 @@ public class BoardServiceTest {
         boards = Arrays.asList(
                 Board.builder().id(1L).title("one board").team(team).build(),
                 Board.builder().id(2L).title("two board").team(team).build(),
-                Board.builder().id(3L).title("three board").team(team).build()
+                Board.builder().id(3L).title("three board").team(team).build(),
+                Board.builder().id(4L).title("four board").team(team).build()
         );
 
         recentlyViewBoards = Arrays.asList(
                 RecentlyViewBoard.builder().board(boards.get(0)).build(),
                 RecentlyViewBoard.builder().board(boards.get(1)).build(),
-                RecentlyViewBoard.builder().board(boards.get(2)).build()
+                RecentlyViewBoard.builder().board(boards.get(2)).build(),
+                RecentlyViewBoard.builder().board(boards.get(3)).build()
         );
     }
 
 
     @Test
     public void getBoardByTeam_조회() {
-        when(boardRepository.findAllByTeam(team)).thenReturn(boards);
-        assertThat(boardService.getBoardByTeam(team).size()).isEqualTo(3);
-        verify(boardRepository,times(1)).findAllByTeam(team);
+        when(boardRepository.findAllByTeamAndDeletedFalse(team)).thenReturn(boards);
+        assertThat(boardService.getBoardByTeam(team).size()).isEqualTo(4);
+        verify(boardRepository,times(1)).findAllByTeamAndDeletedFalse(team);
     }
 
     @Test
@@ -90,26 +92,26 @@ public class BoardServiceTest {
 
     @Test
     public void getRecentlyViewBoard_조회() {
-        when(recentlyViewBoardRepository.findFirst3ByUserOrderByIdDesc(user)).thenReturn(recentlyViewBoards);
+        when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user)).thenReturn(recentlyViewBoards);
         List<Board> recentlyViewBoards = boardService.getRecentlyViewBoard(user);
-        assertThat(recentlyViewBoards.size()).isEqualTo(3);
-        verify(recentlyViewBoardRepository,times(1)).findFirst3ByUserOrderByIdDesc(user);
+        assertThat(recentlyViewBoards.size()).isEqualTo(4);
+        verify(recentlyViewBoardRepository,times(1)).findFirst4ByUserOrderByIdDesc(user);
     }
 
 
     @Test
     public void getBoardSummary_조회() {
-        when(recentlyViewBoardRepository.findFirst3ByUserOrderByIdDesc(user)).thenReturn(recentlyViewBoards);
-        when(boardRepository.findAllByTeam(team)).thenReturn(boards);
-        BoardSummaryDTO boardSummaryDTO = boardService.getBoardSummary(user);
-        assertThat(boardSummaryDTO.getRecentlyViewBoards().size()).isEqualTo(3);
-        assertThat(boardSummaryDTO.getBoardOfTeamDTOs().size()).isEqualTo(1);
+        when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user)).thenReturn(recentlyViewBoards);
+        when(boardRepository.findAllByTeamAndDeletedFalse(team)).thenReturn(boards);
+        BoardSummaryDto boardSummaryDTO = boardService.getBoardSummary(user);
+        assertThat(boardSummaryDTO.getRecentlyViewBoards().size()).isEqualTo(4);
+        assertThat(boardSummaryDTO.getBoardOfTeamDtos().size()).isEqualTo(1);
         boardSummaryDTO
-                .getBoardOfTeamDTOs()
+                .getBoardOfTeamDtos()
                 .stream()
                 .forEach(boardOfTeamDTO -> {
                     assertThat(boardOfTeamDTO.getTeam()).isEqualTo(team);
-                    assertThat(boardOfTeamDTO.getBoards().size()).isEqualTo(3);
+                    assertThat(boardOfTeamDTO.getBoards().size()).isEqualTo(4);
                 });
     }
 

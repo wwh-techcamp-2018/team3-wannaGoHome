@@ -22,7 +22,7 @@ public class RecentlyViewBoardRepositoryTest {
     @Test
     public void findFirst3ByUserOrderByIdDesc_조회결과_없을경우() {
         List<RecentlyViewBoard> recentlyViewBoards = recentlyViewBoardRepository
-                .findFirst3ByUserOrderByIdDesc(User.builder().id(1L).build());
+                .findFirst4ByUserOrderByIdDesc(User.builder().id(1L).build());
         assertThat(recentlyViewBoards).isNotNull();
         assertThat(recentlyViewBoards.size()).isEqualTo(0);
     }

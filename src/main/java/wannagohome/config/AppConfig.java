@@ -1,6 +1,7 @@
 package wannagohome.config;
 
 import org.springframework.context.MessageSource;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@EnableCaching
 public class AppConfig implements WebMvcConfigurer {
 
     @Bean

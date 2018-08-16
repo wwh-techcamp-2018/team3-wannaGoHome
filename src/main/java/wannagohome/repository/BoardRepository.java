@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface BoardRepository extends CrudRepository<Board, Long> {
 
-    List<Board> findAllByTeam(Team team);
+    List<Board> findAllByTeamAndDeletedFalse(Team team);
 }

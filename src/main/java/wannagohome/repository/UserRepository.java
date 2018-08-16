@@ -1,4 +1,11 @@
 package wannagohome.repository;
 
-public class UserRepository {
+import org.springframework.data.repository.CrudRepository;
+import wannagohome.domain.User;
+
+import java.util.Optional;
+
+public interface UserRepository extends CrudRepository<User, Long> {
+
+    Optional<User> findByEmail(String email);
 }

@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import wannagohome.domain.LoginDto;
+import wannagohome.domain.SignInDto;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AcceptanceTest {
+@ActiveProfiles("build")
+public abstract class AcceptanceTest {
 
     @Autowired
     private TestRestTemplate template;
@@ -19,7 +21,7 @@ public class AcceptanceTest {
         return template;
     }
 
-    protected ResponseEntity basicAuthRequest(RequestEntity requestEntity, LoginDto user) {
+    protected ResponseEntity basicAuthRequest(RequestEntity requestEntity, SignInDto user) {
 
         return request(
                 template.withBasicAuth(user.getEmail(), user.getPassword()), requestEntity

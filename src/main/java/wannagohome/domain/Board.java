@@ -1,35 +1,44 @@
 package wannagohome.domain;
 
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
+
 
 @Getter
 @Setter
+@Entity
+@Builder
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class Board {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    private Long id;
+
+    @NotBlank
+    @Size(max = 20)
+    @Column(length = 20, nullable = false)
     private String title;
-    private List<User> members;
+
+    @ManyToOne
+    private Team team;
+
     private List<Task> tasks;
     private List<Activity> activities;
-
+    @Enumerated(EnumType.ORDINAL)
     private Color color;
 
+    @NotBlank
+    @Column(nullable = false)
+    @ColumnDefault(value = "false")
     private boolean deleted;
-
-    public Board() {
-
-    }
-
-    public Board(String title, List<User> members, List<Task> tasks, List<Activity> activities, Color color) {
-        this.title = title;
-        this.members = members;
-        this.tasks = tasks;
-        this.activities = activities;
-        this.color = color;
-    }
-
 
 }

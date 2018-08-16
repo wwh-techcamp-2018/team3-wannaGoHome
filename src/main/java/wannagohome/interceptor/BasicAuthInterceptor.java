@@ -4,8 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import wannagohome.domain.LoginDto;
+import wannagohome.domain.SignInDto;
 import wannagohome.domain.User;
+import wannagohome.exception.UnAuthenticationException;
 import wannagohome.service.UserService;
 import wannagohome.util.SessionUtil;
 
@@ -36,6 +37,13 @@ public class BasicAuthInterceptor extends HandlerInterceptorAdapter {
         log.debug("username : {}", values[0]);
         log.debug("password : {}", values[1]);
 
-        return false;
+        try {
+            User user = userService.signIn(new SignInDto(values[0], values[1]));
+            SessionUtil.setUserSession(request.getSession(), user);
+        } catch (UnAuthenticationException e) {
+            return true;
+        }
+
+        return true;
     }
 }

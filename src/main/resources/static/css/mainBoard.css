@@ -1,0 +1,55 @@
+.recent-board-list , .my-board-list {
+    margin: 20px;
+}
+
+.board-title {
+    font-weight: bolder;
+    margin: 3px;
+}
+
+.board-card {
+    border-radius: 5px;
+    width: 180px;
+    height: 100px;
+    background-color: #026aa7;
+    display: inline-block;
+    margin: 5px;
+    padding: 7px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.board-setting-button {
+    color: #8c8c8c;
+    font-size: 13px;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 3px;
+    text-align: center;
+    font-weight: normal;
+    height: 28px;
+    line-height: 28px;
+    background-color: #edeff0;
+    padding: 0px 10px;
+}
+
+.board-card.create-board-card {
+    background-color: #e2e4e6;
+    color: #8c8c8c;
+}
+
+.board-card.green {
+    background-color: #5aac44;
+}
+
+.board-card.gray {
+    background-color: #aaaaaa;
+}
+
+.create-team-button {
+    margin: 30px;
+    color: #888888;
+    font-size: 13px;
+    text-decoration-line: underline;
+}

@@ -53,4 +53,10 @@ public class Board {
         boardDto.setTaskDtos(taskDtoList);
         return boardDto;
     }
+
+    public Board addTask(Task task) {
+        tasks.add(task);
+        return this;
+    }
+
 }

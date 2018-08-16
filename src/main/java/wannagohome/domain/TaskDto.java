@@ -15,4 +15,8 @@ public class TaskDto {
 
     private boolean deleted;
 
+    public Task toTask() {
+        return new Task(title);
+    }
+
 }

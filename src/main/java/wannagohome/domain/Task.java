@@ -3,6 +3,7 @@ package wannagohome.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -14,6 +15,13 @@ public class Task {
     private List<Card> cards;
 
     private boolean deleted;
+
+    public Task() {}
+
+    public Task(String title) {
+        this.title = title;
+        this.cards = new ArrayList<Card>();
+    }
 
     public Task(String title, List<Card> cards) {
         this.title = title;

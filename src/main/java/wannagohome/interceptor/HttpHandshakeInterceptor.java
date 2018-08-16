@@ -19,13 +19,18 @@ public class HttpHandshakeInterceptor implements HandshakeInterceptor {
         if (request instanceof ServletServerHttpRequest) {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpSession session = servletRequest.getServletRequest().getSession();
-            attributes.put(SESSION_ID, session.getId());
+
+            attributes.put(SESSION_ID, session);
+//            attributes.put(SESSION_ID, session.getId());
         }
         return true;
     }
 
+    @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
                                Exception ex) {
 
     }
+
+
 }

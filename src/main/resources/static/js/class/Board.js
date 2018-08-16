@@ -76,7 +76,6 @@ class Board {
     }
 
     sendBoard(obj) {
-
         this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
     }
 }

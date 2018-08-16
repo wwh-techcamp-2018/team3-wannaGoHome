@@ -24,6 +24,8 @@ class Task {
         const newTask = createElementFromHTML(this.taskListTemplate(this.taskObject));
         this.board.container.insertBefore(newTask, this.board.selector(".task-item:last-child"));
 
+        this.incrementContainerWidth();
+
         this.taskContainer = newTask;
         this.task = newTask.querySelector(".task-list-content");
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
@@ -40,6 +42,20 @@ class Task {
             this.setDraggable.call(this);
         }.bind(this));
 
+    }
+
+    incrementContainerWidth() {
+        const currentHeight = this.board.container.style.width.trim();
+        const rect = this.getBoundingRect(this.board.selector(".add-list-button"));
+        if(!currentHeight) {
+            this.board.container.style.width = (rect.right - rect.left) * 2 + "px";
+        } else {
+            this.board.container.style.width = parseInt(currentHeight.substring(0, currentHeight.length - 2)) + (rect.right - rect.left) + "px";
+        }
+    }
+
+    remove() {
+        this.taskContainer.remove();
     }
 
     getSocketObject() {

@@ -50,7 +50,7 @@ public class Board {
         for (Task task : tasks) {
             taskDtoList.add(task.getTaskDto());
         }
-        boardDto.setTaskDtos(taskDtoList);
+        boardDto.setTasks(taskDtoList);
         return boardDto;
     }
 

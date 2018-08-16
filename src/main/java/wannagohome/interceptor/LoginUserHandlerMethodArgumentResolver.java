@@ -8,7 +8,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import wannagohome.domain.User;
-import wannagohome.exception.UnAuthenticationException;
 import wannagohome.exception.UnAuthorizedException;
 import wannagohome.util.SessionUtil;
 

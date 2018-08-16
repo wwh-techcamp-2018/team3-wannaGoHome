@@ -10,18 +10,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wannagohome.domain.Team;
 import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
-import wannagohome.exception.NotFoundException;
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TeamServiceTest {

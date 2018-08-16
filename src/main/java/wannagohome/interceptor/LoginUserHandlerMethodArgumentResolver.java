@@ -7,6 +7,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import wannagohome.domain.ErrorType;
 import wannagohome.domain.User;
 import wannagohome.exception.UnAuthorizedException;
 import wannagohome.util.SessionUtil;
@@ -29,7 +30,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
 
         LoginUser loginUser = parameter.getParameterAnnotation(LoginUser.class);
         if (loginUser.required()) {
-            throw new UnAuthorizedException("로그인이 필요한 서비스입니다.");
+            throw new UnAuthorizedException(ErrorType.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
         }
         return user;
     }

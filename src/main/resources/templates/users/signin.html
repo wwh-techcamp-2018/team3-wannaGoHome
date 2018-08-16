@@ -6,5 +6,21 @@
 </head>
 <body>
 
-</body>
-</html>
+<form class="sign-container">
+    <fieldset>
+        <legend>로그인</legend>
+        <span>이메일</span><br>
+        <input type="email" data-type="email"  placeholder="이메일을 입력해주세요">
+        <span class="caution" data-type="email" style="display:none;"></span>
+        <br>
+        <span>비밀번호</span><br>
+        <input type="password" data-type="password" placeholder="비밀번호를 입력해주세요">
+        <span class="caution" data-type="password" style="display:none;"></span>
+        <br>
+        <input class="sign-button" type="submit" value="회원가입">
+    </fieldset>
+</form>
+
+<script src="/js/common/common.js"></script>
+<script src="/js/class/SignForm.js"></script>
+<script src="/js/users/signin.js"></script>

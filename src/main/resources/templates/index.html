@@ -1,0 +1,67 @@
+{{#partial "head"}}
+<link rel="stylesheet" type="text/css" href="/css/sidebar.css"/>
+<link rel="stylesheet" type="text/css" href="/css/mainBoard.css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+<script src="/js/common/sidebar.js"></script>
+{{/partial}}
+
+{{#partial "sidebar"}}
+<div class="sidebar">
+   <a class="sidebar-board-button" href="/">
+       <i class="fa fa-th-list ml-1"></i> Boards
+   </a>
+    <div>
+        <p>TEAMS</p>
+        <ul class="sidebar-team-list">
+
+        </ul>
+        <a href="#" class="sidebar-makeTeam-button"><i class="fa fa-plus"></i> Create a team</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    {{precompile "precompile/sidebar_template"}}
+</script>
+{{/partial}}
+
+{{#partial "contents"}}
+<div>
+    <div class="recent-board-list">
+        <div class="board-title"><i class="fa fa-clock-o"></i> Recently Viewed</div>
+        <div class="board-card">board number1</div>
+        <div class="board-card gray">board number2</div>
+        <div class="board-card">board number3</div>
+    </div>
+
+    <div class="my-board-list">
+        <div class="board-title">
+            <i class="fa fa-user-o"></i> JunsuLime
+            <div class="board-setting-button"><i class="fa fa-th-list ml-1"></i> Boards</div>
+            <div class="board-setting-button"><i class="fa fa-user-o"></i> Members</div>
+            <div class="board-setting-button"><i class="fa fa-cog"></i> Settings</div>
+        </div>
+        <div class="board-card green">board number1</div>
+        <div class="board-card">board number2</div>
+        <div class="board-card create-board-card">Create new board...</div>
+    </div>
+
+    <div class="my-board-list">
+        <div class="board-title"><i class="fa fa-user-o"></i> 우아한 형제들
+            <div class="board-setting-button"><i class="fa fa-th-list ml-1"></i> Boards</div>
+            <div class="board-setting-button"><i class="fa fa-user-o"></i> Members</div>
+            <div class="board-setting-button"><i class="fa fa-cog"></i> Settings</div>
+        </div>
+        <div class="board-card gray">board number1</div>
+        <div class="board-card green">board number2</div>
+        <div class="board-card">board number3</div>
+        <div class="board-card create-board-card">Create new board...</div>
+    </div>
+
+    <a href="#" class="create-team-button">Create a new team...</a>
+
+</div>
+
+{{/partial}}
+
+{{>base}}

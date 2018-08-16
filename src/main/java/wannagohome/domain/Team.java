@@ -1,12 +1,24 @@
 package wannagohome.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import javax.persistence.*;
+
+@Builder
+@Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Team {
 
     @Id
@@ -26,8 +38,11 @@ public class Team {
     @Column(nullable = false)
     private String description;
 
-    @NotBlank
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;
+
+    public UserIncludedInTeam createRelation(User user, Team team) {
+        return new UserIncludedInTeam(user, team);
+    }
 }

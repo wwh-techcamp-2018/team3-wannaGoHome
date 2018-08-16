@@ -104,6 +104,7 @@
 }
 
 .sidebar-makeTeam-submit-button {
+    text-align: center;
     background-color: #f8f9f9;
     color: #aaaaaa;
     border-radius: 3px;

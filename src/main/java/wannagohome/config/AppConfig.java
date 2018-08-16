@@ -57,18 +57,20 @@ public class AppConfig implements WebMvcConfigurer {
         return new LoginInterceptor();
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(loginInterceptor()).order(1).excludePathPatterns(Arrays.asList(
-//                "/users/signup",
-//                "/users/signin",
-//                "/api/users/signin",
-//                "/api/users",
-//                "/js/**",
-//                "/css/**",
-//                "/img/**"
-//        ));
-//    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor()).order(1).excludePathPatterns(Arrays.asList(
+                "/users/signup",
+                "/users/signin",
+                "/api/users/signin",
+                "/api/users",
+                "/js/**",
+                "/css/**",
+                "/img/**"
+        ));
+
+    }
 
     @Configuration
     @Profile(value = {"dev", "build"})

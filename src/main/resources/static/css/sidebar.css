@@ -30,7 +30,18 @@
 }
 
 .sidebar-team-list > li {
-    margin: 15px 5px;
+    margin: 10px 5px;
+    padding: 0px 3px;
+    height: 30px;
+    border-radius: 5px;
+    border-style: none;
+    line-height: 30px;
+    width: 100%;
+}
+
+.sidebar-team-list > li:hover {
+    cursor: pointer;
+    background-color: #e2e4e6;
 }
 
 .sidebar-makeTeam-button {

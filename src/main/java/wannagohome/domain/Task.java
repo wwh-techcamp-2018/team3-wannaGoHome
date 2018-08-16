@@ -14,4 +14,16 @@ public class Task {
     private List<Card> cards;
 
     private boolean deleted;
+
+    public Task(String title, List<Card> cards) {
+        this.title = title;
+        this.cards = cards;
+    }
+
+    public TaskDto getTaskDto() {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setTitle(title);
+        taskDto.setCards(cards);
+        return taskDto;
+    }
 }

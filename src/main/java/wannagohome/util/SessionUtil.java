@@ -2,14 +2,21 @@ package wannagohome.util;
 
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import wannagohome.domain.Board;
+import wannagohome.domain.Card;
+import wannagohome.domain.Task;
 import wannagohome.domain.User;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class SessionUtil {
 
     private static final String SESSION_KEY = "loginedUser";
+
+    // Testing purpose
+    private static final String BOARD_SESSION_KEY = "viwerBoard";
 
     public static void setUserSession(HttpSession session, User user) {
         session.setAttribute(SESSION_KEY, user);
@@ -28,5 +35,20 @@ public class SessionUtil {
 
     public static void removeUserSession(HttpSession session) {
         session.removeAttribute(SESSION_KEY);
+    }
+
+    public static void setBoardInSession(HttpSession session) {
+        Board dummyBoard = new Board();
+        dummyBoard.setTitle("Test Board");
+        dummyBoard.setTasks(new ArrayList<Task>());
+        dummyBoard.getTasks().add(new Task("Task number 1", new ArrayList<Card>()));
+        dummyBoard.getTasks().add(new Task("Task number 2", new ArrayList<Card>()));
+
+        session.setAttribute(BOARD_SESSION_KEY, dummyBoard);
+    }
+
+    public static Board getBoardInSession(HttpSession session) {
+        if(session.getAttribute(BOARD_SESSION_KEY) == null) SessionUtil.setBoardInSession(session);
+        return (Board) session.getAttribute(BOARD_SESSION_KEY);
     }
 }

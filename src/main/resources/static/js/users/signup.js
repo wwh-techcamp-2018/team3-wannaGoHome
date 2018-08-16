@@ -1,5 +1,3 @@
-import '.'
-
 document.addEventListener("DOMContentLoaded", function(evt) {
-    new SignForm(document.querySelector("form"), null);
+    new SignForm(document.querySelector("form"), "/api/users");
 });

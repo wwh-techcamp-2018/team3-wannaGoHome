@@ -12,17 +12,15 @@ import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
 import wannagohome.domain.UserPermission;
 import wannagohome.exception.NotFoundException;
+
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TeamServiceTest {
@@ -94,4 +92,5 @@ public class TeamServiceTest {
     public void findTeamsById() {
         teamService.findTeamById(10L);
     }
+
 }

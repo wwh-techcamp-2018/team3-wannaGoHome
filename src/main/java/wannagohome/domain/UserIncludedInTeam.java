@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Getter
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserIncludedInTeam {
@@ -22,6 +22,7 @@ public class UserIncludedInTeam {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;

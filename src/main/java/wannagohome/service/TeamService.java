@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
-import wannagohome.repository.TeamRepository;
 import wannagohome.exception.NotFoundException;
+import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import javax.transaction.Transactional;

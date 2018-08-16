@@ -24,20 +24,6 @@ function initClickEvent() {
         console.log("x click");
         $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
     })
-
-    $(".makeTeam-container .create-team-button").addEventListener("click", (evt) => {
-        console.log("click");
-        if($(".makeTeam-container .sidebar-makeTeam-box").style.display === 'none') {
-            $(".makeTeam-container .sidebar-makeTeam-box").style.display = 'block';
-        } else {
-            $(".makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
-        }
-    })
-
-    $(".makeTeam-container .sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
-        console.log("x click");
-        $(".makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
-    })
     
 }
 function getTeams() {
@@ -83,8 +69,8 @@ function createTeam() {
 function displayTeam(status, result) {
     if(status === 201) {
         $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
-        $(".sidebar-makeTeam-name-box").innerText = "";
-        $(".sidebar-makeTeam-description-box").innerText = "";
+        $(".sidebar-makeTeam-name-box").value = "";
+        $(".sidebar-makeTeam-description-box").value = "";
 
         const template = Handlebars.templates["precompile/sidebar_template"];
         $(".sidebar-team-list").innerHTML += template(result);

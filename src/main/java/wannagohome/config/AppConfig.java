@@ -16,7 +16,6 @@ import wannagohome.interceptor.BasicAuthInterceptor;
 import wannagohome.interceptor.LoginInterceptor;
 import wannagohome.interceptor.LoginUserHandlerMethodArgumentResolver;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration

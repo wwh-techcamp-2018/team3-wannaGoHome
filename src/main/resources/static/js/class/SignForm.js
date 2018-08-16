@@ -1,9 +1,10 @@
 class SignForm {
-    constructor(form, url) {
+    constructor(form, url, redirectUrl) {
         this.form = form;
         this.url = url;
+        this.redirectUrl = redirectUrl;
         this.inputForms = {};
-        this.cautions = {};
+        this.defaultPlaceHolder = {};
         this.initInputForms();
     }
 
@@ -12,17 +13,17 @@ class SignForm {
         inputForms.forEach((input) => {
             const dataType = input.getAttribute("data-type");
             if (dataType)
+                this.defaultPlaceHolder[dataType] = input.placeholder;
                 this.inputForms[dataType] = input;
-        });
-
-        const cautions = this.form.querySelectorAll(".caution");
-        cautions.forEach((caution) => {
-            this.cautions[caution.getAttribute("data-type")] = caution;
         });
 
         this.form.querySelector(".sign-button").addEventListener("click", (evt) => {
             evt.preventDefault();
             this.onClickSubmit();
+        });
+
+        this.form.addEventListener("input", (evt) => {
+            this.clearCaution(evt.target.getAttribute("data-type"));
         });
     }
 
@@ -41,7 +42,7 @@ class SignForm {
 
     handleSign(status, result) {
         if (status === 201 || status === 200) {
-            window.location.href = "/";
+            window.location.href = this.redirectUrl;
             return;
         }
 
@@ -51,15 +52,24 @@ class SignForm {
         });
     }
 
-    showCaution(errorType, message) {
-        const caution = this.cautions[errorType];
-        caution.style.display = "block";
-        caution.innerHTML = message;
+    clearCaution(field) {
+        const inputForm = this.inputForms[field];
+        if (inputForm.classList.contains("caution-on"))
+            inputForm.classList.toggle("caution-on");
+        inputForm.placeholder = this.defaultPlaceHolder[field];
+    }
+
+    showCaution(field, message) {
+        const inputForm = this.inputForms[field];
+        if (!inputForm.classList.contains("caution-on"))
+            inputForm.classList.toggle("caution-on");
+        inputForm.placeholder = message;
+        inputForm.value = null;
     }
 
     clearCautions() {
-        for (let field in this.cautions) {
-            this.cautions[field].style.display = "none";
+        for (let field in this.inputForms) {
+            this.clearCaution(field);
         }
     }
 }

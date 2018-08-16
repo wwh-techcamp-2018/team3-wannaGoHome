@@ -10,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wannagohome.domain.Team;
 import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
+import wannagohome.domain.UserPermission;
+import wannagohome.exception.NotFoundException;
+
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
@@ -66,8 +69,8 @@ public class TeamServiceTest {
                 .password(passwordEncoder.encode("password12"))
                 .build();
 
-        userIncludedInTeams.add(new UserIncludedInTeam(user, team));
-        userIncludedInTeams.add(new UserIncludedInTeam(user, team2));
+        userIncludedInTeams.add(new UserIncludedInTeam(user, team, UserPermission.ADMIN));
+        userIncludedInTeams.add(new UserIncludedInTeam(user, team2, UserPermission.ADMIN));
         when(teamRepository.save(team)).thenReturn(team);
     }
 
@@ -85,8 +88,11 @@ public class TeamServiceTest {
         verify(userIncludedInTeamRepository, times(1)).findAllByUser(user);
     }
 
-//    @Test(expected = NotFoundException.class)
-//    public void findTeamsByUser_유저에해당하는팀이없을때() {
-//        teamService.findTeamsByUser(user2);
-//    }
+    @Test(expected = NotFoundException.class)
+    public void findTeamsById() {
+        teamService.findTeamById(10L);
+    }
+
+
+
 }

@@ -30,9 +30,9 @@ public class UserIncludedInTeam {
     @Enumerated(EnumType.ORDINAL)
     private UserPermission permission;
 
-    public UserIncludedInTeam(User user, Team team) {
+    public UserIncludedInTeam(User user, Team team, UserPermission userPermission) {
         this.user = user;
         this.team = team;
-        this.permission = UserPermission.ADMIN;
+        this.permission = userPermission;
     }
 }

@@ -20,7 +20,7 @@ function getManager({url, method, headers, callback}) {
     });
 }
 
-function fetchRequest({url, method, body, callback}) {
+function fetchManager({url, method, body, callback}) {
     fetch(url, {method, body, headers: {"Content-type": "application/json"}, credentials: "same-origin"})
         .then((response) => {
             res = response;

@@ -1,18 +1,23 @@
 package wannagohome.domain;
 
 
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
+@Builder
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @NotBlank
@@ -25,8 +30,8 @@ public class Board {
 
 //    private List<Task> tasks;
 //    private List<Activity> activities;
-
-//    private Color color;
+    @Enumerated(EnumType.ORDINAL)
+    private Color color;
 
     @NotBlank
     @Column(nullable = false)

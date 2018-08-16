@@ -1,13 +1,12 @@
 package wannagohome.service;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.Team;
 import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
-import wannagohome.repository.TeamRepository;
 import wannagohome.exception.NotFoundException;
+import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import java.util.ArrayList;

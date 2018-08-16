@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import wannagohome.domain.Team;
 import wannagohome.domain.User;
+import wannagohome.interceptor.LoginUser;
 import wannagohome.service.TeamService;
 
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ public class ApiTeamController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Team create(User user, @RequestBody @Valid Team team) {
+    public Team create(@LoginUser User user, @RequestBody @Valid Team team) {
         return teamService.create(team, user);
     }
 
@@ -29,18 +30,18 @@ public class ApiTeamController {
         return teamService.findTeamById(id);
     }
 
-//    @GetMapping("")
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<Team> readTeams(User user) {
-//        return teamService.findTeamsByUser(user);
-//    }
-
-    //유저없어서 임시로 테스트하려고
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public List<Team> readTeams() {
-        return teamService.findAll();
+    public List<Team> readTeams(@LoginUser User user) {
+        return teamService.findTeamsByUser(user);
     }
+
+//    //유저없어서 임시로 테스트하려고
+//    @GetMapping("")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Team> readTeams() {
+//        return teamService.findAll();
+//    }
 
 
 

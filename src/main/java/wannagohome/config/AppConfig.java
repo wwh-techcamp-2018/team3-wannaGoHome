@@ -63,7 +63,8 @@ public class AppConfig implements WebMvcConfigurer {
                 "/api/users/signin",
                 "/api/users",
                 "/js/**",
-                "/css/**"
+                "/css/**",
+                "/img/**"
         ));
     }
 

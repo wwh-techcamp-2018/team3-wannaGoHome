@@ -1,13 +1,17 @@
 package wannagohome.domain;
 
-
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
+
+@Getter
+@Setter
 @Entity
 @Builder
 @EqualsAndHashCode
@@ -28,7 +32,8 @@ public class Board {
     @ManyToOne
     private Team team;
 
-//    private List<Task> tasks;
+    @Transient
+    private List<Task> tasks;
 //    private List<Activity> activities;
     @Enumerated(EnumType.ORDINAL)
     private Color color;
@@ -37,4 +42,15 @@ public class Board {
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;
+
+    public BoardDto getBoardDto() {
+        BoardDto boardDto = new BoardDto();
+        boardDto.setTitle(title);
+        List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
+        for (Task task : tasks) {
+            taskDtoList.add(task.getTaskDto());
+        }
+        boardDto.setTaskDtos(taskDtoList);
+        return boardDto;
+    }
 }

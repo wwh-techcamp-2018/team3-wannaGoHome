@@ -7,11 +7,11 @@ jdk:
 branches:
   only:
   - develop
-## gradle 파일을 cache 하여 변경사항이 없다면 배포할때 캐쉬에 있는 설정을 이용하도록한다.
-#cache:
-#  directories:
-#  - '$HOME/.m2/repository'
-#  - '$HOME/.gradle'
+# gradle 파일을 cache 하여 변경사항이 없다면 배포할때 캐쉬에 있는 설정을 이용하도록한다.
+cache:
+  directories:
+  - '$HOME/.m2/repository'
+  - '$HOME/.gradle'
 
 #소스코드가 형상에 배포됬을때 실행할 명령어를 설정한다 (여기선 build를 진행)
 script: "./gradlew clean build"

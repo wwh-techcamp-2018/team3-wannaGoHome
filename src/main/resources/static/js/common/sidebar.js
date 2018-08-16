@@ -6,8 +6,39 @@ document.addEventListener("DOMContentLoaded", function(evt) {
 
 function init() {
     getTeams();
+    initCreateTeamEvent();
 }
+function initCreateTeamEvent() {
 
+    $(".sidebar-makeTeam-container .sidebar-makeTeam-button").addEventListener("click", (evt) => {
+        console.log("click");
+        if($(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display === 'none') {
+            $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'block';
+        } else {
+            $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+        }
+    })
+
+    $(".sidebar-makeTeam-container .sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
+        console.log("x click");
+        $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+    })
+
+    $(".makeTeam-container .create-team-button").addEventListener("click", (evt) => {
+        console.log("click");
+        if($(".makeTeam-container .sidebar-makeTeam-box").style.display === 'none') {
+            $(".makeTeam-container .sidebar-makeTeam-box").style.display = 'block';
+        } else {
+            $(".makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+        }
+    })
+
+    $(".makeTeam-container .sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
+        console.log("x click");
+        $(".makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+    })
+    
+}
 function getTeams() {
     console.log("getTeams");
     getManager({

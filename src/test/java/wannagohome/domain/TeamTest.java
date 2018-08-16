@@ -31,11 +31,5 @@ public class TeamTest {
 
     }
 
-    @Test
-    public void createRelation() {
-        userIncludedInTeam = team.createRelation(user, team);
-        log.debug("userincludedinTeam TeamName: {}", userIncludedInTeam.getTeam().getName());
-        log.debug("userincludedinTeam UserID: {}", userIncludedInTeam.getUser().getName());
 
-    }
 }

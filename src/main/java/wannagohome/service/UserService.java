@@ -13,8 +13,6 @@ import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthenticationException;
 import wannagohome.repository.UserRepository;
 
-import java.util.Iterator;
-
 @Service
 public class UserService {
 

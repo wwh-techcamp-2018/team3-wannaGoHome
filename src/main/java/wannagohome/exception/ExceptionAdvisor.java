@@ -9,7 +9,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import wannagohome.domain.ErrorEntity;
@@ -28,8 +27,14 @@ public class ExceptionAdvisor {
     private MessageSourceAccessor messageSourceAccessor;
 
     @ExceptionHandler(UnAuthenticationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<ErrorEntity> handleUnAuthenticationException(UnAuthenticationException exception) {
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public List<ErrorEntity> handleUnAuthenticationException(ErrorEntityException exception) {
+        return Arrays.asList(exception.entity());
+    }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public List<ErrorEntity> handleUnAuthorizedException(ErrorEntityException exception) {
         return Arrays.asList(exception.entity());
     }
 

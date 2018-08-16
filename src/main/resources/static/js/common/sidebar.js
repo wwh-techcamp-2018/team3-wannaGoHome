@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function(evt) {
 });
 
 function init() {
-    // getTeams();
+    getTeams();
     initClickEvent();
     createTeam();
 }
@@ -58,7 +58,7 @@ function drawTeams(result) {
        html  += template(team);
     }
 
-    $(".sidebar-team-list").innerHTML = html;
+    $(".sidebar-team-list").innerHTML += html;
 
 }
 

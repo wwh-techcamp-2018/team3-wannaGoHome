@@ -14,9 +14,7 @@ cache:
   - '$HOME/.gradle'
 
 #소스코드가 형상에 배포됬을때 실행할 명령어를 설정한다 (여기선 build를 진행)
-script:
-  - "rm -rf /home/travis/build/wwh-techcamp-2018/team3-wannaGoHome/src/main/java"
-  - "./gradlew clean build"
+script: "./gradlew clean build"
 
 
 #deploy하기 전에 해야할 동작을 입력한다. 아래서는 zip파일로 만든 후 deploy 디렉터리에 압축된 파일을 옮겨놓는다.

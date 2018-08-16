@@ -1,12 +1,17 @@
 package wannagohome.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserIncludedInTeam {
 
     @Id
@@ -25,4 +30,9 @@ public class UserIncludedInTeam {
     @Enumerated(EnumType.ORDINAL)
     private UserPermission permission;
 
+    public UserIncludedInTeam(User user, Team team) {
+        this.user = user;
+        this.team = team;
+        this.permission = UserPermission.ADMIN;
+    }
 }

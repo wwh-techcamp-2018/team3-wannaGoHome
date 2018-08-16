@@ -7,13 +7,16 @@ INSERT INTO USER (email, name, password, deleted) VALUES('kimyeon@woowahan.com',
 
 INSERT INTO team(id,deleted,description,name,profile_image) VALUES(1,false,'wannagohome 화이팅','wannagohome','default.png');
 
-INSERT INTO board(id,color,deleted,title,team_id) VALUES(1,1,false,'one board',1);
-INSERT INTO board(id,color,deleted,title,team_id) VALUES(2,1,false,'two board',1);
-INSERT INTO board(id,color,deleted,title,team_id) VALUES(3,1,false,'three board',1);
+INSERT INTO board(id,color,deleted,title,team_id) VALUES(1,0,false,'one board',1);
+INSERT INTO board(id,color,deleted,title,team_id) VALUES(2,0,false,'two board',1);
+INSERT INTO board(id,color,deleted,title,team_id) VALUES(3,0,false,'three board',1);
 
 INSERT INTO recently_view_board(id,board_id,user_id)VALUES(1,1,3);
 INSERT INTO recently_view_board(id,board_id,user_id)VALUES(2,2,3);
 INSERT INTO recently_view_board(id,board_id,user_id)VALUES(3,3,3);
 
 
-INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(1,1,1,3);
+INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(1,0,1,3);
+INSERT INTO TEAM (profile_image, name, description, deleted) VALUES ('http://urlrul', 'JunsuLime', 'junsulime description', false);
+INSERT INTO TEAM (profile_image, name, description, deleted) VALUES ('http://urlrul', '우아한 형제들', '우아한 형제들 description', false);
+INSERT INTO TEAM (profile_image, name, description, deleted) VALUES ('http://urlrul', 'wannaGoHome', 'wannaGoHome description', false);

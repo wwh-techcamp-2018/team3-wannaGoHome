@@ -122,12 +122,12 @@ public class BoardServiceTest {
                 .build();
         when(boardRepository.save(any())).thenReturn(boards.get(0));
         when(userIncludedInBoardRepository.save(any())).thenReturn(null);
-        when(teamService.findById(team.getId())).thenReturn(team);
+        when(teamService.findTeamById(team.getId())).thenReturn(team);
         Board createBoard = boardService.createBoard(user,boardDTO);
         assertThat(createBoard).isEqualTo(boards.get(0));
         verify(boardRepository,times(1)).save(any());
         verify(userIncludedInBoardRepository,times(1)).save(any());
-        verify(teamService,times(1)).findById(any());
+        verify(teamService,times(1)).findTeamById(any());
     }
 
     @Test

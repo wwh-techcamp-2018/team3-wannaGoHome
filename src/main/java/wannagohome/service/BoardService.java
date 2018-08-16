@@ -70,7 +70,7 @@ public class BoardService {
 
     public Board createBoard(User user, CreateBoardDTO createBoardDTO) {
         Board board = Board.builder()
-                .team(teamService.findById(createBoardDTO.getTeamId()))
+                .team(teamService.findTeamById(createBoardDTO.getTeamId()))
                 .title(createBoardDTO.getTitle())
                 .color(Color.of(createBoardDTO.getColor()))
                 .build();

@@ -21,6 +21,7 @@ function getManager({url, method, headers, callback}) {
 }
 
 function fetchManager({url, method, body, callback}) {
+    // TODO: response status 를 자연스럽게 넘기기
     fetch(url, {method, body, headers: {"Content-type": "application/json"}, credentials: "same-origin"})
         .then((response) => {
             res = response;

@@ -1,9 +1,11 @@
 package wannagohome.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 
 public enum ErrorType {
-    UNAUTHORIZED("unauthorized"),
+    UNAUTHENTICATED("unauthenticated"),
     USER_EMAIL("email"),
     USER_NAME("name"),
     USER_PASSWORD("password");
@@ -14,6 +16,7 @@ public enum ErrorType {
         this.errorType = errorType;
     }
 
+    @JsonValue
     public String getErrorType() {
         return errorType;
     }

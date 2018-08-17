@@ -27,8 +27,14 @@ public class ExceptionAdvisor {
     private MessageSourceAccessor messageSourceAccessor;
 
     @ExceptionHandler(UnAuthenticationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<ErrorEntity> handleUnAuthenticationException(UnAuthenticationException exception) {
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public List<ErrorEntity> handleUnAuthenticationException(ErrorEntityException exception) {
+        return Arrays.asList(exception.entity());
+    }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public List<ErrorEntity> handleUnAuthorizedException(ErrorEntityException exception) {
         return Arrays.asList(exception.entity());
     }
 

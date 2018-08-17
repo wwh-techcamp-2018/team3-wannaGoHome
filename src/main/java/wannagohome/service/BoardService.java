@@ -9,6 +9,7 @@ import wannagohome.domain.*;
 import wannagohome.repository.BoardRepository;
 import wannagohome.repository.RecentlyViewBoardRepository;
 import wannagohome.repository.UserIncludedInBoardRepository;
+import wannagohome.repository.UserIncludedInTeamRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -27,13 +28,16 @@ public class BoardService {
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
 
     @Autowired
+    private UserIncludedInTeamRepository userIncludedInTeamRepository;
+
+    @Autowired
     private TeamService teamService;
 
     @Cacheable(value = "boardSummary",key= "#user.id")
     public BoardSummaryDto getBoardSummary(User user) {
         BoardSummaryDto boardSummaryDTO = new BoardSummaryDto();
         boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user));
-        user.getIncludedTeams()
+        userIncludedInTeamRepository.findAllByUser(user)
                 .stream()
                 .forEach(userIncludedInTeam ->
                     boardSummaryDTO.addBoardOfTeamsDTO(

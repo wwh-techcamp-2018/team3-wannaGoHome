@@ -118,4 +118,12 @@ class Board {
     addTask(obj) {
         this.stompClient.send("/app/message/add/task", {}, JSON.stringify(obj));
     }
+
+    reorderTasks(thisTaskIndex, destTaskIndex) {
+        const obj = {
+            originIndex: thisTaskIndex,
+            destinationIndex: destTaskIndex
+        };
+        this.stompClient.send("/app/message/reorder/task", {}, JSON.stringify(obj));
+    }
 }

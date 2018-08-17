@@ -97,6 +97,13 @@ class Task {
         this.board.dragEndCallBack = this.unsetDraggable;
 
         this.task.classList.toggle("task-list-dragging");
+
+        for(let i = 0; i < this.board.taskList.length; ++i) {
+            if(this.board.taskList[i] == this) {
+                this.originIndex = i;
+                break;
+            }
+        }
     }
 
     moveTaskPosition(evt) {
@@ -130,8 +137,8 @@ class Task {
                 this.board.taskList.splice(thisTaskIndex, 1);
                 this.board.taskList.splice(destTaskIndex, 0, this);
             }
+            this.destinationIndex = destTaskIndex;
         }
-
 
 
         const coords = this.getCurrentCoords(evt);
@@ -158,7 +165,8 @@ class Task {
 
         this.moving = false;
 
-        this.board.updateBoardState();
+        // this.board.updateBoardState();
+        this.board.reorderTasks(this.originIndex, this.destinationIndex);
 
     }
 

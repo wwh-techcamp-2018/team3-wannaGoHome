@@ -59,4 +59,16 @@ public class Board {
         return this;
     }
 
+    public Board reorderTasks(TaskOrderDto taskOrderDto) {
+        for(int i = 0; i < tasks.size(); ++i) {
+            if(i == taskOrderDto.getOriginIndex()) {
+                Task movingTask = tasks.get(taskOrderDto.getOriginIndex());
+                tasks.remove(taskOrderDto.getOriginIndex());
+                tasks.add(taskOrderDto.getDestinationIndex(), movingTask);
+                break;
+            }
+        }
+        return this;
+    }
+
 }

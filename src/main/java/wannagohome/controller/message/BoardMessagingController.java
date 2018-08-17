@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import wannagohome.domain.BoardDto;
 import wannagohome.domain.TaskDto;
+import wannagohome.domain.TaskOrderDto;
 import wannagohome.interceptor.HttpHandshakeInterceptor;
 import wannagohome.util.SessionUtil;
 
@@ -45,6 +46,17 @@ public class BoardMessagingController {
         headerAccessor.setSessionId(session.getId());
 
         SessionUtil.getBoardInSession(session).addTask(taskDto.toTask());
+
+        return SessionUtil.getBoardInSession(session).getBoardDto();
+    }
+
+    @MessageMapping("/message/reorder/task")
+    @SendTo("/topic/board")
+    public BoardDto reorderTasks(@Payload String message, SimpMessageHeaderAccessor headerAccessor, TaskOrderDto taskOrderDto) throws Exception {
+        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
+        headerAccessor.setSessionId(session.getId());
+
+        SessionUtil.getBoardInSession(session).reorderTasks(taskOrderDto);
 
         return SessionUtil.getBoardInSession(session).getBoardDto();
     }

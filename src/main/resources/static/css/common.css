@@ -8,6 +8,8 @@ body {
 
 }
 
+textarea, select, input, button { outline: none; }
+
 .container {
     margin: 20px;
 }

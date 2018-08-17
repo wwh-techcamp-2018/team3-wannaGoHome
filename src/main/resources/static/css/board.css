@@ -83,6 +83,7 @@ div {
     border-color: #0079bf;
     border-style: solid;
     border-width: 1px;
+    font-size: 0.9em;
 }
 
 .hidden-list-title-form > .add-list-inner-button {

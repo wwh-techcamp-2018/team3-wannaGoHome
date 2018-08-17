@@ -1,13 +1,15 @@
 package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.Team;
 import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
 import wannagohome.domain.UserPermission;
-import wannagohome.repository.TeamRepository;
 import wannagohome.exception.NotFoundException;
+import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import java.util.ArrayList;
@@ -22,6 +24,12 @@ public class TeamService {
     @Autowired
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
 
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "boardSummary",key= "#user.id"),
+                    @CacheEvict(value = "recentlyViewBoard",key= "#user.id")
+            }
+    )
     public Team create(Team team, User user) {
         Team newTeam = teamRepository.save(team);
         userIncludedInTeamRepository.save(createRelation(user, newTeam, UserPermission.ADMIN));

@@ -1,3 +1,14 @@
+.board-summary {
+
+}
+
+.team-board-list {
+
+}
+.board-list {
+
+}
+
 .recent-board-list , .my-board-list {
     margin: 20px;
 }
@@ -38,6 +49,18 @@
     background-color: #e2e4e6;
     color: #8c8c8c;
 }
+
+.board-card:hover {
+    cursor: pointer;
+    background-color: #000000;
+    opacity: 0.9;
+}
+
+.create-board-card:hover {
+    cursor: pointer;
+    background-color: #C8C8C8;
+}
+
 
 .board-card.green {
     background-color: #5aac44;

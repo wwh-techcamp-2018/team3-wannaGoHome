@@ -7,11 +7,11 @@ class BoardSummary {
     constructor(boardSummary) {
         this.node = boardSummary;
         this.recentlyBoardList = this.node.querySelector(".recent-board-list");
-        this.makeTeamContainer = this.node.querySelector(".makeTeam-container");
+        this.teamBoardList = this.node.querySelector(".team-board-list");
     }
 
     requestBoardSummary() {
-        getManager({
+        fetchManager({
             url : "api/boards",
             method : "GET",
             headers : {"Content-type" : "application/json"},
@@ -19,7 +19,7 @@ class BoardSummary {
         })
     }
 
-    drawBoardSummary(result) {
+    drawBoardSummary(status,result) {
         this.drawRecentlyViewBoards(result.recentlyViewBoards);
         this.drawAllTeamBoards(result.boardOfTeamDtos);
         this.addCreateNewBoardEvent();
@@ -27,7 +27,8 @@ class BoardSummary {
 
     drawRecentlyViewBoards(recentlyViewBoards) {
         recentlyViewBoards.forEach((board) => {
-            this.recentlyBoardList.innerHTML += this.getBoardTemplate(board);
+            //TODO : 클래스로 뽑기.
+            this.recentlyBoardList.appendChild(new BoardCard(board).getBoardNode());
         });
     }
     drawAllTeamBoards(teamBoards) {
@@ -37,10 +38,11 @@ class BoardSummary {
     }
     drawTeamBoards(teamBoard) {
         const template = Handlebars.templates["precompile/team_boards_template"];
-        this.makeTeamContainer.insertAdjacentHTML("beforebegin", template(teamBoard.team));
+        this.teamBoardList.innerHTML += template(teamBoard.team);
         for(const board of teamBoard.boards) {
-            const createBoard = this.node.querySelector(".board-card.create-board-card");
-            createBoard.insertAdjacentHTML("beforebegin",this.getBoardTemplate(board));
+            const boardList = this.node.querySelector(".board-list");
+            boardList.appendChild(new BoardCard(board).getBoardNode());
+            boardList.appendChild(new BoardCard(board).getBoardNode());
         }
     }
 

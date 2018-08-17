@@ -14,9 +14,34 @@
     <div>
         <p>TEAMS</p>
         <ul class="sidebar-team-list">
-
+            <li>
+                <i class="fa fa-user-o"></i> example team
+            </li>
+            <li>
+                <i class="fa fa-user-o"></i> For test team
+            </li>
         </ul>
-        <a href="#" class="sidebar-makeTeam-button"><i class="fa fa-plus"></i> Create a team</a>
+        <div class="sidebar-makeTeam-container">
+            <a href="#" class="sidebar-makeTeam-button"><i class="fa fa-plus"></i> Create a team</a>
+            <div class="sidebar-makeTeam-box" style="display: none">
+                <form>
+                    <div class="sidebar-makeTeam-title">
+                        Create Team
+                        <span class="float-right"> <i class="fa fa-times"></i> </span>
+                    </div>
+                    <div class="sidebar-makeTeam-name">
+                        Name
+                        <input name="title" class="sidebar-makeTeam-name-box">
+                    </div>
+                    <div class="sidebar-makeTeam-description">
+                        Description
+                        <textarea name="description" rows="4" class="sidebar-makeTeam-description-box"></textarea>
+                    </div>
+                    <input class="sidebar-makeTeam-submit-button" value="create">
+                </form>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -43,7 +68,8 @@
         </div>
         <div class="board-card green">board number1</div>
         <div class="board-card">board number2</div>
-        <div class="board-card create-board-card">Create new board...</div>
+        <div class="board-card create-board-card">Create new board...
+        </div>
     </div>
 
     <div class="my-board-list">
@@ -58,7 +84,28 @@
         <div class="board-card create-board-card">Create new board...</div>
     </div>
 
-    <a href="#" class="create-team-button">Create a new team...</a>
+    <div class="makeTeam-container">
+        <a href="#" class="create-team-button">Create a new team...</a>
+        <div class="sidebar-makeTeam-box" style="display: none">
+            <form>
+                <div class="sidebar-makeTeam-title">
+                    Create Team
+                    <span class="float-right"> <i class="fa fa-times"></i> </span>
+                </div>
+                <div class="sidebar-makeTeam-name">
+                    Name
+                    <input class="sidebar-makeTeam-name-box">
+                </div>
+                <div class="sidebar-makeTeam-description">
+                    Description
+                    <textarea rows="4" class="sidebar-makeTeam-description-box"></textarea>
+                </div>
+                <input type="submit" class="sidebar-makeTeam-submit-button" value="create">
+            </form>
+        </div>
+    </div>
+
+
 
 </div>
 

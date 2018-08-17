@@ -57,8 +57,9 @@ public class AppConfig implements WebMvcConfigurer {
         return new LoginInterceptor();
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(loginInterceptor()).order(1).excludePathPatterns(Arrays.asList(
 //                "/users/signup",
 //                "/users/signin",
@@ -68,7 +69,8 @@ public class AppConfig implements WebMvcConfigurer {
 //                "/css/**",
 //                "/img/**"
 //        ));
-    }
+//
+//    }
 
     @Configuration
     @Profile(value = {"dev", "build"})

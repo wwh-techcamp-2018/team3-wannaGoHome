@@ -10,15 +10,23 @@
     <fieldset>
         <legend>회원가입</legend>
         <span>이메일</span><br>
-        <input type="email" placeholder="이메일을 입력해주세요"><br>
+        <input type="email" data-type="email"  placeholder="이메일을 입력해주세요">
+        <span class="caution" data-type="email" style="display:none;"></span>
+        <br>
         <span>비밀번호</span><br>
-        <input type="password" placeholder="비밀번호를 입력해주세요"><br>
+        <input type="password" data-type="password" placeholder="비밀번호를 입력해주세요">
+        <span class="caution" data-type="password" style="display:none;"></span>
+        <br>
         <span>이름</span><br>
-        <input type="name" placeholder="이름을 입력해주세요"><br>
-        <input type="submit" value="회원가입">
+        <input type="text" data-type="name" placeholder="이름을 입력해주세요">
+        <span class="caution" data-type="name" style="display:none;"></span>
+        <br>
+        <input class="sign-button" type="submit" value="회원가입">
     </fieldset>
 </form>
 
+<script src="/js/common/common.js"></script>
+<script src="/js/class/SignForm.js"></script>
 <script src="/js/users/signup.js"></script>
 
 </body>

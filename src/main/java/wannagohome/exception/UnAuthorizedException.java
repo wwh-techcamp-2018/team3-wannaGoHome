@@ -1,8 +1,10 @@
 package wannagohome.exception;
 
-public class UnAuthorizedException extends RuntimeException {
+import wannagohome.domain.ErrorType;
 
-    public UnAuthorizedException(String message) {
-        super(message);
+public class UnAuthorizedException extends ErrorEntityException {
+
+    public UnAuthorizedException(ErrorType errorType, String message) {
+        super(errorType, message);
     }
 }

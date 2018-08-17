@@ -47,6 +47,7 @@ public class Board {
     @ColumnDefault(value = "false")
     private boolean deleted;
 
+    @JsonIgnore
     public BoardDto getBoardDto() {
         BoardDto boardDto = new BoardDto();
         boardDto.setTitle(title);

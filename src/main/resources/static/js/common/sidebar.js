@@ -38,7 +38,7 @@ function initClickEvent() {
     })
 
 
-    
+
 }
 function getTeams() {
     fetchManager({
@@ -54,7 +54,7 @@ function drawTeams(status, result) {
     let html = "";
     const template = Handlebars.templates["precompile/sidebar_template"];
     for(team of result) {
-       html  += template(team);
+        html  += template(team);
     }
     $(".sidebar-team-list").innerHTML += html;
 

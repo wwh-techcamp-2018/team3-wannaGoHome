@@ -13,9 +13,10 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import wannagohome.interceptor.BasicAuthInterceptor;
-import wannagohome.interceptor.LoginInterceptor;
+import wannagohome.interceptor.SignInInterceptor;
 import wannagohome.interceptor.LoginUserHandlerMethodArgumentResolver;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -52,8 +53,8 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public LoginInterceptor loginInterceptor() {
-        return new LoginInterceptor();
+    public SignInInterceptor loginInterceptor() {
+        return new SignInInterceptor();
     }
 
     @Override

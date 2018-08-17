@@ -8,7 +8,9 @@ public enum ErrorType {
     UNAUTHENTICATED("unauthenticated"),
     USER_EMAIL("email"),
     USER_NAME("name"),
-    USER_PASSWORD("password");
+    USER_PASSWORD("password"),
+    TEAM_NAME("teamName"),
+    TEAM_DESC("teamDescription");
 
     private String errorType;
 

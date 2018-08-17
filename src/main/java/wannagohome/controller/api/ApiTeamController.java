@@ -36,13 +36,5 @@ public class ApiTeamController {
         return teamService.findTeamsByUser(user);
     }
 
-//    //유저없어서 임시로 테스트하려고
-//    @GetMapping("")
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<Team> readTeams() {
-//        return teamService.findAll();
-//    }
-
-
 
 }

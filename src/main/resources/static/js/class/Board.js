@@ -97,7 +97,7 @@ class Board {
         const socket = new SockJS('/websocket');
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function(frame) {
-            this.stompClient.subscribe('/topic/board', function (board) {
+            this.stompClient.subscribe('/topic/board/3', function (board) {
                 this.setBoardTasks(JSON.parse(board.body).tasks);
             }.bind(this));
             this.fetchBoardState({});

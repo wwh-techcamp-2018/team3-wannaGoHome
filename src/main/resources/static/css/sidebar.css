@@ -44,6 +44,10 @@
     background-color: #e2e4e6;
 }
 
+.sidebar-team-list > li > i {
+    padding: 0px 2px;
+}
+
 .sidebar-makeTeam-button {
     color: #888888;
     font-size: 13px;
@@ -103,6 +107,10 @@
     background-color: #ffffff;
 }
 
+.sidebar-makeTeam-name-box::placeholder, .sidebar-makeTeam-description-box::placeholder {
+    color: #e25b52;
+    padding: 1px;
+}
 .sidebar-makeTeam-submit-button {
     text-align: center;
     background-color: #f8f9f9;
@@ -113,5 +121,9 @@
     margin: 10px;
     border-style: none;
     font-size: 13px;
+}
+
+.sidebar-makeTeam-submit-button:focus {
+    outline: none;
 }
 

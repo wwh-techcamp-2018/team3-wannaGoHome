@@ -1,5 +1,6 @@
 package wannagohome.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -27,6 +28,7 @@ public class Board {
     @NotBlank
     @Size(max = 20)
     @Column(length = 20, nullable = false)
+    @Getter
     private String title;
 
     @ManyToOne
@@ -35,7 +37,9 @@ public class Board {
     @Transient
     private List<Task> tasks;
 //    private List<Activity> activities;
+
     @Enumerated(EnumType.ORDINAL)
+    @Getter
     private Color color;
 
     @NotBlank

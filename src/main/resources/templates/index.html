@@ -1,9 +1,11 @@
 {{#partial "head"}}
 <link rel="stylesheet" type="text/css" href="/css/sidebar.css"/>
-<link rel="stylesheet" type="text/css" href="/css/mainBoard.css"/>
+<link rel="stylesheet" type="text/css" href="/css/boardsummary.css"/>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
 <script src="/js/common/sidebar.js"></script>
+<script src="/js/class/BoardSummary.js"></script>
+<script src="/js/class/BoardCard.js"></script>
 {{/partial}}
 
 {{#partial "sidebar"}}
@@ -31,13 +33,13 @@
                     </div>
                     <div class="sidebar-makeTeam-name">
                         Name
-                        <input name="title" class="sidebar-makeTeam-name-box">
+                        <input name="name" class="sidebar-makeTeam-name-box" autocomplete="off">
                     </div>
                     <div class="sidebar-makeTeam-description">
                         Description
                         <textarea name="description" rows="4" class="sidebar-makeTeam-description-box"></textarea>
                     </div>
-                    <input class="sidebar-makeTeam-submit-button" value="create">
+                    <button class="sidebar-makeTeam-submit-button">create</button>
                 </form>
             </div>
         </div>
@@ -47,66 +49,20 @@
 
 <script type="text/javascript">
     {{precompile "precompile/sidebar_template"}}
+    {{precompile "precompile/board_template"}}
+    {{precompile "precompile/team_boards_template"}}
 </script>
 {{/partial}}
 
 {{#partial "contents"}}
-<div>
+<div class = "board-summary">
     <div class="recent-board-list">
         <div class="board-title"><i class="fa fa-clock-o"></i> Recently Viewed</div>
-        <div class="board-card">board number1</div>
-        <div class="board-card gray">board number2</div>
-        <div class="board-card">board number3</div>
     </div>
 
-    <div class="my-board-list">
-        <div class="board-title">
-            <i class="fa fa-user-o"></i> JunsuLime
-            <div class="board-setting-button"><i class="fa fa-th-list ml-1"></i> Boards</div>
-            <div class="board-setting-button"><i class="fa fa-user-o"></i> Members</div>
-            <div class="board-setting-button"><i class="fa fa-cog"></i> Settings</div>
-        </div>
-        <div class="board-card green">board number1</div>
-        <div class="board-card">board number2</div>
-        <div class="board-card create-board-card">Create new board...
-        </div>
+    <div class="team-board-list">
+
     </div>
-
-    <div class="my-board-list">
-        <div class="board-title"><i class="fa fa-user-o"></i> 우아한 형제들
-            <div class="board-setting-button"><i class="fa fa-th-list ml-1"></i> Boards</div>
-            <div class="board-setting-button"><i class="fa fa-user-o"></i> Members</div>
-            <div class="board-setting-button"><i class="fa fa-cog"></i> Settings</div>
-        </div>
-        <div class="board-card gray">board number1</div>
-        <div class="board-card green">board number2</div>
-        <div class="board-card">board number3</div>
-        <div class="board-card create-board-card">Create new board...</div>
-    </div>
-
-    <div class="makeTeam-container">
-        <a href="#" class="create-team-button">Create a new team...</a>
-        <div class="sidebar-makeTeam-box" style="display: none">
-            <form>
-                <div class="sidebar-makeTeam-title">
-                    Create Team
-                    <span class="float-right"> <i class="fa fa-times"></i> </span>
-                </div>
-                <div class="sidebar-makeTeam-name">
-                    Name
-                    <input class="sidebar-makeTeam-name-box">
-                </div>
-                <div class="sidebar-makeTeam-description">
-                    Description
-                    <textarea rows="4" class="sidebar-makeTeam-description-box"></textarea>
-                </div>
-                <input type="submit" class="sidebar-makeTeam-submit-button" value="create">
-            </form>
-        </div>
-    </div>
-
-
-
 </div>
 
 {{/partial}}

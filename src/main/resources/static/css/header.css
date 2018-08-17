@@ -39,6 +39,11 @@ ul {
 
 }
 
+.header-button:focus {
+    outline: none;
+}
+
+
 .header-button-boardlist {
     width: 300px;
     background-color: #fff;

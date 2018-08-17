@@ -19,11 +19,6 @@ public class ErrorEntity {
         this.errorType = ErrorType.of(errorType);
     }
 
-    public String getErrorType() {
-        log.debug("error entity type: {}", errorType.getErrorType());
-        return errorType.getErrorType();
-    }
-
     public boolean sameErrorType(ErrorType type) {
         return errorType == type;
     }

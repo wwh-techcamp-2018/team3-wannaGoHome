@@ -26,8 +26,7 @@ public class TeamAcceptanceTest extends AcceptanceTest {
     private static final String READ_URL = "/api/teams";
 
     @Autowired
-    TeamRepository teamRepository;
-
+    private TeamRepository teamRepository;
 
     private Team team;
     private Team team2;
@@ -101,7 +100,14 @@ public class TeamAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void readTeam() {
-        ResponseEntity<Team> readResponseEntity = template().getForEntity(READ_URL+"/1", Team.class);
+        ResponseEntity<Team> readResponseEntity = basicAuthRequest(
+                new RequestEntity.Builder()
+                .withMethod(HttpMethod.GET)
+                .withUrl(READ_URL + "/1")
+                .withReturnType(Team.class)
+                .build(),
+                new SignInDto("junsulime@woowahan.com", "password1")
+        );
         assertThat(readResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         Team responseTeam = readResponseEntity.getBody();
         log.debug("description: {}", responseTeam.getDescription());

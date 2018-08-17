@@ -12,7 +12,6 @@ import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
 import wannagohome.domain.UserPermission;
 import wannagohome.exception.NotFoundException;
-
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 

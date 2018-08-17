@@ -2,32 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SignUp</title>
+    <title>회원가입</title>
+    <link rel="stylesheet" type="text/css" href="/css/users/sign.css"/>
+
+    <script src="/js/common/common.js"></script>
+    <script src="/js/class/SignForm.js"></script>
+    <script src="/js/users/signup.js"></script>
 </head>
 <body>
 
-<form class="sign-container">
-    <fieldset>
-        <legend>회원가입</legend>
-        <span>이메일</span><br>
-        <input type="email" data-type="email"  placeholder="이메일을 입력해주세요">
-        <span class="caution" data-type="email" style="display:none;"></span>
-        <br>
-        <span>비밀번호</span><br>
-        <input type="password" data-type="password" placeholder="비밀번호를 입력해주세요">
-        <span class="caution" data-type="password" style="display:none;"></span>
-        <br>
-        <span>이름</span><br>
-        <input type="text" data-type="name" placeholder="이름을 입력해주세요">
-        <span class="caution" data-type="name" style="display:none;"></span>
-        <br>
-        <input class="sign-button" type="submit" value="회원가입">
-    </fieldset>
-</form>
+<div class="sign-container">
+    <form>
+        <fieldset>
+            <legend>Sign up to WGH</legend>
+            <span>or <a href="/users/signin">sign in to your account</a></span>
+            <div class="sign-component">
+                <span>이메일</span>
+                <input class="sign-input" type="email" name="email" data-type="email"  placeholder="이메일을 입력해주세요">
+            </div>
+            <div class="sign-component">
+                <span>비밀번호</span>
+                <input class="sign-input" type="password" name="password" data-type="password" placeholder="비밀번호를 입력해주세요">
+            </div>
+            <div class="sign-component">
+                <span>이름</span>
+                <input class="sign-input" type="text" name="name" data-type="name" placeholder="이름을 입력해주세요">
+            </div>
+            <div class="sign-component">
+                <button class="sign-button inactive">회원가입</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
 
-<script src="/js/common/common.js"></script>
-<script src="/js/class/SignForm.js"></script>
-<script src="/js/users/signup.js"></script>
 
 </body>
 </html>

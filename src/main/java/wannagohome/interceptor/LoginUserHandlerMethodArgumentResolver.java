@@ -9,7 +9,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import wannagohome.domain.ErrorType;
 import wannagohome.domain.User;
-import wannagohome.exception.UnAuthorizedException;
+import wannagohome.exception.UnAuthenticationException;
 import wannagohome.util.SessionUtil;
 
 public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
@@ -30,7 +30,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
 
         LoginUser loginUser = parameter.getParameterAnnotation(LoginUser.class);
         if (loginUser.required()) {
-            throw new UnAuthorizedException(ErrorType.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+            throw new UnAuthenticationException(ErrorType.UNAUTHENTICATED, "로그인이 필요한 서비스입니다.");
         }
         return user;
     }

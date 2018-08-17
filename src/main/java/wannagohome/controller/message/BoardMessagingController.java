@@ -22,7 +22,6 @@ public class BoardMessagingController {
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
-
     // headerAccessor maintains link to session
     @MessageMapping("/message/board")
     @SendTo("/topic/board")

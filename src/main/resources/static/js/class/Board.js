@@ -9,7 +9,7 @@ class Board {
         // placeholder for element that is being dragged
         this.dragObject = null;
         this.dragCallBack = function(evt) {};
-        this.dragEndCallBack = function() {};
+        this.dragEndCallBack = function(evt) {};
 
         this.init();
         this.addListeners();
@@ -19,7 +19,6 @@ class Board {
         this.container = $(".board-container");
         this.addButton = $(".add-button");
         this.connectSocket();
-
     }
 
     addListeners() {
@@ -101,7 +100,6 @@ class Board {
             this.stompClient.subscribe('/topic/board', function (board) {
                 this.setBoardTasks(JSON.parse(board.body).tasks);
             }.bind(this));
-
             this.fetchBoardState({});
 
         }.bind(this))

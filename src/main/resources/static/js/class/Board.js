@@ -17,15 +17,39 @@ class Board {
 
     init () {
         this.container = $(".board-container");
-        this.addButton = $(".add-list-button");
+        this.addButton = $(".add-button");
         this.connectSocket();
 
     }
 
     addListeners() {
         this.addButton.addEventListener("click", function(evt) {
-            const defaultTask = {"title": "blankText"};
-            this.taskList.push(new Task(this, defaultTask));
+            evt.stopPropagation();
+            this.selector(".hidden-list-title-form").style.display = "block";
+            this.selector(".hidden-list-title-form input").value = "";
+            this.selector(".hidden-list-title-form input").focus();
+        }.bind(this));
+
+        this.selector(".hidden-list-title-form").addEventListener("click", function(evt) {
+            evt.stopPropagation();
+        }.bind(this));
+
+        this.selector(".add-list-inner-button").addEventListener("click", function(evt) {
+            const obj = {};
+            obj.title = this.selector(".hidden-list-title-form input").value.trim();
+            this.addTask(obj);
+            this.selector(".hidden-list-title-form").style.display = "none";
+        }.bind(this));
+
+        this.selector(".hidden-list-title-form input").addEventListener("keyup", function(evt) {
+            evt.preventDefault();
+            if (event.keyCode === 13) {
+                this.selector(".add-list-inner-button").click();
+            }
+        }.bind(this));
+
+        document.addEventListener("click", function(evt) {
+            this.selector(".hidden-list-title-form").style.display = "none";
         }.bind(this));
 
         this.container.addEventListener("mousemove", function(evt) {
@@ -48,10 +72,9 @@ class Board {
             task.remove();
             this.taskList.splice(0, 1);
         }
-        for(const task of this.taskList) {
-            this.taskList.splice(0, 1);
-            task.remove();
-        }
+
+
+        this.container.style.width = "300px";
         for(const task of tasks) {
             this.taskList.push(new Task(this, task));
         }
@@ -74,19 +97,25 @@ class Board {
     connectSocket() {
         const socket = new SockJS('/websocket');
         this.stompClient = Stomp.over(socket);
-        console.log(this.stompClient);
         this.stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
             this.stompClient.subscribe('/topic/board', function (board) {
-                console.log(JSON.parse(board.body));
                 this.setBoardTasks(JSON.parse(board.body).tasks);
             }.bind(this));
+
+            this.fetchBoardState({});
 
         }.bind(this))
     }
 
     sendBoard(obj) {
-
         this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
+    }
+
+    fetchBoardState(obj) {
+        this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
+    }
+
+    addTask(obj) {
+        this.stompClient.send("/app/message/add/task", {}, JSON.stringify(obj));
     }
 }

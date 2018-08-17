@@ -30,7 +30,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
 
         LoginUser loginUser = parameter.getParameterAnnotation(LoginUser.class);
         if (loginUser.required()) {
-            throw new UnAuthenticationException(ErrorType.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+            throw new UnAuthenticationException(ErrorType.UNAUTHENTICATED, "로그인이 필요한 서비스입니다.");
         }
         return user;
     }

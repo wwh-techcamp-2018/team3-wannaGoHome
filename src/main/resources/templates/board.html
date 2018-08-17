@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/css/common.css"/>
+    <link rel="stylesheet" href="/css/board.css" />
+
+
+    <script src="/js/common/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script src="/js/class/Task.js"></script>
+    <script src="/js/class/Board.js"></script>
+    <script src="/js/board/board.js"></script>
+</head>
+<body>
+    <div class="board-container">
+
+        <div class="task-item add-list-button">
+            <span class="add-button">+ Add another list</span>
+            <div class="hidden-list-title-form">
+                <input type="text" placeholder="Enter list title..."/>
+                <div class="add-list-inner-button">Add List</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        {{precompile "precompile/board/task_list_template"}}
+    </script>
+</body>
+</html>

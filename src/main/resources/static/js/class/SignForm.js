@@ -5,6 +5,7 @@ class SignForm {
         this.redirectUrl = redirectUrl;
         this.inputForms = {};
         this.defaultPlaceHolder = {};
+        this.signButton;
         this.initInputForms();
     }
 
@@ -12,26 +13,44 @@ class SignForm {
         const inputForms = this.form.querySelectorAll("input");
         inputForms.forEach((input) => {
             const dataType = input.getAttribute("data-type");
-            if (dataType)
+            if (dataType) {
                 this.defaultPlaceHolder[dataType] = input.placeholder;
                 this.inputForms[dataType] = input;
+            }
         });
+        this.inputForms["email"].focus();
 
-        this.form.querySelector(".sign-button").addEventListener("click", (evt) => {
+        this.signButton = this.form.querySelector(".sign-button");
+        this.signButton.addEventListener("click", (evt) => {
             evt.preventDefault();
             this.onClickSubmit();
         });
 
         this.form.addEventListener("input", (evt) => {
             this.clearCaution(evt.target.getAttribute("data-type"));
+            this.handleButtonActive();
         });
     }
 
+    handleButtonActive() {
+        const formKeys = Object.keys(this.inputForms);
+        const filledFormCount = formKeys.filter((field) => this.inputForms[field].value).length;
+        if (filledFormCount === formKeys.length) {
+            this.signButton.classList.remove("inactive");
+            return;
+        }
+        this.signButton.classList.add("inactive");
+    }
+
     onClickSubmit() {
+        if (this.signButton.classList.contains("inactive")) {
+            return;
+        }
+
         const data = {};
-        Object.keys(this.inputForms).map((key) => {
-            data[key] = this.inputForms[key].value;
-        });
+        for (let field in this.inputForms) {
+            data[field] = this.inputForms[field].value.trim();
+        }
         fetchManager({
             url: this.url,
             method: "POST",
@@ -43,7 +62,6 @@ class SignForm {
     handleSign(status, result) {
         if (status === 201 || status === 200) {
             window.location.href = this.redirectUrl;
-            return;
         }
 
         this.clearCautions();
@@ -54,15 +72,13 @@ class SignForm {
 
     clearCaution(field) {
         const inputForm = this.inputForms[field];
-        if (inputForm.classList.contains("caution-on"))
-            inputForm.classList.toggle("caution-on");
+        inputForm.classList.remove("caution-on");
         inputForm.placeholder = this.defaultPlaceHolder[field];
     }
 
     showCaution(field, message) {
         const inputForm = this.inputForms[field];
-        if (!inputForm.classList.contains("caution-on"))
-            inputForm.classList.toggle("caution-on");
+        inputForm.classList.add("caution-on");
         inputForm.placeholder = message;
         inputForm.value = null;
     }

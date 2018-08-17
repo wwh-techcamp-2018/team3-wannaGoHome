@@ -28,7 +28,7 @@ public class TeamService {
         return newTeam;
     }
 
-    public UserIncludedInTeam createRelation(User user, Team team, UserPermission userPermission) {
+    private UserIncludedInTeam createRelation(User user, Team team, UserPermission userPermission) {
        return new UserIncludedInTeam(user, team, userPermission);
     }
 

@@ -44,6 +44,10 @@
     background-color: #e2e4e6;
 }
 
+.sidebar-team-list > li > i {
+    padding: 0px 2px;
+}
+
 .sidebar-makeTeam-button {
     color: #888888;
     font-size: 13px;
@@ -117,5 +121,9 @@
     margin: 10px;
     border-style: none;
     font-size: 13px;
+}
+
+.sidebar-makeTeam-submit-button:focus {
+    outline: none;
 }
 

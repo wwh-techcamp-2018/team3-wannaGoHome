@@ -7,8 +7,8 @@ public enum ErrorType {
     USER_EMAIL("email"),
     USER_NAME("name"),
     USER_PASSWORD("password"),
-    TEAM_NAME("team name"),
-    TEAM_DESC("team description");
+    TEAM_NAME("teamName"),
+    TEAM_DESC("teamDescription");
 
     private String errorType;
 

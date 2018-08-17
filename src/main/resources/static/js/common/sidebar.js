@@ -44,11 +44,12 @@ function getTeams() {
     fetchManager({
         url: "/api/teams",
         method: "GET",
+        headers: {"content-type": "application/json"},
         callback : drawTeams
     });
 }
 
-function drawTeams(result) {
+function drawTeams(status, result) {
     console.log("drawTeams");
     let html = "";
     const template = Handlebars.templates["precompile/sidebar_template"];
@@ -62,6 +63,7 @@ function drawTeams(result) {
 function createTeam() {
 
     $(".sidebar-makeTeam-submit-button").addEventListener("click", (evt)=>{
+        evt.preventDefault();
         const postObject = {
             "name": $_value(".sidebar-makeTeam-name-box"),
             "description": $_value(".sidebar-makeTeam-description-box")

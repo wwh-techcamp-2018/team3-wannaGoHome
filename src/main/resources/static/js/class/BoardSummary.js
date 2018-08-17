@@ -42,13 +42,7 @@ class BoardSummary {
         for(const board of teamBoard.boards) {
             const boardList = this.node.querySelector(".board-list");
             boardList.appendChild(new BoardCard(board).getBoardNode());
-            boardList.appendChild(new BoardCard(board).getBoardNode());
         }
-    }
-
-    getBoardTemplate(board) {
-        const template = Handlebars.templates["precompile/board_template"];
-        return template(board);
     }
 
     addCreateNewBoardEvent() {

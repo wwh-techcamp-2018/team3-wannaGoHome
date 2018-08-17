@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -31,15 +32,13 @@ public class Board {
 
 //    private List<Task> tasks;
 //    private List<Activity> activities;
+
     @Enumerated(EnumType.ORDINAL)
+    @Getter
     private Color color;
 
     @NotBlank
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;
-
-    public String getColor() {
-        return color.getCode();
-    }
 }

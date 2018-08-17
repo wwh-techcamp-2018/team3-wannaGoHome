@@ -1,5 +1,7 @@
 package wannagohome.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 
 public enum Color {
@@ -20,6 +22,7 @@ public enum Color {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
+    @JsonValue
     public String getCode() {
         return code;
     }

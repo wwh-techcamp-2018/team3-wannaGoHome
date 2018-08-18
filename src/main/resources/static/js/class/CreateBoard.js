@@ -24,6 +24,10 @@ class CreateBoard {
         this.requestCreateBoardInfo();
     }
 
+    unDisplayCreateBoardForm() {
+        this.node.parentElement.classList.toggle("overflow");
+        this.node.style.display = "none";
+    }
     requestCreateBoardInfo() {
         fetchManager({
             url : "api/boards/createBoardInfo",
@@ -112,8 +116,7 @@ class CreateBoard {
         const backgroundNode = $(".create-board-background");
         backgroundNode.addEventListener("click", (evt) => {
             evt.preventDefault();
-            this.node.parentElement.classList.toggle("overflow");
-            this.node.style.display = "none";
+            this.unDisplayCreateBoardForm();
         });
     }
 
@@ -140,7 +143,7 @@ class CreateBoard {
         const teamBoardNode = this.parent.querySelector(`#team-${response.team.id}`);
         const createBoardCard = teamBoardNode.querySelector(".create-board-card");
         createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(response).getBoardNode());
-        this.node.style.display = "none";
+        this.unDisplayCreateBoardForm();
     }
 
 

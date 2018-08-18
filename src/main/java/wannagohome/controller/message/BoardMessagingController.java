@@ -8,10 +8,11 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
-import wannagohome.domain.BoardDto;
-import wannagohome.domain.TaskDto;
-import wannagohome.domain.TaskOrderDto;
+import wannagohome.domain.*;
 import wannagohome.interceptor.HttpHandshakeInterceptor;
+import wannagohome.repository.BoardRepository;
+import wannagohome.repository.TaskRepository;
+import wannagohome.service.BoardService;
 import wannagohome.util.SessionUtil;
 
 import javax.servlet.http.HttpSession;
@@ -22,20 +23,16 @@ public class BoardMessagingController {
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
+    @Autowired
+    private BoardService boardService;
+
     // headerAccessor maintains link to session
     @MessageMapping("/message/board")
     @SendTo("/topic/board")
     public BoardDto updateBoard(@Payload String message, SimpMessageHeaderAccessor headerAccessor, BoardDto boardDto) throws Exception {
-
-//        System.out.println("Received update! " + boardDto.getTitle());
-//        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
-//        headerAccessor.setSessionId(session.getId());
-//        System.out.println(session.getId());
-//        return SessionUtil.getBoardInSession(session).getBoardDto();
-        System.out.println("Message Received!");
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
-        return SessionUtil.getBoardInSession(session).getBoardDto();
+        return boardService.findById(1L).getBoardDto();
     }
 
     @MessageMapping("/message/add/task")
@@ -44,9 +41,7 @@ public class BoardMessagingController {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
 
-        SessionUtil.getBoardInSession(session).addTask(taskDto.toTask());
-
-        return SessionUtil.getBoardInSession(session).getBoardDto();
+        return boardService.addBoardTask(1L, new Task(taskDto)).getBoardDto();
     }
 
     @MessageMapping("/message/reorder/task")
@@ -55,8 +50,8 @@ public class BoardMessagingController {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
 
-        SessionUtil.getBoardInSession(session).reorderTasks(taskOrderDto);
+//        SessionUtil.getBoardInSession(session).reorderTasks(taskOrderDto);
 
-        return SessionUtil.getBoardInSession(session).getBoardDto();
+        return boardService.findById(1L).getBoardDto();
     }
 }

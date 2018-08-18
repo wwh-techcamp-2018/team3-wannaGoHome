@@ -34,8 +34,8 @@ public class Board {
     @ManyToOne
     private Team team;
 
-    @Transient
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "board")
+    private List<Task> tasks = new ArrayList<>();
 //    private List<Activity> activities;
 
     @Enumerated(EnumType.ORDINAL)
@@ -49,18 +49,31 @@ public class Board {
 
     @JsonIgnore
     public BoardDto getBoardDto() {
+
         BoardDto boardDto = new BoardDto();
+        boardDto.setId(id);
         boardDto.setTitle(title);
         List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
+
+        System.out.println("Liable tasks");
         for (Task task : tasks) {
             taskDtoList.add(task.getTaskDto());
         }
+
+
         boardDto.setTasks(taskDtoList);
         return boardDto;
     }
 
+    private void initializeTasks() {
+        if(tasks == null) {
+            tasks = new ArrayList<Task>();
+        }
+    }
+
     public Board addTask(Task task) {
         tasks.add(task);
+        System.out.println(tasks.size());
         return this;
     }
 

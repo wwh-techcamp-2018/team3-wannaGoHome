@@ -6,10 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
-import wannagohome.repository.BoardRepository;
-import wannagohome.repository.RecentlyViewBoardRepository;
-import wannagohome.repository.UserIncludedInBoardRepository;
-import wannagohome.repository.UserIncludedInTeamRepository;
+import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -20,6 +17,9 @@ public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Autowired
     private RecentlyViewBoardRepository recentlyViewBoardRepository;
@@ -62,6 +62,15 @@ public class BoardService {
                         .build()
         );
         return board;
+    }
+
+
+    @CacheEvict(value="board", key="#boardId")
+    public Board addBoardTask(Long boardId, Task newTask) {
+        Board board = findById(boardId);
+        newTask.setBoard(board);
+        taskRepository.save(newTask);
+        return boardRepository.save(board);
     }
 
     @Cacheable(value = "recentlyViewBoard",key= "#user.id")

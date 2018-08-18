@@ -8,6 +8,7 @@ class BoardSummary {
         this.node = boardSummary;
         this.recentlyBoardList = this.node.querySelector(".recent-board-list");
         this.teamBoardList = this.node.querySelector(".team-board-list");
+        this.createBoard = new CreateBoard(this.node);
     }
 
     requestBoardSummary() {
@@ -27,7 +28,6 @@ class BoardSummary {
 
     drawRecentlyViewBoards(recentlyViewBoards) {
         recentlyViewBoards.forEach((board) => {
-            //TODO : 클래스로 뽑기.
             this.recentlyBoardList.appendChild(new BoardCard(board).getBoardNode());
         });
     }
@@ -40,10 +40,11 @@ class BoardSummary {
 
     drawTeamBoards(teamBoard) {
         const template = Handlebars.templates["precompile/team_boards_template"];
-        this.teamBoardList.innerHTML += template(teamBoard.team);
+        const teamBoardNode = createElementFromHTML(template(teamBoard.team));
+        this.teamBoardList.appendChild(teamBoardNode);
         for (const board of teamBoard.boards) {
-            const boardList = this.node.querySelector(".board-list");
-            boardList.appendChild(new BoardCard(board).getBoardNode());
+            const createBoardCard = teamBoardNode.querySelector(".create-board-card");
+            createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).getBoardNode());
         }
     }
 
@@ -52,7 +53,8 @@ class BoardSummary {
         createNewBoard.forEach((node) => {
             node.addEventListener("click", (evt) => {
                 evt.preventDefault();
-                $(".create-board-whole-container").style.display = "";
+                const teamId = evt.target.parentElement.getAttribute("id").split("-")[1];
+                this.createBoard.displayCreateBoardForm(teamId);
             });
         });
     }

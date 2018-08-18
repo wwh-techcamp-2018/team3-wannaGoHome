@@ -5,6 +5,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
 import wannagohome.repository.BoardRepository;
 import wannagohome.repository.RecentlyViewBoardRepository;
@@ -12,6 +13,7 @@ import wannagohome.repository.UserIncludedInBoardRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +86,12 @@ public class BoardService {
     }
 
 
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
+                    @CacheEvict(value = "boardSummary", key = "#user.id"),
+            }
+    )
     @Transactional
     public Board createBoard(User user, CreateBoardDto createBoardDTO) {
         Board board = Board.builder()
@@ -104,5 +112,13 @@ public class BoardService {
                 .permission(permission)
                 .build()
         );
+    }
+
+    @Cacheable(value = "createBoardInfo")
+    public CreateBoardInfoDto getCreateBoardInfo(User user) {
+        return CreateBoardInfoDto.builder()
+                .colors(Arrays.asList(Color.values()))
+                .teams(teamService.findTeamsByUser(user))
+                .build();
     }
 }

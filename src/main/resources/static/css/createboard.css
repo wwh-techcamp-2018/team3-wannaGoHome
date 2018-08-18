@@ -14,7 +14,6 @@
 .create-board-container {
     z-index:10;
     position: absolute;
-    top : 64px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -121,12 +120,21 @@
     width : 27px;
     height: 27px;
     border-radius: 3px;
-    background-color: #5aac44;
+    text-align: center;
+    color: #fff;
 }
+.color-box tr td div:hover{
+    cursor: pointer;
+}
+
 
 .disable {
     color: #D3D3D3;
     background-color: #fff;;
+}
+
+.overflow {
+    overflow: hidden;
 }
 
 

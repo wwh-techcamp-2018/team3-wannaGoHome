@@ -147,4 +147,12 @@ public class BoardServiceTest {
         verify(userIncludedInBoardRepository,times(1)).save(any());
     }
 
+    @Test
+    public void getCreateBoardInfo() {
+        when(teamService.findTeamsByUser(user)).thenReturn(Arrays.asList(team));
+        CreateBoardInfoDto createBoardInfoDto = boardService.getCreateBoardInfo(user);
+        assertThat(createBoardInfoDto.getTeams().size()).isEqualTo(1);
+        assertThat(createBoardInfoDto.getColors().size()).isEqualTo(9);
+    }
+
 }

@@ -1,11 +1,9 @@
 package wannagohome.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import wannagohome.domain.BoardSummaryDto;
-import wannagohome.domain.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import wannagohome.domain.*;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.BoardService;
 
@@ -19,5 +17,16 @@ public class ApiBoardController {
     @GetMapping("")
     public BoardSummaryDto boardSummary(@LoginUser User user) {
         return boardService.getBoardSummary(user);
+    }
+
+    @GetMapping("/createBoardInfo")
+    public CreateBoardInfoDto createBoardInfo(@LoginUser User user) {
+        return boardService.getCreateBoardInfo(user);
+    }
+
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Board createBoard(@LoginUser User user, @RequestBody CreateBoardDto createBoardDto) {
+        return boardService.createBoard(user, createBoardDto);
     }
 }

@@ -1,0 +1,135 @@
+.create-board-whole-container {
+    box-sizing: border-box;
+}
+.create-board-background {
+    position: fixed;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+.create-board-container {
+    z-index:10;
+    position: absolute;
+    top : 64px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.create-board-form {
+    width: 420px;
+}
+
+.create-board-descirption{
+    width: 296px;
+    height: 100px;
+    background-color: #026aa7;
+    border-radius : 3px;
+    display: inline-block;
+}
+
+.board-description-style{
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    padding: 2px 8px;
+    margin: 0;
+    min-height: 0;
+    outline: 0;
+    border: none;
+    position: relative;
+}
+
+.create-board-title{
+    top : 12px;
+    left: 8px;
+    border-radius : 5px;
+}
+
+.create-board-title:hover{
+    background: hsla(0,0%,100%,.15);
+}
+
+.team-select-box {
+    position: relative;
+    top : 24px;
+    left: 8px;
+    width: 202px;
+    height: 28px;
+}
+
+.team-select {
+    width: 100%;
+    height: 100%;
+}
+
+.team-select:hover{
+    cursor: pointer;
+    background: hsla(0,0%,100%,.15);
+}
+
+.create-board-submit-button {
+    background-color: #5aac44;
+    font-weight: 700;
+    line-height: 20px;
+    font-size: 16px;
+    color: #fff;
+    margin: 8px 4px 0 0;
+    padding: 6px 16px;
+    text-align: center;
+    border: none;
+    border-radius : 3px;
+}
+
+.create-board-submit-button:hover{
+    cursor: pointer;
+}
+
+.create-board-color-box {
+    display: inline-block;
+    vertical-align: top;
+    width: 110px;
+    height: 100px;
+}
+.color-box {
+    padding-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width : 107px;
+    height: 108px;
+}
+
+.color-box tr td {
+    width : 27px;
+    height: 27px;
+    border-style: solid;
+    border-width: 5px;
+    border-top-width: 0px;
+    border-bottom-width: 7px;
+    border-color: transparent;
+    overflow: hidden;
+}
+
+.color-box tr td div {
+    width : 27px;
+    height: 27px;
+    border-radius: 3px;
+    background-color: #5aac44;
+}
+
+.disable {
+    color: #D3D3D3;
+    background-color: #fff;;
+}
+
+
+::placeholder {
+    color: #D3D3D3;
+}

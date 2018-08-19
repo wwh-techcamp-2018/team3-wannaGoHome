@@ -100,7 +100,7 @@ class Task {
 
         for(let i = 0; i < this.board.taskList.length; ++i) {
             if(this.board.taskList[i] == this) {
-                this.originIndex = i;
+                this.originIndex = this.taskObject.id;
                 break;
             }
         }

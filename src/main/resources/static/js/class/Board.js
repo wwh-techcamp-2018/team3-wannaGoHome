@@ -65,14 +65,13 @@ class Board {
     }
 
     setBoardTasks(tasks) {
-        console.log("Removing tasks");
         while(this.taskList.length) {
             const task = this.taskList[0];
             task.remove();
             this.taskList.splice(0, 1);
         }
 
-
+        console.log(tasks);
         this.container.style.width = "300px";
         for(const task of tasks) {
             this.taskList.push(new Task(this, task));
@@ -119,7 +118,7 @@ class Board {
 
     reorderTasks(thisTaskIndex, destTaskIndex) {
         const obj = {
-            originIndex: thisTaskIndex,
+            originId: thisTaskIndex,
             destinationIndex: destTaskIndex
         };
         this.stompClient.send("/app/message/reorder/task", {}, JSON.stringify(obj));

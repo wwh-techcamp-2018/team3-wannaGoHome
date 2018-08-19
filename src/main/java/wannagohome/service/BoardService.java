@@ -69,7 +69,13 @@ public class BoardService {
     public Board addBoardTask(Long boardId, Task newTask) {
         Board board = findById(boardId);
         newTask.setBoard(board);
-        taskRepository.save(newTask);
+        board.addTask(newTask);
+        return boardRepository.save(board);
+    }
+
+    public Board reorderBoardTasks(Long boardId, TaskOrderDto taskOrderDto) {
+        Board board = findById(boardId);
+        board.reorderTasks(taskOrderDto);
         return boardRepository.save(board);
     }
 

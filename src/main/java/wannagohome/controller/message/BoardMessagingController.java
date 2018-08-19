@@ -50,8 +50,6 @@ public class BoardMessagingController {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
 
-//        SessionUtil.getBoardInSession(session).reorderTasks(taskOrderDto);
-
-        return boardService.findById(1L).getBoardDto();
+        return boardService.reorderBoardTasks(1L, taskOrderDto).getBoardDto();
     }
 }

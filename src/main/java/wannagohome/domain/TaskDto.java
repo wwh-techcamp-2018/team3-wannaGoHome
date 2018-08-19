@@ -9,9 +9,12 @@ import java.util.List;
 @Setter
 public class TaskDto {
 
+    private Long id;
+
     private User author;
     private String title;
     private List<Card> cards;
+
 
     private boolean deleted;
 

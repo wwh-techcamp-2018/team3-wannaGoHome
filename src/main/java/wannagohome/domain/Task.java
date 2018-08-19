@@ -1,10 +1,7 @@
 package wannagohome.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -16,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {
@@ -29,8 +27,8 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User author;
 
-    @ManyToOne
-    @JoinColumn(name = "board_tasks_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "board_id", nullable=false)
     private Board board;
 
     @NotBlank
@@ -66,8 +64,13 @@ public class Task {
     @JsonIgnore
     public TaskDto getTaskDto() {
         TaskDto taskDto = new TaskDto();
+        taskDto.setId(id);
         taskDto.setTitle(title);
         taskDto.setCards(cards);
         return taskDto;
+    }
+
+    public boolean equalsId(Long id) {
+        return this.id == id;
     }
 }

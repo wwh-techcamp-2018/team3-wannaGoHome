@@ -17,7 +17,6 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor
 public class Board {
 
     @Id
@@ -34,8 +33,8 @@ public class Board {
     @ManyToOne
     private Team team;
 
-    @OneToMany(mappedBy = "board")
-    private List<Task> tasks = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
+    private List<Task> tasks;
 //    private List<Activity> activities;
 
     @Enumerated(EnumType.ORDINAL)
@@ -47,6 +46,10 @@ public class Board {
     @ColumnDefault(value = "false")
     private boolean deleted;
 
+    public Board() {
+        tasks = new ArrayList<>();
+    }
+
     @JsonIgnore
     public BoardDto getBoardDto() {
 
@@ -56,7 +59,7 @@ public class Board {
         List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
 
         System.out.println("Liable tasks");
-        for (Task task : tasks) {
+        for (Task task : getTasks()) {
             taskDtoList.add(task.getTaskDto());
         }
 
@@ -65,23 +68,21 @@ public class Board {
         return boardDto;
     }
 
-    private void initializeTasks() {
-        if(tasks == null) {
-            tasks = new ArrayList<Task>();
-        }
-    }
-
     public Board addTask(Task task) {
         tasks.add(task);
-        System.out.println(tasks.size());
         return this;
     }
 
     public Board reorderTasks(TaskOrderDto taskOrderDto) {
+        if(taskOrderDto.getDestinationIndex() >= tasks.size()) {
+            return this;
+        }
+
         for(int i = 0; i < tasks.size(); ++i) {
-            if(i == taskOrderDto.getOriginIndex()) {
-                Task movingTask = tasks.get(taskOrderDto.getOriginIndex());
-                tasks.remove(taskOrderDto.getOriginIndex());
+            if(tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
+
+                Task movingTask = tasks.get(i);
+                tasks.remove(i);
                 tasks.add(taskOrderDto.getDestinationIndex(), movingTask);
                 break;
             }

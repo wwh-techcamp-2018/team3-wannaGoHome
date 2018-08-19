@@ -18,11 +18,11 @@ public class BoardTest {
         testBoard = new Board();
 
         testBoard.setTasks(new ArrayList<Task>(Arrays.asList(
-                new Task(1L, User.GUEST_USER, testBoard, "first task", null, false),
-                new Task(2L, User.GUEST_USER, testBoard, "second task", null, false)
+                new Task(1L, User.GUEST_USER, testBoard, "first task", null, false, 0),
+                new Task(2L, User.GUEST_USER, testBoard, "second task", null, false, 1)
         )));
 
-        dummyTask = new Task(3L, User.GUEST_USER, testBoard, "dummy task", null, false);
+        dummyTask = new Task(3L, User.GUEST_USER, testBoard, "dummy task", null, false, 2);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package wannagohome.controller.message;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -27,29 +28,32 @@ public class BoardMessagingController {
     private BoardService boardService;
 
     // headerAccessor maintains link to session
-    @MessageMapping("/message/board")
-    @SendTo("/topic/board")
-    public BoardDto updateBoard(@Payload String message, SimpMessageHeaderAccessor headerAccessor, BoardDto boardDto) throws Exception {
+    @MessageMapping("/message/board/{boardId}")
+    @SendTo("/topic/board/{boardId}")
+    public BoardDto getBoardState(@Payload String message, @DestinationVariable Long boardId,
+                                  SimpMessageHeaderAccessor headerAccessor) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
-        return boardService.findById(1L).getBoardDto();
+        return boardService.findById(boardId).getBoardDto();
     }
 
-    @MessageMapping("/message/add/task")
-    @SendTo("/topic/board")
-    public BoardDto addTaskToBoard(@Payload String message, SimpMessageHeaderAccessor headerAccessor, TaskDto taskDto) throws Exception {
+    @MessageMapping("/message/add/{boardId}/task")
+    @SendTo("/topic/board/{boardId}")
+    public BoardDto addTaskToBoard(@Payload String message, @DestinationVariable Long boardId,
+                                   SimpMessageHeaderAccessor headerAccessor, TaskDto taskDto) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
 
-        return boardService.addBoardTask(1L, new Task(taskDto)).getBoardDto();
+        return boardService.addBoardTask(boardId, new Task(taskDto)).getBoardDto();
     }
 
-    @MessageMapping("/message/reorder/task")
-    @SendTo("/topic/board")
-    public BoardDto reorderTasks(@Payload String message, SimpMessageHeaderAccessor headerAccessor, TaskOrderDto taskOrderDto) throws Exception {
+    @MessageMapping("/message/reorder/{boardId}/task")
+    @SendTo("/topic/board/{boardId}")
+    public BoardDto reorderTasks(@Payload String message, @DestinationVariable Long boardId,
+                                 SimpMessageHeaderAccessor headerAccessor, TaskOrderDto taskOrderDto) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
 
-        return boardService.reorderBoardTasks(1L, taskOrderDto).getBoardDto();
+        return boardService.reorderBoardTasks(boardId, taskOrderDto).getBoardDto();
     }
 }

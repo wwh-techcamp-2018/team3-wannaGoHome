@@ -34,6 +34,7 @@ public class Board {
     private Team team;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
+    @OrderBy("order_id ASC")
     private List<Task> tasks;
 //    private List<Activity> activities;
 
@@ -58,7 +59,6 @@ public class Board {
         boardDto.setTitle(title);
         List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
 
-        System.out.println("Liable tasks");
         for (Task task : getTasks()) {
             taskDtoList.add(task.getTaskDto());
         }
@@ -70,6 +70,7 @@ public class Board {
 
     public Board addTask(Task task) {
         tasks.add(task);
+        task.setOrderId(tasks.size());
         return this;
     }
 
@@ -80,13 +81,17 @@ public class Board {
 
         for(int i = 0; i < tasks.size(); ++i) {
             if(tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
-
                 Task movingTask = tasks.get(i);
                 tasks.remove(i);
                 tasks.add(taskOrderDto.getDestinationIndex(), movingTask);
                 break;
             }
         }
+
+        for(int i = 0; i < tasks.size(); ++i) {
+            tasks.get(i).setOrderId(i);
+        }
+
         return this;
     }
 

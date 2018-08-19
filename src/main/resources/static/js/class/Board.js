@@ -96,7 +96,7 @@ class Board {
         const socket = new SockJS('/websocket');
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function(frame) {
-            this.stompClient.subscribe('/topic/board', function (board) {
+            this.stompClient.subscribe('/topic/board/1', function (board) {
                 this.setBoardTasks(JSON.parse(board.body).tasks);
             }.bind(this));
             this.fetchBoardState({});
@@ -105,15 +105,15 @@ class Board {
     }
 
     sendBoard(obj) {
-        this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
+        this.stompClient.send("/app/message/board/1", {}, JSON.stringify(obj));
     }
 
     fetchBoardState(obj) {
-        this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
+        this.stompClient.send("/app/message/board/1", {}, JSON.stringify(obj));
     }
 
     addTask(obj) {
-        this.stompClient.send("/app/message/add/task", {}, JSON.stringify(obj));
+        this.stompClient.send("/app/message/add/1/task", {}, JSON.stringify(obj));
     }
 
     reorderTasks(thisTaskIndex, destTaskIndex) {
@@ -121,6 +121,6 @@ class Board {
             originId: thisTaskIndex,
             destinationIndex: destTaskIndex
         };
-        this.stompClient.send("/app/message/reorder/task", {}, JSON.stringify(obj));
+        this.stompClient.send("/app/message/reorder/1/task", {}, JSON.stringify(obj));
     }
 }

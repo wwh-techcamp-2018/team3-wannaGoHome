@@ -39,10 +39,13 @@ public class Task {
     @Transient
     private List<Card> cards;
 
-//    @NotBlank
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;
+
+    @Column(name="order_id", nullable = false)
+    @ColumnDefault(value="0")
+    private Integer orderId;
 
     public Task(String title) {
         this.title = title;

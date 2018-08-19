@@ -8,6 +8,11 @@ body {
 
 }
 
+input:focus {
+    outline: none;
+    border: 1px solid #0079bf !important;
+}
+
 textarea, select, input, button { outline: none; }
 
 .container {

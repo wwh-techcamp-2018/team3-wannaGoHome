@@ -168,6 +168,9 @@ class Task {
         // this.board.updateBoardState();
         this.board.reorderTasks(this.originIndex, this.destinationIndex);
 
+        // reset drag object
+        this.unsetDraggable();
+
     }
 
     isInsideBound(x, task) {

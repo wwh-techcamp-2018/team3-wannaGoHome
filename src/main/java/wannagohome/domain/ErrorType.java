@@ -10,7 +10,9 @@ public enum ErrorType {
     USER_NAME("name"),
     USER_PASSWORD("password"),
     TEAM_NAME("teamName"),
-    TEAM_DESC("teamDescription");
+    TEAM_DESC("teamDescription"),
+    BOARD_ID("boardId"),
+    BOARD_TITLE("title");
 
     private String errorType;
 

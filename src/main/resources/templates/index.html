@@ -1,13 +1,17 @@
 {{#partial "head"}}
 <link rel="stylesheet" type="text/css" href="/css/sidebar.css"/>
 <link rel="stylesheet" type="text/css" href="/css/boardsummary.css"/>
+<link rel="stylesheet" type="text/css" href="/css/createboard.css"/>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
 <script src="/js/common/sidebar.js"></script>
 <script src="/js/class/BoardSummary.js"></script>
 <script src="/js/class/BoardCard.js"></script>
+<script src="/js/class/CreateBoard.js"></script>
 {{/partial}}
-
+{{#partial "createboard"}}
+    {{> createboard}}
+{{/partial}}
 {{#partial "sidebar"}}
 <div class="sidebar">
    <a class="sidebar-board-button" href="/">
@@ -51,6 +55,7 @@
     {{precompile "precompile/sidebar_template"}}
     {{precompile "precompile/board_template"}}
     {{precompile "precompile/team_boards_template"}}
+    {{precompile "precompile/color_box_template"}}
 </script>
 {{/partial}}
 

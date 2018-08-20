@@ -1,8 +1,6 @@
 package wannagohome.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,6 +9,8 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateBoardDto {
 
     @NotBlank

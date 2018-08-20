@@ -1,5 +1,6 @@
 package wannagohome.domain;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,14 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class BoardOfTeamDto {
-    private Team team;
-    private List<Board> boards = new ArrayList<>();
+public class CreateBoardInfoDto {
+    public List<Team> teams = new ArrayList<>();
+    public List<Color> colors = new ArrayList<>();
 
-    public BoardOfTeamDto(Team team) {
-        this.team = team;
-    }
 }

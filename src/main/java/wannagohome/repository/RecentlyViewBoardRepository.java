@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface RecentlyViewBoardRepository extends CrudRepository<RecentlyViewBoard,Long> {
     List<RecentlyViewBoard> findFirst4ByUserOrderByIdDesc(User user);
+
+
 }

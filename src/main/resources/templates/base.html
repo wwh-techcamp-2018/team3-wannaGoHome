@@ -15,31 +15,21 @@
     {{/block}}
 </head>
 <body class="no-drag">
-
+{{#block "createboard"}}
+{{/block}}
 <header>
     <div class="row">
         <div class="col-2">
             <button class="header-button ml-1" type="button"><i class="fa fa-th-list"></i> Boards</button>
             <ul class="header-button-boardlist" style="display: none">
-                <ul >
-                    <li class="header-button-boardlist-title"><i class="fa fa-clock-o"></i> RECENT BOARD</li>
-                    <li class="header-button-boardlist-content">foodload</li>
-                    <li class="header-button-boardlist-content">junsuload</li>
-                    <li class="header-button-boardlist-content">limeload</li>
-                </ul>
-                <ul >
-                    <li class="header-button-boardlist-title"><i class="fa fa-user-o"></i> 우아한 형제들</li>
-                    <li class="header-button-boardlist-content">foodload</li>
-                    <li class="header-button-boardlist-content">junsuload</li>
-                    <li class="header-button-boardlist-content">limeload</li>
-                </ul>
-                <ul >
-                    <li class="header-button-boardlist-title"><i class="fa fa-user-o"></i> JunsuLime</li>
-                    <li class="header-button-boardlist-content">foodload</li>
-                    <li class="header-button-boardlist-content">junsuload</li>
-                    <li class="header-button-boardlist-content">limeload</li>
-                </ul>
-                <a href="#" class="header-create-board-button">Create a new board...</a>
+                <div>
+                    <ul class="header-recently-boards">
+
+                    </ul>
+                </div>
+                <div class="header-team-boards">
+
+                </div>
             </ul>
 
         </div>
@@ -56,7 +46,10 @@
             <button class="header-button mr-1">3</button>
         </div>
     </div>
-
+    <script type="text/javascript">
+        {{precompile "precompile/header_team_template"}}
+        {{precompile "precompile/header_board_template"}}
+    </script>
 </header>
 
 <div class="container">
@@ -74,10 +67,7 @@
 
 </div>
 
-
-
 {{#block "footer"}}
 {{/block}}
-
 </body>
 </html>

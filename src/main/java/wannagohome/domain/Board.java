@@ -42,7 +42,6 @@ public class Board {
     @Getter
     private Color color;
 
-    @NotBlank
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;

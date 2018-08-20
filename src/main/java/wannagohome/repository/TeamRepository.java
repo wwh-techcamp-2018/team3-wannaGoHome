@@ -8,4 +8,5 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
     Optional<Team> findByIdAndDeletedFalse(Long id);
 
+    Optional<Team> findByName(String name);
 }

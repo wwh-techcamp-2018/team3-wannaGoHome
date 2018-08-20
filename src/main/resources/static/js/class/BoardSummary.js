@@ -10,7 +10,6 @@ class BoardSummary {
         fetchManager({
             url: "api/boards",
             method: "GET",
-            headers: {"Content-type": "application/json"},
             callback: this.drawBoardSummary.bind(this)
         })
     }
@@ -22,7 +21,7 @@ class BoardSummary {
 
     drawRecentlyViewBoards(recentlyViewBoards) {
         recentlyViewBoards.forEach((board) => {
-            this.recentlyBoardList.appendChild(new BoardCard(board).getBoardNode());
+            this.recentlyBoardList.appendChild(new BoardCard(board).boardNode);
         });
     }
 
@@ -39,7 +38,7 @@ class BoardSummary {
         const createBoardCard = teamBoardNode.querySelector(".create-board-card");
         this.addCreateNewBoardEvent(createBoardCard);
         for (const board of teamBoard.boards) {
-            createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).getBoardNode());
+            createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).boardNode);
         }
 
 
@@ -48,8 +47,8 @@ class BoardSummary {
     addCreateNewBoardEvent(createBoardCard) {
         createBoardCard.addEventListener("click", (evt) => {
             evt.preventDefault();
-            const teamId = evt.target.parentElement.getAttribute("id").split("-")[1];
-            this.createBoard.displayCreateBoardForm(teamId);
+            const teamId = evt.target.parentElement.getAttribute("data-id");
+            this.createBoard.showCreateBoardForm(teamId);
         });
 
     }

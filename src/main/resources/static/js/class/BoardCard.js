@@ -12,12 +12,12 @@ class BoardCard {
     addClickEvent() {
         this.board.addEventListener("click", (evt) => {
             evt.preventDefault();
-            const boardId = this.board.getAttribute("id").split("-")[1];
+            const boardId = this.board.getAttribute("data-id");
             window.location.href = "/board";
         })
     }
 
-    getBoardNode() {
+    get boardNode() {
         return this.board;
     }
 

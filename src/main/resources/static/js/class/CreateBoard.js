@@ -17,12 +17,12 @@ class CreateBoard {
         this.addSubmitButtonClickEvent();
     }
 
-    displayCreateBoardForm(teamId) {
+    showCreateBoardForm(teamId) {
         this.teamId = teamId;
         this.requestCreateBoardInfo();
     }
 
-    unDisplayCreateBoardForm() {
+    hideCreateBoardForm() {
         this.node.parentElement.classList.toggle("scroll-overflow");
         this.node.style.display = "none";
     }
@@ -118,7 +118,7 @@ class CreateBoard {
         const backgroundNode = $(".create-board-background");
         backgroundNode.addEventListener("click", (evt) => {
             evt.preventDefault();
-            this.unDisplayCreateBoardForm();
+            this.hideCreateBoardForm();
         });
     }
 
@@ -151,13 +151,13 @@ class CreateBoard {
         }
 
         this.drawCreatedBoard(response);
-        this.unDisplayCreateBoardForm();
+        this.hideCreateBoardForm();
     }
 
     drawCreatedBoard(board) {
         const teamBoardNode = this.parent.querySelector(`#team-${board.team.id}`);
         const createBoardCard = teamBoardNode.querySelector(".create-board-card");
-        createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).getBoardNode());
+        createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).boardNode);
     }
 
     handleCreateBoardError(response) {

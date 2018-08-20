@@ -1,7 +1,7 @@
 class CreateBoard {
     constructor(parent) {
         this.parent = parent;
-        this.node = $(".create-board-whole-container")
+        this.node = $_(".create-board-whole-container");
         this.titleNode = this.node.querySelector(".create-board-title");
         this.submitButtonNode = this.node.querySelector(".create-board-submit-button");
         this.colorBoxNode = this.node.querySelector(".color-box");
@@ -115,7 +115,7 @@ class CreateBoard {
     }
 
     addBackgroundClickEvent() {
-        const backgroundNode = $(".create-board-background");
+        const backgroundNode = $_(".create-board-background");
         backgroundNode.addEventListener("click", (evt) => {
             evt.preventDefault();
             this.hideCreateBoardForm();

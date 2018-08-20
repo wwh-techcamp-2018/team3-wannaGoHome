@@ -1,4 +1,4 @@
-function $(selector) {
+function $_(selector) {
     return document.querySelector(selector);
 }
 
@@ -7,7 +7,7 @@ function $_all(selector) {
 }
 
 function $_value(selector) {
-    return $(selector).value;
+    return $_(selector).value;
 }
 
 function createElementFromHTML(htmlString) {

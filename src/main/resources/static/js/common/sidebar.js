@@ -1,6 +1,6 @@
 var boardSummary;
 document.addEventListener("DOMContentLoaded", function(evt) {
-    boardSummary = new BoardSummary($(".board-summary"));
+    boardSummary = new BoardSummary($_(".board-summary"));
     boardSummary.requestBoardSummary();
     init();
 });
@@ -11,32 +11,32 @@ function init() {
     createTeam();
 
     document.addEventListener("click", (evt)=>{
-        $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+        $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
     });
-    $(".sidebar-makeTeam-container").addEventListener("click", (evt)=>{
+    $_(".sidebar-makeTeam-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();
     });
 
-    const inputfield = [$(".sidebar-makeTeam-name-box"), $(".sidebar-makeTeam-description-box")];
-    const button = $(".sidebar-makeTeam-submit-button");
+    const inputfield = [$_(".sidebar-makeTeam-name-box"), $_(".sidebar-makeTeam-description-box")];
+    const button = $_(".sidebar-makeTeam-submit-button");
     checkValidInput(inputfield, button);
 
 }
 
 function initClickEvent() {
 
-    $(".sidebar-makeTeam-button").addEventListener("click", (evt) => {
+    $_(".sidebar-makeTeam-button").addEventListener("click", (evt) => {
         evt.preventDefault();
-        if($(".sidebar-makeTeam-box").style.display === 'none') {
-            $(".sidebar-makeTeam-box").style.display = 'block';
-            $(".sidebar-makeTeam-name-box").focus();
+        if($_(".sidebar-makeTeam-box").style.display === 'none') {
+            $_(".sidebar-makeTeam-box").style.display = 'block';
+            $_(".sidebar-makeTeam-name-box").focus();
         } else {
-            $(".sidebar-makeTeam-box").style.display = 'none';
+            $_(".sidebar-makeTeam-box").style.display = 'none';
         }
     })
 
-    $(".sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
-        $(".sidebar-makeTeam-box").style.display = 'none';
+    $_(".sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
+        $_(".sidebar-makeTeam-box").style.display = 'none';
     })
 }
 
@@ -56,12 +56,12 @@ function drawTeams(status, result) {
     for(team of result) {
         html  += template(team);
     }
-    $(".sidebar-team-list").innerHTML += html;
+    $_(".sidebar-team-list").innerHTML += html;
     selectTeam();
 }
 
 function createTeam() {
-    $(".sidebar-makeTeam-submit-button").addEventListener("click", (evt)=>{
+    $_(".sidebar-makeTeam-submit-button").addEventListener("click", (evt)=>{
         evt.preventDefault();
         const postObject = {
             "name": $_value(".sidebar-makeTeam-name-box"),
@@ -81,17 +81,17 @@ function createTeam() {
 
 function displayTeam(status, result) {
     if(status === 201) {
-        $(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
-        $(".sidebar-makeTeam-name-box").value = "";
-        $(".sidebar-makeTeam-description-box").value = "";
+        $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+        $_(".sidebar-makeTeam-name-box").value = "";
+        $_(".sidebar-makeTeam-description-box").value = "";
 
         const template = Handlebars.templates["precompile/sidebar_template"];
-        $(".sidebar-team-list").innerHTML += template(result.team);
+        $_(".sidebar-team-list").innerHTML += template(result.team);
         boardSummary.drawTeamBoards(result);
 
     } else {
         result.forEach(function(result){
-            $(".sidebar-makeTeam-name-box").value = "";
+            $_(".sidebar-makeTeam-name-box").value = "";
             document.getElementsByName(result.errorType)[0].placeholder = result.message;
         });
     }

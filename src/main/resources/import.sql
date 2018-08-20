@@ -10,10 +10,10 @@ INSERT INTO TEAM (profile_image, name, description, deleted) VALUES ('http://url
 INSERT INTO TEAM (profile_image, name, description, deleted) VALUES ('http://urlrul', 'wannaGoHome', 'wannaGoHome description', false);
 
 
-INSERT INTO board(id,color,deleted,title,team_id) VALUES(1,1,false,'one board',1);
-INSERT INTO board(id,color,deleted,title,team_id) VALUES(2,1,false,'two board',1);
-INSERT INTO board(id,color,deleted,title,team_id) VALUES(3,0,false,'three board',1);
-INSERT INTO board(id,color,deleted,title,team_id) VALUES(4,2,false,'four board',1);
+INSERT INTO board(id,color,deleted,title,team_id) VALUES(1,'SLIGHTLY_DESATURATED_CYAN',false,'one board',1);
+INSERT INTO board(id,color,deleted,title,team_id) VALUES(2,'SLIGHTLY_DESATURATED_CYAN',false,'two board',1);
+INSERT INTO board(id,color,deleted,title,team_id) VALUES(3,'VERY_DARK_BLUE',false,'three board',1);
+INSERT INTO board(id,color,deleted,title,team_id) VALUES(4,'DARK_LIME_GREEN',false,'four board',1);
 
 INSERT INTO recently_view_board(id,board_id,user_id)VALUES(1,1,3);
 INSERT INTO recently_view_board(id,board_id,user_id)VALUES(2,2,3);

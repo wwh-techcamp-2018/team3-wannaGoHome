@@ -169,7 +169,7 @@ class Task {
         this.board.reorderTasks(this.originIndex, this.destinationIndex);
 
         // reset drag object
-        this.unsetDraggable();
+        this.board.unsetDraggable();
 
     }
 

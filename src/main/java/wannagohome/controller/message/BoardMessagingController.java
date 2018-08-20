@@ -43,6 +43,7 @@ public class BoardMessagingController {
                                    SimpMessageHeaderAccessor headerAccessor, TaskDto taskDto) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
         headerAccessor.setSessionId(session.getId());
+        taskDto.setAuthor(SessionUtil.getUserSession(session));
 
         return boardService.addBoardTask(boardId, new Task(taskDto)).getBoardDto();
     }

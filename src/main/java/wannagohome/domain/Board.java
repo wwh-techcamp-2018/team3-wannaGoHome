@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -81,9 +82,7 @@ public class Board {
 
         for(int i = 0; i < tasks.size(); ++i) {
             if(tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
-                Task movingTask = tasks.get(i);
-                tasks.remove(i);
-                tasks.add(taskOrderDto.getDestinationIndex(), movingTask);
+                Collections.swap(tasks, i, taskOrderDto.getDestinationIndex());
                 break;
             }
         }

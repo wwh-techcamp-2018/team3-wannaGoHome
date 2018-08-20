@@ -54,6 +54,7 @@ public class BoardService {
             }
     )
     public Board viewBoard(Long boardId, User user) {
+        //TODO : user Board에 조인시키기, 권한 없는 유저 막기.
         Board board = findById(boardId);
         recentlyViewBoardRepository.save(
                 RecentlyViewBoard.builder()
@@ -66,6 +67,7 @@ public class BoardService {
 
 
     @CacheEvict(value="board", key="#boardId")
+    @Transactional
     public Board addBoardTask(Long boardId, Task newTask) {
         Board board = findById(boardId);
         newTask.setBoard(board);
@@ -73,6 +75,7 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
+    @Transactional
     public Board reorderBoardTasks(Long boardId, TaskOrderDto taskOrderDto) {
         Board board = findById(boardId);
         board.reorderTasks(taskOrderDto);

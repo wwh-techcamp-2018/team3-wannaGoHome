@@ -53,6 +53,10 @@ class Board {
             this.selector(".hidden-list-title-form").style.display = "none";
         }.bind(this));
 
+        this.addMouseDragListeners();
+    }
+
+    addMouseDragListeners() {
         this.container.addEventListener("mousemove", function(evt) {
             this.dragCallBack.call(this.dragObject, evt);
         }.bind(this));
@@ -106,8 +110,9 @@ class Board {
         this.stompClient.connect({}, function(frame) {
             this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (board) {
                 // return if in the middle of a drag event
-                if (this.dragObject) return;
-
+                if (this.dragObject) {
+                    return;
+                }
                 this.setBoardTasks(JSON.parse(board.body).tasks);
             }.bind(this));
 
@@ -117,15 +122,15 @@ class Board {
     }
 
     sendBoard(obj) {
-        this.stompClient.send("/app/message/board/" + this.boardIndex, {}, JSON.stringify(obj));
+        this.stompClient.send(`/app/message/board/${this.boardIndex}`, {}, JSON.stringify(obj));
     }
 
     fetchBoardState() {
-        this.stompClient.send("/app/message/board/" + this.boardIndex, {}, JSON.stringify({}));
+        this.stompClient.send(`/app/message/board/${this.boardIndex}`, {}, JSON.stringify({}));
     }
 
     addTask(obj) {
-        this.stompClient.send("/app/message/add/" + this.boardIndex + "/task", {}, JSON.stringify(obj));
+        this.stompClient.send(`/app/message/add/${this.boardIndex}/task`, {}, JSON.stringify(obj));
     }
 
     reorderTasks(thisTaskIndex, destTaskIndex) {
@@ -133,6 +138,6 @@ class Board {
             originId: thisTaskIndex,
             destinationIndex: destTaskIndex
         };
-        this.stompClient.send("/app/message/reorder/" + this.boardIndex + "/task", {}, JSON.stringify(obj));
+        this.stompClient.send(`/app/message/reorder/${this.boardIndex}/task`, {}, JSON.stringify(obj));
     }
 }

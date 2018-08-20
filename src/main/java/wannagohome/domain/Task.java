@@ -32,7 +32,7 @@ public class Task {
     private Board board;
 
     @NotBlank
-    @Size(max = 20)
+    @Size(min=1, max = 30)
     @Column(length = 20, nullable = false)
     private String title;
 

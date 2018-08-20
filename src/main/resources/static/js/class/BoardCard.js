@@ -1,6 +1,6 @@
 class BoardCard {
     constructor(board) {
-        this.board = this.createNodeByHtmlText(this.getBoardTemplate(board));
+        this.board = createElementFromHTML(this.getBoardTemplate(board));
         this.addClickEvent();
     }
 
@@ -12,16 +12,13 @@ class BoardCard {
     addClickEvent() {
         this.board.addEventListener("click", (evt) => {
             evt.preventDefault();
+            const boardId = this.board.getAttribute("data-id");
+            window.location.href = "/board";
         })
     }
 
-    getBoardNode() {
+    get boardNode() {
         return this.board;
     }
 
-    createNodeByHtmlText(htmlString) {
-        let div = document.createElement("p");
-        div.innerHTML = htmlString;
-        return div.firstChild;
-    }
 }

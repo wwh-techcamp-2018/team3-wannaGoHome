@@ -5,10 +5,12 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
 import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,8 +67,6 @@ public class BoardService {
         return board;
     }
 
-
-    @CacheEvict(value="board", key="#boardId")
     @Transactional
     public Board addBoardTask(Long boardId, Task newTask) {
         Board board = findById(boardId);
@@ -93,7 +93,7 @@ public class BoardService {
     public Board findById(Long boardId) {
         return boardRepository
                 .findById(boardId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(()-> new BadRequestException(ErrorType.BOARD_ID, "ID에 해당하는 Board가 존재하지 않습니다."));
     }
 
     @Cacheable(value = "boardByTeam",key= "#team.id")
@@ -102,6 +102,12 @@ public class BoardService {
     }
 
 
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
+                    @CacheEvict(value = "boardSummary", key = "#user.id"),
+            }
+    )
     @Transactional
     public Board createBoard(User user, CreateBoardDto createBoardDTO) {
         Board board = Board.builder()
@@ -122,5 +128,13 @@ public class BoardService {
                 .permission(permission)
                 .build()
         );
+    }
+
+    @Cacheable(value = "createBoardInfo")
+    public CreateBoardInfoDto getCreateBoardInfo(User user) {
+        return CreateBoardInfoDto.builder()
+                .colors(Arrays.asList(Color.values()))
+                .teams(teamService.findTeamsByUser(user))
+                .build();
     }
 }

@@ -122,7 +122,7 @@ public class BoardServiceTest {
         CreateBoardDto boardDTO = CreateBoardDto.builder()
                 .teamId(team.getId())
                 .title("create board")
-                .color("#FF0000")
+                .color(Color.DARK_LIME_GREEN.getCode())
                 .build();
         when(boardRepository.save(any())).thenReturn(boards.get(0));
         when(userIncludedInBoardRepository.save(any())).thenReturn(null);
@@ -145,6 +145,14 @@ public class BoardServiceTest {
         assertThat(boardService.saveUserIncludedInBoard(user,boards.get(0),UserPermission.ADMIN))
                 .isEqualTo(userIncludedInBoard);
         verify(userIncludedInBoardRepository,times(1)).save(any());
+    }
+
+    @Test
+    public void getCreateBoardInfo() {
+        when(teamService.findTeamsByUser(user)).thenReturn(Arrays.asList(team));
+        CreateBoardInfoDto createBoardInfoDto = boardService.getCreateBoardInfo(user);
+        assertThat(createBoardInfoDto.getTeams().size()).isEqualTo(1);
+        assertThat(createBoardInfoDto.getColors().size()).isEqualTo(9);
     }
 
 }

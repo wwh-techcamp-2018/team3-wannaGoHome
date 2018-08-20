@@ -11,12 +11,14 @@ import wannagohome.domain.Team;
 import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
 import wannagohome.domain.UserPermission;
+import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -90,6 +92,13 @@ public class TeamServiceTest {
     @Test(expected = NotFoundException.class)
     public void findTeamsById() {
         teamService.findTeamById(10L);
+    }
+
+    @Test(expected = DuplicationException.class)
+    public void create_이미존재하는팀이름() {
+        when(teamRepository.findByName(any())).thenReturn(Optional.ofNullable(team));
+        teamService.create(team, user);
+        teamService.create(team, user2);
     }
 
 

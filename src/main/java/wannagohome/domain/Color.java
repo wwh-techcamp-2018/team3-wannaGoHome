@@ -5,9 +5,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 
 public enum Color {
-    RED("#FF0000"),
-    BLUE("#026aa7"),
-    GRAY("#aaaaaa");
+    VERY_DARK_BLUE("#003366"),
+    SLIGHTLY_DESATURATED_CYAN("#7DB9B3"),
+    DARK_LIME_GREEN("#228B22"),
+    GRAYISH_RED("#D4AAA8"),
+    GRAYISH_GREEN("#AFC09A"),
+    MOSTLY_DESATURATED_DARK_YELLOW("#A8A461"),
+    VERY_PALE_RED("#FFE7E3"),
+    LIGHT_BLUE("#5F72FF"),
+    VIVID_BLUE("#18B6FD");
 
     private String code;
 

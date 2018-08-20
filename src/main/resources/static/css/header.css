@@ -30,6 +30,7 @@ ul {
 .header-button {
     background-color: #5497c2;
     margin: 2px auto;
+    padding: 0px 5px;
     color: #fff;
     font-weight: bold;
     min-width: 35px;
@@ -49,8 +50,9 @@ ul {
     background-color: #fff;
     margin: 3px 0px;
     padding-left: 5px;
+    padding-bottom: 10px;
     box-shadow: 1px 1px 1px #aaaaaa;
-    z-index: 5;
+    z-index: 2;
     position: absolute;
     border-radius: 5px;
 }
@@ -72,11 +74,13 @@ ul {
     background-color: #e2eff7;
     border-radius: 3px;
     line-height: 35px;
+    color: #ffffff;
 }
 
 .header-button-boardlist-content:hover {
     cursor: pointer;
-    background-color: #5497c2;
+    background-color: #000000;
+    opacity: 0.9;
 }
 
 .header-create-board-button {

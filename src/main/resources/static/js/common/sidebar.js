@@ -1,11 +1,12 @@
+var boardSummary;
 document.addEventListener("DOMContentLoaded", function(evt) {
+    boardSummary = new BoardSummary($(".board-summary"));
+    boardSummary.requestBoardSummary();
     init();
-    console.log("init");
-
 });
 
 function init() {
-    getTeams();
+    drawinitTeams();
     initClickEvent();
     createTeam();
 
@@ -25,6 +26,7 @@ function init() {
 function initClickEvent() {
 
     $(".sidebar-makeTeam-button").addEventListener("click", (evt) => {
+        evt.preventDefault();
         if($(".sidebar-makeTeam-box").style.display === 'none') {
             $(".sidebar-makeTeam-box").style.display = 'block';
             $(".sidebar-makeTeam-name-box").focus();
@@ -36,11 +38,9 @@ function initClickEvent() {
     $(".sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
         $(".sidebar-makeTeam-box").style.display = 'none';
     })
-
-
-
 }
-function getTeams() {
+
+function drawinitTeams() {
     fetchManager({
         url: "/api/teams",
         method: "GET",
@@ -57,19 +57,16 @@ function drawTeams(status, result) {
         html  += template(team);
     }
     $(".sidebar-team-list").innerHTML += html;
-
+    selectTeam();
 }
 
 function createTeam() {
-
     $(".sidebar-makeTeam-submit-button").addEventListener("click", (evt)=>{
         evt.preventDefault();
         const postObject = {
             "name": $_value(".sidebar-makeTeam-name-box"),
             "description": $_value(".sidebar-makeTeam-description-box")
         };
-
-        console.log("submit");
 
         fetchManager({
             url: "/api/teams",
@@ -89,12 +86,24 @@ function displayTeam(status, result) {
         $(".sidebar-makeTeam-description-box").value = "";
 
         const template = Handlebars.templates["precompile/sidebar_template"];
-        $(".sidebar-team-list").innerHTML += template(result);
+        $(".sidebar-team-list").innerHTML += template(result.team);
+        boardSummary.drawTeamBoards(result);
 
     } else {
-        result.errors.forEach(function(error){
-            document.getElementsByName(error.field)[0].placeholder = error.defaultMessage;
+        result.forEach(function(result){
+            $(".sidebar-makeTeam-name-box").value = "";
+            document.getElementsByName(result.errorType)[0].placeholder = result.message;
         });
+    }
+
+}
+
+function selectTeam() {
+    lists = $_all(".sidebar-team-list > li");
+    for(let i = 0; i < lists.length ; i ++) {
+        lists[i].addEventListener("click", (evt)=>{
+            //TODO 팀 페이지 생겼을때 할 것
+        })
     }
 
 }
@@ -118,7 +127,6 @@ function checkValidInput(inputfield, button) {
 function checkNullInput(inputfield) {
     for(input of inputfield) {
         if(input.value.length === 0) {
-            console.log("false");
             return false;
         }
     }

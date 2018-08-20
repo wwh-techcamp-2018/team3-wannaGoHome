@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
     init();
-    console.log("init");
-
 });
 
 function init() {
-    getTeams();
+    drawinitTeams();
     initClickEvent();
     createTeam();
 
@@ -36,11 +34,9 @@ function initClickEvent() {
     $(".sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
         $(".sidebar-makeTeam-box").style.display = 'none';
     })
-
-
-
 }
-function getTeams() {
+
+function drawinitTeams() {
     fetchManager({
         url: "/api/teams",
         method: "GET",
@@ -57,11 +53,10 @@ function drawTeams(status, result) {
         html  += template(team);
     }
     $(".sidebar-team-list").innerHTML += html;
-
+    selectTeam();
 }
 
 function createTeam() {
-
     $(".sidebar-makeTeam-submit-button").addEventListener("click", (evt)=>{
         evt.preventDefault();
         const postObject = {
@@ -95,6 +90,18 @@ function displayTeam(status, result) {
         result.errors.forEach(function(error){
             document.getElementsByName(error.field)[0].placeholder = error.defaultMessage;
         });
+    }
+
+}
+
+function selectTeam() {
+    lists = $_all(".sidebar-team-list > li");
+    for(let i = 0; i < lists.length ; i ++) {
+        lists[i].addEventListener("click", (evt)=>{
+            console.log(evt.target);
+
+
+        })
     }
 
 }

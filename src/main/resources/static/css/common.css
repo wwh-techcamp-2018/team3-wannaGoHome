@@ -26,3 +26,12 @@ textarea, select, input, button { outline: none; }
     -khtml-user-select: none;
     user-select:none;
 }
+
+button:hover {
+    cursor: pointer;
+
+}
+
+button {
+    border: none;
+}

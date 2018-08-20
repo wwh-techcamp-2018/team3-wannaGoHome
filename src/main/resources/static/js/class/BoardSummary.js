@@ -1,8 +1,3 @@
-document.addEventListener("DOMContentLoaded", function (evt) {
-    new BoardSummary($(".board-summary")).requestBoardSummary();
-});
-
-
 class BoardSummary {
     constructor(boardSummary) {
         this.node = boardSummary;
@@ -23,7 +18,6 @@ class BoardSummary {
     drawBoardSummary(status, result) {
         this.drawRecentlyViewBoards(result.recentlyViewBoards);
         this.drawAllTeamBoards(result.boardOfTeamDtos);
-        this.addCreateNewBoardEvent();
     }
 
     drawRecentlyViewBoards(recentlyViewBoards) {
@@ -42,20 +36,21 @@ class BoardSummary {
         const template = Handlebars.templates["precompile/team_boards_template"];
         const teamBoardNode = createElementFromHTML(template(teamBoard.team));
         this.teamBoardList.appendChild(teamBoardNode);
+        const createBoardCard = teamBoardNode.querySelector(".create-board-card");
+        this.addCreateNewBoardEvent(createBoardCard);
         for (const board of teamBoard.boards) {
-            const createBoardCard = teamBoardNode.querySelector(".create-board-card");
             createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).getBoardNode());
         }
+
+
     }
 
-    addCreateNewBoardEvent() {
-        const createNewBoard = this.node.querySelectorAll(".board-card.create-board-card");
-        createNewBoard.forEach((node) => {
-            node.addEventListener("click", (evt) => {
-                evt.preventDefault();
-                const teamId = evt.target.parentElement.getAttribute("id").split("-")[1];
-                this.createBoard.displayCreateBoardForm(teamId);
-            });
+    addCreateNewBoardEvent(createBoardCard) {
+        createBoardCard.addEventListener("click", (evt) => {
+            evt.preventDefault();
+            const teamId = evt.target.parentElement.getAttribute("id").split("-")[1];
+            this.createBoard.displayCreateBoardForm(teamId);
         });
+
     }
 }

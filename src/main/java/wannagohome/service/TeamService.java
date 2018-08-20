@@ -32,10 +32,10 @@ public class TeamService {
                     @CacheEvict(value = "createBoardInfo", allEntries = true)
             }
     )
-    public Team create(Team team, User user) {
+    public BoardOfTeamDto create(Team team, User user) {
         Team newTeam = teamRepository.save(team);
         userIncludedInTeamRepository.save(createRelation(user, newTeam, UserPermission.ADMIN));
-        return newTeam;
+        return new BoardOfTeamDto(newTeam);
     }
 
     private UserIncludedInTeam createRelation(User user, Team team, UserPermission userPermission) {

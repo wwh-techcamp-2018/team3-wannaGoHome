@@ -3,6 +3,7 @@ package wannagohome.controller.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import wannagohome.domain.BoardOfTeamDto;
 import wannagohome.domain.Team;
 import wannagohome.domain.User;
 import wannagohome.interceptor.LoginUser;
@@ -20,7 +21,7 @@ public class ApiTeamController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Team create(@LoginUser User user, @RequestBody @Valid Team team) {
+    public BoardOfTeamDto create(@LoginUser User user, @RequestBody @Valid Team team) {
         return teamService.create(team, user);
     }
 

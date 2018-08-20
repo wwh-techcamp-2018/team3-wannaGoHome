@@ -1,4 +1,7 @@
+var boardSummary;
 document.addEventListener("DOMContentLoaded", function(evt) {
+    boardSummary = new BoardSummary($(".board-summary"));
+    boardSummary.requestBoardSummary();
     init();
 });
 
@@ -23,6 +26,7 @@ function init() {
 function initClickEvent() {
 
     $(".sidebar-makeTeam-button").addEventListener("click", (evt) => {
+        evt.preventDefault();
         if($(".sidebar-makeTeam-box").style.display === 'none') {
             $(".sidebar-makeTeam-box").style.display = 'block';
             $(".sidebar-makeTeam-name-box").focus();
@@ -84,7 +88,8 @@ function displayTeam(status, result) {
         $(".sidebar-makeTeam-description-box").value = "";
 
         const template = Handlebars.templates["precompile/sidebar_template"];
-        $(".sidebar-team-list").innerHTML += template(result);
+        $(".sidebar-team-list").innerHTML += template(result.team);
+        boardSummary.drawTeamBoards(result);
 
     } else {
         result.errors.forEach(function(error){

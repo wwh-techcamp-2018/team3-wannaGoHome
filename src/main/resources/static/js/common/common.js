@@ -1,4 +1,4 @@
-function $(selector) {
+function $_(selector) {
     return document.querySelector(selector);
 }
 
@@ -7,7 +7,7 @@ function $_all(selector) {
 }
 
 function $_value(selector) {
-    return $(selector).value;
+    return $_(selector).value;
 }
 
 function createElementFromHTML(htmlString) {
@@ -38,4 +38,9 @@ function hex(x) {
     const hexDigits = new Array
     ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
     return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+}
+
+function getBoundingRect(element) {
+    const rect = element.getBoundingClientRect();
+    return rect;
 }

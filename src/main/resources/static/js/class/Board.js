@@ -17,8 +17,8 @@ class Board {
     }
 
     init () {
-        this.container = $(".board-container");
-        this.addButton = $(".add-button");
+        this.container = $_(".board-container");
+        this.addButton = $_(".add-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
         this.connectSocket();
     }

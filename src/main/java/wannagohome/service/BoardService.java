@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
+import wannagohome.exception.BadRequestException;
 import wannagohome.repository.*;
 
 import javax.transaction.Transactional;

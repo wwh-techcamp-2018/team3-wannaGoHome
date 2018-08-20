@@ -13,7 +13,7 @@ class BoardCard {
         this.board.addEventListener("click", (evt) => {
             evt.preventDefault();
             const boardId = this.board.getAttribute("data-id");
-            window.location.href = "/board";
+            window.location.href = `/board/${boardId}`;
         })
     }
 

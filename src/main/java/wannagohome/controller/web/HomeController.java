@@ -18,10 +18,16 @@ public class HomeController {
 
     @Autowired
     BoardService boardService;
+
     @GetMapping("/")
     public String home(@LoginUser User user, Model model) {
         model.addAttribute("boardSummary", boardService.getBoardSummary(user));
         log.debug("boardSummary : {}", boardService.getBoardSummary(user));
         return "index";
+    }
+
+    @GetMapping("/error")
+    public String error(@LoginUser User user) {
+        return "error";
     }
 }

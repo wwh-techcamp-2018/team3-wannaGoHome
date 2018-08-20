@@ -1,0 +1,25 @@
+{{#partial "head"}}
+<link rel="stylesheet" type="text/css" href="/css/sidebar.css"/>
+<link rel="stylesheet" type="text/css" href="/css/boardsummary.css"/>
+<link rel="stylesheet" type="text/css" href="/css/createboard.css"/>
+<link rel="stylesheet" type="text/css" href="/css/error.css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
+<script src="/js/class/BoardSummary.js"></script>
+<script src="/js/class/BoardCard.js"></script>
+<script src="/js/class/CreateBoard.js"></script>
+{{/partial}}
+{{#partial "createboard"}}
+    {{> createboard}}
+    <div class = "error-message-holder">
+        <div class="error-message">
+            You are not authorized to access this page, or this page does not exist.
+        </div>
+    </div>
+{{/partial}}
+
+{{#partial "contents"}}
+
+{{/partial}}
+
+
+{{>base}}

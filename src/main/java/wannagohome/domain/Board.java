@@ -81,7 +81,9 @@ public class Board {
 
         for(int i = 0; i < tasks.size(); ++i) {
             if(tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
-                Collections.swap(tasks, i, taskOrderDto.getDestinationIndex());
+                Task movingTask = tasks.get(i);
+                tasks.remove(i);
+                tasks.add(taskOrderDto.getDestinationIndex(), movingTask);
                 break;
             }
         }

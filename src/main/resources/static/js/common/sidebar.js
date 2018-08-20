@@ -68,8 +68,6 @@ function createTeam() {
             "description": $_value(".sidebar-makeTeam-description-box")
         };
 
-        console.log("submit");
-
         fetchManager({
             url: "/api/teams",
             method: "POST",
@@ -104,9 +102,7 @@ function selectTeam() {
     lists = $_all(".sidebar-team-list > li");
     for(let i = 0; i < lists.length ; i ++) {
         lists[i].addEventListener("click", (evt)=>{
-            console.log(evt.target);
-
-
+            //TODO 팀 페이지 생겼을때 할 것
         })
     }
 
@@ -131,7 +127,6 @@ function checkValidInput(inputfield, button) {
 function checkNullInput(inputfield) {
     for(input of inputfield) {
         if(input.value.length === 0) {
-            console.log("false");
             return false;
         }
     }

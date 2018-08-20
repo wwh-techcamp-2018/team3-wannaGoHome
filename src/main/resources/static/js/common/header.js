@@ -13,7 +13,6 @@ function initHeader() {
         fetchManager({
             url: "api/boards",
             method: "GET",
-            headers: {"Content-type": "application/json"},
             callback: drawBoardSummary
         });
 

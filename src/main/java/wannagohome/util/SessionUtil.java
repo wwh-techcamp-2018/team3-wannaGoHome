@@ -1,11 +1,13 @@
 package wannagohome.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import wannagohome.domain.Board;
 import wannagohome.domain.Card;
 import wannagohome.domain.Task;
 import wannagohome.domain.User;
+import wannagohome.service.BoardService;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class SessionUtil {
     private static final String SESSION_KEY = "loginedUser";
 
     // Testing purpose
-    private static final String BOARD_SESSION_KEY = "viwerBoard";
+    private static final String BOARD_SESSION_KEY = "viewerBoard";
 
     public static void setUserSession(HttpSession session, User user) {
         session.setAttribute(SESSION_KEY, user);

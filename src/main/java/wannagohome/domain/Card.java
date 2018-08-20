@@ -15,4 +15,5 @@ public class Card {
     private Date endDate;
 
     private boolean deleted;
+    private Integer orderId;
 }

@@ -7,6 +7,7 @@ class Board {
         this.startDrag = {x: 0, y: 0};
 
         // placeholder for element that is being dragged
+        // always reset dragObject to null after drag event is finished
         this.dragObject = null;
         this.dragCallBack = function(evt) {};
         this.dragEndCallBack = function(evt) {};
@@ -18,6 +19,7 @@ class Board {
     init () {
         this.container = $(".board-container");
         this.addButton = $(".add-button");
+        this.boardIndex = window.location.href.trim().split("/").pop();
         this.connectSocket();
     }
 
@@ -51,6 +53,10 @@ class Board {
             this.selector(".hidden-list-title-form").style.display = "none";
         }.bind(this));
 
+        this.addMouseDragListeners();
+    }
+
+    addMouseDragListeners() {
         this.container.addEventListener("mousemove", function(evt) {
             this.dragCallBack.call(this.dragObject, evt);
         }.bind(this));
@@ -64,14 +70,18 @@ class Board {
         }.bind(this));
     }
 
+    unsetDraggable() {
+        this.dragObject = null;
+        this.dragCallBack = function(evt) {};
+        this.dragEndCallBack = function(evt) {};
+    }
+
     setBoardTasks(tasks) {
-        console.log("Removing tasks");
         while(this.taskList.length) {
             const task = this.taskList[0];
             task.remove();
             this.taskList.splice(0, 1);
         }
-
 
         this.container.style.width = "300px";
         for(const task of tasks) {
@@ -96,32 +106,38 @@ class Board {
     connectSocket() {
         const socket = new SockJS('/websocket');
         this.stompClient = Stomp.over(socket);
+        // this.stompClient.debug = null;
         this.stompClient.connect({}, function(frame) {
-            this.stompClient.subscribe('/topic/board', function (board) {
+            this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (board) {
+                // return if in the middle of a drag event
+                if (this.dragObject) {
+                    return;
+                }
                 this.setBoardTasks(JSON.parse(board.body).tasks);
             }.bind(this));
-            this.fetchBoardState({});
+
+            this.fetchBoardState();
 
         }.bind(this))
     }
 
     sendBoard(obj) {
-        this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
+        this.stompClient.send(`/app/message/board/${this.boardIndex}`, {}, JSON.stringify(obj));
     }
 
-    fetchBoardState(obj) {
-        this.stompClient.send("/app/message/board", {}, JSON.stringify(obj));
+    fetchBoardState() {
+        this.stompClient.send(`/app/message/board/${this.boardIndex}`, {}, JSON.stringify({}));
     }
 
     addTask(obj) {
-        this.stompClient.send("/app/message/add/task", {}, JSON.stringify(obj));
+        this.stompClient.send(`/app/message/add/${this.boardIndex}/task`, {}, JSON.stringify(obj));
     }
 
     reorderTasks(thisTaskIndex, destTaskIndex) {
         const obj = {
-            originIndex: thisTaskIndex,
+            originId: thisTaskIndex,
             destinationIndex: destTaskIndex
         };
-        this.stompClient.send("/app/message/reorder/task", {}, JSON.stringify(obj));
+        this.stompClient.send(`/app/message/reorder/${this.boardIndex}/task`, {}, JSON.stringify(obj));
     }
 }

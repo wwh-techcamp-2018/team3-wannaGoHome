@@ -7,12 +7,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
-import wannagohome.exception.BadRequestException;
-import wannagohome.exception.NotFoundException;
-import wannagohome.repository.BoardRepository;
-import wannagohome.repository.RecentlyViewBoardRepository;
-import wannagohome.repository.UserIncludedInBoardRepository;
-import wannagohome.repository.UserIncludedInTeamRepository;
+import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -24,6 +19,9 @@ public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Autowired
     private RecentlyViewBoardRepository recentlyViewBoardRepository;
@@ -58,6 +56,7 @@ public class BoardService {
             }
     )
     public Board viewBoard(Long boardId, User user) {
+        //TODO : user Board에 조인시키기, 권한 없는 유저 막기.
         Board board = findById(boardId);
         recentlyViewBoardRepository.save(
                 RecentlyViewBoard.builder()
@@ -66,6 +65,21 @@ public class BoardService {
                         .build()
         );
         return board;
+    }
+
+    @Transactional
+    public Board addBoardTask(Long boardId, Task newTask) {
+        Board board = findById(boardId);
+        newTask.setBoard(board);
+        board.addTask(newTask);
+        return boardRepository.save(board);
+    }
+
+    @Transactional
+    public Board reorderBoardTasks(Long boardId, TaskOrderDto taskOrderDto) {
+        Board board = findById(boardId);
+        board.reorderTasks(taskOrderDto);
+        return boardRepository.save(board);
     }
 
     @Cacheable(value = "recentlyViewBoard",key= "#user.id")

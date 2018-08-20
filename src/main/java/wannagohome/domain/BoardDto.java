@@ -1,8 +1,6 @@
 package wannagohome.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -11,6 +9,7 @@ import java.util.List;
 @Setter
 public class BoardDto {
 
+    private Long id;
     private String title;
 //    private List<User> members;
     private List<TaskDto> tasks;

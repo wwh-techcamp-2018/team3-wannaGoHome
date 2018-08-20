@@ -47,6 +47,21 @@ public class AppConfig implements WebMvcConfigurer {
         return new MessageSourceAccessor(messageSource);
     }
 
+    @Bean
+    public MessageSource activityMessageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:activity");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(60);
+        return messageSource;
+    }
+
+    @Bean
+    public MessageSourceAccessor activityMessageSourceAccessor(MessageSource messageSource) {
+        return new MessageSourceAccessor(activityMessageSource());
+    }
+
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(loginUserArgumentResolver());

@@ -133,10 +133,9 @@
     background-color: #fff;;
 }
 
-.overflow {
+.scroll-overflow {
     overflow: hidden;
 }
-
 
 ::placeholder {
     color: #D3D3D3;

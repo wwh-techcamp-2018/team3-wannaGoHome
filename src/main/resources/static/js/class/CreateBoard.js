@@ -8,6 +8,7 @@ class CreateBoard {
         this.teamSelectBoxNode = this.node.querySelector(".team-select");
         this.selectedColorNode = undefined;
         this.teamId = undefined;
+        this.titleDefaultPlaceHolder = this.titleNode.placeholder;
         this.TR_COUNT = 3;
         this.TOP_MARGIN = 64;
 
@@ -17,17 +18,15 @@ class CreateBoard {
     }
 
     displayCreateBoardForm(teamId) {
-        const constCreateBoardContainer = this.node.querySelector(".create-board-container");
-        constCreateBoardContainer.style.top = (window.scrollY + this.TOP_MARGIN) + "px";
-        this.node.parentElement.classList.toggle("overflow");
         this.teamId = teamId;
         this.requestCreateBoardInfo();
     }
 
     unDisplayCreateBoardForm() {
-        this.node.parentElement.classList.toggle("overflow");
+        this.node.parentElement.classList.toggle("scroll-overflow");
         this.node.style.display = "none";
     }
+
     requestCreateBoardInfo() {
         fetchManager({
             url : "api/boards/createBoardInfo",
@@ -36,12 +35,28 @@ class CreateBoard {
         })
     }
 
-
-
     drawCreateBoardInfo(status, response) {
         this.addTeamSelectBox(response.teams);
-        this.drawColorBox(response.colors)
+        this.drawColorBox(response.colors);
         this.initializeCreateBoardForm();
+    }
+
+    initializeCreateBoardForm() {
+        this.initializeFormPosition();
+        this.initializeFormValue();
+        this.node.parentElement.classList.toggle("scroll-overflow");
+        this.node.style.display = "";
+    }
+
+    initializeFormPosition() {
+        const createBoardContainer = this.node.querySelector(".create-board-container");
+        createBoardContainer.style.top = (window.scrollY + this.TOP_MARGIN) + "px";
+    }
+
+    initializeFormValue() {
+        this.clearTitleNode();
+        this.teamSelectBoxNode.value = this.teamId;
+        this.selectColor(this.colorBoxNode.getElementsByTagName("div")[0]);
     }
 
     addTeamSelectBox(teams) {
@@ -74,7 +89,6 @@ class CreateBoard {
         }
     }
 
-
     selectColor(colorNode) {
         if(this.selectedColorNode) {
             this.selectedColorNode.firstChild.remove();
@@ -86,21 +100,11 @@ class CreateBoard {
     }
 
 
-
-    initializeCreateBoardForm() {
-        this.node.style.display = "";
-        this.titleNode.value = "";
-        this.submitButtonNode.classList.add("disable");
-        this.submitButtonNode.disabled = true;
-        this.teamSelectBoxNode.value = this.teamId;
-        this.selectColor(this.colorBoxNode.getElementsByTagName("div")[0]);
-    }
-
-
     addTitleInputEvent() {
         this.titleNode.addEventListener("input", (evt) => {
             evt.preventDefault();
-            if(evt.target.value == 0) {
+            this.titleNode.placeholder = this.titleDefaultPlaceHolder;
+            if(this.titleNode.value === "") {
                 this.submitButtonNode.classList.add("disable");
                 this.submitButtonNode.disabled = true;
                 return;
@@ -109,8 +113,6 @@ class CreateBoard {
             this.submitButtonNode.disabled = false;
         });
     }
-
-
 
     addBackgroundClickEvent() {
         const backgroundNode = $(".create-board-background");
@@ -123,29 +125,51 @@ class CreateBoard {
     addSubmitButtonClickEvent() {
         this.submitButtonNode.addEventListener("click", (evt) => {
             evt.preventDefault();
-            const data  = {
-                "title" : this.titleNode.value,
-                "teamId" : this.teamSelectBoxNode.value,
-                "color" : rgbToHex(this.selectedColorNode.style.backgroundColor)
-            };
-
             fetchManager({
                 url : "/api/boards",
                 method : "POST",
-                body : JSON.stringify(data),
+                body : JSON.stringify(this.getCreateBoardRequestData()),
                 callback : this.handleCreateBoard.bind(this)
             })
         });
 
     }
 
+    getCreateBoardRequestData() {
+        const data  = {
+            "title" : this.titleNode.value,
+            "teamId" : this.teamSelectBoxNode.value,
+            "color" : rgbToHex(this.selectedColorNode.style.backgroundColor)
+        };
+        return data;
+    }
+
     handleCreateBoard(status, response) {
-        const teamBoardNode = this.parent.querySelector(`#team-${response.team.id}`);
-        const createBoardCard = teamBoardNode.querySelector(".create-board-card");
-        createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(response).getBoardNode());
+        if(status === 400) {
+            this.handleCreateBoardError(response)
+            return;
+        }
+
+        this.drawCreatedBoard(response);
         this.unDisplayCreateBoardForm();
     }
 
+    drawCreatedBoard(board) {
+        const teamBoardNode = this.parent.querySelector(`#team-${board.team.id}`);
+        const createBoardCard = teamBoardNode.querySelector(".create-board-card");
+        createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).getBoardNode());
+    }
+
+    handleCreateBoardError(response) {
+        this.clearTitleNode();
+        this.titleNode.placeholder = response[0].message;
+    }
+
+    clearTitleNode() {
+        this.titleNode.value = "";
+        this.submitButtonNode.classList.add("disable");
+        this.submitButtonNode.disabled = true;
+    }
 
     getTrColorTemplate(trColors) {
         const template = Handlebars.templates["precompile/color_box_template"];

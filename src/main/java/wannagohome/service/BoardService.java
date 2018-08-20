@@ -7,6 +7,8 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
+import wannagohome.exception.BadRequestException;
+import wannagohome.exception.NotFoundException;
 import wannagohome.repository.BoardRepository;
 import wannagohome.repository.RecentlyViewBoardRepository;
 import wannagohome.repository.UserIncludedInBoardRepository;
@@ -77,7 +79,7 @@ public class BoardService {
     public Board findById(Long boardId) {
         return boardRepository
                 .findById(boardId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(()-> new BadRequestException(ErrorType.BOARD_ID, "ID에 해당하는 Board가 존재하지 않습니다."));
     }
 
     @Cacheable(value = "boardByTeam",key= "#team.id")

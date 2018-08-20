@@ -7,6 +7,8 @@ import wannagohome.domain.*;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.BoardService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/boards")
 public class ApiBoardController {
@@ -26,7 +28,7 @@ public class ApiBoardController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Board createBoard(@LoginUser User user, @RequestBody CreateBoardDto createBoardDto) {
+    public Board createBoard(@LoginUser User user, @RequestBody  @Valid CreateBoardDto createBoardDto) {
         return boardService.createBoard(user, createBoardDto);
     }
 }

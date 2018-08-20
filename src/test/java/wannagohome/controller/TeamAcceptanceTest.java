@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import wannagohome.domain.BoardOfTeamDto;
 import wannagohome.domain.SignInDto;
 import wannagohome.domain.Team;
 import wannagohome.repository.TeamRepository;
@@ -47,15 +48,15 @@ public class TeamAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void createAndReadTeam() {
-        ResponseEntity<Team> createResponseEntity = basicAuthRequest(new RequestEntity.Builder()
+        ResponseEntity<BoardOfTeamDto> createResponseEntity = basicAuthRequest(new RequestEntity.Builder()
                         .withUrl(CREATE_URL)
                         .withBody(team)
                         .withMethod(HttpMethod.POST)
-                        .withReturnType(Team.class)
+                        .withReturnType(BoardOfTeamDto.class)
                         .build(),
                 new SignInDto("kimyeon@woowahan.com", "password1")
         );
-        Team responseTeam = createResponseEntity.getBody();
+        Team responseTeam = createResponseEntity.getBody().getTeam();
         log.debug("description: {}", responseTeam.getDescription());
         log.debug("name: {}", responseTeam.getName());
         assertThat(createResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -63,16 +64,16 @@ public class TeamAcceptanceTest extends AcceptanceTest {
         assertThat(team.getDescription()).isEqualTo(responseTeam.getDescription());
 
 
-        ResponseEntity<Team> createResponseEntity2 = basicAuthRequest(new RequestEntity.Builder()
+        ResponseEntity<BoardOfTeamDto> createResponseEntity2 = basicAuthRequest(new RequestEntity.Builder()
                         .withUrl(CREATE_URL)
                         .withBody(team2)
                         .withMethod(HttpMethod.POST)
-                        .withReturnType(Team.class)
+                        .withReturnType(BoardOfTeamDto.class)
                         .build(),
                 new SignInDto("kimyeon@woowahan.com", "password1")
         );
         assertThat(createResponseEntity2.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        Team responseTeam2 = createResponseEntity2.getBody();
+        Team responseTeam2 = createResponseEntity2.getBody().getTeam();
         log.debug("description: {}", responseTeam2.getDescription());
         log.debug("name: {}", responseTeam2.getName());
         assertThat(createResponseEntity2.getStatusCode()).isEqualTo(HttpStatus.CREATED);

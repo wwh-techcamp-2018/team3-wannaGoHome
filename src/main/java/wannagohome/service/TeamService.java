@@ -6,6 +6,7 @@ import wannagohome.domain.*;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
@@ -33,6 +34,9 @@ public class TeamService {
             }
     )
     public BoardOfTeamDto create(Team team, User user) {
+        if(teamRepository.findByName(team.getName()).isPresent()) {
+            throw new DuplicationException(ErrorType.TEAM_NAME, "이미 같은 이름의 팀이 존재합니다.");
+        }
         Team newTeam = teamRepository.save(team);
         userIncludedInTeamRepository.save(createRelation(user, newTeam, UserPermission.ADMIN));
         return new BoardOfTeamDto(newTeam);

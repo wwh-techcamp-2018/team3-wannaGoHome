@@ -92,8 +92,9 @@ function displayTeam(status, result) {
         boardSummary.drawTeamBoards(result);
 
     } else {
-        result.errors.forEach(function(error){
-            document.getElementsByName(error.field)[0].placeholder = error.defaultMessage;
+        result.forEach(function(result){
+            $(".sidebar-makeTeam-name-box").value = "";
+            document.getElementsByName(result.errorType)[0].placeholder = result.message;
         });
     }
 

@@ -4,12 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import wannagohome.domain.BoardOfTeamDto;
+import wannagohome.domain.ErrorEntity;
 import wannagohome.domain.Team;
 import wannagohome.domain.User;
+import wannagohome.exception.DuplicationException;
+import wannagohome.exception.ErrorEntityException;
+import wannagohome.exception.UnAuthenticationException;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.TeamService;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -37,5 +42,9 @@ public class ApiTeamController {
         return teamService.findTeamsByUser(user);
     }
 
-
+    @ExceptionHandler(DuplicationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<ErrorEntity> handleDuplicationException(ErrorEntityException exception) {
+        return Arrays.asList(exception.entity());
+    }
 }

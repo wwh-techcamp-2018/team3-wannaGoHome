@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 public class CardActivity extends AbstractActivity {
 
     @Override
-    protected Object[] getArguments() {
+    public Object[] getArguments() {
         return new Object[0];
     }
 }

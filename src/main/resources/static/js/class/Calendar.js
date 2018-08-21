@@ -19,7 +19,8 @@ class Calendar {
                 startDayOfWeek: 0,
             }
         });
-
+        this.clickSchedule();
+        this.clickCalendar();
         this.dragSchedule();
      }
 
@@ -55,16 +56,32 @@ class Calendar {
         return colorList[Math.floor(Math.random() * colorList.length)];
     }
 
+    clickSchedule() {
+        this.calendar.on({
+            'clickSchedule': function (e) {
+                console.log(e.schedule);
+                //TODO e.schedule로 카드 상세정보 페이지 띄울수 있음(카드상세페이지 생기면 연결)
+            }
+        })
+    }
+    clickCalendar() {
+        this.calendar.on({
+            'beforeCreateSchedule': function(e) {
+                e.guide.clearGuideElement();
+            }
+
+        });
+    }
     dragSchedule() {
         this.calendar.on('beforeUpdateSchedule', function(event) {
             var schedule = event.schedule;
             var startTime = event.start;
             var endTime = event.end;
-
             this.calendar.updateSchedule(schedule.id, schedule.calendarId, {
                 start: startTime,
                 end: endTime
             });
+            //TODO schedule에서 업데이트 된 정보를 카드에도 업데이트 시켜줘야함
         }.bind(this));
     }
 

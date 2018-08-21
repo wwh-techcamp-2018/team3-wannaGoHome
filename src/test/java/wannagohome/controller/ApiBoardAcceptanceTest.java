@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import wannagohome.domain.*;
 import wannagohome.repository.BoardRepository;
+import wannagohome.repository.RecentlyViewBoardRepository;
 import wannagohome.repository.UserIncludedInBoardRepository;
 import wannagohome.support.AcceptanceTest;
 import wannagohome.support.RequestEntity;
@@ -27,6 +28,9 @@ public class ApiBoardAcceptanceTest extends AcceptanceTest {
     @Autowired
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
 
+
+    @Autowired
+    private RecentlyViewBoardRepository recentlyViewBoardRepository;
     @Before
     public void setUp() throws Exception {
         signInDto = SignInDto.builder()
@@ -85,7 +89,7 @@ public class ApiBoardAcceptanceTest extends AcceptanceTest {
         assertThat(responseEntity.getBody().getColor()).isEqualTo(Color.DARK_LIME_GREEN);
         assertThat(responseEntity.getBody().getTitle()).isEqualTo("woowahan Board");
 
-        userIncludedInBoardRepository.deleteById(2L);
+        userIncludedInBoardRepository.deleteById(5L);
         boardRepository.delete(responseEntity.getBody());
     }
 }

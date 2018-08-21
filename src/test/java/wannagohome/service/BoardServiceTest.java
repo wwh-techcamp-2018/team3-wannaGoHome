@@ -85,6 +85,8 @@ public class BoardServiceTest {
     public void viewBoard_요청시_RecentlyViewBoard_등록(){
         when(recentlyViewBoardRepository.save(any())).thenReturn(null);
         when(boardRepository.findById(boards.get(0).getId())).thenReturn(Optional.ofNullable(boards.get(0)));
+        when(userIncludedInTeamRepository.findByUserAndTeam(user,boards.get(0).getTeam()))
+                .thenReturn(Optional.ofNullable(UserIncludedInTeam.builder().id(1L).team(team).user(user).build()));
         assertThat(boardService.viewBoard(boards.get(0).getId(), user)).isEqualTo(boards.get(0));
         verify(boardRepository,times(1)).findById(boards.get(0).getId());
         verify(recentlyViewBoardRepository,times(1)).save(any());
@@ -92,17 +94,17 @@ public class BoardServiceTest {
 
     @Test
     public void getRecentlyViewBoard_조회() {
-        when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user)).thenReturn(recentlyViewBoards);
+        when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user.getId())).thenReturn(recentlyViewBoards);
         List<Board> recentlyViewBoards = boardService.getRecentlyViewBoard(user);
         assertThat(recentlyViewBoards.size()).isEqualTo(4);
-        verify(recentlyViewBoardRepository,times(1)).findFirst4ByUserOrderByIdDesc(user);
+        verify(recentlyViewBoardRepository,times(1)).findFirst4ByUserOrderByIdDesc(user.getId());
     }
 
 
     @Test
     public void getBoardSummary_조회() {
         UserIncludedInTeam userIncludedInTeam = UserIncludedInTeam.builder().team(team).build();
-        when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user)).thenReturn(recentlyViewBoards);
+        when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user.getId())).thenReturn(recentlyViewBoards);
         when(boardRepository.findAllByTeamAndDeletedFalse(team)).thenReturn(boards);
         when(userIncludedInTeamRepository.findAllByUser(user)).thenReturn(Arrays.asList(userIncludedInTeam));
         BoardSummaryDto boardSummaryDTO = boardService.getBoardSummary(user);

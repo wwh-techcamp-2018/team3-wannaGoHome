@@ -22,7 +22,6 @@ public class HomeController {
     @GetMapping("/")
     public String home(@LoginUser User user, Model model) {
         model.addAttribute("boardSummary", boardService.getBoardSummary(user));
-        log.debug("boardSummary : {}", boardService.getBoardSummary(user));
         return "index";
     }
 

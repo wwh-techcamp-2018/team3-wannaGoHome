@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import wannagohome.domain.ErrorEntity;
 import wannagohome.domain.ErrorType;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.Optional;
 public class ExceptionAdvisor {
     private static final Logger log = LoggerFactory.getLogger(ExceptionAdvisor.class);
 
-    @Autowired
+    @Resource(name = "messageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
 
     @ExceptionHandler(UnAuthenticationException.class)

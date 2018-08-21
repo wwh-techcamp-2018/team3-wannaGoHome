@@ -1,0 +1,11 @@
+.error-message-holder {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 24px;
+}
+
+.error-message {
+    font-size: 2em;
+    font-weight: bold;
+}

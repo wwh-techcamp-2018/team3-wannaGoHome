@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
 import wannagohome.exception.BadRequestException;
+import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,16 +59,28 @@ public class BoardService {
                     @CacheEvict(value = "boardSummary", key = "#user.id"),
             }
     )
+
+    @Transactional
     public Board viewBoard(Long boardId, User user) {
-        //TODO : user Board에 조인시키기, 권한 없는 유저 막기.
         Board board = findById(boardId);
-        recentlyViewBoardRepository.save(
+        confirmAuthorityOfUser(user, board);
+        saveRecentlyViewBoard(user, board);
+        saveUserIncludedInBoard(user, board, UserPermission.MEMBER);
+        return board;
+    }
+
+    private UserIncludedInTeam confirmAuthorityOfUser(User user, Board board) {
+        return userIncludedInTeamRepository.findByUserAndTeam(user,board.getTeam())
+                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHENTICATED, "Board에 접근할 권한이 없습니다."));
+
+    }
+    private RecentlyViewBoard saveRecentlyViewBoard(User user, Board board) {
+        return recentlyViewBoardRepository.save(
                 RecentlyViewBoard.builder()
                         .board(board)
                         .user(user)
                         .build()
         );
-        return board;
     }
 
     @Transactional
@@ -86,7 +101,7 @@ public class BoardService {
     @Cacheable(value = "recentlyViewBoard",key= "#user.id")
     public List<Board> getRecentlyViewBoard(User user) {
         return recentlyViewBoardRepository
-                .findFirst4ByUserOrderByIdDesc(user)
+                .findFirst4ByUserOrderByIdDesc(user.getId())
                 .stream()
                 .map(recentlyViewBoard ->recentlyViewBoard.getBoard()).collect(Collectors.toList());
     }
@@ -122,6 +137,11 @@ public class BoardService {
     }
 
     public UserIncludedInBoard saveUserIncludedInBoard(User user, Board board, UserPermission permission) {
+        Optional<UserIncludedInBoard> maybeUserIncludedInBoard =
+                userIncludedInBoardRepository.findByUserAndBoard(user,board);
+        if(maybeUserIncludedInBoard.isPresent())
+            return maybeUserIncludedInBoard.get();
+
         return userIncludedInBoardRepository.save(
                 UserIncludedInBoard.builder()
                 .user(user)

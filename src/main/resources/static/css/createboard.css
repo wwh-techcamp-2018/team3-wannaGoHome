@@ -50,6 +50,13 @@
     border-radius : 5px;
 }
 
+.create-board-title-icon{
+    position: relative;
+    top : 11px;
+    left: 10px;
+    color : #fff
+}
+
 .create-board-title:hover{
     background: hsla(0,0%,100%,.15);
 }

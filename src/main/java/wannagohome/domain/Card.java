@@ -1,6 +1,4 @@
 package wannagohome.domain;
-
-import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 
-@Getter
 @Entity
 public class Card {
 
@@ -33,22 +30,21 @@ public class Card {
     @Size(max = 255)
     private String description;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "CARD_ASSIGNEE",
-//            joinColumns = @JoinColumn(name = "CARD_ID"),
-//            inverseJoinColumns = @JoinColumn(name = "USER_ID")
-//    )
-//    private List<User> assignees;
-//
-//    @ManyToMany
-//    @JoinTable(
-//            name = "CARD_LABEL",
-//            joinColumns = @JoinColumn(name = "CARD_ID"),
-//            inverseJoinColumns = @JoinColumn(name = "LABEL_ID")
-//    )
-//    private List<Label> labels;
+    @ManyToMany
+    @JoinTable(
+            name = "CARD_ASSIGNEE",
+            joinColumns = @JoinColumn(name = "CARD_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID")
+    )
+    private List<User> assignees;
 
+    @ManyToMany
+    @JoinTable(
+            name = "CARD_LABEL",
+            joinColumns = @JoinColumn(name = "CARD_ID"),
+            inverseJoinColumns = @JoinColumn(name = "LABEL_ID")
+    )
+    private List<Label> labels;
 
     private Date createDate;
 

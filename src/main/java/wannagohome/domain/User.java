@@ -1,10 +1,7 @@
 package wannagohome.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import wannagohome.exception.UnAuthenticationException;
 
@@ -13,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

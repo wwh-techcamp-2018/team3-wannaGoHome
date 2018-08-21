@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
+import wannagohome.event.BoardEvent;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.*;
@@ -36,6 +38,9 @@ public class BoardService {
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Cacheable(value = "boardSummary",key= "#user.id")
     public BoardSummaryDto getBoardSummary(User user) {
@@ -131,6 +136,7 @@ public class BoardService {
                 .build();
         board = boardRepository.save(board);
         saveUserIncludedInBoard(user, board, UserPermission.ADMIN);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, user, board, ActivityType.BOARD_CREATE));
         return board;
     }
 

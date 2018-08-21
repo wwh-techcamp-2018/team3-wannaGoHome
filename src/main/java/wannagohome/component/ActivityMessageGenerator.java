@@ -3,6 +3,7 @@ package wannagohome.component;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 import wannagohome.domain.AbstractActivity;
+import wannagohome.domain.Activity;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ActivityMessageGenerator {
                 .collect(Collectors.toList());
     }
 
-    public String generateMessage(AbstractActivity activity) {
-        return messageSourceAccessor.getMessage(activity.getType().getCode(), activity.getArguments());
+    public String generateMessage(Activity activity) {
+        return messageSourceAccessor.getMessage(activity.getCode(), activity.getArguments());
     }
 }

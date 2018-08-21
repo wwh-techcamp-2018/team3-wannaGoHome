@@ -6,26 +6,29 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "activityType")
-public abstract class AbstractActivity implements Comparable<AbstractActivity> {
+public abstract class AbstractActivity implements Activity, Comparable<AbstractActivity> {
 
-    public static final String TEAM_ACTIVITY = "BoardActivity";
+    public static final String TEAM_ACTIVITY = "TeamActivity";
     public static final String BOARD_ACTIVITY = "BoardActivity";
     public static final String TASK_ACTIVITY = "TaskActivity";
     public static final String CARD_ACTIVITY = "CardActivity";
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
+
+    @Setter
+    @ManyToOne
+    protected User receiver;
 
     @ManyToOne
-    private User receiver;
-
-    @ManyToOne
-    private User source;
+    protected User source;
 
     @CreatedDate
     @Column(updatable = false)
@@ -40,10 +43,13 @@ public abstract class AbstractActivity implements Comparable<AbstractActivity> {
     @Column(nullable = false, insertable = false, updatable = false)
     private String activityType;
 
-    public abstract Object[] getArguments();
-
     @Override
     public int compareTo(AbstractActivity o) {
         return registeredDate.compareTo(o.registeredDate);
     }
+
+    public String getCode() {
+        return type.getCode();
+    }
+
 }

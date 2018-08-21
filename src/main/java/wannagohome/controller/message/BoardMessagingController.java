@@ -32,7 +32,7 @@ public class BoardMessagingController {
     @SendTo("/topic/board/{boardId}")
     public BoardDto getBoardState(@Payload String message, @DestinationVariable Long boardId,
                                   SimpMessageHeaderAccessor headerAccessor) throws Exception {
-        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
+        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
         headerAccessor.setSessionId(session.getId());
         return boardService.findById(boardId).getBoardDto();
     }
@@ -41,7 +41,7 @@ public class BoardMessagingController {
     @SendTo("/topic/board/{boardId}")
     public BoardDto addTaskToBoard(@Payload String message, @DestinationVariable Long boardId,
                                    SimpMessageHeaderAccessor headerAccessor, TaskDto taskDto) throws Exception {
-        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
+        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
         headerAccessor.setSessionId(session.getId());
         taskDto.setAuthor(SessionUtil.getUserSession(session));
 
@@ -52,7 +52,7 @@ public class BoardMessagingController {
     @SendTo("/topic/board/{boardId}")
     public BoardDto reorderTasks(@Payload String message, @DestinationVariable Long boardId,
                                  SimpMessageHeaderAccessor headerAccessor, TaskOrderDto taskOrderDto) throws Exception {
-        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
+        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
         headerAccessor.setSessionId(session.getId());
 
         return boardService.reorderBoardTasks(boardId, taskOrderDto).getBoardDto();

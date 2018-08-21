@@ -34,54 +34,7 @@
             Board Chatting Room
         </div>
         <div class="chatting-bar-message-holder">
-            <div class="message-holder-left">
-                <div class="profile-header">
-                    <div class="profile-image-holder">
-                        <div class="profile-image-background"><i class="fas fa-user-circle"></i></div>
-                    </div>
-                    <div class="profile-name-holder">
-                        songintae
-                    </div>
-                </div>
 
-                <div class="speech-bubble-holder">
-                    <div class="speech-bubble-left">
-                        texttexttexttexttexttexttexttexttext
-                        text
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="message-holder-left">
-                <div class="profile-header">
-                    <div class="profile-image-holder">
-                        <div class="profile-image-background"><i class="fas fa-user-circle"></i></div>
-                    </div>
-                    <div class="profile-name-holder">
-                        songintae
-                    </div>
-                </div>
-
-                <div class="speech-bubble-holder">
-                    <div class="speech-bubble-left">
-                        texttexttexttexttexttexttexttexttext
-                        text
-
-                    </div>
-                </div>
-            </div>
-            <div class="message-holder-right">
-
-                <div class="speech-bubble-holder">
-                    <div class="speech-bubble-right">
-                        texttexttexttexttexttexttexttexttext
-                        text
-
-                    </div>
-                </div>
-
-            </div>
 
         </div>
 
@@ -94,6 +47,8 @@
 
     <script type="text/javascript">
         {{precompile "precompile/board/task_list_template"}}
+        {{precompile "precompile/board/chat_message_left_template"}}
+        {{precompile "precompile/board/chat_message_right_template"}}
     </script>
 {{/partial}}
 {{#partial "contents"}}

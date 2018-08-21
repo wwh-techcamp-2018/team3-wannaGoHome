@@ -67,11 +67,7 @@ public class ChatMessage {
         messageDto.setAuthor(author.getUserDto());
         messageDto.setMessageOrder(messageOrder);
         messageDto.setText(text);
-        if(currentUser.equals(author)) {
-            messageDto.setSameAuthor(true);
-        } else {
-            messageDto.setSameAuthor(false);
-        }
+
         return messageDto;
     }
 }

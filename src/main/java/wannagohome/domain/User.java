@@ -67,6 +67,7 @@ public class User {
     @JsonIgnore
     public UserDto getUserDto() {
         UserDto userDto = new UserDto();
+        userDto.setId(id);
         userDto.setName(name);
         return userDto;
     }

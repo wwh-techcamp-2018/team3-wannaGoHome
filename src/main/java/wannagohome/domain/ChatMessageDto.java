@@ -14,6 +14,5 @@ public class ChatMessageDto {
     private UserDto author;
     private String text;
     private Long messageOrder;
-    private boolean sameAuthor;
 
 }

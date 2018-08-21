@@ -4,6 +4,7 @@ class Chat {
         this.init();
         this.addListeners();
         this.connectSocket();
+        this.fetchUser();
     }
 
     init() {
@@ -23,6 +24,18 @@ class Chat {
 
     }
 
+    fetchUser() {
+        fetchManager({
+            url: "/api/users/userId",
+            method: "GET",
+            headers: {"content-type": "application/json"},
+            callback : this.setUserInfo.bind(this)
+        });
+    }
+
+    setUserInfo(status, result) {
+        this.userId = result.id;
+    }
 
 
     connectSocket() {
@@ -31,7 +44,7 @@ class Chat {
         // this.stompClient.debug = null;
         this.stompClient.connect({}, function(frame) {
             this.stompClient.subscribe(`/topic/board/${this.boardIndex}/chat`, function(message) {
-                console.log("Received Message");
+                this.handleMessage(JSON.parse(message.body));
             }.bind(this));
         }.bind(this));
     }
@@ -40,6 +53,18 @@ class Chat {
         if(obj.text) {
             this.stompClient.send(`/app/message/board/${this.boardIndex}/chat`, {}, JSON.stringify(obj));
         }
+    }
+
+    handleMessage(message) {
+        // author of message is current user
+        let messageTemplate;
+        if(message["author"]["id"] == this.userId) {
+            messageTemplate = Handlebars.templates["precompile/board/chat_message_right_template"];
+        } else {
+            messageTemplate = Handlebars.templates["precompile/board/chat_message_left_template"];
+        }
+        const newMessage = createElementFromHTML(messageTemplate(message));
+        this.messageHolder.appendChild(newMessage);
     }
 
     selector(nodeSelector) {

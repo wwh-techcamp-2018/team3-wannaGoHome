@@ -9,17 +9,23 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn
-public abstract class AbstractActivity {
+@DiscriminatorColumn(name = "activityType")
+public abstract class AbstractActivity implements Comparable<AbstractActivity> {
+
+    public static final String TEAM_ACTIVITY = "BoardActivity";
+    public static final String BOARD_ACTIVITY = "BoardActivity";
+    public static final String TASK_ACTIVITY = "TaskActivity";
+    public static final String CARD_ACTIVITY = "CardActivity";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    protected User user;
+    private User receiver;
+
+    @ManyToOne
+    private User source;
 
     @CreatedDate
     @Column(updatable = false)
@@ -30,5 +36,14 @@ public abstract class AbstractActivity {
     @Column(nullable = false)
     protected ActivityType type;
 
+
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String activityType;
+
     public abstract Object[] getArguments();
+
+    @Override
+    public int compareTo(AbstractActivity o) {
+        return registeredDate.compareTo(o.registeredDate);
+    }
 }

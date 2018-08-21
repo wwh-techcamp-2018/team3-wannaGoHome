@@ -5,7 +5,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
-import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthorizedException;
@@ -13,7 +12,6 @@ import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

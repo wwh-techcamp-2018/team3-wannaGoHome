@@ -24,6 +24,6 @@ public class UserIncludedInBoard {
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private UserPermission permission;
 }

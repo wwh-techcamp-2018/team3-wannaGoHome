@@ -13,8 +13,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import wannagohome.interceptor.BasicAuthInterceptor;
-import wannagohome.interceptor.SignInInterceptor;
 import wannagohome.interceptor.LoginUserHandlerMethodArgumentResolver;
+import wannagohome.interceptor.SignInInterceptor;
 
 import java.util.Arrays;
 import java.util.List;

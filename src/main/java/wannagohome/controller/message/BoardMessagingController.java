@@ -7,12 +7,12 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
-import wannagohome.domain.*;
+import wannagohome.domain.BoardDto;
+import wannagohome.domain.Task;
+import wannagohome.domain.TaskDto;
+import wannagohome.domain.TaskOrderDto;
 import wannagohome.interceptor.HttpHandshakeInterceptor;
-import wannagohome.repository.BoardRepository;
-import wannagohome.repository.TaskRepository;
 import wannagohome.service.BoardService;
 import wannagohome.util.SessionUtil;
 

@@ -9,7 +9,6 @@ import wannagohome.domain.Team;
 import wannagohome.domain.User;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.ErrorEntityException;
-import wannagohome.exception.UnAuthenticationException;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.TeamService;
 

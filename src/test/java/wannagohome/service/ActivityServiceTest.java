@@ -1,69 +1,37 @@
 package wannagohome.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import wannagohome.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import wannagohome.domain.ActivityDto;
+import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
+import wannagohome.repository.UserRepository;
 
-import java.util.Arrays;
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ActivityServiceTest {
 
-    @Mock
-    private ActivityRepository activityRepository;
 
-    @InjectMocks
+    @Autowired
     private ActivityService activityService;
 
-    private User user;
-    private Team team;
-    private List<Board> boards;
+    @Autowired
+    private UserRepository userRepository;
 
-    @Before
-    public void setUp() throws Exception {
-        team = Team.builder()
-                .id(1L)
-                .name("wannagohome")
-                .description("wannagohome 화이팅")
-                .profileImage("default.png")
-                .build();
-
-        user = User.builder()
-                .email("jhyang@good.looking")
-                .name("jhyang")
-                .password("password1")
-                .build();
-
-        boards = Arrays.asList(
-                Board.builder().id(1L).title("one board").team(team).build(),
-                Board.builder().id(2L).title("two board").team(team).build(),
-                Board.builder().id(3L).title("three board").team(team).build(),
-                Board.builder().id(4L).title("four board").team(team).build()
-        );
-    }
-
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Test
-    public void create() {
-        BoardActivity activity = BoardActivity.builder()
-                .team(team)
-                .board(boards.get(0))
-                .build();
-        activity.setUser(user);
-
-        when(activityRepository.save(activity)).thenReturn(activity);
-        activityService.create(activity);
-        verify(activityRepository, times(1)).save(any());
+    public void findUserActivities() {
+        activityRepository.findAll();
+        User user = userRepository.findByEmail("songintae@woowahan.com").get();
+        ActivityDto activityDto = activityService.findUserActivities(user);
+        assertThat(activityDto.getActivityMessages()).contains("one board 보드를 생성하였습니다.");
     }
 }

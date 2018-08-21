@@ -1,13 +1,11 @@
 package wannagohome.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import wannagohome.domain.Board;
 import wannagohome.domain.Card;
 import wannagohome.domain.Task;
 import wannagohome.domain.User;
-import wannagohome.service.BoardService;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Label {
@@ -11,5 +12,7 @@ public class Label {
 
     @Enumerated(value = EnumType.STRING)
     private Color color;
+
+    @Size(max = 20)
     private String title;
 }

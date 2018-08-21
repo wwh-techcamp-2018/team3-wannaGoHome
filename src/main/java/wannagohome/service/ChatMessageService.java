@@ -1,5 +1,6 @@
 package wannagohome.service;
 
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,13 @@ public class ChatMessageService {
     private BoardService boardService;
 
     public List<ChatMessage> getRecentMessagesFromBoard(Board board) {
-        return chatMessageRepository.findFirst20ByBoardEqualsOrderByMessageCreatedDesc(board);
+        List<ChatMessage> messages = chatMessageRepository.findFirst20ByBoardEqualsOrderByMessageCreatedDesc(board);
+        return Lists.reverse(messages);
+    }
+
+    public List<ChatMessage> getRecentMessagesBefore(Board board, Long messageOrder) {
+        List<ChatMessage> messages = chatMessageRepository.findFirst20ByMessageOrderBeforeAndBoardEqualsOrderByMessageOrderDesc(messageOrder, board);
+        return Lists.reverse(messages);
     }
 
     @Transactional

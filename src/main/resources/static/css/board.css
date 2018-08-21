@@ -179,6 +179,7 @@ div {
     margin: 12px;
     border-radius: 5px;
     border: solid 1px #ccc;
+    overflow: scroll;
 }
 
 .message-holder-left {
@@ -190,11 +191,13 @@ div {
 
 .profile-image-holder {
     display: inline-block;
+
     font-size: 36px;
     line-height: 36px;
 }
 
 .message-holder-left .profile-name-holder {
+    margin-left: 6px;
     display: inline-block;
     vertical-align: bottom;
     padding-bottom: 4px;
@@ -204,12 +207,13 @@ div {
     margin-left: 40px;
     width: auto;
     position: relative;
+    text-align: left;
 }
 
 .speech-bubble-left {
     display: inline-block;
 
-    width: 100%;
+    max-width: 100%;
     word-wrap:break-word;
     background-color: #7e98b0;
     border-radius: 10px;

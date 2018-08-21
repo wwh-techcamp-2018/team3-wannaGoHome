@@ -1,4 +1,7 @@
-reated by https://www.gitignore.io/api/java,intellij
+# WannaGoHome
+src/test/java/wannagohome/study
+
+# Created by https://www.gitignore.io/api/java,intellij
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm

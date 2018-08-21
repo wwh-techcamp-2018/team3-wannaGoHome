@@ -1,19 +1,15 @@
 package wannagohome.domain;
 
-import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
 
-@Getter
 @Entity
 public class Card {
 
@@ -33,23 +29,23 @@ public class Card {
     @Size(max = 255)
     private String description;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "CARD_ASSIGNEE",
-//            joinColumns = @JoinColumn(name = "CARD_ID"),
-//            inverseJoinColumns = @JoinColumn(name = "USER_ID")
-//    )
-//    private List<User> assignees;
-//
-//    @ManyToMany
-//    @JoinTable(
-//            name = "CARD_LABEL",
-//            joinColumns = @JoinColumn(name = "CARD_ID"),
-//            inverseJoinColumns = @JoinColumn(name = "LABEL_ID")
-//    )
-//    private List<Label> labels;
+    @ManyToMany
+    @JoinTable(
+            name = "CARD_ASSIGNEE",
+            joinColumns = @JoinColumn(name = "CARD_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID")
+    )
+    private List<User> assignees;
 
+    @ManyToMany
+    @JoinTable(
+            name = "CARD_LABEL",
+            joinColumns = @JoinColumn(name = "CARD_ID"),
+            inverseJoinColumns = @JoinColumn(name = "LABEL_ID")
+    )
+    private List<Label> labels;
 
+    @CreatedDate
     private Date createDate;
 
     private Date endDate;

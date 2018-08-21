@@ -37,9 +37,9 @@ public class Board {
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
     @OrderBy("order_id ASC")
     private List<Task> tasks;
-//    private List<Activity> activities;
+//    private List<AbstractActivity> activities;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Getter
     private Color color;
 
@@ -81,7 +81,9 @@ public class Board {
 
         for(int i = 0; i < tasks.size(); ++i) {
             if(tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
-                Collections.swap(tasks, i, taskOrderDto.getDestinationIndex());
+                Task movingTask = tasks.get(i);
+                tasks.remove(i);
+                tasks.add(taskOrderDto.getDestinationIndex(), movingTask);
                 break;
             }
         }

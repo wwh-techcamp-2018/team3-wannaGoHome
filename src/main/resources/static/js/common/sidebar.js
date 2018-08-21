@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function(evt) {
 });
 
 function init() {
+    addPageShowEvent();
     drawinitTeams();
     initClickEvent();
     createTeam();
@@ -21,6 +22,18 @@ function init() {
     const button = $_(".sidebar-makeTeam-submit-button");
     checkValidInput(inputfield, button);
 
+}
+
+function addPageShowEvent() {
+    window.addEventListener( "pageshow", function ( event ) {
+        const historyTraversal = event.persisted ||
+            ( typeof window.performance != "undefined" &&
+                window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+            // Handle page restore.
+            window.location.reload();
+        }
+    });
 }
 
 function initClickEvent() {

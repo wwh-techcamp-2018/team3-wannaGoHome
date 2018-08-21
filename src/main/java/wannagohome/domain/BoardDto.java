@@ -13,7 +13,7 @@ public class BoardDto {
     private String title;
 //    private List<User> members;
     private List<TaskDto> tasks;
-//    private List<Activity> activities;
+//    private List<AbstractActivity> activities;
 
 //    private Color color;
 

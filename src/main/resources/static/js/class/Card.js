@@ -1,12 +1,12 @@
 class Card {
-    constructor(id, title, description, start, end) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.endDate = new Date();
-        this.endDate.setDate(this.endDate.getDate() + end);
-        this.startDate = new Date();
-        this.startDate.setDate(this.startDate.getDate() + start);
+    constructor(card) {
+        this.id = card.id;
+        // this.authorId = card.author.id;
+        //TODO this.boardId = 가져오기?
+        this.title = card.title;
+        this.description = card.description;
+        this.endDate = card.endDate;
+        this.startDate = card.createDate;
     }
 
 }

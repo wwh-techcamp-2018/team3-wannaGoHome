@@ -24,11 +24,12 @@ class Calendar {
         this.dragSchedule();
      }
 
+
     constructCard(cards) {
         this.cards = cards;
         this.cardList = [];
         this.cards.forEach((card)=>{
-            this.constructCardForm(this.cardList, card);
+            this.constructCardForm(card);
         });
         this.calendar.createSchedules(this.cardList);
     }
@@ -37,10 +38,10 @@ class Calendar {
         this.calendar.clear();
     }
 
-    constructCardForm(cardList, card) {
-        cardList.push({
+    constructCardForm(card) {
+        this.cardList.push({
             id: card.id,
-            calendarId: '1',
+            calendarId: '1', //TODO boardId로
             title: card.title,
             category: 'time',
             dueDateClass: '',

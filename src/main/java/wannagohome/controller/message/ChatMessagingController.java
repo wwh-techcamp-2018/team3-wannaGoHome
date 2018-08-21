@@ -8,8 +8,10 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import wannagohome.domain.ChatMessageDto;
+import wannagohome.domain.User;
 import wannagohome.interceptor.HttpHandshakeInterceptor;
 import wannagohome.service.ChatMessageService;
+import wannagohome.util.SessionUtil;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,7 +27,8 @@ public class ChatMessagingController {
     public ChatMessageDto sendChatMessage(@Payload String message, @DestinationVariable Long boardId,
                                           SimpMessageHeaderAccessor headerAccessor, ChatMessageDto chatMessageDto) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
-        return chatMessageService.createMessage(boardId, chatMessageDto, session).getChatMessageDto();
+        User currentUser = SessionUtil.getUserSession(session);
+        return chatMessageService.createMessage(boardId, chatMessageDto, currentUser).getChatMessageDto(currentUser);
     }
 
 

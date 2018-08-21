@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
    const board = new Board();
 
+   const chat = new Chat();
+
     window.addEventListener("resize", function(evt) {
         let chattingBarWidth = getBoundingRect($_(".chatting-bar")).width;
         $_(".board-scroll-container").style.width = document.documentElement.clientWidth - chattingBarWidth + "px";
@@ -15,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(evt) {
         $_(".chatting-bar-message-holder").style.height = chattingBarHeight - chattingBarTitleHeight - chattingInputHolderHeight - 36 + "px";
     });
 
-    window.dispatchEvent(new Event("resize"))
+    window.dispatchEvent(new Event("resize"));
 
 });
 

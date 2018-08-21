@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -20,19 +22,21 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private Long order;
+    @Column(nullable = false)
+    @ColumnDefault(value="0")
+    private Long messageOrder;
 
     @ManyToOne
     @JoinColumn(name="user_id")
     private User author;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="board_id", nullable=false)
     private Board board;
 
     @Basic(optional = false)
-    @Column(name = "LastTouched", insertable = false, updatable = false)
+    @Column(name = "message_created", updatable = false)
+    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date messageCreated;
 
@@ -42,14 +46,32 @@ public class ChatMessage {
 
     public ChatMessage(ChatMessageDto chatMessageDto) {
         this.text = chatMessageDto.getText();
+        this.messageCreated = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "id=" + id +
+                ", messageOrder=" + messageOrder +
+                ", author=" + author +
+                ", board=" + board +
+                ", messageCreated=" + messageCreated +
+                ", text='" + text + '\'' +
+                '}';
     }
 
     @JsonIgnore
-    public ChatMessageDto getChatMessageDto() {
+    public ChatMessageDto getChatMessageDto(User currentUser) {
         ChatMessageDto messageDto = new ChatMessageDto();
-        messageDto.setAuthor(author);
-        messageDto.setOrder(order);
+        messageDto.setAuthor(author.getUserDto());
+        messageDto.setMessageOrder(messageOrder);
         messageDto.setText(text);
+        if(currentUser.equals(author)) {
+            messageDto.setSameAuthor(true);
+        } else {
+            messageDto.setSameAuthor(false);
+        }
         return messageDto;
     }
 }

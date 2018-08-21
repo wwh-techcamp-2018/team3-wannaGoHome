@@ -106,7 +106,7 @@ class Board {
     connectSocket() {
         const socket = new SockJS('/websocket');
         this.stompClient = Stomp.over(socket);
-        // this.stompClient.debug = null;
+        this.stompClient.debug = null;
         this.stompClient.connect({}, function(frame) {
             this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (board) {
                 // return if in the middle of a drag event

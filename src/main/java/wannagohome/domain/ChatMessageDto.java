@@ -11,8 +11,9 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class ChatMessageDto {
 
-    private User author;
+    private UserDto author;
     private String text;
-    private Long order;
+    private Long messageOrder;
+    private boolean sameAuthor;
 
 }

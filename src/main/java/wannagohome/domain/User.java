@@ -1,10 +1,8 @@
 package wannagohome.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import wannagohome.exception.UnAuthenticationException;
 
@@ -18,6 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 @Entity
+@EqualsAndHashCode
 public class User {
     public static User GUEST_USER = new GuestUser();
 
@@ -63,5 +62,12 @@ public class User {
         public boolean isGuestUser() {
             return true;
         }
+    }
+
+    @JsonIgnore
+    public UserDto getUserDto() {
+        UserDto userDto = new UserDto();
+        userDto.setName(name);
+        return userDto;
     }
 }

@@ -13,7 +13,7 @@ public class TeamActivity extends AbstractActivity {
     private Team team;
 
     @Override
-    protected Object[] getArguments() {
+    public Object[] getArguments() {
         return new Object[]{this.team.getName()};
     }
 }

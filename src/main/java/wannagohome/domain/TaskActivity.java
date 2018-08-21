@@ -11,8 +11,12 @@ public class TaskActivity extends AbstractActivity {
     @ManyToOne
     private Task task;
 
+
+    @ManyToOne
+    private Board board;
+
     @Override
-    protected Object[] getArguments() {
+    public Object[] getArguments() {
         return new Object[]{this.task.getTitle()};
     }
 }

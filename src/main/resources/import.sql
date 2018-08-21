@@ -28,3 +28,8 @@ INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(4,0,4,3
 
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(1,0,1,3);
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(2,0,2,3);
+
+INSERT INTO card(id, user_id, title, description,create_date, end_date, deleted) VALUES (1, 3, 'cardTitle', 'cardDesc',now(),'2018-08-24', false);
+INSERT INTO card(id, user_id, title, description,create_date, end_date, deleted) VALUES (2, 3, '할일할일할일카드', '할일Desc',now(),'2018-08-27', false);
+INSERT INTO card(id, user_id, title, description,create_date, end_date, deleted) VALUES (3, 3, '오늘뭐먹지', '할일Desc','2018-08-10','2018-08-13', false);
+INSERT INTO card(id, user_id, title, description,create_date, deleted) VALUES (4, 3, 'due없지롱', '할일Desc', now(), false);

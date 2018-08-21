@@ -1,11 +1,9 @@
 package wannagohome.domain;
 
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;

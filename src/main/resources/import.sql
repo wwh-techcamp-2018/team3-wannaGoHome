@@ -16,11 +16,15 @@ INSERT INTO board(id,color,deleted,title,team_id) VALUES(3,0,false,'three board'
 INSERT INTO board(id,color,deleted,title,team_id) VALUES(4,2,false,'four board',1);
 
 INSERT INTO recently_view_board(id,board_id,user_id)VALUES(1,1,3);
-INSERT INTO recently_view_board(id,board_id,user_id)VALUES(2,2,3);
-INSERT INTO recently_view_board(id,board_id,user_id)VALUES(3,3,3);
-INSERT INTO recently_view_board(id,board_id,user_id)VALUES(4,4,3);
+INSERT INTO recently_view_board(id,board_id,user_id)VALUES(2,1,3);
+INSERT INTO recently_view_board(id,board_id,user_id)VALUES(3,1,3);
+INSERT INTO recently_view_board(id,board_id,user_id)VALUES(4,1,3);
 
 
 INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(1,0,1,3);
+INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(2,0,2,3);
+INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(3,0,3,3);
+INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(4,0,4,3);
+
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(1,0,1,3);
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(2,0,2,3);

@@ -5,9 +5,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import wannagohome.domain.ActivityDto;
+import wannagohome.domain.ActivityInitDto;
 import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.UserRepository;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ActivityServiceTest {
-
 
     @Autowired
     private ActivityService activityService;
@@ -28,9 +31,8 @@ public class ActivityServiceTest {
 
     @Test
     public void findUserActivities() {
-        activityRepository.findAll();
         User user = userRepository.findByEmail("songintae@woowahan.com").get();
-//        ActivityInitDto activityDto = activityService.findUserActivities(user);
-//        assertThat(activityDto.getActivityMessages()).contains("one board 보드를 생성하였습니다.");
+        List<ActivityDto> activities = activityService.findUserActivities(user);
+        assertThat(activities.stream().map(ActivityDto::getMessage)).contains("one board 보드를 생성하였습니다.");
     }
 }

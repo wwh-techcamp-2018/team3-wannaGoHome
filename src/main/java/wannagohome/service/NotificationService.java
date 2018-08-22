@@ -21,10 +21,9 @@ public class NotificationService {
     private PasswordEncoder biDirectionDecoder;
 
     public ActivityInitDto initNotification(User user) {
-        List<String> messages = activityService.findUserActivities(user);
-        return new ActivityInitDto(biDirectionDecoder.encode(
-                user.getEmail()),
-                messages.stream().map(ActivityDto::new).collect(Collectors.toList())
+        return new ActivityInitDto(
+                biDirectionDecoder.encode(user.getEmail()),
+                activityService.findUserActivities(user)
         );
     }
 }

@@ -41,12 +41,9 @@ public class ActivityEventHandler {
     }
 
     private void sendMessage(AbstractActivity activity) {
-        ActivityDto payload = new ActivityDto(
-                activityMessageGenerator.generateMessage(activity)
-        );
         simpMessageSendingOperations.convertAndSend(
                 "/topic/user/" + encoder.encode(activity.getReceiver().getEmail()),
-                payload
+                activityMessageGenerator.generateMessage(activity)
         );
     }
 }

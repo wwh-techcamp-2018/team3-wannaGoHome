@@ -4,6 +4,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 import wannagohome.domain.AbstractActivity;
 import wannagohome.domain.Activity;
+import wannagohome.domain.ActivityDto;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,13 +16,15 @@ public class ActivityMessageGenerator {
     @Resource(name = "activityMessageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
 
-    public List<String> generateMessages(List<? extends AbstractActivity> activities) {
+    public List<ActivityDto> generateMessages(List<? extends AbstractActivity> activities) {
         return activities.stream()
                 .map(this::generateMessage)
                 .collect(Collectors.toList());
     }
 
-    public String generateMessage(Activity activity) {
-        return messageSourceAccessor.getMessage(activity.getCode(), activity.getArguments());
+    public ActivityDto generateMessage(Activity activity) {
+        return new ActivityDto(
+            messageSourceAccessor.getMessage(activity.getCode(), activity.getArguments())
+        );
     }
 }

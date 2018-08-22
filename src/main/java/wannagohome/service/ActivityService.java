@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wannagohome.component.ActivityMessageGenerator;
 import wannagohome.domain.AbstractActivity;
+import wannagohome.domain.ActivityDto;
 import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
 
@@ -22,14 +23,14 @@ public class ActivityService {
         return activityRepository.save(activity);
     }
 
-    public List<String> findUserActivities(User user) {
+    public List<ActivityDto> findUserActivities(User user) {
 
         return generateActivityDto(
                 activityRepository.findFindFirst10ByReceiverOrderByRegisteredDateDesc(user)
         );
     }
 
-    private List<String> generateActivityDto(List<AbstractActivity> activities) {
+    private List<ActivityDto> generateActivityDto(List<AbstractActivity> activities) {
         return activityMessageGenerator.generateMessages(activities);
     }
 }

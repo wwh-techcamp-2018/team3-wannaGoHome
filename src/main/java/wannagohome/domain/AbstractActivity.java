@@ -26,6 +26,7 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
     @ManyToOne
     protected User receiver;
 
+    @Getter
     @ManyToOne
     protected User source;
 

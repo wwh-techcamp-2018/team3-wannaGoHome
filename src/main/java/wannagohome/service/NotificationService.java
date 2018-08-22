@@ -2,12 +2,14 @@ package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import wannagohome.domain.ActivityDto;
+import wannagohome.domain.ActivityInitDto;
 import wannagohome.domain.User;
 import wannagohome.repository.UserIncludedInBoardRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,11 +26,14 @@ public class NotificationService {
     @Autowired
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
 
-    public ActivityDto initNotification(User user) {
+    @Resource(name = "biDirectionEncoder")
+    private PasswordEncoder biDirectionDecoder;
+
+    public ActivityInitDto initNotification(User user) {
         List<String> messages = activityService.findUserActivities(user);
         List<String> topics = generateTopics(user);
 
-        return new ActivityDto(topics, messages);
+        return new ActivityInitDto(topics, messages, biDirectionDecoder.encode(user.getEmail()));
     }
 
     @Cacheable(value = "generateTopics", key = "#user.id")
@@ -39,6 +44,4 @@ public class NotificationService {
 
         return topics;
     }
-
-
 }

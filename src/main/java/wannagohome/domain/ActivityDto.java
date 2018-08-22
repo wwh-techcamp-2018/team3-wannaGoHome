@@ -1,17 +1,16 @@
 package wannagohome.domain;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ActivityDto {
 
-    private List<String> topics;
+    private String subscribeTopicUrl;
 
-    private List<String> messages;
+    private String message;
 }

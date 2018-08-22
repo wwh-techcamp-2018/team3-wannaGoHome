@@ -7,7 +7,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
-import wannagohome.domain.ActivityDto;
+import wannagohome.domain.ActivityInitDto;
 import wannagohome.service.NotificationService;
 import wannagohome.util.SessionUtil;
 
@@ -20,7 +20,7 @@ public class MainNotificationController {
 
     @MessageMapping("/activity/init")
     @SendTo("/topic/activity/init")
-    public ActivityDto initNotification(SimpMessageHeaderAccessor headerAccessor) {
+    public ActivityInitDto initNotification(SimpMessageHeaderAccessor headerAccessor) {
         return notificationService.initNotification(SessionUtil.getUserSession(headerAccessor));
     }
 }

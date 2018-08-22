@@ -2,15 +2,21 @@ package wannagohome.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import wannagohome.component.ActivityMessageGenerator;
 import wannagohome.domain.AbstractActivity;
+import wannagohome.domain.ActivityDto;
 import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
+
+import javax.annotation.Resource;
 
 @Component
 public class ActivityEventHandler {
 
+    @Resource(name = "biDirectionEncoder")
+    private PasswordEncoder encoder;
 
     @Autowired
     private SimpMessageSendingOperations simpMessageSendingOperations;
@@ -28,6 +34,13 @@ public class ActivityEventHandler {
         sendMessage(activity);
     }
 
+    public void sendPersonalMessage(AbstractActivity activity) {
+        simpMessageSendingOperations.convertAndSend(
+                "/topic/user/" + encoder.encode(activity.getSource().getEmail()),
+                activity.getSubscribeTopicUrl()
+        );
+    }
+
     private void saveActivity(AbstractActivity activity) {
         activity.setId(null);
         activityRepository.save(activity);
@@ -35,6 +48,10 @@ public class ActivityEventHandler {
 
     private void sendMessage(AbstractActivity activity) {
         // TODO: 2018. 8. 22. MessageDto 만들기
-        simpMessageSendingOperations.convertAndSend(activity.getTopicUrl(), activityMessageGenerator.generateMessage(activity));
+        ActivityDto dto = new ActivityDto(
+                activity.getTopicUrl(),
+                activityMessageGenerator.generateMessage(activity)
+        );
+        simpMessageSendingOperations.convertAndSend(activity.getTopicUrl(), dto);
     }
 }

@@ -30,11 +30,9 @@ class Task {
         this.taskContainer = newTask;
         this.task = newTask.querySelector(".task-list-content");
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
-        this.taskTitle = this.task.querySelector(".task-list-title");
         this.addCardButton = this.task.querySelector(".add-card-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
         this.cardWrapper = this.task.querySelector(".new-card-wrapper");
-        // this.taskIndex = this.taskObject.id;
     }
 
     remove() {
@@ -67,12 +65,8 @@ class Task {
 
         this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt)=>{
             const obj = {};
-            obj.title = this.cardWrapper.querySelector(".new-card-title").value;
-            // obj.taskId = this.taskObject.id;
-            // obj.boardId = this.boardIndex;
+            obj.title = this.cardWrapper.querySelector(".new-card-title").value.replace("\n","<br/>");
             obj.createDate = new Date();
-            // obj.description = "";
-            // obj.endDate = null;
             this.cardWrapper.style.display = 'none';
             this.addCardButton.style.display = 'block';
             this.cardWrapper.querySelector(".new-card-title").value = "";

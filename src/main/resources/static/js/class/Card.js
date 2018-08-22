@@ -5,7 +5,6 @@ class Card {
         this.board = board;
         this.id = card.id;
         this.taskId = card.taskId;
-        // this.authorId = card.author.id;
         this.boardId = card.boardId;
         this.title = card.title;
         this.description = card.description;
@@ -177,28 +176,16 @@ class Card {
             } else if(!this.cardHolder.nextSibling) {
                 container.appendChild(card.cardHolder);
             } else {
-                this.findIndexOfParent(this.cardHolder.nextSibling.parentNode);
-                this.findIndexOfParent(card.cardHolder.parentNode);
                 container.insertBefore(card.cardHolder, this.cardHolder.nextSibling);
             }
         }
     }
 
-    findIndexOfParent(parentNode) {
-        for(let i = 0; i < $_all(".card-list-wrapper").length; ++i) {
-            if($_all(".card-list-wrapper")[i] == parentNode) {
-                console.log("Found", i);
-                break;
-            }
-        }
-    }
 
     unsetDraggable() {
         if (!this.moving) return;
 
         this.cardHolder.appendChild(this.card);
-        // this.board.container.remove(this.card);
-        // console.log(this.cardHolder, this.cardHolder.parentNode);
 
         this.card.style.position = "static";
         this.card.style.left = null;
@@ -223,7 +210,6 @@ class Card {
     }
 
     remove() {
-        // console.log("card Remove called");
         this.cardHolder.remove();
     }
 

@@ -1,7 +1,6 @@
 class Board {
     constructor() {
         this.taskList = [];
-        this.cardList = [];
         this.stompClient = null;
 
         // placeholder to hold mousedown coords
@@ -83,13 +82,6 @@ class Board {
             task.remove();
             this.taskList.splice(0, 1);
         }
-
-        while(this.cardList.length) {
-            const card = this.cardList[0];
-            card.remove();
-            this.cardList.splice(0, 1);
-        }
-
         this.container.style.width = "300px";
         for(const task of tasks) {
             const taskObject = new Task(this, task);
@@ -97,11 +89,9 @@ class Board {
             for(const card of task.cards) {
                 const newCard = new Card(card, taskObject, this);
                 taskObject.cardList.push(newCard);
-                this.cardList.push(newCard);
             }
         }
     }
-
 
     updateBoardState() {
         const obj = {};

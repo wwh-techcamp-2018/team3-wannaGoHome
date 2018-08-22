@@ -2,7 +2,10 @@ package wannagohome.event;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
-import wannagohome.domain.*;
+import wannagohome.domain.ActivityType;
+import wannagohome.domain.Board;
+import wannagohome.domain.BoardActivity;
+import wannagohome.domain.User;
 
 public class BoardEvent extends ApplicationEvent {
 

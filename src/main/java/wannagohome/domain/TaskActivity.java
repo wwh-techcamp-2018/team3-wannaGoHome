@@ -28,4 +28,13 @@ public class TaskActivity extends AbstractActivity {
     public Object[] getArguments() {
         return new Object[]{this.task.getTitle()};
     }
+
+    public Board getBoard() {
+        return task.getBoard();
+    }
+
+    @Override
+    public String getTopicUrl() {
+        return "/topic/activity/board/" + getBoard().getId();
+    }
 }

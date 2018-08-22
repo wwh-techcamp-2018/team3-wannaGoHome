@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @DiscriminatorValue("TeamActivity")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class TeamActivity extends AbstractActivity {
 
     @ManyToOne
@@ -36,5 +38,18 @@ public class TeamActivity extends AbstractActivity {
                 target.getName(),
                 permission.name()
         };
+    }
+
+    @Override
+    public String getTopicUrl() {
+        return "/topic/activity/team/" + team.getId();
+    }
+
+    @Override
+    public String getSubscribeTopicUrl() {
+        if(ActivityType.TEAM_MEMBER_ADD == type) {
+            return "/topic/activity/team/" + team.getId();
+        }
+        return super.getSubscribeTopicUrl();
     }
 }

@@ -38,4 +38,17 @@ public class BoardActivity extends AbstractActivity {
     public Team getTeam() {
         return board.getTeam();
     }
+
+    @Override
+    public String getTopicUrl() {
+        return "/topic/activity/team/" + board.getTeam().getId();
+    }
+
+    @Override
+    public String getSubscribeTopicUrl() {
+        if(ActivityType.BOARD_CREATE == type) {
+            return "/topic/activity/board/" + board.getId();
+        }
+        return super.getSubscribeTopicUrl();
+    }
 }

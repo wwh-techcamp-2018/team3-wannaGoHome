@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ActivityEventListenerTest {
+public class ActivityEventHandlerTest {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;

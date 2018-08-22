@@ -5,6 +5,7 @@ public enum ActivityType {
     BOARD_CREATE("Board.Create"),
     BOARD_UPDATE("Board.Update"),
     BOARD_DELETE("Board.Delete"),
+
     TEAM_AUTHORITY("Team.Authority"),
     TEAM_MEMBER_ADD("Team.Member.Add"),
 

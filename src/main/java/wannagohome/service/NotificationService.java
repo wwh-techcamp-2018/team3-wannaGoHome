@@ -5,10 +5,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.ActivityDto;
 import wannagohome.domain.User;
-import wannagohome.domain.UserIncludedInTeam;
 import wannagohome.repository.UserIncludedInBoardRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
-import wannagohome.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;

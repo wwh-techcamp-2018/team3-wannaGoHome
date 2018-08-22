@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wannagohome.component.ActivityMessageGenerator;
 import wannagohome.domain.AbstractActivity;
-import wannagohome.domain.ActivityDto;
 import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
 

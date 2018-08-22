@@ -6,7 +6,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Optional;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -50,6 +49,12 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
 
     public String getCode() {
         return type.getCode();
+    }
+
+    abstract public String getTopicUrl();
+
+    public String getSubscribeTopicUrl() {
+        return "";
     }
 
 }

@@ -42,4 +42,9 @@ public class CardActivity extends AbstractActivity {
     public Board getBoard() {
         return card.getTask().getBoard();
     }
+
+    @Override
+    public String getTopicUrl() {
+        return "/topic/activity/board/" + getBoard().getId();
+    }
 }

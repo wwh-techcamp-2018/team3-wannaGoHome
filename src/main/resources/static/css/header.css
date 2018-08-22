@@ -44,8 +44,7 @@ ul {
     outline: none;
 }
 
-
-.header-button-boardlist {
+.header-button-boardlist{
     width: 300px;
     background-color: #fff;
     margin: 3px 0px;
@@ -89,4 +88,51 @@ ul {
     color: #888888;
     font-size: 13px;
     text-decoration-line: underline;
+}
+
+.header-notification-hide {
+    display: none;
+}
+
+
+.header-notification-holder {
+    width: 300px;
+    background-color: #fff;
+    margin: 3px 0px;
+    padding-left: 5px;
+    padding-bottom: 10px;
+    box-shadow: 1px 1px 1px 1px #aaaaaa;
+    z-index: 2;
+    position: absolute;
+    border-radius: 5px;
+    text-align: left;
+    right: 15px;
+}
+
+
+.header-notification-content {
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 20px;
+    height: 35px;
+    margin: 3px 5px;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    line-height: 35px;
+    color: #999999;
+    text-decoration: none;
+}
+
+.header-notification-content:hover {
+    cursor: pointer;
+}
+
+
+.notification-swing {
+    animation: swing ease-in-out 0.5s infinite alternate;
+}
+
+@keyframes swing {
+    0% { transform: rotate(30deg); }
+    100% { transform: rotate(-30deg); }
 }

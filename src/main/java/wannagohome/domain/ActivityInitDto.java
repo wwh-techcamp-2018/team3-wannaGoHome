@@ -11,5 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ActivityInitDto {
     private String topic;
-    private List<String> messages;
+    private List<ActivityDto> messages;
 }

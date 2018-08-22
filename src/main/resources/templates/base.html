@@ -44,13 +44,19 @@
 
             <div class="col-2 text-right">
                 <button class="header-button">1</button>
-                <button class="header-button">2</button>
+                <button class="header-button header-notification-button"><i class="fa fa-bell-o"></i></button>
                 <button class="header-button mr-1">3</button>
+                <ul class="header-notification-holder header-notification-hide">
+                    <li class="header-button-boardlist-title">
+                        <i class="fa fa-clock-o"></i> RECENT ACTIVITY
+                    </li>
+                </ul>
             </div>
         </div>
         <script type="text/javascript">
             {{precompile "precompile/header_team_template"}}
             {{precompile "precompile/header_board_template"}}
+            {{precompile "precompile/header_notification_template"}}
         </script>
     </header>
 

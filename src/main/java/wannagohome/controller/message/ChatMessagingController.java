@@ -27,7 +27,7 @@ public class ChatMessagingController {
                                           SimpMessageHeaderAccessor headerAccessor, ChatMessageDto chatMessageDto) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
         User currentUser = SessionUtil.getUserSession(session);
-        return chatMessageService.createMessage(boardId, chatMessageDto, currentUser).getChatMessageDto(currentUser);
+        return chatMessageService.createMessage(boardId, chatMessageDto, currentUser).getChatMessageDto();
     }
 
 

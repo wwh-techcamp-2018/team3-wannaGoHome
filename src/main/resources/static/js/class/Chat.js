@@ -1,6 +1,13 @@
 class Chat {
     constructor(chattingBar) {
 
+        this.handledIndexes = {};
+
+        this.messageList = [];
+
+        this.oldestMessageOrder = -1;
+        this.newestMessageOrder = null;
+
         this.init();
         this.addListeners();
         this.connectSocket();
@@ -12,8 +19,7 @@ class Chat {
         this.messageHolder = $_(".chatting-bar-message-holder");
         this.boardIndex = window.location.href.trim().split("/").pop();
 
-        this.oldestMessageOrder = -1;
-        this.newestMessageOrder = null;
+
     }
 
     addListeners() {
@@ -22,7 +28,6 @@ class Chat {
             const obj = {};
             obj.text = this.selector(".chatting-input-holder textarea").value.trim();
             this.selector(".chatting-input-holder textarea").value = "";
-            console.log(this.selector(".chatting-input-holder textarea").value.length);
             this.sendMessage(obj);
         }.bind(this));
 
@@ -94,11 +99,49 @@ class Chat {
 
     setOlderMessages(status, unsorted) {
         const result = unsorted.sort((a, b) => {
-            return a.messageOrder - b.messageOrder;
+            return b.messageOrder - a.messageOrder;
         });
-        const reference = this.selector(".message-holder:first-child");
+        let reference;
         for(const message of result) {
+            reference = this.selector(".message-holder:first-child");
             this.handleNewerMessage(message, reference);
+        }
+    }
+
+    handleMessage(message) {
+        if(this.handledIndexes[message.messageOrder]) {
+            return;
+        }
+        this.handledIndexes[message.messageOrder] = true;
+        const nextMessage = new Message(this, message);
+        if(this.messageList.length > 0) {
+            const beforeMessage = this.messageList[this.messageList.length - 1];
+            this.handleSiblingMessage(beforeMessage, nextMessage);
+        }
+        this.messageList.push(nextMessage);
+    }
+
+    handleNewerMessage(message, reference) {
+        if(this.handledIndexes[message.messageOrder]) {
+            return;
+        }
+        this.handledIndexes[message.messageOrder] = true;
+        const beforeMessage = new Message(this, message, reference);
+        if(this.messageList.length > 0) {
+            const nextMessage = this.messageList[0];
+            this.handleSiblingMessage(beforeMessage, nextMessage);
+        }
+        this.messageList.splice(0, 1, beforeMessage);
+    }
+
+    handleSiblingMessage(beforeMessage, nextMessage) {
+        if(nextMessage.equalsAuthor(beforeMessage)) {
+            nextMessage.hideAuthor();
+            if(nextMessage.equalsTime(beforeMessage)) {
+                beforeMessage.hideTime();
+            } else {
+                nextMessage.showAuthor();
+            }
         }
     }
 
@@ -117,38 +160,6 @@ class Chat {
         if(obj.text) {
             this.stompClient.send(`/app/message/board/${this.boardIndex}/chat`, {}, JSON.stringify(obj));
         }
-    }
-
-    createMessageElement(message) {
-        // author of message is current user
-        let messageTemplate;
-        if(message["author"]["id"] == this.userId) {
-            messageTemplate = Handlebars.templates["precompile/board/chat_message_right_template"];
-        } else {
-            messageTemplate = Handlebars.templates["precompile/board/chat_message_left_template"];
-        }
-        const newMessage = createElementFromHTML(messageTemplate(message));
-        return newMessage;
-    }
-
-    handleMessage(message) {
-        const newMessage = this.createMessageElement(message);
-        this.messageHolder.appendChild(newMessage);
-        this.messageHolder.scrollTop = this.messageHolder.scrollHeight;
-        this.newestMessageOrder = message.messageOrder;
-        if(this.oldestMessageOrder == -1) {
-            this.oldestMessageOrder = message.messageOrder;
-        }
-        this.oldestMessageOrder = Math.min(this.oldestMessageOrder, message.messageOrder);
-    }
-
-    handleNewerMessage(message, reference) {
-        const newMessage = this.createMessageElement(message);
-        this.messageHolder.insertBefore(newMessage, reference);
-        if(this.oldestMessageOrder == -1) {
-            this.oldestMessageOrder = message.messageOrder;
-        }
-        this.oldestMessageOrder = Math.min(this.oldestMessageOrder, message.messageOrder);
     }
 
     selector(nodeSelector) {

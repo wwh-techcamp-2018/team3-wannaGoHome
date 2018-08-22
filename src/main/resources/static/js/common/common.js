@@ -76,4 +76,17 @@ function pasteIntoInput(el, text) {
     }
 }
 
+function checkTime(value) {
+    return (value < 10) ? "0" + value : value;
+}
+
+function getFormattedTime(date) {
+    return date.getHours() + ":" + checkTime(date.getMinutes());
+}
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 

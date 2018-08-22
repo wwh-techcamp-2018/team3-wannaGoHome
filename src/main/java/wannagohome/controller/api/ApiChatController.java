@@ -32,12 +32,12 @@ public class ApiChatController {
     @GetMapping("/getRecent/{boardId}")
     public List<ChatMessageDto> getRecentMessages(@PathVariable Long boardId, @LoginUser User currentUser) {
         List<ChatMessage> messages = chatMessageService.getRecentMessagesFromBoard(boardService.findById(boardId));
-        return messages.stream().map(message -> message.getChatMessageDto(currentUser)).collect(Collectors.toList());
+        return messages.stream().map(message -> message.getChatMessageDto()).collect(Collectors.toList());
     }
 
     @GetMapping("/getRecent/{boardId}/before/{messageOrder}")
     public List<ChatMessageDto> getMessagesBefore(@PathVariable Long boardId, @PathVariable Long messageOrder, @LoginUser User currentUser) {
         List<ChatMessage> messages = chatMessageService.getRecentMessagesBefore(boardService.findById(boardId), messageOrder);
-        return messages.stream().map(message -> message.getChatMessageDto(currentUser)).collect(Collectors.toList());
+        return messages.stream().map(message -> message.getChatMessageDto()).collect(Collectors.toList());
     }
 }

@@ -41,7 +41,8 @@ public class ChatMessage {
     private Date messageCreated;
 
     @NotBlank
-    @Column(columnDefinition = "BLOB", nullable = false)
+    @Lob
+    @Column(nullable = false)
     private String text;
 
     public ChatMessage(ChatMessageDto chatMessageDto) {
@@ -62,11 +63,12 @@ public class ChatMessage {
     }
 
     @JsonIgnore
-    public ChatMessageDto getChatMessageDto(User currentUser) {
+    public ChatMessageDto getChatMessageDto() {
         ChatMessageDto messageDto = new ChatMessageDto();
         messageDto.setAuthor(author.getUserDto());
         messageDto.setMessageOrder(messageOrder);
         messageDto.setText(text);
+        messageDto.setMessageCreated(messageCreated);
 
         return messageDto;
     }

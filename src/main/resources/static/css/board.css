@@ -186,21 +186,43 @@ div {
     position: relative;
 
     padding-top: 6px;
-    padding: 6px 60px 6px 4px
+    padding: 4px 60px 4px 4px
+}
+
+.profile-header {
+    height: 24px;
 }
 
 .profile-image-holder {
     display: inline-block;
-
     font-size: 36px;
     line-height: 36px;
+
 }
 
 .message-holder-left .profile-name-holder {
     margin-left: 6px;
     display: inline-block;
-    vertical-align: bottom;
-    padding-bottom: 4px;
+    vertical-align: top;
+    color: #555;
+}
+
+.speech-bubble-holder {
+    position: relative;
+    display: inline-block;
+}
+
+.time-holder {
+    font-weight: lighter;
+    position: absolute;
+    display: inline-block;
+    width: 34px;
+    font-size: 0.7em;
+    color: #555;
+}
+
+.no-author {
+    padding-top: 0px !important;
 }
 
 .message-holder-left .speech-bubble-holder {
@@ -238,16 +260,23 @@ div {
     margin-left: -8px;
 }
 
+.message-holder-left .time-holder {
+    right: -38px;
+    bottom: 2px;
+    text-align: left;
+}
+
 .message-holder-right {
     position: relative;
-    padding: 6px 4px 6px 60px;
+    padding: 4px 4px 4px 60px;
+    text-align: right;
 }
 
 .message-holder-right .speech-bubble-holder {
     position: relative;
     width: auto;
     margin-right: 16px;
-    text-align: right;
+
 }
 
 .speech-bubble-right {
@@ -277,6 +306,12 @@ div {
     margin-right: -8px;
 }
 
+.message-holder-right .time-holder {
+    left: -38px;
+    bottom: 2px;
+    text-align: right;
+}
+
 .chatting-input-holder {
     padding-left: 12px;
     padding-right: 12px;
@@ -293,6 +328,7 @@ div {
     border: solid 1px #aaa;
     color: #333;
     line-height: 27px;
+    font-weight: normal;
     resize: none;
     white-space: nowrap;
     overflow: hidden;

@@ -10,18 +10,19 @@ import javax.persistence.ManyToOne;
 @Entity
 @DiscriminatorValue("TaskActivity")
 @NoArgsConstructor
-@AllArgsConstructor
 public class TaskActivity extends AbstractActivity {
 
     @ManyToOne
     private Task task;
 
-    public static TaskActivity valueOf(User source, Task task, ActivityType type) {
-        TaskActivity activity = new TaskActivity();
-        activity.source = source;
-        activity.task = task;
-        activity.type = type;
-        return activity;
+    private TaskActivity(User source, Task task, ActivityType activityType) {
+        this.source = source;
+        this.task = task;
+        this.type = activityType;
+    }
+
+    public static TaskActivity valueOf(User source, Task task, ActivityType activityType) {
+        return  new TaskActivity(source, task, activityType);
     }
 
     @Override
@@ -29,12 +30,13 @@ public class TaskActivity extends AbstractActivity {
         return new Object[]{this.task.getTitle()};
     }
 
+    @Override
     public Board getBoard() {
         return task.getBoard();
     }
 
     @Override
-    public String getTopicUrl() {
-        return "/topic/activity/board/" + getBoard().getId();
+    public Team getTeam() {
+        return task.getBoard().getTeam();
     }
 }

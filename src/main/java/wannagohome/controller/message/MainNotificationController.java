@@ -21,6 +21,7 @@ public class MainNotificationController {
     @MessageMapping("/activity/init")
     @SendTo("/topic/activity/init")
     public ActivityInitDto initNotification(SimpMessageHeaderAccessor headerAccessor) {
+        log.debug("initNotification is called");
         return notificationService.initNotification(SessionUtil.getUserSession(headerAccessor));
     }
 }

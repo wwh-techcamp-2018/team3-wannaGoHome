@@ -1,11 +1,15 @@
 package wannagohome.service;
 
+import org.apache.catalina.core.ApplicationPushBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
+import wannagohome.event.BoardEvent;
+import wannagohome.event.TeamEvent;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.TeamRepository;
@@ -24,18 +28,20 @@ public class TeamService {
     @Autowired
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
     @Transactional
     @Caching(
             evict = {
-                    @CacheEvict(value = "boardSummary",key= "#user.id"),
-                    @CacheEvict(value = "recentlyViewBoard",key= "#user.id"),
-                    @CacheEvict(value = "teamsByUser", key="#user.id"),
-                    @CacheEvict(value = "createBoardInfo", allEntries = true),
-                    @CacheEvict(value = "generateTopics", key = "#user.id")
+                    @CacheEvict(value = "boardSummary", key = "#user.id"),
+                    @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
+                    @CacheEvict(value = "teamsByUser", key = "#user.id"),
+                    @CacheEvict(value = "createBoardInfo", allEntries = true)
             }
     )
     public BoardOfTeamDto create(Team team, User user) {
-        if(teamRepository.findByName(team.getName()).isPresent()) {
+        if (teamRepository.findByName(team.getName()).isPresent()) {
             throw new DuplicationException(ErrorType.TEAM_NAME, "이미 같은 이름의 팀이 존재합니다.");
         }
         Team newTeam = teamRepository.save(team);
@@ -44,16 +50,16 @@ public class TeamService {
     }
 
     private UserIncludedInTeam createRelation(User user, Team team, UserPermission userPermission) {
-       return new UserIncludedInTeam(user, team, userPermission);
+        return new UserIncludedInTeam(user, team, userPermission);
     }
 
-    @Cacheable(value = "teamById",key= "#id")
+    @Cacheable(value = "teamById", key = "#id")
     public Team findTeamById(Long id) {
         return teamRepository.findByIdAndDeletedFalse(id)
-        .orElseThrow(() -> new NotFoundException(ErrorType.TEAM_NAME, "Team이 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundException(ErrorType.TEAM_NAME, "Team이 존재하지 않습니다."));
     }
 
-    @Cacheable(value = "teamsByUser", key="#user.id")
+    @Cacheable(value = "teamsByUser", key = "#user.id")
     public List<Team> findTeamsByUser(User user) {
         List<Team> teams = new ArrayList<>();
         userIncludedInTeamRepository.findAllByUser(user)

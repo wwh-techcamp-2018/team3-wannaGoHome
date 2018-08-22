@@ -10,10 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActivityInitDto {
-
-    private List<String> topics;
-
+    private String topic;
     private List<String> messages;
-
-    private String code;
 }

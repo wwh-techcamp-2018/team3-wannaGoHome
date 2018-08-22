@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
 import wannagohome.event.BoardEvent;
+import wannagohome.event.TeamEvent;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.*;
@@ -59,8 +60,7 @@ public class BoardService {
     @Caching(
             evict = {
                     @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
-                    @CacheEvict(value = "boardSummary", key = "#user.id"),
-                    @CacheEvict(value = "generateTopics", key = "#user.id"),
+                    @CacheEvict(value = "boardSummary", key = "#user.id")
             }
     )
     @Transactional
@@ -91,6 +91,8 @@ public class BoardService {
         Board board = findById(boardId);
         newTask.setBoard(board);
         board.addTask(newTask);
+        TaskActivity taskActivity = TaskActivity.valueOf(newTask.getAuthor(), newTask, ActivityType.TASK_CREATE);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, taskActivity));
         return boardRepository.save(board);
     }
 
@@ -124,29 +126,33 @@ public class BoardService {
     @Caching(
             evict = {
                     @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
-                    @CacheEvict(value = "boardSummary", key = "#user.id"),
+                    @CacheEvict(value = "boardSummary", allEntries = true),
             }
     )
     @Transactional
-    @CacheEvict(value = "generateTopics", key = "#user.id")
     public Board createBoard(User user, CreateBoardDto createBoardDTO) {
+        Team team = teamService.findTeamById(createBoardDTO.getTeamId());
         Board board = Board.builder()
-                .team(teamService.findTeamById(createBoardDTO.getTeamId()))
+                .team(team)
                 .title(createBoardDTO.getTitle())
                 .color(Color.of(createBoardDTO.getColor()))
                 .build();
         board = boardRepository.save(board);
         saveUserIncludedInBoard(user, board, UserPermission.ADMIN);
-        applicationEventPublisher.publishEvent(new BoardEvent(this, user, board, ActivityType.BOARD_CREATE));
+        BoardActivity boardActivity = BoardActivity.valueOf(user, board, ActivityType.BOARD_CREATE);
+        applicationEventPublisher.publishEvent(new TeamEvent(this, boardActivity));
         return board;
     }
 
     public UserIncludedInBoard saveUserIncludedInBoard(User user, Board board, UserPermission permission) {
         Optional<UserIncludedInBoard> maybeUserIncludedInBoard =
                 userIncludedInBoardRepository.findByUserAndBoard(user,board);
-        if(maybeUserIncludedInBoard.isPresent())
+        if(maybeUserIncludedInBoard.isPresent()) {
             return maybeUserIncludedInBoard.get();
+        }
 
+        BoardActivity boardActivity = BoardActivity.valueOf(user, board, ActivityType.BOARD_MEMBER_ADD);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, boardActivity));
         return userIncludedInBoardRepository.save(
                 UserIncludedInBoard.builder()
                 .user(user)

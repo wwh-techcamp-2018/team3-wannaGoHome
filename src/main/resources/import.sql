@@ -28,6 +28,7 @@ INSERT INTO user_included_in_board(id,permission,board_id,user_id)VALUES(4,'ADMI
 
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(1,'ADMIN',1,3);
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(2,'ADMIN',2,3);
+INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(3,'ADMIN',1,1);
 
-INSERT INTO abstract_activity(activity_type,type,receiver_id,board_id) VALUES('BoardActivity', 'BOARD_CREATE', 3 , 1);
+INSERT INTO abstract_activity(activity_type,type,source_id,receiver_id,board_id) VALUES('BoardActivity', 'BOARD_CREATE', 3, 3 , 1);
 

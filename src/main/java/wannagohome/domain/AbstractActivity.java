@@ -10,12 +10,7 @@ import java.util.Date;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "activityType")
-public abstract class AbstractActivity implements Activity, Comparable<AbstractActivity> {
-
-    public static final String TEAM_ACTIVITY = "TeamActivity";
-    public static final String BOARD_ACTIVITY = "BoardActivity";
-    public static final String TASK_ACTIVITY = "TaskActivity";
-    public static final String CARD_ACTIVITY = "CardActivity";
+public abstract class AbstractActivity implements Activity, Comparable<AbstractActivity>, Cloneable {
 
     @Setter
     @Id
@@ -23,6 +18,7 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
     protected Long id;
 
     @Setter
+    @Getter
     @ManyToOne
     protected User receiver;
 
@@ -39,6 +35,9 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
     @Column(nullable = false)
     protected ActivityType type;
 
+    abstract public Board getBoard();
+
+    abstract public Team getTeam();
 
     @Column(nullable = false, insertable = false, updatable = false)
     private String activityType;
@@ -52,10 +51,16 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
         return type.getCode();
     }
 
-    abstract public String getTopicUrl();
+    public Object clone() {
+        Object objReturn;
+        try {
+            objReturn = super.clone();
+            return objReturn;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException();
+        }
 
-    public String getSubscribeTopicUrl() {
-        return "";
     }
+
 
 }

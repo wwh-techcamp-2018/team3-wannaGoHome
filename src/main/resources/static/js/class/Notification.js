@@ -5,23 +5,21 @@ class Notification {
 
         this.client.connect({}, (frame) => {
             this.client.subscribe("/topic/activity/init", (frame) => {
-                const {code, topics, messages} = JSON.parse(frame.body);
-                this.initSubscription(code, topics);
+                const {topic, messages} = JSON.parse(frame.body);
+                this.initSubscription(topic);
             });
 
             this.client.send("/app/activity/init");
         })
     }
 
-    initSubscription(code, topics) {
-        topics.forEach((topic) => {
-            this.client.subscribe(topic, (message) => {
-                console.log(message);
-            })
-        });
+    initSubscription(topic) {
+        this.subscribeTopic("/topic/user/" + topic, (body)=> {console.log(body)});
+    }
 
-        this.client.subscribe("/topic/user/" + code, (message) => {
-            console.log(message);
+    subscribeTopic(topic, callback) {
+        this.client.subscribe(topic, (frame) => {
+            callback(JSON.parse(frame.body));
         });
     }
 }

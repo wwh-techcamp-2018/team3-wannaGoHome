@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,21 +31,22 @@ public class CardActivity extends AbstractActivity {
         };
     }
 
-    public static CardActivity valueOf(User user, Card card, ActivityType type, User target) {
-        CardActivity cardActivity = new CardActivity();
-        cardActivity.source = user;
-        cardActivity.card = card;
-        cardActivity.type = type;
-        cardActivity.target = target;
-        return cardActivity;
+    @Builder
+    public CardActivity(User source, Card card, ActivityType activityType, User target) {
+        this.source = source;
+        this.card = card;
+        this.type = activityType;
+        this.target = target;
     }
 
+    @Override
     public Board getBoard() {
         return card.getTask().getBoard();
     }
 
     @Override
-    public String getTopicUrl() {
-        return "/topic/activity/board/" + getBoard().getId();
+    public Team getTeam() {
+        return card.getTask().getBoard().getTeam();
     }
+
 }

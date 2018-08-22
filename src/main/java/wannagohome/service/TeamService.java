@@ -30,7 +30,8 @@ public class TeamService {
                     @CacheEvict(value = "boardSummary",key= "#user.id"),
                     @CacheEvict(value = "recentlyViewBoard",key= "#user.id"),
                     @CacheEvict(value = "teamsByUser", key="#user.id"),
-                    @CacheEvict(value = "createBoardInfo", allEntries = true)
+                    @CacheEvict(value = "createBoardInfo", allEntries = true),
+                    @CacheEvict(value = "generateTopics", key = "#user.id")
             }
     )
     public BoardOfTeamDto create(Team team, User user) {

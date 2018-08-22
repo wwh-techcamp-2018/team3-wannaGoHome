@@ -5,10 +5,11 @@ import wannagohome.domain.Board;
 import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInBoard;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserIncludedInBoardRepository extends CrudRepository<UserIncludedInBoard, Long> {
-    void deleteByBoard(Board board);
+    List<UserIncludedInBoard> findAllByUser(User user);
 
     Optional<UserIncludedInBoard> findByUserAndBoard(User user, Board board);
 }

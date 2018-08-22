@@ -60,9 +60,9 @@ public class BoardService {
             evict = {
                     @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
                     @CacheEvict(value = "boardSummary", key = "#user.id"),
+                    @CacheEvict(value = "generateTopics", key = "#user.id"),
             }
     )
-
     @Transactional
     public Board viewBoard(Long boardId, User user) {
         Board board = findById(boardId);
@@ -128,6 +128,7 @@ public class BoardService {
             }
     )
     @Transactional
+    @CacheEvict(value = "generateTopics", key = "#user.id")
     public Board createBoard(User user, CreateBoardDto createBoardDTO) {
         Board board = Board.builder()
                 .team(teamService.findTeamById(createBoardDTO.getTeamId()))

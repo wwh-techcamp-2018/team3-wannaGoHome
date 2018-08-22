@@ -10,5 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActivityDto {
-    private List<String> activityMessages;
+
+    private List<String> topics;
+
+    private List<String> messages;
 }

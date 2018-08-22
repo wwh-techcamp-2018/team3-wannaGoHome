@@ -1,18 +1,21 @@
 package wannagohome.component;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import java.util.Iterator;
+
 @Component
 public class WebSocketEventListener {
-
-    @Autowired
-    private SimpMessageSendingOperations messagingTemplate;
+    private static final Logger log = LoggerFactory.getLogger(WebSocketEventListener.class);
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
@@ -21,6 +24,10 @@ public class WebSocketEventListener {
         System.out.println(event.getMessage().getHeaders().get("simpSessionId"));
         System.out.println(event.getMessage().getHeaders().get("simpMessageType"));
 
+        MessageHeaders headers = event.getMessage().getHeaders();
+        for (Object o : headers.keySet()) {
+            log.debug("key: {}, value: {}", o, headers.get(o));
+        }
     }
 
     @EventListener

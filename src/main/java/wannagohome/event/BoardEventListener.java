@@ -4,8 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Component;
-import wannagohome.domain.Activity;
+import wannagohome.component.ActivityMessageGenerator;
 import wannagohome.domain.BoardActivity;
 import wannagohome.domain.UserIncludedInTeam;
 import wannagohome.repository.ActivityRepository;
@@ -24,13 +25,17 @@ public class BoardEventListener implements ApplicationListener<BoardEvent> {
     @Autowired
     private ActivityRepository activityRepository;
 
+    @Autowired
+    private ActivityMessageGenerator activityMessageGenerator;
+
+    @Autowired
+    private SimpMessageSendingOperations simpMessageSendingOperations;
+
     private static final Logger log = LoggerFactory.getLogger(BoardEventListener.class);
 
     @Override
     public void onApplicationEvent(BoardEvent event) {
-        // TODO: 2018. 8. 21. AbstractActivity DB  저장
         BoardActivity activity = event.getActivity();
-        BoardActivity saveActivity;
         userIncludedInTeamRepository.findAllByTeam(activity.getBoard().getTeam())
                 .forEach(userIncludedInTeam -> handleEvent(activity, userIncludedInTeam));
     }
@@ -47,6 +52,6 @@ public class BoardEventListener implements ApplicationListener<BoardEvent> {
     }
 
     private void sendMessage(BoardActivity activity) {
-        // TODO: 2018. 8. 21. 웹 소켓 전송
+        simpMessageSendingOperations.convertAndSend("/topic/activity/team/" + activity.getBoard().getTeam().getId(), activityMessageGenerator.generateMessage(activity));
     }
 }

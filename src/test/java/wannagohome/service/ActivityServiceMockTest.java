@@ -26,6 +26,7 @@ public class ActivityServiceMockTest {
 
     private User user;
     private Team team;
+    private Board board;
     private List<Board> boards;
 
     @Before
@@ -43,6 +44,8 @@ public class ActivityServiceMockTest {
                 .password("password1")
                 .build();
 
+        board = Board.builder().id(5L).title("one board").team(team).build();
+
         boards = Arrays.asList(
                 Board.builder().id(1L).title("one board").team(team).build(),
                 Board.builder().id(2L).title("two board").team(team).build(),
@@ -54,9 +57,7 @@ public class ActivityServiceMockTest {
 
     @Test
     public void create() {
-        BoardActivity activity = BoardActivity.builder()
-                .board(boards.get(0))
-                .build();
+        BoardActivity activity = BoardActivity.valueOf(user, board, ActivityType.BOARD_CREATE);
         when(activityRepository.save(activity)).thenReturn(activity);
         activityService.create(activity);
         verify(activityRepository, times(1)).save(any());

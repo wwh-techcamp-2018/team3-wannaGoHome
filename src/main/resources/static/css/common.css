@@ -40,3 +40,10 @@ button:focus {
     outline: none!important;
     border: none;
 }
+
+.header-button {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    line-height: 35px;
+}

@@ -238,7 +238,7 @@ div {
     max-width: 100%;
     word-wrap:break-word;
     background-color: #97acbf;
-    border-radius: 10px;
+    border-radius: 6px;
     padding: 4px 12px 4px 12px;
 
     color: #000;
@@ -285,7 +285,7 @@ div {
     max-width: 100%;
     word-wrap:break-word;
     background-color: #0079bf;
-    border-radius: 10px;
+    border-radius: 6px;
     padding: 4px 12px 4px 12px;
 
     color: #FFF;

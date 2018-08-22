@@ -210,6 +210,7 @@ div {
 
 .speech-bubble-holder {
     position: relative;
+    max-width: 100%;
     display: inline-block;
 }
 
@@ -232,14 +233,13 @@ div {
 
 .message-holder-left .speech-bubble-holder {
     margin-left: 40px;
-    width: auto;
+    padding-right: 20px;
     position: relative;
     text-align: left;
 }
 
 .speech-bubble-left {
     display: inline-block;
-
     max-width: 100%;
     word-wrap:break-word;
     background-color: #97acbf;
@@ -266,21 +266,22 @@ div {
 }
 
 .message-holder-left .time-holder {
-    right: -38px;
+    right: -18px;
     bottom: 2px;
     text-align: left;
 }
 
 .message-holder-right {
     position: relative;
-    padding: 4px 4px 4px 60px;
+    padding: 4px 18px 4px 60px;
+    overflow: hidden;
     text-align: right;
 }
 
 .message-holder-right .speech-bubble-holder {
     position: relative;
-    width: auto;
-    margin-right: 16px;
+    max-width: 100%;
+
 
 }
 
@@ -349,4 +350,26 @@ div {
     height: 31px;
     border-radius: 3px;
     border: none;
+}
+
+.chatting-bar-closer {
+    position: fixed;
+    top: 45px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
+    background-color: #e2e4e6;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #8c8c8c;
+    text-align: center;
+    line-height: 40px;
+    font-size: 30px;
+    color: #3F3F3F;
+    box-shadow: -2px 2px 8px -4px #3F3F3F;
+}
+
+.chatting-bar-closer:hover {
+    cursor: pointer;
 }

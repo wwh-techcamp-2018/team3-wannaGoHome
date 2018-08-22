@@ -19,7 +19,6 @@ class Chat {
         this.messageHolder = $_(".chatting-bar-message-holder");
         this.boardIndex = window.location.href.trim().split("/").pop();
 
-
     }
 
     addListeners() {

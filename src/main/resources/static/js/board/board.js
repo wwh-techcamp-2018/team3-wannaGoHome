@@ -17,6 +17,21 @@ document.addEventListener("DOMContentLoaded", function(evt) {
         $_(".chatting-bar-message-holder").style.height = chattingBarHeight - chattingBarTitleHeight - chattingInputHolderHeight - 36 + "px";
     });
 
+    $_(".chatting-bar-closer").addEventListener("click", function(evt) {
+       console.log("Close!");
+       const icon = evt.currentTarget.querySelector("i");
+        if(icon.classList.contains("fa-comment-dots")) {
+            $_(".chatting-bar").style.width = "320px";
+        } else {
+            $_(".chatting-bar").style.width = "0px";
+
+        }
+
+        icon.classList.toggle("fa-comment-dots");
+        icon.classList.toggle("fa-angle-right");
+        window.dispatchEvent(new Event("resize"));
+    });
+
     window.dispatchEvent(new Event("resize"));
 
 });

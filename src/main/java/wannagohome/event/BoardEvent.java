@@ -13,7 +13,4 @@ public class BoardEvent extends ApplicationEvent {
         super(object);
         this.activity = BoardActivity.valueOf(source, board, activityType);
     }
-
-
-
 }

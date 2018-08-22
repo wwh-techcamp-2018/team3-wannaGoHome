@@ -34,4 +34,8 @@ public class BoardActivity extends AbstractActivity {
         activity.type = activityType;
         return activity;
     }
+
+    public Team getTeam() {
+        return board.getTeam();
+    }
 }

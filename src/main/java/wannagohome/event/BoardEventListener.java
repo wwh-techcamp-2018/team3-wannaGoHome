@@ -8,6 +8,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Component;
 import wannagohome.component.ActivityMessageGenerator;
 import wannagohome.domain.BoardActivity;
+import wannagohome.domain.User;
 import wannagohome.domain.UserIncludedInTeam;
 import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.UserIncludedInBoardRepository;
@@ -16,7 +17,7 @@ import wannagohome.repository.UserIncludedInTeamRepository;
 @Component
 public class BoardEventListener implements ApplicationListener<BoardEvent> {
 
-    @Autowired
+    @Autowiredgit
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
 
     @Autowired
@@ -36,12 +37,12 @@ public class BoardEventListener implements ApplicationListener<BoardEvent> {
     @Override
     public void onApplicationEvent(BoardEvent event) {
         BoardActivity activity = event.getActivity();
-        userIncludedInTeamRepository.findAllByTeam(activity.getBoard().getTeam())
-                .forEach(userIncludedInTeam -> handleEvent(activity, userIncludedInTeam));
+        userIncludedInTeamRepository.findAllByTeam(activity.getTeam())
+                .forEach(userIncludedInTeam -> handleEvent(activity, userIncludedInTeam.getUser()));
     }
 
-    private void handleEvent(BoardActivity activity, UserIncludedInTeam userIncludedInTeam) {
-        activity.setReceiver(userIncludedInTeam.getUser());
+    private void handleEvent(BoardActivity activity, User user) {
+        activity.setReceiver(user);
         saveActivity(activity);
         sendMessage(activity);
     }

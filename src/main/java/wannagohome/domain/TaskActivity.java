@@ -16,6 +16,14 @@ public class TaskActivity extends AbstractActivity {
     @ManyToOne
     private Task task;
 
+    public static TaskActivity valueOf(User source, Task task, ActivityType type) {
+        TaskActivity activity = new TaskActivity();
+        activity.source = source;
+        activity.task = task;
+        activity.type = type;
+        return activity;
+    }
+
     @Override
     public Object[] getArguments() {
         return new Object[]{this.task.getTitle()};

@@ -21,6 +21,15 @@ public class TeamActivity extends AbstractActivity {
     @Enumerated(EnumType.STRING)
     private UserPermission permission;
 
+    public static TeamActivity valueOf(User source, Team team, ActivityType type, User target) {
+        TeamActivity activity = new TeamActivity();
+        activity.source = source;
+        activity.team = team;
+        activity.type = type;
+        activity.target = target;
+        return activity;
+    }
+
     @Override
     public Object[] getArguments() {
         return new Object[]{

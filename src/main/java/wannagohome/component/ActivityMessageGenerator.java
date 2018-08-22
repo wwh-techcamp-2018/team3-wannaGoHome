@@ -15,10 +15,9 @@ public class ActivityMessageGenerator {
     @Resource(name = "activityMessageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
 
-
     public List<String> generateMessages(List<? extends AbstractActivity> activities) {
         return activities.stream()
-                .map(activity -> generateMessage(activity))
+                .map(this::generateMessage)
                 .collect(Collectors.toList());
     }
 

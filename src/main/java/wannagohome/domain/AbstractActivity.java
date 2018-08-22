@@ -59,8 +59,5 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException();
         }
-
     }
-
-
 }

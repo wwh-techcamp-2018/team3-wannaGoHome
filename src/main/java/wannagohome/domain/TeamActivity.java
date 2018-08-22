@@ -1,7 +1,5 @@
 package wannagohome.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,7 +38,6 @@ public class TeamActivity extends AbstractActivity {
         return new TeamActivity(source, team, activityType, null, null);
     }
 
-
     @Override
     public Object[] getArguments() {
         return new Object[]{
@@ -51,7 +48,6 @@ public class TeamActivity extends AbstractActivity {
         };
     }
 
-
     @Override
     public Board getBoard() {
         throw new UnsupportedOperationException();
@@ -61,5 +57,4 @@ public class TeamActivity extends AbstractActivity {
     public Team getTeam() {
         return team;
     }
-
 }

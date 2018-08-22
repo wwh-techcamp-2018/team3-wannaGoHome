@@ -21,38 +21,33 @@ public class AES256Encoder implements PasswordEncoder {
         this.iv = key.substring(0, 16);
         byte[] keyBytes = new byte[16];
         byte[] b = key.getBytes("UTF-8");
-        int len = b.length;
-        if (len > keyBytes.length) {
-            len = keyBytes.length;
+        int length = b.length;
+        if (length > keyBytes.length) {
+            length = keyBytes.length;
         }
-        System.arraycopy(b, 0, keyBytes, 0, len);
-        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
-
-        this.keySpec = keySpec;
+        System.arraycopy(b, 0, keyBytes, 0, length);
+        this.keySpec = new SecretKeySpec(keyBytes, "AES");
     }
 
     private String encrypt(String str) throws NoSuchAlgorithmException, GeneralSecurityException, UnsupportedEncodingException {
-        Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        c.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
-        byte[] encrypted = c.doFinal(str.getBytes("UTF-8"));
-        String enStr = new String(Base64.encodeBase64(encrypted));
-        return enStr;
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
+        byte[] encrypted = cipher.doFinal(str.getBytes("UTF-8"));
+        return new String(Base64.encodeBase64(encrypted));
     }
 
-    private String decrypt(String str) throws NoSuchAlgorithmException, GeneralSecurityException, UnsupportedEncodingException {
-        Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        c.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
+    private String decrypt(String str) throws GeneralSecurityException, UnsupportedEncodingException {
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
         byte[] byteStr = Base64.decodeBase64(str.getBytes());
-        return new String(c.doFinal(byteStr), "UTF-8");
+        return new String(cipher.doFinal(byteStr), "UTF-8");
     }
 
     @Override
     public String encode(CharSequence rawPassword) {
         try {
             return encrypt(rawPassword.toString());
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException();
-        } catch (UnsupportedEncodingException e) {
+        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
             throw new RuntimeException();
         }
     }
@@ -61,9 +56,7 @@ public class AES256Encoder implements PasswordEncoder {
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         try {
             return decrypt(encodedPassword).equals(rawPassword.toString());
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException();
-        } catch (UnsupportedEncodingException e) {
+        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
             throw new RuntimeException();
         }
     }

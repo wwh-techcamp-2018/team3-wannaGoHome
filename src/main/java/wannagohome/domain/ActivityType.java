@@ -2,7 +2,6 @@ package wannagohome.domain;
 
 public enum ActivityType {
 
-
     BOARD_CREATE("Board.Create"),
     BOARD_UPDATE("Board.Update"),
     BOARD_DELETE("Board.Delete"),
@@ -25,7 +24,6 @@ public enum ActivityType {
     ActivityType(String code) {
         this.code = code;
     }
-
 
     public String getCode() {
         return code;

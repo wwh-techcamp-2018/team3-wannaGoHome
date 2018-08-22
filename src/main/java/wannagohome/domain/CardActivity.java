@@ -22,6 +22,16 @@ public class CardActivity extends AbstractActivity {
     @ManyToOne
     private User target;
 
+    private CardActivity(User source, Card card, ActivityType activityType, User target) {
+        this.source = source;
+        this.card = card;
+        this.type = activityType;
+        this.target = target;
+    }
+
+    public static CardActivity valueOf(User source, Card card, ActivityType activityType, User target) {
+        return new CardActivity(source, card, activityType, target);
+    }
 
     @Override
     public Object[] getArguments() {
@@ -29,14 +39,6 @@ public class CardActivity extends AbstractActivity {
                 card.getTitle(),
                 target.getName()
         };
-    }
-
-    @Builder
-    public CardActivity(User source, Card card, ActivityType activityType, User target) {
-        this.source = source;
-        this.card = card;
-        this.type = activityType;
-        this.target = target;
     }
 
     @Override

@@ -13,8 +13,6 @@ import wannagohome.repository.UserIncludedInTeamRepository;
 @Component
 public class BoardEventListener implements ApplicationListener<BoardEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(BoardEventListener.class);
-
     @Autowired
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
 

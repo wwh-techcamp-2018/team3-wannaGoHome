@@ -75,7 +75,6 @@ public class AppConfig implements WebMvcConfigurer {
         return new MessageSourceAccessor(activityMessageSource());
     }
 
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(loginUserArgumentResolver());
@@ -123,5 +122,4 @@ public class AppConfig implements WebMvcConfigurer {
             registry.addInterceptor(basicAuthInterceptor()).order(0);
         }
     }
-
 }

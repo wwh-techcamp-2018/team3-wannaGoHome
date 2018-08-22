@@ -57,6 +57,7 @@ div {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    line-height: 16px;
 }
 
 .add-list-button:hover {
@@ -223,6 +224,10 @@ div {
 
 .no-author {
     padding-top: 0px !important;
+}
+
+.speech-bubble-text {
+    text-align: left;
 }
 
 .message-holder-left .speech-bubble-holder {

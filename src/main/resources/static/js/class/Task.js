@@ -1,3 +1,4 @@
+//task.js
 class Task {
     constructor(board, taskObject) {
         this.board = board;
@@ -10,7 +11,7 @@ class Task {
         this.task = null;
 
         // placeholder for card list
-        this.cards = [];
+        this.cardList = [];
 
         this.taskContainer = null;
 
@@ -29,6 +30,11 @@ class Task {
         this.taskContainer = newTask;
         this.task = newTask.querySelector(".task-list-content");
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
+        this.taskTitle = this.task.querySelector(".task-list-title");
+        this.addCardButton = this.task.querySelector(".add-card-button");
+        this.boardIndex = window.location.href.trim().split("/").pop();
+        this.cardWrapper = this.task.querySelector(".new-card-wrapper");
+        // this.taskIndex = this.taskObject.id;
     }
 
     remove() {
@@ -38,7 +44,42 @@ class Task {
 
     addListeners() {
 
-        this.task.querySelector(".task-list-title").addEventListener("mousedown", function(evt) {
+        document.addEventListener("click", (evt)=>{
+            this.addCardButton.style.display = 'block';
+            this.cardWrapper.style.display = 'none';
+        });
+        this.cardWrapper.addEventListener("click", (evt)=>{
+            evt.stopPropagation();
+        })
+        this.addCardButton.addEventListener("click", (evt)=>{
+            evt.stopPropagation();
+            this.addCardButton.style.display = 'none';
+            this.cardWrapper.style.display = 'block';
+            this.cardWrapper.querySelector(".new-card-title").value = "";
+            this.cardWrapper.querySelector(".new-card-title").focus();
+        });
+
+        this.cardWrapper.querySelector("i").addEventListener("click", (evt)=>{
+            this.addCardButton.style.display = 'block';
+            this.cardWrapper.style.display = 'none';
+        });
+
+
+        this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt)=>{
+            const obj = {};
+            obj.title = this.cardWrapper.querySelector(".new-card-title").value;
+            // obj.taskId = this.taskObject.id;
+            // obj.boardId = this.boardIndex;
+            obj.createDate = new Date();
+            // obj.description = "";
+            // obj.endDate = null;
+            this.cardWrapper.style.display = 'none';
+            this.addCardButton.style.display = 'block';
+            this.cardWrapper.querySelector(".new-card-title").value = "";
+            this.addCard(obj);
+        });
+
+        this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
             this.moving = true;
 
             this.board.startDrag.x = evt.clientX;
@@ -52,7 +93,7 @@ class Task {
     incrementContainerWidth() {
         const currentHeight = this.board.container.style.width.trim();
         const rect = this.getBoundingRect(this.board.selector(".add-list-button"));
-        if(!currentHeight) {
+        if (!currentHeight) {
             this.board.container.style.width = (rect.right - rect.left + 6) * 2 + "px";
         } else {
             this.board.container.style.width = parseInt(currentHeight.substring(0, currentHeight.length - 2)) + (rect.right - rect.left + 6) + "px";
@@ -68,7 +109,7 @@ class Task {
         obj.title = this.title;
 
         // need to implement later
-        obj.cards = this.cards;
+        obj.cards = this.cardList;
         obj.deleted = false;
         return obj;
     }
@@ -98,8 +139,8 @@ class Task {
 
         this.task.classList.toggle("task-list-dragging");
 
-        for(let i = 0; i < this.board.taskList.length; ++i) {
-            if(this.board.taskList[i] == this) {
+        for (let i = 0; i < this.board.taskList.length; ++i) {
+            if (this.board.taskList[i] == this) {
                 this.originIndex = this.taskObject.id;
                 break;
             }
@@ -107,7 +148,7 @@ class Task {
     }
 
     moveTaskPosition(evt) {
-        if(!this.moving) return;
+        if (!this.moving) return;
 
         const rect = this.getBoundingRect(this.task);
         const centerX = (rect.left + rect.right) / 2;
@@ -116,19 +157,19 @@ class Task {
         let thisTaskIndex = -1;
         let destTaskIndex = -1;
         let i = 0;
-        for(const task of this.board.taskList) {
+        for (const task of this.board.taskList) {
             const insideBound = task.isInsideBound.call(task, centerX, this);
-            if(insideBound) {
+            if (insideBound) {
                 destTaskIndex = i;
             }
-            if(this == task) {
+            if (this == task) {
                 thisTaskIndex = i;
             }
             i++;
         }
 
-        if(destTaskIndex !== -1) {
-            if(thisTaskIndex > destTaskIndex) {
+        if (destTaskIndex !== -1) {
+            if (thisTaskIndex > destTaskIndex) {
                 this.board.taskList[destTaskIndex].handleInsideBound.call(this.board.taskList[destTaskIndex], centerX, this, true);
                 this.board.taskList.splice(thisTaskIndex, 1);
                 this.board.taskList.splice(destTaskIndex, 0, this);
@@ -148,7 +189,7 @@ class Task {
     }
 
     unsetDraggable() {
-        if(!this.moving) return;
+        if (!this.moving) return;
 
         this.task.style.position = "static";
         this.task.style.left = "0px";
@@ -180,26 +221,49 @@ class Task {
 
     handleInsideBound(x, task, prev) {
         const rect = this.getBoundingRect(this.taskWrapper);
-        if(rect.left < x && rect.right > x && (this != task)) {
+        if (rect.left < x && rect.right > x && (this != task)) {
 
             const newRect = this.getBoundingRect(this.taskContainer);
             const originRect = task.getBoundingRect(task.taskWrapper);
 
             this.board.startDrag.x = this.board.startDrag.x + (newRect.left - originRect.left);
 
-            if(prev) {
+            if (prev) {
                 this.board.container.insertBefore(task.taskContainer, this.taskContainer);
             } else {
                 this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);
             }
-
         }
+    }
 
+    selector(nodeSelector) {
+        return this.taskContainer.querySelector(nodeSelector);
+    }
+
+    insertCardNode(card) {
+        this.selector(".card-list-wrapper").appendChild(card.cardHolder);
+    }
+
+    setOverflow(value) {
+        this.task.style.overflow = value;
     }
 
     // top right bottom left
     getBoundingRect(element) {
         const rect = element.getBoundingClientRect();
         return rect;
+    }
+
+    addCard(obj) {
+        this.board.stompClient.send(`/app/message/add/${this.boardIndex}/${this.taskObject.id}/card`, {}, JSON.stringify(obj));
+    }
+
+    reorderCard(originId, destIndex) {
+        console.log(this.taskObject.id, originId, destIndex);
+        const obj = {
+            originId: originId,
+            destinationIndex: destIndex
+        };
+        this.board.stompClient.send(`/app/message/reorder/${this.boardIndex}/${this.taskObject.id}/card`, {}, JSON.stringify(obj));
     }
 }

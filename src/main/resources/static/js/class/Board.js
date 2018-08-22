@@ -1,6 +1,7 @@
 class Board {
     constructor() {
         this.taskList = [];
+        this.cardList = [];
         this.stompClient = null;
 
         // placeholder to hold mousedown coords
@@ -76,18 +77,31 @@ class Board {
         this.dragEndCallBack = function(evt) {};
     }
 
-    setBoardTasks(tasks) {
+    setBoard(tasks) {
         while(this.taskList.length) {
             const task = this.taskList[0];
             task.remove();
             this.taskList.splice(0, 1);
         }
 
+        while(this.cardList.length) {
+            const card = this.cardList[0];
+            card.remove();
+            this.cardList.splice(0, 1);
+        }
+
         this.container.style.width = "300px";
         for(const task of tasks) {
-            this.taskList.push(new Task(this, task));
+            const taskObject = new Task(this, task);
+            this.taskList.push(taskObject);
+            for(const card of task.cards) {
+                const newCard = new Card(card, taskObject, this);
+                taskObject.cardList.push(newCard);
+                this.cardList.push(newCard);
+            }
         }
     }
+
 
     updateBoardState() {
         const obj = {};
@@ -106,14 +120,15 @@ class Board {
     connectSocket() {
         const socket = new SockJS('/websocket');
         this.stompClient = Stomp.over(socket);
-        // this.stompClient.debug = null;
+        this.stompClient.debug = null;
         this.stompClient.connect({}, function(frame) {
             this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (board) {
                 // return if in the middle of a drag event
                 if (this.dragObject) {
                     return;
                 }
-                this.setBoardTasks(JSON.parse(board.body).tasks);
+                this.setBoard(JSON.parse(board.body).tasks);
+
             }.bind(this));
 
             this.fetchBoardState();
@@ -133,9 +148,9 @@ class Board {
         this.stompClient.send(`/app/message/add/${this.boardIndex}/task`, {}, JSON.stringify(obj));
     }
 
-    reorderTasks(thisTaskIndex, destTaskIndex) {
+    reorderTasks(originId, destTaskIndex) {
         const obj = {
-            originId: thisTaskIndex,
+            originId: originId,
             destinationIndex: destTaskIndex
         };
         this.stompClient.send(`/app/message/reorder/${this.boardIndex}/task`, {}, JSON.stringify(obj));

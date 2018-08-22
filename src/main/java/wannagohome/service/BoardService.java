@@ -158,4 +158,5 @@ public class BoardService {
                 .teams(teamService.findTeamsByUser(user))
                 .build();
     }
+
 }

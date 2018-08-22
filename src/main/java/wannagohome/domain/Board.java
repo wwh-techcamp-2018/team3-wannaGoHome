@@ -1,6 +1,8 @@
 package wannagohome.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -34,6 +36,7 @@ public class Board {
     @ManyToOne
     private Team team;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
     @OrderBy("order_id ASC")
     private List<Task> tasks;
@@ -59,10 +62,9 @@ public class Board {
         boardDto.setTitle(title);
         List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
 
-        for (Task task : getTasks()) {
+        for (Task task : tasks) {
             taskDtoList.add(task.getTaskDto());
         }
-
 
         boardDto.setTasks(taskDtoList);
         return boardDto;

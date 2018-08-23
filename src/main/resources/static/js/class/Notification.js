@@ -4,8 +4,9 @@ class Notification {
         this.connection = new SockJS("/websocket");
         this.client = Stomp.over(this.connection);
 
-        this.button = header.querySelector(".header-notification-button");
-        this.clock = this.button.firstChild;
+        this.notificationButton = header.querySelector(".header-notification-button");
+        this.showMoreButton = header.querySelector(".header-notification-more");
+        this.clock = this.notificationButton.firstChild;
         this.holder = header.querySelector(".header-notification-holder");
         this.recentActivityLabel = this.holder.firstElementChild;
         this.template = Handlebars.templates["precompile/header_notification_template"];
@@ -24,8 +25,11 @@ class Notification {
             this.client.send("/app/activity/init");
         });
 
-        this.button.addEventListener("click", (evt) => {
-            this.onClickButton();
+        this.notificationButton.addEventListener("click", (evt) => {
+            this.onClickNotificationButton();
+        });
+        this.showMoreButton.addEventListener("click", (evt) => {
+            this.onClickShowMoreButton();
         });
     }
 
@@ -42,7 +46,9 @@ class Notification {
 
     handleNotification(body) {
         console.log("handleNotification is called with body: {}", body);
-        this.appendNotification(body);
+        body.forEach((notification) => {
+            this.appendNotification(notification);
+        });
         this.swingNotification();
     }
 
@@ -59,10 +65,14 @@ class Notification {
         this.recentActivityLabel.insertAdjacentElement("afterend", createElementFromHTML(this.template(body)));
     }
 
-    onClickButton() {
+    onClickNotificationButton() {
         this.holder.classList.toggle("header-notification-hide");
         if(!this.holder.classList.contains("header-notification-hide")) {
             this.clock.classList.remove("notification-swing");
         }
+    }
+
+    onClickShowMoreButton() {
+        this.client.send("/app/activity/")
     }
 }

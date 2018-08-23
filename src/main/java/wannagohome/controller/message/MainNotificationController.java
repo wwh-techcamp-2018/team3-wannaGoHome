@@ -6,17 +6,25 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import wannagohome.domain.ActivityInitDto;
-import wannagohome.service.NotificationService;
+import wannagohome.domain.RequestActivityDto;
+import wannagohome.service.ActivityService;
 import wannagohome.util.SessionUtil;
 
 @Controller
 public class MainNotificationController {
     @Autowired
-    private NotificationService notificationService;
+    private ActivityService activityService;
 
     @MessageMapping("/activity/init")
     @SendTo("/topic/activity/init")
     public ActivityInitDto initNotification(SimpMessageHeaderAccessor headerAccessor) {
-        return notificationService.initNotification(SessionUtil.getUserSession(headerAccessor));
+        return activityService.initNotification(SessionUtil.getUserSession(headerAccessor));
+    }
+
+
+    @MessageMapping("/activity/fetch")
+    public String fetchActivities(SimpMessageHeaderAccessor headerAccessor, RequestActivityDto requestActivityDto) {
+        activityService.sendPreviousActivities(SessionUtil.getUserSession(headerAccessor), requestActivityDto);
+        return "";
     }
 }

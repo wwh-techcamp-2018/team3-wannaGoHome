@@ -183,3 +183,17 @@ a.header-logo {
     0% { transform: rotate(30deg); }
     100% { transform: rotate(-30deg); }
 }
+
+.header-notification-more {
+    font-size: 13px;
+    padding: 0px 5px;
+    margin: 13px 5px 0px 5px;
+    border-radius: 3px;
+    /*background-color: red;*/
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header-notification-more:hover {
+    background-color: #dddddd;
+}

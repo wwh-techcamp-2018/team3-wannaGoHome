@@ -12,6 +12,8 @@ import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class ActivityEventHandler {
@@ -43,11 +45,20 @@ public class ActivityEventHandler {
         activityRepository.save(saveActivity);
     }
 
-    private void sendMessage(AbstractActivity activity) {
+    public void sendMessage(AbstractActivity activity) {
         log.debug("sendMessage is called with Activity: {} {}", activity.getCode(), activity.getReceiver());
         simpMessageSendingOperations.convertAndSend(
                 activity.getTopic(encoder),
-                activityMessageGenerator.generateMessage(activity)
+                Arrays.asList(activityMessageGenerator.generateMessage(activity))
+        );
+    }
+
+    public void sendPersonalMessage(User user, List<AbstractActivity> activities) {
+        log.debug("sendPersonalMessage is called");
+        String topic = "/topic/user/" + encoder.encode(user.getEmail());
+        simpMessageSendingOperations.convertAndSend(
+                topic,
+                activities.stream().map(activity -> activityMessageGenerator.generateMessage(activity))
         );
     }
 }

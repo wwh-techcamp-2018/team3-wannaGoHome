@@ -61,7 +61,7 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
     }
 
     public String getTopic(PasswordEncoder encoder) {
-        return "/topic/user/" + encoder.encode(receiver.getEmail());
+        return "/topic/user/" + receiver.encodedCode(encoder);
     }
 
     public void clearId() {

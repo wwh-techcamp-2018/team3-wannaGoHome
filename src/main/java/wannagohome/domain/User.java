@@ -56,6 +56,10 @@ public class User {
         return false;
     }
 
+    public String encodedCode(PasswordEncoder encoder) {
+        return encoder.encode(email);
+    }
+
     static class GuestUser extends User {
         @Override
         public boolean isGuestUser() {

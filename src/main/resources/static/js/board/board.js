@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
    const board = new Board();
-   // const calendar = new Calendar();
-   //  checkClickCalendar(calendar);
-   //  initEvent(calendar);
+   const calendar = new Calendar();
+    initEvent(calendar);
 
 
    const chat = new Chat();
@@ -37,6 +36,20 @@ document.addEventListener("DOMContentLoaded", function(evt) {
     });
 
     window.dispatchEvent(new Event("resize"));
+
+    $_(".board-header-side-menu .fa-calendar").addEventListener("click", (evt)=>{
+        evt.stopPropagation();
+        if($_("#calendar").style.display == 'block') {
+            $_("#calendar").style.display = 'none';
+            calendar.clearCalendar();
+        } else {
+            //카드 날짜 정하기 전까지 임시 카드리스트
+            const cards = [];
+            calendar.constructCard(cards);
+            $_("#calendar").style.display = 'block';
+        }
+    });
+
 });
 
 function initEvent(calendar) {
@@ -50,19 +63,4 @@ function initEvent(calendar) {
     })
 
 }
-//
-// function checkClickCalendar(calendar) {
-//     $_(".board-header-side-menu .fa-calendar").addEventListener("click", (evt)=>{
-//         evt.stopPropagation();
-//         if($_("#calendar").style.display == 'block') {
-//             $_("#calendar").style.display = 'none';
-//             calendar.clearCalendar();
-//         } else {
-//             calendar.constructCard(cards);
-//             $_("#calendar").style.display = 'block';
-//         }
-//     });
-//
-// }
-
 

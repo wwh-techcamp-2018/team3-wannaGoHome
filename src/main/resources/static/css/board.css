@@ -4,7 +4,7 @@ html, body {
     overflow: hidden;
 }
 
-div {
+div,span {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -13,34 +13,85 @@ div {
 .board-header {
     width: 100%;
     height: 40px;
-    text-align: right;
+    line-height: 40px;
     background-color: transparent;
-}
-
-
-
-.board-header-side-menu {
     font-size: 25px;
     color: #fff;
 }
-.board-header-side-menu  span {
-    line-height: 40px;
-    text-align: center;
-    padding-right: 10px;
-    cursor: pointer;
+
+.board-header-left-menu {
+    height: 100%;
+    padding-left: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    float: left;
 }
 
-.board-header-side-menu .chatting-bar-closer {
-    display: none;
+.board-header-title {
+    display: inline-block;
+    font-size: 0.9em;
+    line-height: 32px;
+    vertical-align: bottom;
+    font-weight: bold;
+}
 
+.board-header-right-menu {
+    display: inline-block;
+    float: right;
+    padding-right: 8px;
+}
+
+.board-header-right-menu span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 30px;
+    text-align: center;
+    padding: 3px 5px 3px 5px;
+    cursor: pointer;
+    width: 40px;
+    border-radius: 4px;
+}
+
+.board-header-right-menu span:hover {
+    background-color: #006cab;
+}
+
+.board-header-right-menu .chatting-bar-closer {
+    display: none;
     line-height: 35px;
     font-size: 30px;
 }
 
 .board-scroll-container {
-    height: 100%;
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    bottom: 4px;
+    padding: 4px;
+    overflow-y: hidden;
     overflow-x: scroll;
+}
 
+.board-scroll-container::-webkit-scrollbar-track {
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+    border-radius: 10px;
+    background-color: #026aa7;
+    opacity: 0.7;
+}
+
+.board-scroll-container::-webkit-scrollbar {
+
+    width: 12px;
+    height: 12px;
+    border-radius: 10px;
+    opacity: 0.7;
+    background-color: #026aa7;
+}
+
+.board-scroll-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #5497c2;
 }
 
 .board-container {
@@ -56,7 +107,6 @@ div {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
-
 }
 
 .task-item {

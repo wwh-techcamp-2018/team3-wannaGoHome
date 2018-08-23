@@ -9,10 +9,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import wannagohome.domain.SignInDto;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("build")
-public abstract class AcceptanceTest {
+
+public abstract class AcceptanceTest extends SpringTest {
 
     @Autowired
     private TestRestTemplate template;

@@ -5,6 +5,8 @@ public enum ActivityType {
     BOARD_CREATE("Board.Create"),
     BOARD_UPDATE("Board.Update"),
     BOARD_DELETE("Board.Delete"),
+    BOARD_MEMBER_ADD("Board.Member.Add"),
+
     TEAM_AUTHORITY("Team.Authority"),
     TEAM_MEMBER_ADD("Team.Member.Add"),
 
@@ -22,7 +24,6 @@ public enum ActivityType {
     ActivityType(String code) {
         this.code = code;
     }
-
 
     public String getCode() {
         return code;

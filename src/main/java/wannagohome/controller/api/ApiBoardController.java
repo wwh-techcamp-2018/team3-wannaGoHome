@@ -28,7 +28,7 @@ public class ApiBoardController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Board createBoard(@LoginUser User user, @RequestBody  @Valid CreateBoardDto createBoardDto) {
-        return boardService.createBoard(user, createBoardDto);
+    public BoardCardDto createBoard(@LoginUser User user, @RequestBody  @Valid CreateBoardDto createBoardDto) {
+        return BoardCardDto.valueOf(boardService.createBoard(user, createBoardDto));
     }
 }

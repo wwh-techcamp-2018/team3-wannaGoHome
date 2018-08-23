@@ -1,5 +1,7 @@
 package wannagohome.interceptor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -12,7 +14,6 @@ import java.util.Map;
 public class HttpHandshakeInterceptor implements HandshakeInterceptor {
 
     public static final String SESSION = "session";
-    public static final String SESSION_ID = "sessionId";
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
@@ -21,7 +22,6 @@ public class HttpHandshakeInterceptor implements HandshakeInterceptor {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpSession session = servletRequest.getServletRequest().getSession();
             attributes.put(SESSION, session);
-            attributes.put(SESSION_ID, session.getId());
         }
         return true;
     }

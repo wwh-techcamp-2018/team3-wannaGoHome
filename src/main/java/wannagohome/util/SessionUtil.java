@@ -1,20 +1,21 @@
 package wannagohome.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import wannagohome.domain.Board;
 import wannagohome.domain.Card;
 import wannagohome.domain.Task;
 import wannagohome.domain.User;
-import wannagohome.service.BoardService;
+import wannagohome.interceptor.HttpHandshakeInterceptor;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class SessionUtil {
-
     private static final String SESSION_KEY = "loginedUser";
 
     // Testing purpose
@@ -33,6 +34,11 @@ public class SessionUtil {
     public static User getUserSession(HttpSession session) {
         return Optional.ofNullable((User) session.getAttribute(SESSION_KEY))
                 .orElse(User.GUEST_USER);
+    }
+
+    public static User getUserSession(SimpMessageHeaderAccessor headerAccessor) {
+        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
+        return getUserSession(session);
     }
 
     public static void removeUserSession(HttpSession session) {

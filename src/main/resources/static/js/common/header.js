@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
     initHeader();
+    new Notification($_("header"));
 });
 
 function initHeader() {

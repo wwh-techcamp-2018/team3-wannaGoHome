@@ -6,9 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import wannagohome.domain.Card;
 import wannagohome.domain.CardOrderDto;
 import wannagohome.domain.Task;
+import wannagohome.domain.User;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.TaskRepository;
 
@@ -31,6 +33,9 @@ public class TaskServiceTest {
     @Mock
     private CardRepository cardRepository;
 
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
+
     @InjectMocks
     private TaskService taskService;
 
@@ -40,7 +45,7 @@ public class TaskServiceTest {
     private Card card2;
     private Card card3;
     private CardOrderDto cardOrderDto;
-
+    private User user;
 
     @Before
     public void setUp() throws Exception {
@@ -73,6 +78,12 @@ public class TaskServiceTest {
                 .id(3L)
                 .build();
 
+        user = User.builder()
+                .password("password")
+                .email("yeon@yeon.com")
+                .name("yoenfdfadf")
+                .build();
+
 
         cardOrderDto = cardOrderDto.builder()
                 .originId(1L)
@@ -89,7 +100,7 @@ public class TaskServiceTest {
 
     @Test
     public void addCard() {
-        taskService.addCard(beforeTask.getId(), card2);
+        taskService.addCard(user, beforeTask.getId(), card2);
         verify(taskRepository, times(1)).save(any());
     }
 
@@ -104,7 +115,7 @@ public class TaskServiceTest {
 
     @Test
     public void reorderCard_새태스크에카드가존재할때() {
-        taskService.addCard(afterTask.getId(), card3);
+        taskService.addCard(user, afterTask.getId(), card3);
         when(cardRepository.findById(cardOrderDto.getOriginId())).thenReturn(Optional.ofNullable(card1));
 
         taskService.reorderTaskCard(afterTask.getId(), cardOrderDto);
@@ -115,9 +126,9 @@ public class TaskServiceTest {
     @Test
     public void reorderCard_같은태스크내에서카드이동할때() {
 
-        taskService.addCard(beforeTask.getId(), card3);
-        taskService.addCard(beforeTask.getId(), card2);
-        taskService.addCard(beforeTask.getId(), card1);
+        taskService.addCard(user, beforeTask.getId(), card3);
+        taskService.addCard(user, beforeTask.getId(), card2);
+        taskService.addCard(user, beforeTask.getId(), card1);
         when(cardRepository.findById(cardOrderDto.getOriginId())).thenReturn(Optional.ofNullable(card1));
         taskService.reorderTaskCard(beforeTask.getId(), cardOrderDto);
         assertThat(beforeTask.getCards()).containsExactly(card1, card3, card2);

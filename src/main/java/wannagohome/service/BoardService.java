@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import wannagohome.domain.CreateBoardInfoDto;
 import wannagohome.domain.*;
+import wannagohome.event.BoardEvent;
+import wannagohome.event.TeamEvent;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,16 +40,20 @@ public class BoardService {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
     @Cacheable(value = "boardSummary",key= "#user.id")
     public BoardSummaryDto getBoardSummary(User user) {
         BoardSummaryDto boardSummaryDTO = new BoardSummaryDto();
-        boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user));
+        boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user).stream()
+                .map(board -> BoardCardDto.valueOf(board)).collect(Collectors.toList()));
         userIncludedInTeamRepository.findAllByUser(user)
-                .stream()
                 .forEach(userIncludedInTeam ->
                     boardSummaryDTO.addBoardOfTeamsDTO(
                                 new BoardOfTeamDto(userIncludedInTeam.getTeam(),
-                                        getBoardByTeam(userIncludedInTeam.getTeam()))
+                                        getBoardByTeam(userIncludedInTeam.getTeam()).stream()
+                                                .map(board -> BoardCardDto.valueOf(board)).collect(Collectors.toList()))
                     )
                 );
         return boardSummaryDTO;
@@ -56,10 +61,9 @@ public class BoardService {
     @Caching(
             evict = {
                     @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
-                    @CacheEvict(value = "boardSummary", key = "#user.id"),
+                    @CacheEvict(value = "boardSummary", key = "#user.id")
             }
     )
-
     @Transactional
     public Board viewBoard(Long boardId, User user) {
         Board board = findById(boardId);
@@ -88,6 +92,8 @@ public class BoardService {
         Board board = findById(boardId);
         newTask.setBoard(board);
         board.addTask(newTask);
+        TaskActivity taskActivity = TaskActivity.valueOf(newTask.getAuthor(), newTask, ActivityType.TASK_CREATE);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, taskActivity));
         return boardRepository.save(board);
     }
 
@@ -103,7 +109,7 @@ public class BoardService {
         return recentlyViewBoardRepository
                 .findFirst4ByUserOrderByIdDesc(user.getId())
                 .stream()
-                .map(recentlyViewBoard ->recentlyViewBoard.getBoard()).collect(Collectors.toList());
+                .map(RecentlyViewBoard::getBoard).collect(Collectors.toList());
     }
 
     public Board findById(Long boardId) {
@@ -121,27 +127,33 @@ public class BoardService {
     @Caching(
             evict = {
                     @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
-                    @CacheEvict(value = "boardSummary", key = "#user.id"),
+                    @CacheEvict(value = "boardSummary", allEntries = true),
             }
     )
     @Transactional
     public Board createBoard(User user, CreateBoardDto createBoardDTO) {
+        Team team = teamService.findTeamById(createBoardDTO.getTeamId());
         Board board = Board.builder()
-                .team(teamService.findTeamById(createBoardDTO.getTeamId()))
+                .team(team)
                 .title(createBoardDTO.getTitle())
                 .color(Color.of(createBoardDTO.getColor()))
                 .build();
         board = boardRepository.save(board);
         saveUserIncludedInBoard(user, board, UserPermission.ADMIN);
+        BoardActivity boardActivity = BoardActivity.valueOf(user, board, ActivityType.BOARD_CREATE);
+        applicationEventPublisher.publishEvent(new TeamEvent(this, boardActivity));
         return board;
     }
 
     public UserIncludedInBoard saveUserIncludedInBoard(User user, Board board, UserPermission permission) {
         Optional<UserIncludedInBoard> maybeUserIncludedInBoard =
                 userIncludedInBoardRepository.findByUserAndBoard(user,board);
-        if(maybeUserIncludedInBoard.isPresent())
+        if(maybeUserIncludedInBoard.isPresent()) {
             return maybeUserIncludedInBoard.get();
+        }
 
+        BoardActivity boardActivity = BoardActivity.valueOf(user, board, ActivityType.BOARD_MEMBER_ADD);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, boardActivity));
         return userIncludedInBoardRepository.save(
                 UserIncludedInBoard.builder()
                 .user(user)

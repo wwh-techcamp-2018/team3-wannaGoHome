@@ -1,6 +1,5 @@
 package wannagohome.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,11 +10,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString
 @EqualsAndHashCode
 public class User {
     public static User GUEST_USER = new GuestUser();
@@ -55,6 +56,10 @@ public class User {
 
     public boolean isGuestUser() {
         return false;
+    }
+
+    public String encodedCode(PasswordEncoder encoder) {
+        return encoder.encode(email);
     }
 
     static class GuestUser extends User {

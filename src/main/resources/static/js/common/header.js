@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
     initHeader();
+    new Notification($_("header"));
 });
 
 function initHeader() {
@@ -11,7 +12,7 @@ function initHeader() {
     });
     $_(".header-button").addEventListener("click", (evt) => {
         fetchManager({
-            url: "api/boards",
+            url: "/api/boards",
             method: "GET",
             callback: drawBoardSummary
         });

@@ -1,8 +1,10 @@
 package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
+import wannagohome.event.BoardEvent;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.TaskRepository;
@@ -18,9 +20,16 @@ public class TaskService {
     @Autowired
     private CardRepository cardRepository;
 
-    public Task addCard(Long taskId, Card card) {
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    @Transactional
+    public Task addCard(User user, Long taskId, Card card) {
         Task task = taskRepository.findById(taskId).get();
         task.addCard(card);
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_CREATE);
+        BoardEvent boardEvent = new BoardEvent(this, activity);
+        applicationEventPublisher.publishEvent(boardEvent);
         task = taskRepository.save(task);
         return task;
     }

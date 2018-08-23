@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import wannagohome.exception.BadRequestException;
 import wannagohome.exception.ErrorEntityException;
-import wannagohome.exception.UnAuthorizedException;
 import wannagohome.service.BoardService;
 import wannagohome.util.SessionUtil;
 

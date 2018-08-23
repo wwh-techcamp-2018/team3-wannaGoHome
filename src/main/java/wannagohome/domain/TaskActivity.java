@@ -1,18 +1,42 @@
 package wannagohome.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue("TaskActivity")
+@NoArgsConstructor
 public class TaskActivity extends AbstractActivity {
 
     @ManyToOne
     private Task task;
 
+    private TaskActivity(User source, Task task, ActivityType activityType) {
+        this.source = source;
+        this.task = task;
+        this.type = activityType;
+    }
+
+    public static TaskActivity valueOf(User source, Task task, ActivityType activityType) {
+        return  new TaskActivity(source, task, activityType);
+    }
+
     @Override
-    protected Object[] getArguments() {
+    public Object[] getArguments() {
         return new Object[]{this.task.getTitle()};
+    }
+
+    @Override
+    public Board getBoard() {
+        return task.getBoard();
+    }
+
+    @Override
+    public Team getTeam() {
+        return task.getBoard().getTeam();
     }
 }

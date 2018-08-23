@@ -39,7 +39,6 @@ public class Board {
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
     @OrderBy("order_id ASC")
     private List<Task> tasks;
-//    private List<AbstractActivity> activities;
 
     @Enumerated(EnumType.STRING)
     @Getter

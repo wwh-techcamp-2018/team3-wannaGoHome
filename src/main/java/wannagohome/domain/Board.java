@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -33,10 +35,10 @@ public class Board {
     @ManyToOne
     private Team team;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
     @OrderBy("order_id ASC")
     private List<Task> tasks;
-//    private List<AbstractActivity> activities;
 
     @Enumerated(EnumType.STRING)
     @Getter
@@ -52,17 +54,10 @@ public class Board {
 
     @JsonIgnore
     public BoardDto getBoardDto() {
-
         BoardDto boardDto = new BoardDto();
         boardDto.setId(id);
         boardDto.setTitle(title);
-        List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
-
-        for (Task task : getTasks()) {
-            taskDtoList.add(task.getTaskDto());
-        }
-
-
+        List<TaskDto> taskDtoList =  tasks.stream().map(task -> task.getTaskDto()).collect(Collectors.toList());
         boardDto.setTasks(taskDtoList);
         return boardDto;
     }

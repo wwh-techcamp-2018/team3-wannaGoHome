@@ -16,11 +16,10 @@ ul {
     text-align: center;
 }
 
-.header-logo {
+a.header-logo {
      line-height: 45px;
      font-size: 20px;
      color: #5497c2;
-     font-family: fantasy;
  }
 
 .header-logo:hover {
@@ -132,6 +131,7 @@ ul {
 
 .notification-swing {
     animation: swing ease-in-out 0.5s infinite alternate;
+    color: #e25b52;
 }
 
 .header-notification-content .notification-tooltoptext {

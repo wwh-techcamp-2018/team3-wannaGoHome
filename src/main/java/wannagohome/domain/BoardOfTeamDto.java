@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class BoardOfTeamDto {
     private Team team;
-    private List<Board> boards = new ArrayList<>();
+    private List<BoardCardDto> boards = new ArrayList<>();
 
     public BoardOfTeamDto(Team team) {
         this.team = team;

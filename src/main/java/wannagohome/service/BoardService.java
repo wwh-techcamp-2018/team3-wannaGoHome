@@ -46,12 +46,14 @@ public class BoardService {
     @Cacheable(value = "boardSummary",key= "#user.id")
     public BoardSummaryDto getBoardSummary(User user) {
         BoardSummaryDto boardSummaryDTO = new BoardSummaryDto();
-        boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user));
+        boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user).stream()
+                .map(board -> BoardCardDto.valueOf(board)).collect(Collectors.toList()));
         userIncludedInTeamRepository.findAllByUser(user)
                 .forEach(userIncludedInTeam ->
                     boardSummaryDTO.addBoardOfTeamsDTO(
                                 new BoardOfTeamDto(userIncludedInTeam.getTeam(),
-                                        getBoardByTeam(userIncludedInTeam.getTeam()))
+                                        getBoardByTeam(userIncludedInTeam.getTeam()).stream()
+                                                .map(board -> BoardCardDto.valueOf(board)).collect(Collectors.toList()))
                     )
                 );
         return boardSummaryDTO;
@@ -168,4 +170,5 @@ public class BoardService {
                 .teams(teamService.findTeamsByUser(user))
                 .build();
     }
+
 }

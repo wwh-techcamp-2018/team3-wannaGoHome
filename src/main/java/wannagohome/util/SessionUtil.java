@@ -1,5 +1,7 @@
 package wannagohome.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class SessionUtil {
-
     private static final String SESSION_KEY = "loginedUser";
 
     // Testing purpose
@@ -36,7 +37,7 @@ public class SessionUtil {
     }
 
     public static User getUserSession(SimpMessageHeaderAccessor headerAccessor) {
-        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION_ID);
+        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
         return getUserSession(session);
     }
 

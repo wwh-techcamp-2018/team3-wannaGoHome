@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class HttpHandshakeInterceptor implements HandshakeInterceptor {
 
-    public static final String SESSION_ID = "sessionId";
+    public static final String SESSION = "session";
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
@@ -21,7 +21,7 @@ public class HttpHandshakeInterceptor implements HandshakeInterceptor {
         if (request instanceof ServletServerHttpRequest) {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpSession session = servletRequest.getServletRequest().getSession();
-            attributes.put(SESSION_ID, session);
+            attributes.put(SESSION, session);
         }
         return true;
     }

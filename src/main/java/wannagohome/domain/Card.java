@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -11,7 +12,12 @@ import java.util.Date;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Builder
 public class Card {
 
     @Id
@@ -30,6 +36,11 @@ public class Card {
     @Size(max = 255)
     private String description;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    private Task task;
+
     @ManyToMany
     @JoinTable(
             name = "CARD_ASSIGNEE",
@@ -46,10 +57,6 @@ public class Card {
     )
     private List<Label> labels;
 
-    @ManyToOne
-    @JoinColumn(name = "TASK_ID")
-    private Task task;
-
     @CreatedDate
     private Date createDate;
 
@@ -59,8 +66,6 @@ public class Card {
     @ColumnDefault(value = "false")
     private boolean deleted;
 
-    // TODO: 2018. 8. 20. 쓰는사람이 만들기.
-    @Transient
     private Integer orderId;
 
     public Board getBoard() {
@@ -69,5 +74,24 @@ public class Card {
 
     public Team getTeam() {
         return getBoard().getTeam();
+    }
+
+    public Card(CardDto cardDto) {
+        this.title = cardDto.getTitle();
+        this.author = cardDto.getAuthor();
+        this.createDate = cardDto.getCreateDate();
+    }
+
+    public CardDto getCardDto() {
+        CardDto cardDto = new CardDto();
+        cardDto.setId(id);
+        cardDto.setAuthor(author);
+        cardDto.setCreateDate(createDate);
+        cardDto.setTitle(title);
+        return  cardDto;
+    }
+
+    public boolean equalsId(Long id) {
+        return this.id.equals(id);
     }
 }

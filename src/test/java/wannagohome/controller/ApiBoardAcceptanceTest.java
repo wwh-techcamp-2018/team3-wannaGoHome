@@ -13,8 +13,6 @@ import wannagohome.repository.UserIncludedInBoardRepository;
 import wannagohome.support.AcceptanceTest;
 import wannagohome.support.RequestEntity;
 
-import javax.persistence.PersistenceContext;
-
 import static org.assertj.core.api.Assertions.assertThat;
 public class ApiBoardAcceptanceTest extends AcceptanceTest {
 

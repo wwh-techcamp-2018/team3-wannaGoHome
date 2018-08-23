@@ -43,8 +43,7 @@ a.header-logo {
     outline: none;
 }
 
-
-.header-button-boardlist {
+.header-button-boardlist{
     width: 300px;
     background-color: #fff;
     margin: 3px 0px;
@@ -88,4 +87,119 @@ a.header-logo {
     color: #888888;
     font-size: 13px;
     text-decoration-line: underline;
+}
+
+.header-notification-hide {
+    display: none;
+}
+
+
+.header-notification-holder {
+    width: 300px;
+    background-color: #fff;
+    margin: 3px 0px;
+    padding-left: 5px;
+    padding-bottom: 10px;
+    box-shadow: 1px 1px 1px 1px #aaaaaa;
+    z-index: 2;
+    position: absolute;
+    border-radius: 5px;
+    text-align: left;
+    right: 15px;
+}
+
+
+.header-notification-content {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px 20px 0px 20px;
+    height: 40px;
+    margin: 3px 5px;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    color: #999999;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    list-style: none;
+}
+
+.header-notification-content:hover {
+    cursor: pointer;
+}
+
+
+.notification-swing {
+    animation: swing ease-in-out 0.5s infinite alternate;
+    color: #e25b52;
+}
+
+.header-notification-content .notification-tooltoptext {
+    display: none;
+    /*width: 120px;*/
+    background: #bed4ef;
+    color: #fff;
+    text-align: center;
+    border-radius: .4em;
+    padding: 5px 0;
+    font-weight: lighter;
+    font-size: 8px;
+    height: 30px;
+    line-height: 24px;
+    padding: 3px;
+    position: absolute;
+    z-index: 3;
+    /*left: -100px;*/
+    right: 280px;
+
+}
+.notification-tooltoptext:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: #bed4ef;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: -4px;
+    margin-right: -10px;
+}
+
+.header-notification-content:hover .notification-tooltoptext {
+    display: inline-block;
+}
+
+.header-notification-content>div>p {
+    display: block;
+    font-size: 5px;
+    font-weight: lighter;
+    height: 8px;
+}
+
+@keyframes swing {
+    0% { transform: rotate(30deg); }
+    100% { transform: rotate(-30deg); }
+}
+
+.header-notification-more {
+    font-size: 13px;
+    padding: 0px 5px;
+    margin: 13px 5px 0px 5px;
+    border-radius: 3px;
+    /*background-color: red;*/
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header-notification-more:hover {
+    background-color: #dddddd;
+}
+
+.header-notification-scrollable {
+    max-height: 462px;
+    overflow: scroll;
 }

@@ -91,11 +91,7 @@ public class TeamAcceptanceTest extends AcceptanceTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Team> responseTeams = Arrays.asList(responseEntity.getBody());
-        for (Team team : responseTeams) {
-            log.debug("description: {}", team.getDescription());
-            log.debug("name: {}", team.getName());
-            assertThat(team.getName()).contains("test");
-        }
+        assertThat(responseTeams.stream().map(Team::getName)).contains("test", "JunsuLime");
     }
 
 

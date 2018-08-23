@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import wannagohome.domain.*;
 import wannagohome.repository.BoardRepository;
 import wannagohome.repository.RecentlyViewBoardRepository;
@@ -31,6 +32,10 @@ public class BoardServiceTest {
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
     @Mock
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
+
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
+
     @Mock
     private TeamService teamService;
 
@@ -71,6 +76,7 @@ public class BoardServiceTest {
                 RecentlyViewBoard.builder().board(boards.get(2)).build(),
                 RecentlyViewBoard.builder().board(boards.get(3)).build()
         );
+
     }
 
 

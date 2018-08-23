@@ -27,7 +27,7 @@ public class UserIncludedInTeam {
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private UserPermission permission;
 
     public UserIncludedInTeam(User user, Team team, UserPermission userPermission) {

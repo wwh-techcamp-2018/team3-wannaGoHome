@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-
 @Getter
 @Setter
 @Entity
@@ -67,15 +66,21 @@ public class Card {
     @ColumnDefault(value = "false")
     private boolean deleted;
 
-    // TODO: 2018. 8. 20. 쓰는사람이 만들기.
     private Integer orderId;
+
+    public Board getBoard() {
+        return task.getBoard();
+    }
+
+    public Team getTeam() {
+        return getBoard().getTeam();
+    }
 
     public Card(CardDto cardDto) {
         this.title = cardDto.getTitle();
         this.author = cardDto.getAuthor();
         this.createDate = cardDto.getCreateDate();
     }
-
 
     public CardDto getCardDto() {
         CardDto cardDto = new CardDto();
@@ -89,5 +94,4 @@ public class Card {
     public boolean equalsId(Long id) {
         return this.id.equals(id);
     }
-
 }

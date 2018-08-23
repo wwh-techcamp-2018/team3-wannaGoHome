@@ -1,13 +1,14 @@
+const BLANK = '&nbsp;&nbsp;#';
 class Calendar {
     constructor() {
         this.calendar = new tui.Calendar(document.getElementById('calendar'), {
             disableDblClick: true,
             defaultView: 'month',
-            taskView: true,    // can be also ['milestone', 'task']
-            scheduleView: true,  // can be also ['allday', 'time']
+            taskView: true,
+            scheduleView: true,
             template: {
                 task: function (schedule) {
-                    return '&nbsp;&nbsp;#' + schedule.title;
+                    return BLANK + schedule.title;
                 },
             },
             month: {

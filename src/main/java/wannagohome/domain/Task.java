@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Task {
     
     @Id
@@ -88,6 +89,6 @@ public class Task {
     }
 
     public boolean equalsId(Long id) {
-        return this.id == id;
+        return this.id.equals(id);
     }
 }

@@ -23,7 +23,7 @@ class Card {
         this.cardHolder = newCard;
         this.cardListContainer = this.task.taskWrapper.querySelector(".card-list-wrapper");
 
-        this.card.querySelector(".card-list-title").addEventListener("mousedown", function (evt) {
+        this.card.addEventListener("mousedown", function (evt) {
             this.moving = true;
 
             this.board.startDrag.x = evt.clientX;
@@ -62,7 +62,7 @@ class Card {
 
         for (let i = 0; i < this.task.cardList.length; ++i) {
             if (this.task.cardList[i] === this) {
-                this.originIndex = i;
+                this.destinationIndex = i;
                 break;
             }
         }
@@ -202,7 +202,6 @@ class Card {
 
         this.moving = false;
 
-        console.log(this.task.taskObject.id, this.id, this.destinationIndex);
         this.task.reorderCard(this.id, this.destinationIndex);
         // reset drag object
         this.board.unsetDraggable();

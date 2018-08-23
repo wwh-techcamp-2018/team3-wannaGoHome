@@ -173,6 +173,11 @@ div {
     z-index: 10;
     position: relative;
     top: -100%;
+    border-radius: 3px;
+    padding: 1px;
+    background-color: #fff;
+    box-shadow: -2px 2px 2px #aaaaaa;
+
 }
 
 .new-card-title {

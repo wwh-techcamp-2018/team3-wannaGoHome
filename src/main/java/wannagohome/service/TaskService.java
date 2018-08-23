@@ -3,6 +3,7 @@ package wannagohome.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
+import wannagohome.exception.NotFoundException;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.TaskRepository;
 
@@ -27,37 +28,28 @@ public class TaskService {
     @Transactional
     public Task reorderTaskCard(Long taskId, CardOrderDto cardOrderDto) {
         Task task = taskRepository.findById(taskId).get();
-//        task.reorderCard(cardOrderDto);
 
-        for(int i = 0; i < task.getCards().size(); ++i) {
-            if(task.getCards().get(i).equalsId(cardOrderDto.getOriginId())) {
-                Card movingCard = task.getCards().get(i);
-                task.getCards().remove(i);
-                task.getCards().add(cardOrderDto.getDestinationIndex(), movingCard);
-                break;
-            }
-        }
         //다른 테스크로 이동할 때
         if(task.getCards().stream().noneMatch(card -> card.equalsId(cardOrderDto.getOriginId()))) {
+            Card movingCard =  cardRepository.findById(cardOrderDto.getOriginId())
+                    .orElseThrow(()-> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
 
-            Card movingCard =  cardRepository.findById(cardOrderDto.getOriginId()).get();
             Task beforeTask = movingCard.getTask();
-            for (int i = 0; i < beforeTask.getCards().size(); ++i) {
-                if(beforeTask.getCards().get(i).equalsId(cardOrderDto.getOriginId())) {
-                    beforeTask.getCards().remove(i);
-                    break;
-                }
-            }
+            beforeTask.getCards().remove(movingCard);
             movingCard.setTask(task);
-
-//            if(cardOrderDto.getDestinationIndex() >= task.getCards().size()) {
-//
-//            }
             task.getCards().add(cardOrderDto.getDestinationIndex(), movingCard);
+
             for(int i = 0; i < beforeTask.getCards().size(); ++i) {
                 beforeTask.getCards().get(i).setOrderId(i);
             }
             taskRepository.save(beforeTask);
+        } else {
+            //같은 테스크 내에서 이동
+            Card movingCard = task.getCards().stream()
+                    .filter(card -> card.equalsId(cardOrderDto.getOriginId())).findFirst()
+                    .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+            task.getCards().remove(movingCard);
+            task.getCards().add(cardOrderDto.getDestinationIndex(), movingCard);
         }
         for(int i = 0; i < task.getCards().size(); ++i) {
             task.getCards().get(i).setOrderId(i);

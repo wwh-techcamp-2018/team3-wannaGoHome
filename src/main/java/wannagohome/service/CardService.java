@@ -12,7 +12,7 @@ import java.util.List;
 public class CardService {
 
     @Autowired
-    CardRepository cardRepository;
+    private CardRepository cardRepository;
 
 
     public List<Card> findCardsByUser(User user) {

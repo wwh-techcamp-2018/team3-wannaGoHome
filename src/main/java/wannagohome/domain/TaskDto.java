@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -29,11 +30,7 @@ public class TaskDto {
 
     @JsonIgnore
     public List<Card> getRealCards() {
-        List<Card> realCards = new ArrayList<>();
-        for (CardDto card : cards) {
-            realCards.add(new Card(card));
-        }
-        return realCards;
+        return cards.stream().map(card-> new Card(card)).collect(Collectors.toList());
     }
 
 }

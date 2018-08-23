@@ -65,7 +65,7 @@ class Task {
 
         this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt)=>{
             const obj = {};
-            obj.title = this.cardWrapper.querySelector(".new-card-title").value.replace("\n","<br/>");
+            obj.title = this.cardWrapper.querySelector(".new-card-title").value;
             obj.createDate = new Date();
             this.cardWrapper.style.display = 'none';
             this.addCardButton.style.display = 'block';

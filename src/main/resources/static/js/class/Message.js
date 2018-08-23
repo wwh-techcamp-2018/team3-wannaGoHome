@@ -21,7 +21,6 @@ class Message {
     createMessageElement(message) {
         let messageTemplate;
         message.time = getFormattedTime(new Date(message.messageCreated));
-
         // author of message is current user
         if (message["author"]["id"] == this.chat.userId) {
             messageTemplate = Handlebars.templates["precompile/board/chat_message_right_template"];
@@ -65,6 +64,19 @@ class Message {
 
     hideTime() {
         this.selector(".time-holder").style.display = "none";
+    }
+
+    equalsDate(messageInstance) {
+        return getFormattedDate(new Date(this.message.messageCreated)) == getFormattedDate(new Date(messageInstance.message.messageCreated));
+    }
+
+    prependDateDivider() {
+        const dateDividerTemplate = Handlebars.templates["precompile/board/date_divider_template"];
+        const dateObject = {
+            date : getFormattedDate(new Date(this.message.messageCreated))
+        };
+        const dateElem = createElementFromHTML(dateDividerTemplate(dateObject));
+        this.messageElem.parentNode.insertBefore(dateElem, this.messageElem);
     }
 
     equalsAuthor(messageInstance) {

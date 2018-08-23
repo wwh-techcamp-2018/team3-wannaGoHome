@@ -282,15 +282,29 @@ div {
     border-radius: 5px;
     border: solid 1px #ccc;
     overflow-y: scroll;
-
 }
 
-::-webkit-scrollbar {
-    /*width: 0px;  !* remove scrollbar space *!*/
+.date-change-label {
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.date-value {
+    font-size: 0.8em;
+    background-color: #5c5c5c;
+    color: #fff;
+    padding: 2px 12px 2px 12px;
+    display: inline-block;
+    border-radius: 20px;
+}
+
+.chatting-bar ::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
     /*background: transparent;  !* optional: just make scrollbar invisible *!*/
 }
 /* optional: show position indicator in red */
-::-webkit-scrollbar-thumb {
+.chatting-bar ::-webkit-scrollbar-thumb {
     /*background: #FF0000;*/
 }
 
@@ -385,6 +399,7 @@ div {
 .message-holder-right {
     position: relative;
     padding: 4px 18px 4px 60px;
+    width: 100%;
     overflow: hidden;
     text-align: right;
 }

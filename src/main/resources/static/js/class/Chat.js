@@ -136,6 +136,10 @@ class Chat {
     }
 
     handleSiblingMessage(beforeMessage, nextMessage) {
+        if(!nextMessage.equalsDate(beforeMessage)) {
+            nextMessage.prependDateDivider();
+            return;
+        }
         if (nextMessage.equalsAuthor(beforeMessage)) {
             nextMessage.hideAuthor();
             if (nextMessage.equalsTime(beforeMessage)) {

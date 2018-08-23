@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function(evt) {
             $_("#calendar").style.display = 'block';
         }
     });
+
 });
 
 function initEvent(calendar) {
@@ -62,6 +63,4 @@ function initEvent(calendar) {
     })
 
 }
-
-
 

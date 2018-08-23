@@ -23,8 +23,6 @@ public class ActivityMessageGenerator {
     }
 
     public ActivityDto generateMessage(Activity activity) {
-        return new ActivityDto(
-            messageSourceAccessor.getMessage(activity.getCode(), activity.getArguments())
-        );
+        return ActivityDto.valueOf(messageSourceAccessor, activity);
     }
 }

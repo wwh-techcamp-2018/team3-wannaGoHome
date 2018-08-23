@@ -113,14 +113,16 @@ ul {
 .header-notification-content {
     font-size: 14px;
     font-weight: bold;
-    padding-left: 20px;
-    height: 35px;
+    padding: 3px 20px 0px 20px;
+    height: 40px;
     margin: 3px 5px;
     background-color: #f1f1f1;
     border-radius: 3px;
-    line-height: 35px;
     color: #999999;
     text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .header-notification-content:hover {
@@ -130,6 +132,51 @@ ul {
 
 .notification-swing {
     animation: swing ease-in-out 0.5s infinite alternate;
+}
+
+.header-notification-content .notification-tooltoptext {
+    display: none;
+    /*width: 120px;*/
+    background: #bed4ef;
+    color: #fff;
+    text-align: center;
+    border-radius: .4em;
+    padding: 5px 0;
+    font-weight: lighter;
+    font-size: 8px;
+    height: 30px;
+    line-height: 24px;
+    padding: 3px;
+    position: absolute;
+    z-index: 3;
+    /*left: -100px;*/
+    right: 280px;
+
+}
+.notification-tooltoptext:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: #bed4ef;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: -4px;
+    margin-right: -10px;
+}
+
+.header-notification-content:hover .notification-tooltoptext {
+    display: inline-block;
+}
+
+.header-notification-content>div>p {
+    display: block;
+    font-size: 5px;
+    font-weight: lighter;
+    height: 8px;
 }
 
 @keyframes swing {

@@ -7,6 +7,7 @@ class Notification {
         this.button = header.querySelector(".header-notification-button");
         this.clock = this.button.firstChild;
         this.holder = header.querySelector(".header-notification-holder");
+        this.recentActivityLabel = this.holder.firstElementChild;
         this.template = Handlebars.templates["precompile/header_notification_template"];
 
         this.maxActivityCount = 10;
@@ -51,9 +52,9 @@ class Notification {
 
     appendNotification(body) {
         if (this.holder.childElementCount - 1 === this.maxActivityCount) {
-            this.holder.firstElementChild.nextElementSibling.remove();
+            this.holder.lastElementChild.remove();
         }
-        this.holder.appendChild(createElementFromHTML(this.template(body)));
+        this.recentActivityLabel.insertAdjacentElement("afterend", createElementFromHTML(this.template(body)));
     }
 
     onClickButton() {

@@ -30,5 +30,5 @@ INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(1,'ADMIN'
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(2,'ADMIN',2,3);
 INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(3,'ADMIN',1,1);
 
-INSERT INTO abstract_activity(activity_type,type,source_id,receiver_id,board_id) VALUES('BoardActivity', 'BOARD_CREATE', 3, 3 , 1);
+INSERT INTO abstract_activity(activity_type,type,source_id,receiver_id,board_id,registered_date) VALUES('BoardActivity', 'BOARD_CREATE', 3, 3 , 1,'2018-08-23 14:45:47');
 

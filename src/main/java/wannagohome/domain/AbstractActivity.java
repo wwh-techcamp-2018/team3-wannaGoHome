@@ -2,7 +2,6 @@ package wannagohome.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -26,9 +25,9 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
     @ManyToOne
     protected User source;
 
-    @CreatedDate
     @Column(updatable = false)
-    protected Date registeredDate;
+    @Getter
+    protected Date registeredDate = new Date();
 
     @Getter
     @Enumerated(EnumType.STRING)

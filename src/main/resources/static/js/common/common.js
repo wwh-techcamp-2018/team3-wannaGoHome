@@ -84,6 +84,11 @@ function getFormattedTime(date) {
     return date.getHours() + ":" + checkTime(date.getMinutes());
 }
 
+function getFormattedDate(date) {
+    return date.getFullYear() + "/" + checkTime(date.getMonth() + 1) + "/" +
+            checkTime(date.getDate());
+}
+
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);

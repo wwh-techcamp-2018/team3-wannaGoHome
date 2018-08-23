@@ -48,7 +48,6 @@ public class BoardService {
         BoardSummaryDto boardSummaryDTO = new BoardSummaryDto();
         boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user));
         userIncludedInTeamRepository.findAllByUser(user)
-                .stream()
                 .forEach(userIncludedInTeam ->
                     boardSummaryDTO.addBoardOfTeamsDTO(
                                 new BoardOfTeamDto(userIncludedInTeam.getTeam(),
@@ -108,7 +107,7 @@ public class BoardService {
         return recentlyViewBoardRepository
                 .findFirst4ByUserOrderByIdDesc(user.getId())
                 .stream()
-                .map(recentlyViewBoard ->recentlyViewBoard.getBoard()).collect(Collectors.toList());
+                .map(RecentlyViewBoard::getBoard).collect(Collectors.toList());
     }
 
     public Board findById(Long boardId) {

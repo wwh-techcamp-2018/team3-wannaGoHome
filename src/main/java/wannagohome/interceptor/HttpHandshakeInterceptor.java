@@ -13,8 +13,6 @@ import java.util.Map;
 
 public class HttpHandshakeInterceptor implements HandshakeInterceptor {
 
-    private static final Logger log = LoggerFactory.getLogger(HttpHandshakeInterceptor.class);
-
     public static final String SESSION_ID = "sessionId";
 
     @Override

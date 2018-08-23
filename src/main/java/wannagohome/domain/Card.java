@@ -62,4 +62,12 @@ public class Card {
     // TODO: 2018. 8. 20. 쓰는사람이 만들기.
     @Transient
     private Integer orderId;
+
+    public Board getBoard() {
+        return task.getBoard();
+    }
+
+    public Team getTeam() {
+        return getBoard().getTeam();
+    }
 }

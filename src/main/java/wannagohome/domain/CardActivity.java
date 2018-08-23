@@ -48,7 +48,7 @@ public class CardActivity extends AbstractActivity {
 
     @Override
     public Team getTeam() {
-        return card.getTask().getBoard().getTeam();
+        return card.getTeam();
     }
 
 }

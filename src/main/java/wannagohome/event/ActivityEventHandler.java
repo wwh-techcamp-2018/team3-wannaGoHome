@@ -36,13 +36,13 @@ public class ActivityEventHandler {
 
     private void saveActivity(AbstractActivity activity) {
         AbstractActivity saveActivity = (AbstractActivity) activity.clone();
-        saveActivity.setId(null);
+        saveActivity.clearId();
         activityRepository.save(saveActivity);
     }
 
     private void sendMessage(AbstractActivity activity) {
         simpMessageSendingOperations.convertAndSend(
-                "/topic/user/" + encoder.encode(activity.getReceiver().getEmail()),
+                activity.getTopic(encoder),
                 activityMessageGenerator.generateMessage(activity)
         );
     }

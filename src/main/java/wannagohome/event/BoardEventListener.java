@@ -25,6 +25,4 @@ public class BoardEventListener implements ApplicationListener<BoardEvent> {
         userIncludedInBoardRepository.findAllByBoard(activity.getBoard())
                 .forEach(userIncludedInTeam -> activityEventHandler.handleEvent(activity, userIncludedInTeam.getUser()));
     }
-
-
 }

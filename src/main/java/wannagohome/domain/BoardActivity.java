@@ -1,6 +1,5 @@
 package wannagohome.domain;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
@@ -12,7 +11,6 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("BoardActivity")
 public class BoardActivity extends AbstractActivity {
 
-    @Getter
     @ManyToOne
     private Board board;
 

@@ -3,6 +3,7 @@ package wannagohome.domain;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +13,6 @@ import java.util.Date;
 @DiscriminatorColumn(name = "activityType")
 public abstract class AbstractActivity implements Activity, Comparable<AbstractActivity>, Cloneable {
 
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -59,5 +59,13 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException();
         }
+    }
+
+    public String getTopic(PasswordEncoder encoder) {
+        return "/topic/user/" + encoder.encode(receiver.getEmail());
+    }
+
+    public void clearId() {
+        id = null;
     }
 }

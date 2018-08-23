@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -33,11 +34,15 @@ public class CardActivity extends AbstractActivity {
         return new CardActivity(source, card, activityType, target);
     }
 
+    public static CardActivity valueOf(User source, Card card, ActivityType activityType) {
+        return new CardActivity(source, card, activityType, null);
+    }
+
     @Override
     public Object[] getArguments() {
         return new Object[]{
                 card.getTitle(),
-                target.getName()
+                Objects.isNull(target) ? "" : target.getName()
         };
     }
 

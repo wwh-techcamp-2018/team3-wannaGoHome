@@ -18,6 +18,7 @@ class Chat {
 
     init() {
         this.chattingBar = $_(".chatting-bar");
+        this.messageContainer = $_(".chatting-bar-message-container");
         this.messageHolder = $_(".chatting-bar-message-holder");
         this.boardIndex = window.location.href.trim().split("/").pop();
 
@@ -42,7 +43,7 @@ class Chat {
             }
         }.bind(this));
 
-        this.selector(".chatting-bar-message-holder").addEventListener("scroll", function (evt) {
+        this.selector(".chatting-bar-message-container").addEventListener("scroll", function (evt) {
             const holderScrollTop = evt.currentTarget.scrollTop;
             // 10 is a simple threshold
             if (holderScrollTop < this.scrollTopThreshold) {
@@ -104,9 +105,12 @@ class Chat {
         });
         let reference;
         for (const message of result) {
+            this.saveHeight();
             reference = this.selector(".message-holder:first-child");
             this.handleNewerMessage(message, reference);
+            this.adjustScrollTop();
         }
+
     }
 
     handleMessage(message) {
@@ -148,6 +152,18 @@ class Chat {
                 nextMessage.showAuthor();
             }
         }
+    }
+
+    saveHeight() {
+        const rect = getBoundingRect(this.messageHolder);
+        this.scrollHeight = rect.height;
+    }
+
+    adjustScrollTop() {
+        const rect = getBoundingRect(this.messageHolder);
+        const deltaScroll = rect.height - this.scrollHeight;
+        const currentScrollTop = this.messageContainer.scrollTop;
+        // this.messageContainer.scrollTop = currentScrollTop - deltaScroll;
     }
 
     connectSocket() {

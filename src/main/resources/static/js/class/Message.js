@@ -37,7 +37,7 @@ class Message {
     handleMessage(message) {
         this.createMessageElement(message);
         this.chat.messageHolder.appendChild(this.messageElem);
-        this.chat.messageHolder.scrollTop = this.chat.messageHolder.scrollHeight;
+        this.chat.messageContainer.scrollTop = this.chat.messageContainer.scrollHeight;
         this.chat.newestMessageOrder = message.messageOrder;
         if (this.chat.oldestMessageOrder == -1) {
             this.chat.oldestMessageOrder = message.messageOrder;

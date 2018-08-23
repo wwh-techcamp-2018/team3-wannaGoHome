@@ -275,13 +275,17 @@ div {
     border-bottom: solid 1px #ccc;
 }
 
-.chatting-bar-message-holder {
+.chatting-bar-message-container {
     background-color: #e2e4e6;
     height: 100px;
     margin: 12px;
     border-radius: 5px;
     border: solid 1px #ccc;
     overflow-y: scroll;
+}
+
+.chatting-bar-message-holder {
+    width: 100%;
 }
 
 .date-change-label {

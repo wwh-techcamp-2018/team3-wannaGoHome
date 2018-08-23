@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function (evt) {
         let chattingBarHeight = getBoundingRect($_(".chatting-bar")).height;
         let chattingBarTitleHeight = getBoundingRect($_(".chatting-bar-title")).height;
         let chattingInputHolderHeight = getBoundingRect($_(".chatting-input-holder")).height;
-        $_(".chatting-bar-message-holder").style.height = chattingBarHeight - chattingBarTitleHeight - chattingInputHolderHeight - 36 + "px";
+        $_(".chatting-bar-message-container").style.height = chattingBarHeight - chattingBarTitleHeight - chattingInputHolderHeight - 36 + "px";
     });
 
     $_(".chatting-bar .chatting-bar-closer").addEventListener("click", function (evt) {

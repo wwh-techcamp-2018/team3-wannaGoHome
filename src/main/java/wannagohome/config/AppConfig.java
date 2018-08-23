@@ -26,7 +26,7 @@ import java.util.List;
 
 @Configuration
 @EnableCaching
-@PropertySource("classpath:application-prod.properties")
+@PropertySource("classpath:application.properties")
 public class AppConfig implements WebMvcConfigurer {
 
     @Value("${encoder.key}")
@@ -100,7 +100,7 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Configuration
     @Profile(value = {"dev", "build"})
-    @PropertySource("classpath:application-dev.properties")
+    @PropertySource("classpath:application.properties")
     class TestConfig extends AppConfig {
 
         @Value("${encoder.key}")

@@ -10,6 +10,8 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import wannagohome.domain.*;
+import wannagohome.support.AcceptanceTest;
+import wannagohome.support.SpringTest;
 
 
 import javax.annotation.Resource;
@@ -19,10 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ActivityEventHandlerTest {
+public class ActivityEventHandlerTest extends SpringTest {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
@@ -46,3 +45,4 @@ public class ActivityEventHandlerTest {
         assertThat(message).isEqualTo("junsulime 보드를 수정하였습니다.");
     }
 }
+

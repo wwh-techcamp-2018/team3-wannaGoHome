@@ -86,8 +86,5 @@ public class ApiBoardAcceptanceTest extends AcceptanceTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(responseEntity.getBody().getColor()).isEqualTo(Color.DARK_LIME_GREEN);
         assertThat(responseEntity.getBody().getTitle()).isEqualTo("woowahan Board");
-
-        userIncludedInBoardRepository.deleteById(5L);
-        boardRepository.delete(responseEntity.getBody());
     }
 }

@@ -10,15 +10,14 @@ import wannagohome.domain.ActivityInitDto;
 import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.UserRepository;
+import wannagohome.support.AcceptanceTest;
+import wannagohome.support.SpringTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ActivityServiceTest {
+public class ActivityServiceTest extends SpringTest {
 
     @Autowired
     private ActivityService activityService;

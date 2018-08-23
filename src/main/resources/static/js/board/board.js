@@ -28,9 +28,7 @@ function fetchCards() {
 
 function drawCards(status, result) {
     if(status === 200) {
-        result.forEach((card)=>{
-            cards.push(new Card(card));
-        });
+        result.map(card => cards.push(new Card(card)));
     }
 }
 

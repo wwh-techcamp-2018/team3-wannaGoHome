@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 import wannagohome.domain.AbstractActivity;
 import wannagohome.domain.BoardActivity;
 import wannagohome.repository.UserIncludedInBoardRepository;
@@ -19,6 +20,7 @@ public class BoardEventListener implements ApplicationListener<BoardEvent> {
     @Autowired
     private ActivityEventHandler activityEventHandler;
 
+    @TransactionalEventListener
     @Override
     public void onApplicationEvent(BoardEvent event) {
         AbstractActivity activity = event.getActivity();

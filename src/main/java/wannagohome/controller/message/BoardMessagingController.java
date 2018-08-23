@@ -56,11 +56,10 @@ public class BoardMessagingController {
     @MessageMapping("/message/add/{boardId}/{taskId}/card")
     @SendTo("/topic/board/{boardId}")
     public BoardDto addCardToBoard(@DestinationVariable Long taskId, SimpMessageHeaderAccessor headerAccessor, CardDto cardDto) throws Exception {
-        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
-        headerAccessor.setSessionId(session.getId());
-        cardDto.setAuthor(SessionUtil.getUserSession(session));
+        User user = SessionUtil.getUserSession(headerAccessor);
+        cardDto.setAuthor(user);
         Card card = new Card(cardDto);
-        Task task = taskService.addCard(taskId, card);
+        Task task = taskService.addCard(user, taskId, card);
         return task.getBoard().getBoardDto();
     }
 

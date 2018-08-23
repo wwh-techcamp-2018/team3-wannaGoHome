@@ -17,8 +17,6 @@ import java.util.List;
 
 @Component
 public class ActivityEventHandler {
-    private static final Logger log = LoggerFactory.getLogger(ActivityEventHandler.class);
-
     @Resource(name = "biDirectionEncoder")
     private PasswordEncoder encoder;
 
@@ -33,7 +31,6 @@ public class ActivityEventHandler {
 
 
     public void handleEvent(AbstractActivity activity, User user) {
-        log.debug("handleEvent is called");
         activity.setReceiver(user);
         saveActivity(activity);
         sendMessage(activity);
@@ -46,7 +43,6 @@ public class ActivityEventHandler {
     }
 
     public void sendMessage(AbstractActivity activity) {
-        log.debug("sendMessage is called with Activity: {} {}", activity.getCode(), activity.getReceiver());
         simpMessageSendingOperations.convertAndSend(
                 activity.getTopic(encoder),
                 Arrays.asList(activityMessageGenerator.generateMessage(activity))
@@ -54,7 +50,6 @@ public class ActivityEventHandler {
     }
 
     public void sendPersonalMessage(User user, List<AbstractActivity> activities) {
-        log.debug("sendPersonalMessage is called : {}", activities.size());
         String topic = "/topic/user/" + encoder.encode(user.getEmail());
         simpMessageSendingOperations.convertAndSend(
                 topic,

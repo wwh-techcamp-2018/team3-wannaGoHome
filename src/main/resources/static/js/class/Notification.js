@@ -1,24 +1,24 @@
 class Notification {
     constructor(header) {
-        console.log(header);
         this.connection = new SockJS("/websocket");
         this.client = Stomp.over(this.connection);
 
         this.notificationButton = header.querySelector(".header-notification-button");
         this.showMoreButton = header.querySelector(".header-notification-more");
-        this.clock = this.notificationButton.firstChild;
-        this.holder = header.querySelector(".header-notification-holder");
-        this.recentActivityLabel = this.holder.firstElementChild;
-        this.template = Handlebars.templates["precompile/header_notification_template"];
 
-        this.maxActivityCount = 10;
+        this.bell = this.notificationButton.firstChild;
+        this.holder = header.querySelector(".header-notification-holder");
+        this.ul = header.querySelector(".header-notification-ul");
+        this.scrollable = header.querySelector(".header-notification-scrollable");
+
+        this.template = Handlebars.templates["precompile/header_notification_template"];
 
         this.client.connect({}, (frame) => {
             this.initSubscribeId = this.client.subscribe("/topic/activity/init", (frame) => {
                 this.initSubscribeId.unsubscribe();
                 const {topic, messages} = JSON.parse(frame.body);
                 this.initSubscription(topic);
-                messages.forEach(this.appendNotification.bind(this))
+                this.handleNotification(messages);
 
             });
 
@@ -34,7 +34,6 @@ class Notification {
     }
 
     initSubscription(topic) {
-        console.log("initSubscription is called");
         this.subscribeTopic("/topic/user/" + topic, this.handleNotification.bind(this));
     }
 
@@ -45,34 +44,52 @@ class Notification {
     }
 
     handleNotification(body) {
-        console.log("handleNotification is called with body: {}", body);
         body.forEach((notification) => {
-            this.appendNotification(notification);
+            if (this.oldestActivityDate < notification.registeredDate)
+                this.prependNotification(notification);
+            else
+                this.appendNotification(notification);
         });
         this.swingNotification();
     }
 
     swingNotification() {
-        if(this.holder.classList.contains("header-notification-hide")) {
-            this.clock.classList.add("notification-swing");
+        if (this.holder.classList.contains("header-notification-hide")) {
+            this.bell.classList.add("notification-swing");
         }
     }
 
-    appendNotification(body) {
-        if (this.holder.childElementCount - 1 === this.maxActivityCount) {
-            this.holder.lastElementChild.remove();
-        }
-        this.recentActivityLabel.insertAdjacentElement("afterend", createElementFromHTML(this.template(body)));
+    appendNotification(notification) {
+        this.ul.appendChild(createElementFromHTML(this.template(notification)));
+        this.scrollable.scrollTop = this.scrollable.scrollHeight;
+    }
+
+    prependNotification(notification) {
+        this.ul.prepend(createElementFromHTML(this.template(notification)));
+        this.scrollable.scrollTop = this.scrollable.scrollHeight;
     }
 
     onClickNotificationButton() {
         this.holder.classList.toggle("header-notification-hide");
-        if(!this.holder.classList.contains("header-notification-hide")) {
-            this.clock.classList.remove("notification-swing");
+        if (!this.holder.classList.contains("header-notification-hide")) {
+            this.bell.classList.remove("notification-swing");
         }
     }
 
     onClickShowMoreButton() {
-        this.client.send("/app/activity/")
+        this.client.send(
+            "/app/activity/fetch",
+            {},
+            JSON.stringify(
+                {registeredDate: this.oldestActivityDate}
+            )
+        );
+    }
+
+    get oldestActivityDate() {
+        if (this.ul.lastElementChild)
+            return this.ul.lastElementChild.querySelector("div > p").innerText;
+        else
+            return "";
     }
 }

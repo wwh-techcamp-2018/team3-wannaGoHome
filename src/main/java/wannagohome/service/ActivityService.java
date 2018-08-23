@@ -1,5 +1,6 @@
 package wannagohome.service;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class ActivityService {
     public void sendPreviousActivities(User user, RequestActivityDto requestActivityDto) {
         activityEventHandler.sendPersonalMessage(
                 user,
-                activityRepository.findFirst10ByReceiverAndRegisteredDateGreaterThanOrderByRegisteredDateDesc(
+                activityRepository.findFirst10ByReceiverAndRegisteredDateLessThanOrderByRegisteredDateDesc(
                         user,
                         DateUtil.getDate(requestActivityDto.getRegisteredDate())
                 )

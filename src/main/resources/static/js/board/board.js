@@ -1,14 +1,15 @@
-document.addEventListener("DOMContentLoaded", function(evt) {
-   const board = new Board();
-   const calendar = new Calendar();
+document.addEventListener("DOMContentLoaded", function (evt) {
+    const board = new Board();
+    const calendar = new Calendar();
     initEvent(calendar);
 
 
-   const chat = new Chat();
+    const chat = new Chat();
 
-    window.addEventListener("resize", function(evt) {
+    window.addEventListener("resize", function (evt) {
         let chattingBarWidth = getBoundingRect($_(".chatting-bar")).width;
         $_(".board-scroll-container").style.width = document.documentElement.clientWidth - chattingBarWidth + "px";
+        $_(".board-header").style.width = document.documentElement.clientWidth - chattingBarWidth + "px";
 
         let navbarHeight = getBoundingRect($_("header")).height;
         $_(".chatting-bar").style.height = document.documentElement.clientHeight - navbarHeight + "px";
@@ -20,26 +21,23 @@ document.addEventListener("DOMContentLoaded", function(evt) {
         $_(".chatting-bar-message-holder").style.height = chattingBarHeight - chattingBarTitleHeight - chattingInputHolderHeight - 36 + "px";
     });
 
-    $_(".chatting-bar-closer").addEventListener("click", function(evt) {
-       console.log("Close!");
-       const icon = evt.currentTarget.querySelector("i");
-        if(icon.classList.contains("fa-comment-dots")) {
-            $_(".chatting-bar").style.width = "320px";
-        } else {
-            $_(".chatting-bar").style.width = "0px";
+    $_(".chatting-bar .chatting-bar-closer").addEventListener("click", function (evt) {
+        $_(".board-header-side-menu .chatting-bar-closer").style.display = "inline-block";
+        $_(".chatting-bar").style.width = "0px";
+        window.dispatchEvent(new Event("resize"));
+    });
 
-        }
-
-        icon.classList.toggle("fa-comment-dots");
-        icon.classList.toggle("fa-angle-right");
+    $_(".board-header-side-menu .chatting-bar-closer").addEventListener("click", function (evt) {
+        $_(".chatting-bar").style.width = "320px";
+        $_(".board-header-side-menu .chatting-bar-closer").style.display = "none";
         window.dispatchEvent(new Event("resize"));
     });
 
     window.dispatchEvent(new Event("resize"));
 
-    $_(".board-header-side-menu .fa-calendar").addEventListener("click", (evt)=>{
+    $_(".board-header-side-menu .fa-calendar").addEventListener("click", (evt) => {
         evt.stopPropagation();
-        if($_("#calendar").style.display == 'block') {
+        if ($_("#calendar").style.display == 'block') {
             $_("#calendar").style.display = 'none';
             calendar.clearCalendar();
         } else {
@@ -53,12 +51,12 @@ document.addEventListener("DOMContentLoaded", function(evt) {
 });
 
 function initEvent(calendar) {
-    document.addEventListener("click", (evt)=>{
+    document.addEventListener("click", (evt) => {
         $_("#calendar").style.display = 'none';
         calendar.clearCalendar();
     });
 
-    $_("#calendar").addEventListener("click", (evt)=>{
+    $_("#calendar").addEventListener("click", (evt) => {
         evt.stopPropagation();
     })
 

@@ -25,9 +25,17 @@
 {{#partial "page_body"}}
 <div class="board-header">
     <div class="board-header-side-menu">
-        <i class="fa fa-calendar"></i>
-        <i class="fa fa-filter"></i>
+        <span>
+            <i class="fa fa-calendar"></i>
+        </span>
+        <span>
+            <i class="fa fa-filter"></i>
+        </span>
+        <span class="chatting-bar-closer">
+            <i class="fas fa-comment-dots"></i>
+        </span>
     </div>
+
 </div>
  <div class="board-scroll-container">
      <div class="board-container">
@@ -44,6 +52,9 @@
 
 
     <div class="chatting-bar">
+        <span class="chatting-bar-closer">
+            <i class="fas fa-angle-right"></i>
+        </span>
         <div class="chatting-bar-title">
             Board Chatting Room
 
@@ -60,9 +71,7 @@
 
     </div>
 
-    <div class="chatting-bar-closer">
-        <i class="fas fa-angle-right"></i>
-    </div>
+
     <div id="calendar" style="display: none"></div>
 
     <script type="text/javascript">

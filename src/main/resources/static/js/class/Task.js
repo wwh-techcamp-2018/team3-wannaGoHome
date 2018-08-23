@@ -72,6 +72,16 @@ class Task {
             this.addCard(obj);
         });
 
+        this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function(evt) {
+            if (detectShiftEnter(evt)) {
+                evt.preventDefault();
+                pasteIntoInput(evt.currentTarget, "\n");
+            } else if (detectEnter(evt)) {
+                evt.preventDefault();
+                this.cardWrapper.querySelector(".new-card-button").click();
+            }
+        }.bind(this));
+
         this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
             this.moving = true;
 
@@ -253,7 +263,6 @@ class Task {
     }
 
     reorderCard(originId, destIndex) {
-        console.log(this.taskObject.id, originId, destIndex);
         const obj = {
             originId: originId,
             destinationIndex: destIndex

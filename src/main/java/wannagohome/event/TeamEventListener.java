@@ -16,7 +16,6 @@ public class TeamEventListener implements ApplicationListener<TeamEvent> {
     @Autowired
     private ActivityEventHandler activityEventHandler;
 
-    @TransactionalEventListener
     @Override
     public void onApplicationEvent(TeamEvent event) {
         AbstractActivity activity = event.getActivity();

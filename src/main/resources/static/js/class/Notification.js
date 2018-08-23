@@ -30,6 +30,7 @@ class Notification {
     }
 
     initSubscription(topic) {
+        console.log("initSubscription is called");
         this.subscribeTopic("/topic/user/" + topic, this.handleNotification.bind(this));
     }
 
@@ -40,6 +41,7 @@ class Notification {
     }
 
     handleNotification(body) {
+        console.log("handleNotification is called with body: {}", body);
         this.appendNotification(body);
         this.swingNotification();
     }

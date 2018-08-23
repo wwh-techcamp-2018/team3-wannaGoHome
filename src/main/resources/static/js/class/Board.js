@@ -19,6 +19,7 @@ class Board {
     }
 
     init() {
+        this.scrollContainer = $_(".board-scroll-container");
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
@@ -89,6 +90,8 @@ class Board {
     }
 
     setBoard(unsortedTasks) {
+        this.scrollLeft = this.scrollContainer.scrollLeft;
+        const originalTaskListLength = this.taskList.length;
         while (this.taskList.length) {
             const task = this.taskList[0];
             task.remove();
@@ -110,6 +113,10 @@ class Board {
         }
         // show add List button after loading inline-block
         this.addListButton.style.display = "inline-block";
+        // reset scroll Left
+        this.scrollContainer.scrollLeft = this.scrollLeft + (tasks.length - originalTaskListLength) * 278;
+
+
     }
 
     setBoardInfo(boardObj) {

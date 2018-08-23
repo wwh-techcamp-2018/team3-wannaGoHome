@@ -70,6 +70,7 @@ public class Task {
         taskDto.setId(id);
         taskDto.setTitle(title);
         taskDto.setCards(cards);
+        taskDto.setOrderId(orderId);
         return taskDto;
     }
 

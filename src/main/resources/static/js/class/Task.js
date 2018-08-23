@@ -38,7 +38,7 @@ class Task {
 
     addListeners() {
 
-        this.task.querySelector(".task-list-title").addEventListener("mousedown", function(evt) {
+        this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
             this.moving = true;
 
             this.board.startDrag.x = evt.clientX;
@@ -52,7 +52,7 @@ class Task {
     incrementContainerWidth() {
         const currentHeight = this.board.container.style.width.trim();
         const rect = this.getBoundingRect(this.board.selector(".add-list-button"));
-        if(!currentHeight) {
+        if (!currentHeight) {
             this.board.container.style.width = (rect.right - rect.left + 6) * 2 + "px";
         } else {
             this.board.container.style.width = parseInt(currentHeight.substring(0, currentHeight.length - 2)) + (rect.right - rect.left + 6) + "px";
@@ -98,16 +98,17 @@ class Task {
 
         this.task.classList.toggle("task-list-dragging");
 
-        for(let i = 0; i < this.board.taskList.length; ++i) {
-            if(this.board.taskList[i] == this) {
+        for (let i = 0; i < this.board.taskList.length; ++i) {
+            if (this.board.taskList[i] == this) {
                 this.originIndex = this.taskObject.id;
+                this.destinationIndex = i;
                 break;
             }
         }
     }
 
     moveTaskPosition(evt) {
-        if(!this.moving) return;
+        if (!this.moving) return;
 
         const rect = this.getBoundingRect(this.task);
         const centerX = (rect.left + rect.right) / 2;
@@ -116,19 +117,19 @@ class Task {
         let thisTaskIndex = -1;
         let destTaskIndex = -1;
         let i = 0;
-        for(const task of this.board.taskList) {
+        for (const task of this.board.taskList) {
             const insideBound = task.isInsideBound.call(task, centerX, this);
-            if(insideBound) {
+            if (insideBound) {
                 destTaskIndex = i;
             }
-            if(this == task) {
+            if (this == task) {
                 thisTaskIndex = i;
             }
             i++;
         }
 
-        if(destTaskIndex !== -1) {
-            if(thisTaskIndex > destTaskIndex) {
+        if (destTaskIndex !== -1) {
+            if (thisTaskIndex > destTaskIndex) {
                 this.board.taskList[destTaskIndex].handleInsideBound.call(this.board.taskList[destTaskIndex], centerX, this, true);
                 this.board.taskList.splice(thisTaskIndex, 1);
                 this.board.taskList.splice(destTaskIndex, 0, this);
@@ -148,7 +149,7 @@ class Task {
     }
 
     unsetDraggable() {
-        if(!this.moving) return;
+        if (!this.moving) return;
 
         this.task.style.position = "static";
         this.task.style.left = "0px";
@@ -180,14 +181,14 @@ class Task {
 
     handleInsideBound(x, task, prev) {
         const rect = this.getBoundingRect(this.taskWrapper);
-        if(rect.left < x && rect.right > x && (this != task)) {
+        if (rect.left < x && rect.right > x && (this != task)) {
 
             const newRect = this.getBoundingRect(this.taskContainer);
             const originRect = task.getBoundingRect(task.taskWrapper);
 
             this.board.startDrag.x = this.board.startDrag.x + (newRect.left - originRect.left);
 
-            if(prev) {
+            if (prev) {
                 this.board.container.insertBefore(task.taskContainer, this.taskContainer);
             } else {
                 this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);

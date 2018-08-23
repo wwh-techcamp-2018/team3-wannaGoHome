@@ -44,3 +44,49 @@ function getBoundingRect(element) {
     const rect = element.getBoundingClientRect();
     return rect;
 }
+
+function detectShiftEnter(event) {
+    return (event.key == "Enter" && event.shiftKey);
+}
+
+function detectEnter(event) {
+    return (event.key == "Enter");
+}
+
+function pasteIntoInput(el, text) {
+    el.focus();
+    if (typeof el.selectionStart == "number"
+        && typeof el.selectionEnd == "number") {
+        const val = el.value;
+        const selStart = el.selectionStart;
+
+        const value = val.slice(0, selStart) + text + val.slice(el.selectionEnd);
+
+        // need to use setTimeout due to a slight bug in Chrome
+        setTimeout(function(value) {
+            this.selectionStart = this.selectionEnd = value.length;
+            this.value = value;
+            this.scrollTop = this.scrollHeight;
+        }.bind(el, value), 0)
+    } else if (typeof document.selection != "undefined") {
+        const textRange = document.selection.createRange();
+        textRange.text = text;
+        textRange.collapse(false);
+        textRange.select();
+    }
+}
+
+function checkTime(value) {
+    return (value < 10) ? "0" + value : value;
+}
+
+function getFormattedTime(date) {
+    return date.getHours() + ":" + checkTime(date.getMinutes());
+}
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+

@@ -21,7 +21,7 @@ public class TaskDto {
     private String title;
     private List<Card> cards;
 
-
+    private Integer orderId;
     private boolean deleted;
 
 }

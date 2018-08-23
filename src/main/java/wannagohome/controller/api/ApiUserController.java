@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import wannagohome.domain.SignInDto;
 import wannagohome.domain.SignUpDto;
 import wannagohome.domain.User;
+import wannagohome.domain.UserDto;
 import wannagohome.service.UserService;
 import wannagohome.util.SessionUtil;
 
@@ -35,6 +36,11 @@ public class ApiUserController {
     @PostMapping("/logout")
     public void logout(HttpSession session) {
         SessionUtil.removeUserSession(session);
+    }
+
+    @GetMapping("/userId")
+    public UserDto getUserDtoInSession(HttpSession session) {
+        return SessionUtil.getUserSession(session).getUserDto();
     }
 
 }

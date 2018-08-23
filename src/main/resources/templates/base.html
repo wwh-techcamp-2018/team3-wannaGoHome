@@ -42,7 +42,7 @@
             <div class="col-2 text-right">
                 <button class="header-button">1</button>
                 <button class="header-button">2</button>
-                <button class="header-button mr-1">3</button>
+                <a class="header-button logout-button" href="/users/logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
         <script type="text/javascript">
@@ -52,6 +52,9 @@
     </header>
 
     {{#block "createboard"}}
+    {{/block}}
+
+    {{#block "page_body"}}
     {{/block}}
 
     <div class="container">

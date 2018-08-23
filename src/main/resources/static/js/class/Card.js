@@ -18,6 +18,7 @@ class Card {
     init() {
         this.cardListTemplate = Handlebars.templates["precompile/board/card_list_template"];
         const newCard = createElementFromHTML(this.cardListTemplate(this.card));
+        newCard.querySelector(".card-list-title").innerHTML = this.card.title.replaceAll("\n", "<br />");
         this.task.taskWrapper.querySelector(".card-list-wrapper").appendChild(newCard);
         this.card = newCard.querySelector(".card-wrapper");
         this.cardHolder = newCard;
@@ -105,9 +106,6 @@ class Card {
                         destCardIndex = j;
                     }
                     j++;
-                }
-                if(destCardIndex == -1) {
-                    destCardIndex = 0;
                 }
 
             }

@@ -11,7 +11,7 @@ class Message {
     }
 
     init() {
-        if(this.reference) {
+        if (this.reference) {
             this.handleNewerMessage.call(this, this.message, this.reference);
         } else {
             this.handleMessage.call(this, this.message);
@@ -23,7 +23,7 @@ class Message {
         message.time = getFormattedTime(new Date(message.messageCreated));
 
         // author of message is current user
-        if(message["author"]["id"] == this.chat.userId) {
+        if (message["author"]["id"] == this.chat.userId) {
             messageTemplate = Handlebars.templates["precompile/board/chat_message_right_template"];
         } else {
             messageTemplate = Handlebars.templates["precompile/board/chat_message_left_template"];
@@ -40,7 +40,7 @@ class Message {
         this.chat.messageHolder.appendChild(this.messageElem);
         this.chat.messageHolder.scrollTop = this.chat.messageHolder.scrollHeight;
         this.chat.newestMessageOrder = message.messageOrder;
-        if(this.chat.oldestMessageOrder == -1) {
+        if (this.chat.oldestMessageOrder == -1) {
             this.chat.oldestMessageOrder = message.messageOrder;
         }
         this.chat.oldestMessageOrder = Math.min(this.chat.oldestMessageOrder, message.messageOrder);
@@ -49,7 +49,7 @@ class Message {
     handleNewerMessage(message, reference) {
         this.createMessageElement(message);
         this.chat.messageHolder.insertBefore(this.messageElem, reference);
-        if(this.chat.oldestMessageOrder == -1) {
+        if (this.chat.oldestMessageOrder == -1) {
             this.chat.oldestMessageOrder = message.messageOrder;
         }
         this.chat.oldestMessageOrder = Math.min(this.chat.oldestMessageOrder, message.messageOrder);
@@ -72,19 +72,19 @@ class Message {
     }
 
     hideAuthor() {
-        if(this.messageElem.classList.contains("message-holder-left")) {
+        if (this.messageElem.classList.contains("message-holder-left")) {
             this.selector(".profile-header").style.display = "none";
         }
-        if(!this.messageElem.classList.contains("no-author")) {
+        if (!this.messageElem.classList.contains("no-author")) {
             this.messageElem.classList.toggle("no-author");
         }
     }
 
     showAuthor() {
-        if(this.messageElem.classList.contains("message-holder-left")) {
+        if (this.messageElem.classList.contains("message-holder-left")) {
             this.selector(".profile-header").style.display = "block";
         }
-        if(this.messageElem.classList.contains("no-author")) {
+        if (this.messageElem.classList.contains("no-author")) {
             this.messageElem.classList.toggle("no-author");
         }
     }

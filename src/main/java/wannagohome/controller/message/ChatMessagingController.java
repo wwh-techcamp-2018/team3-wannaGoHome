@@ -23,7 +23,7 @@ public class ChatMessagingController {
 
     @MessageMapping("/message/board/{boardId}/chat")
     @SendTo("/topic/board/{boardId}/chat")
-    public ChatMessageDto sendChatMessage(@Payload String message, @DestinationVariable Long boardId,
+    public ChatMessageDto sendChatMessage(@DestinationVariable Long boardId,
                                           SimpMessageHeaderAccessor headerAccessor, ChatMessageDto chatMessageDto) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
         User currentUser = SessionUtil.getUserSession(session);

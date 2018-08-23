@@ -1,10 +1,7 @@
 package wannagohome.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -15,8 +12,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@ToString
 @NoArgsConstructor
-@EqualsAndHashCode
 public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,18 +42,6 @@ public class ChatMessage {
     public ChatMessage(ChatMessageDto chatMessageDto) {
         this.text = chatMessageDto.getText();
         this.messageCreated = new Date();
-    }
-
-    @Override
-    public String toString() {
-        return "ChatMessage{" +
-                "id=" + id +
-                ", messageOrder=" + messageOrder +
-                ", author=" + author +
-                ", board=" + board +
-                ", messageCreated=" + messageCreated +
-                ", text='" + text + '\'' +
-                '}';
     }
 
     @JsonIgnore

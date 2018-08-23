@@ -30,19 +30,16 @@ public class BoardMessagingController {
     // headerAccessor maintains link to session
     @MessageMapping("/message/board/{boardId}")
     @SendTo("/topic/board/{boardId}")
-    public BoardDto getBoardState(@Payload String message, @DestinationVariable Long boardId,
+    public BoardDto getBoardState(@DestinationVariable Long boardId,
                                   SimpMessageHeaderAccessor headerAccessor) throws Exception {
-        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
-        headerAccessor.setSessionId(session.getId());
         return boardService.findById(boardId).getBoardDto();
     }
 
     @MessageMapping("/message/add/{boardId}/task")
     @SendTo("/topic/board/{boardId}")
-    public BoardDto addTaskToBoard(@Payload String message, @DestinationVariable Long boardId,
+    public BoardDto addTaskToBoard(@DestinationVariable Long boardId,
                                    SimpMessageHeaderAccessor headerAccessor, TaskDto taskDto) throws Exception {
         HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
-        headerAccessor.setSessionId(session.getId());
         taskDto.setAuthor(SessionUtil.getUserSession(session));
 
         return boardService.addBoardTask(boardId, new Task(taskDto)).getBoardDto();
@@ -50,10 +47,9 @@ public class BoardMessagingController {
 
     @MessageMapping("/message/reorder/{boardId}/task")
     @SendTo("/topic/board/{boardId}")
-    public BoardDto reorderTasks(@Payload String message, @DestinationVariable Long boardId,
+    public BoardDto reorderTasks(@DestinationVariable Long boardId,
                                  SimpMessageHeaderAccessor headerAccessor, TaskOrderDto taskOrderDto) throws Exception {
-        HttpSession session = (HttpSession) headerAccessor.getSessionAttributes().get(HttpHandshakeInterceptor.SESSION);
-        headerAccessor.setSessionId(session.getId());
+
 
         return boardService.reorderBoardTasks(boardId, taskOrderDto).getBoardDto();
     }

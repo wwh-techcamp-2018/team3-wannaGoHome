@@ -46,11 +46,11 @@ function getBoundingRect(element) {
 }
 
 function detectShiftEnter(event) {
-    return (event.keyCode == 13 && event.shiftKey);
+    return (event.key == "Enter" && event.shiftKey);
 }
 
 function detectEnter(event) {
-    return (event.keyCode == 13);
+    return (event.key == "Enter");
 }
 
 function pasteIntoInput(el, text) {

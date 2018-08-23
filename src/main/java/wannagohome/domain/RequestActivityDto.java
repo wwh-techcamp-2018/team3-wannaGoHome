@@ -8,5 +8,5 @@ import java.util.Date;
 @Getter
 @Setter
 public class RequestActivityDto {
-    private Date registeredDate;
+    private String registeredDate;
 }

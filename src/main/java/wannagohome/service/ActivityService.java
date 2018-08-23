@@ -7,8 +7,12 @@ import wannagohome.component.ActivityMessageGenerator;
 import wannagohome.domain.*;
 import wannagohome.event.ActivityEventHandler;
 import wannagohome.repository.ActivityRepository;
+import wannagohome.util.DateUtil;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -52,9 +56,9 @@ public class ActivityService {
     public void sendPreviousActivities(User user, RequestActivityDto requestActivityDto) {
         activityEventHandler.sendPersonalMessage(
                 user,
-                activityRepository.findFirst10ByReceiverAndRegisteredDateLessThanOrderByRegisteredDateDesc(
+                activityRepository.findFirst10ByReceiverAndRegisteredDateGreaterThanOrderByRegisteredDateDesc(
                         user,
-                        requestActivityDto.getRegisteredDate()
+                        DateUtil.getDate(requestActivityDto.getRegisteredDate())
                 )
         );
     }

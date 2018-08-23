@@ -54,7 +54,7 @@ public class ActivityEventHandler {
     }
 
     public void sendPersonalMessage(User user, List<AbstractActivity> activities) {
-        log.debug("sendPersonalMessage is called");
+        log.debug("sendPersonalMessage is called : {}", activities.size());
         String topic = "/topic/user/" + encoder.encode(user.getEmail());
         simpMessageSendingOperations.convertAndSend(
                 topic,

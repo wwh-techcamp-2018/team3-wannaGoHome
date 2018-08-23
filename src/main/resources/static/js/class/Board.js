@@ -38,10 +38,17 @@ class Board {
         }.bind(this));
 
         this.selector(".add-list-inner-button").addEventListener("click", function (evt) {
+            evt.preventDefault();
             const obj = {};
             obj.title = this.selector(".hidden-list-title-form input").value.trim();
+
+            // hide addButton temporarily
+            this.addButton.style.display = "none";
+
             this.addTask(obj);
+
             this.selector(".hidden-list-title-form").style.display = "none";
+
         }.bind(this));
 
         this.selector(".hidden-list-title-form input").addEventListener("keyup", function (evt) {
@@ -80,12 +87,15 @@ class Board {
         };
     }
 
-    setBoard(tasks) {
+    setBoard(unsortedTasks) {
         while (this.taskList.length) {
             const task = this.taskList[0];
             task.remove();
             this.taskList.splice(0, 1);
         }
+        const tasks = unsortedTasks.sort((a, b) => {
+            return a.orderId - b.orderId;
+        });
         this.container.style.width = "300px";
         for (const task of tasks) {
             const taskObject = new Task(this, task);
@@ -94,7 +104,9 @@ class Board {
                 const newCard = new Card(card, taskObject, this);
                 taskObject.cardList.push(newCard);
             }
+
         }
+        this.addButton.style.display = "block";
     }
 
     updateBoardState() {

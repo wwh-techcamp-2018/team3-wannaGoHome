@@ -26,6 +26,7 @@ public class TaskDto {
 
     private List<CardDto> cards = new ArrayList<>();
 
+    private Integer orderId;
     private boolean deleted;
 
     @JsonIgnore

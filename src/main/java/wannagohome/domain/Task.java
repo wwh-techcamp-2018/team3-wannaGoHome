@@ -76,6 +76,7 @@ public class Task {
         taskDto.setId(id);
         taskDto.setTitle(title);
         taskDto.setCards(cards.stream().map(card -> card.getCardDto()).collect(Collectors.toList()));
+        taskDto.setOrderId(orderId);
         return taskDto;
     }
 

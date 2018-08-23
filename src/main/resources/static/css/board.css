@@ -1,6 +1,7 @@
 html, body {
     background-color: #0079bf;
     height: 100%;
+    overflow: hidden;
 }
 
 div {
@@ -26,6 +27,10 @@ div {
     cursor: pointer;
 }
 
+.board-scroll-container {
+    height: 100%;
+    overflow: scroll;
+}
 
 .board-container {
     padding-top: 10px;
@@ -69,6 +74,7 @@ div {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    line-height: 16px;
 }
 
 .add-list-button:hover {
@@ -234,4 +240,235 @@ div {
     margin: 10px;
     width: 250px;
     position: relative;
+}
+
+.chatting-bar {
+    background-color: #edeff0;
+    box-shadow: 0 0 6px rgba(0,0,0,.4);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 320px;
+    height: 100%;
+}
+
+.chatting-bar-title {
+    text-align: center;
+    font-size: 1.0em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 12px;
+    margin-right: 12px;
+    font-weight: bold;
+    border-bottom: solid 1px #ccc;
+}
+
+.chatting-bar-message-holder {
+    background-color: #e2e4e6;
+    height: 100px;
+    margin: 12px;
+    border-radius: 5px;
+    border: solid 1px #ccc;
+    overflow-y: scroll;
+
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    /*background: #FF0000;*/
+}
+
+.message-holder-left {
+    position: relative;
+
+    padding-top: 6px;
+    padding: 4px 60px 4px 4px
+}
+
+.profile-header {
+    height: 24px;
+}
+
+.profile-image-holder {
+    display: inline-block;
+    font-size: 36px;
+    line-height: 36px;
+
+}
+
+.message-holder-left .profile-name-holder {
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: top;
+    color: #555;
+}
+
+.speech-bubble-holder {
+    position: relative;
+    max-width: 100%;
+    display: inline-block;
+}
+
+.time-holder {
+    font-weight: lighter;
+    position: absolute;
+    display: inline-block;
+    width: 34px;
+    font-size: 0.7em;
+    color: #555;
+}
+
+.no-author {
+    padding-top: 0px !important;
+}
+
+.speech-bubble-text {
+    text-align: left;
+}
+
+.message-holder-left .speech-bubble-holder {
+    margin-left: 40px;
+    padding-right: 20px;
+    position: relative;
+    text-align: left;
+}
+
+.speech-bubble-left {
+    display: inline-block;
+    max-width: 100%;
+    word-wrap:break-word;
+    background-color: #97acbf;
+    border-radius: 6px;
+    padding: 4px 12px 4px 12px;
+
+    color: #000;
+
+}
+
+.speech-bubble-left:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right-color: #97acbf;
+    border-left: 0;
+    border-top: 0;
+    margin-top: 8px;
+    margin-left: -8px;
+}
+
+.message-holder-left .time-holder {
+    right: -18px;
+    bottom: 2px;
+    text-align: left;
+}
+
+.message-holder-right {
+    position: relative;
+    padding: 4px 18px 4px 60px;
+    overflow: hidden;
+    text-align: right;
+}
+
+.message-holder-right .speech-bubble-holder {
+    position: relative;
+    max-width: 100%;
+
+
+}
+
+.speech-bubble-right {
+    display: inline-block;
+    position: relative;
+    max-width: 100%;
+    word-wrap:break-word;
+    background-color: #0079bf;
+    border-radius: 6px;
+    padding: 4px 12px 4px 12px;
+
+    color: #FFF;
+}
+
+.speech-bubble-right:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-left-color: #0079bf;
+    border-right: 0;
+    border-top: 0;
+    margin-top: 8px;
+    margin-right: -8px;
+}
+
+.message-holder-right .time-holder {
+    left: -38px;
+    bottom: 2px;
+    text-align: right;
+}
+
+.chatting-input-holder {
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 0.8em;
+    width: 100%;
+    vertical-align: top;
+}
+
+.chatting-input-holder textarea {
+    vertical-align: top;
+    padding: 0px 6px 0px 6px;
+    width: 240px;
+    border-radius: 3px;
+    border: solid 1px #aaa;
+    color: #333;
+    line-height: 27px;
+    font-weight: normal;
+    resize: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.chatting-input-holder button {
+    vertical-align: top;
+    display: inline-block;
+    background-color: #61bd4f;
+    color: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 31px;
+    border-radius: 3px;
+    border: none;
+}
+
+.chatting-bar-closer {
+    position: fixed;
+    top: 45px;
+    right: 6px;
+    width: 35px;
+    height: 35px;
+    background-color: #e2e4e6;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #8c8c8c;
+    text-align: center;
+    line-height: 35px;
+    font-size: 25px;
+    color: #3F3F3F;
+    box-shadow: -2px 2px 8px -4px #3F3F3F;
+}
+
+.chatting-bar-closer:hover {
+    cursor: pointer;
 }

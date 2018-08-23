@@ -10,6 +10,23 @@ div {
     box-sizing: border-box;
 }
 
+.board-header {
+    width: 100%;
+    height: 40px;
+    background-color: #026aa7;
+    text-align: right;
+}
+
+.board-header-side-menu {
+    font-size: 25px;
+    color: #fff;
+}
+.board-header-side-menu> i {
+    line-height: 40px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
 .board-scroll-container {
     height: 100%;
     overflow: scroll;
@@ -120,7 +137,8 @@ div {
 .task-list-content {
     background-color: #e2e4e6;
     border-radius: 3px;
-    overflow: hidden;
+    overflow: visible;
+    overflow-y: hidden;
 
 }
 
@@ -152,6 +170,76 @@ div {
     background-color: #b4b6b8;
     color: #464646;
     text-decoration: underline;
+}
+
+#calendar {
+    float: right;
+    height: 600px;
+    width: 800px;
+    z-index: 10;
+    position: relative;
+    top: -100%;
+    border-radius: 3px;
+    padding: 1px;
+    background-color: #fff;
+    box-shadow: -2px 2px 2px #aaaaaa;
+
+}
+
+.new-card-title {
+    border-radius: 5px;
+    border-style: none;
+    width: 230px;
+    margin: 10px;
+    height: 50px;
+    padding: 10px;
+
+}
+
+.new-card-button {
+    width: 100px;
+    height: 35px;
+    text-align: center;
+    /*padding: 10px;*/
+    margin: 10px;
+    margin-top: 0px;
+    line-height: 35px;
+    background-color: #5aac44;
+    border-radius: 5px;
+    border-style: none;
+    font-weight: bold;
+    font-size: 13px;
+    color: #fff;
+}
+
+.new-card-wrapper> i {
+    font-size: 20px;
+    color: #aaaaaa;
+    line-height: 35px;
+}
+
+.card-wrapper {
+    width: 250px;
+    /*margin: 10px;*/
+    padding: 10px;
+    border-radius: 3px;
+    border-style: none;
+    background-color: #fff;
+    font-size: 13px;
+}
+
+.card-list-dragging {
+    transform: rotate(5deg);
+    transform-origin: 50% 0%;
+}
+
+.card-holder {
+    background-color: #aaaaaa;
+    border-radius: 3px;
+    border-style: none;
+    margin: 10px;
+    width: 250px;
+    position: relative;
 }
 
 .chatting-bar {

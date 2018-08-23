@@ -87,21 +87,25 @@ class Board {
         };
     }
 
-    setBoardTasks(unsortedTasks) {
+    setBoard(unsortedTasks) {
         while (this.taskList.length) {
             const task = this.taskList[0];
             task.remove();
             this.taskList.splice(0, 1);
         }
-
-        this.container.style.width = "300px";
         const tasks = unsortedTasks.sort((a, b) => {
             return a.orderId - b.orderId;
         });
+        this.container.style.width = "300px";
         for (const task of tasks) {
-            this.taskList.push(new Task(this, task));
-        }
+            const taskObject = new Task(this, task);
+            this.taskList.push(taskObject);
+            for (const card of task.cards) {
+                const newCard = new Card(card, taskObject, this);
+                taskObject.cardList.push(newCard);
+            }
 
+        }
         this.addButton.style.display = "block";
     }
 
@@ -129,7 +133,8 @@ class Board {
                 if (this.dragObject) {
                     return;
                 }
-                this.setBoardTasks(JSON.parse(board.body).tasks);
+                this.setBoard(JSON.parse(board.body).tasks);
+
             }.bind(this));
 
             this.fetchBoardState();
@@ -149,9 +154,9 @@ class Board {
         this.stompClient.send(`/app/message/add/${this.boardIndex}/task`, {}, JSON.stringify(obj));
     }
 
-    reorderTasks(thisTaskIndex, destTaskIndex) {
+    reorderTasks(originId, destTaskIndex) {
         const obj = {
-            originId: thisTaskIndex,
+            originId: originId,
             destinationIndex: destTaskIndex
         };
         this.stompClient.send(`/app/message/reorder/${this.boardIndex}/task`, {}, JSON.stringify(obj));

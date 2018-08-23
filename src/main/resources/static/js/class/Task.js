@@ -1,3 +1,4 @@
+//task.js
 class Task {
     constructor(board, taskObject) {
         this.board = board;
@@ -10,7 +11,7 @@ class Task {
         this.task = null;
 
         // placeholder for card list
-        this.cards = [];
+        this.cardList = [];
 
         this.taskContainer = null;
 
@@ -29,6 +30,9 @@ class Task {
         this.taskContainer = newTask;
         this.task = newTask.querySelector(".task-list-content");
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
+        this.addCardButton = this.task.querySelector(".add-card-button");
+        this.boardIndex = window.location.href.trim().split("/").pop();
+        this.cardWrapper = this.task.querySelector(".new-card-wrapper");
     }
 
     remove() {
@@ -37,6 +41,36 @@ class Task {
     }
 
     addListeners() {
+        document.addEventListener("click", (evt)=>{
+            this.addCardButton.style.display = 'block';
+            this.cardWrapper.style.display = 'none';
+        });
+        this.cardWrapper.addEventListener("click", (evt)=>{
+            evt.stopPropagation();
+        })
+        this.addCardButton.addEventListener("click", (evt)=>{
+            evt.stopPropagation();
+            this.addCardButton.style.display = 'none';
+            this.cardWrapper.style.display = 'block';
+            this.cardWrapper.querySelector(".new-card-title").value = "";
+            this.cardWrapper.querySelector(".new-card-title").focus();
+        });
+
+        this.cardWrapper.querySelector("i").addEventListener("click", (evt)=>{
+            this.addCardButton.style.display = 'block';
+            this.cardWrapper.style.display = 'none';
+        });
+
+
+        this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt)=>{
+            const obj = {};
+            obj.title = this.cardWrapper.querySelector(".new-card-title").value;
+            obj.createDate = new Date();
+            this.cardWrapper.style.display = 'none';
+            this.addCardButton.style.display = 'block';
+            this.cardWrapper.querySelector(".new-card-title").value = "";
+            this.addCard(obj);
+        });
 
         this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
             this.moving = true;
@@ -68,7 +102,7 @@ class Task {
         obj.title = this.title;
 
         // need to implement later
-        obj.cards = this.cards;
+        obj.cards = this.cardList;
         obj.deleted = false;
         return obj;
     }
@@ -193,14 +227,37 @@ class Task {
             } else {
                 this.board.container.insertBefore(task.taskContainer, this.taskContainer.nextSibling);
             }
-
         }
+    }
 
+    selector(nodeSelector) {
+        return this.taskContainer.querySelector(nodeSelector);
+    }
+
+    insertCardNode(card) {
+        this.selector(".card-list-wrapper").appendChild(card.cardHolder);
+    }
+
+    setOverflow(value) {
+        this.task.style.overflow = value;
     }
 
     // top right bottom left
     getBoundingRect(element) {
         const rect = element.getBoundingClientRect();
         return rect;
+    }
+
+    addCard(obj) {
+        this.board.stompClient.send(`/app/message/add/${this.boardIndex}/${this.taskObject.id}/card`, {}, JSON.stringify(obj));
+    }
+
+    reorderCard(originId, destIndex) {
+        console.log(this.taskObject.id, originId, destIndex);
+        const obj = {
+            originId: originId,
+            destinationIndex: destIndex
+        };
+        this.board.stompClient.send(`/app/message/reorder/${this.boardIndex}/${this.taskObject.id}/card`, {}, JSON.stringify(obj));
     }
 }

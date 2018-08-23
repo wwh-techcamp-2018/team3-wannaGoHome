@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
    const board = new Board();
+   // const calendar = new Calendar();
+   //  checkClickCalendar(calendar);
+   //  initEvent(calendar);
+
 
    const chat = new Chat();
 
@@ -33,6 +37,32 @@ document.addEventListener("DOMContentLoaded", function(evt) {
     });
 
     window.dispatchEvent(new Event("resize"));
-
 });
+
+function initEvent(calendar) {
+    document.addEventListener("click", (evt)=>{
+        $_("#calendar").style.display = 'none';
+        calendar.clearCalendar();
+    });
+
+    $_("#calendar").addEventListener("click", (evt)=>{
+        evt.stopPropagation();
+    })
+
+}
+//
+// function checkClickCalendar(calendar) {
+//     $_(".board-header-side-menu .fa-calendar").addEventListener("click", (evt)=>{
+//         evt.stopPropagation();
+//         if($_("#calendar").style.display == 'block') {
+//             $_("#calendar").style.display = 'none';
+//             calendar.clearCalendar();
+//         } else {
+//             calendar.constructCard(cards);
+//             $_("#calendar").style.display = 'block';
+//         }
+//     });
+//
+// }
+
 

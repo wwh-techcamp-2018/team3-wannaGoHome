@@ -14,7 +14,8 @@ public enum ErrorType {
     TEAM_NAME("name"),
     TEAM_DESC("description"),
     BOARD_ID("boardId"),
-    BOARD_TITLE("title");
+    BOARD_TITLE("title"),
+    CARD_ID("cardId");
     private static final Logger log = LoggerFactory.getLogger(ErrorType.class);
 
     private String errorType;

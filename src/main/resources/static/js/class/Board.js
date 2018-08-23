@@ -114,7 +114,7 @@ class Board {
         // show add List button after loading inline-block
         this.addListButton.style.display = "inline-block";
         // reset scroll Left
-        this.scrollContainer.scrollLeft = this.scrollLeft + (tasks.length - originalTaskListLength) * 278;
+        this.scrollContainer.scrollLeft = this.scrollLeft;// + (tasks.length - originalTaskListLength) * 278;
 
 
     }

@@ -34,10 +34,7 @@ public class ChatMessage {
     @JoinColumn(name="board_id", nullable=false)
     private Board board;
 
-    @Basic(optional = false)
     @Column(name = "message_created", updatable = false)
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
     private Date messageCreated;
 
     @NotBlank

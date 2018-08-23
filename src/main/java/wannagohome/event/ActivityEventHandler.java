@@ -1,20 +1,22 @@
 package wannagohome.event;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import wannagohome.component.ActivityMessageGenerator;
 import wannagohome.domain.AbstractActivity;
-import wannagohome.domain.ActivityDto;
 import wannagohome.domain.User;
 import wannagohome.repository.ActivityRepository;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class ActivityEventHandler {
-
     @Resource(name = "biDirectionEncoder")
     private PasswordEncoder encoder;
 
@@ -40,10 +42,18 @@ public class ActivityEventHandler {
         activityRepository.save(saveActivity);
     }
 
-    private void sendMessage(AbstractActivity activity) {
+    public void sendMessage(AbstractActivity activity) {
         simpMessageSendingOperations.convertAndSend(
                 activity.getTopic(encoder),
-                activityMessageGenerator.generateMessage(activity)
+                Arrays.asList(activityMessageGenerator.generateMessage(activity))
+        );
+    }
+
+    public void sendPersonalMessage(User user, List<AbstractActivity> activities) {
+        String topic = "/topic/user/" + encoder.encode(user.getEmail());
+        simpMessageSendingOperations.convertAndSend(
+                topic,
+                activities.stream().map(activity -> activityMessageGenerator.generateMessage(activity))
         );
     }
 }

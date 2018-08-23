@@ -12,7 +12,7 @@ function initHeader() {
     });
     $_(".header-button").addEventListener("click", (evt) => {
         fetchManager({
-            url: "api/boards",
+            url: "/api/boards",
             method: "GET",
             callback: drawBoardSummary
         });

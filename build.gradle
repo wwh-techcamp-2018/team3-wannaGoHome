@@ -30,7 +30,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.security:spring-security-core')
 	compile('org.hibernate:hibernate-java8')
-	compile('mysql:mysql-connector-java:8.0.12')
+	compile('mysql:mysql-connector-java:5.1.47')
 	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0')
 
 	compile("org.springframework.boot:spring-boot-starter-websocket")

@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString
 @EqualsAndHashCode
 public class User {
     public static User GUEST_USER = new GuestUser();

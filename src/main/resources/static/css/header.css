@@ -122,6 +122,7 @@ a.header-logo {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    list-style: none;
 }
 
 .header-notification-content:hover {
@@ -182,4 +183,23 @@ a.header-logo {
 @keyframes swing {
     0% { transform: rotate(30deg); }
     100% { transform: rotate(-30deg); }
+}
+
+.header-notification-more {
+    font-size: 13px;
+    padding: 0px 5px;
+    margin: 13px 5px 0px 5px;
+    border-radius: 3px;
+    /*background-color: red;*/
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header-notification-more:hover {
+    background-color: #dddddd;
+}
+
+.header-notification-scrollable {
+    max-height: 462px;
+    overflow: scroll;
 }

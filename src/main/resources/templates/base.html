@@ -46,11 +46,15 @@
                 <button class="header-button">1</button>
                 <button class="header-button header-notification-button"><i class="far fa-bell"></i></button>
                 <a class="header-button logout-button" href="/users/logout"><i class="fas fa-sign-out-alt"></i></a>
-                <ul class="header-notification-holder header-notification-hide">
-                    <li class="header-button-boardlist-title">
-                        <i class="fa fa-clock-o"></i> RECENT ACTIVITY
-                    </li>
-                </ul>
+                <div class="header-notification-holder header-notification-hide">
+                    <p class="header-button-boardlist-title"><i class="far fa-clock"></i> RECENT ACTIVITY</p>
+                    <div class="header-notification-scrollable">
+                        <ul class="header-notification-ul">
+                        </ul>
+                        <p class="header-notification-more"><i class="fas fa-plus-circle"></i> 더 보기...</p>
+                    </div>
+                </div>
+
             </div>
         </div>
         <script type="text/javascript">

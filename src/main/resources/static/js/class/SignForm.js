@@ -62,6 +62,7 @@ class SignForm {
     handleSign(status, result) {
         if (status === 201 || status === 200) {
             window.location.href = this.redirectUrl;
+            return;
         }
 
         this.clearCautions();

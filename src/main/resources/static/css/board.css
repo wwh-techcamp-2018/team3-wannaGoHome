@@ -63,6 +63,13 @@ div,span {
     font-size: 30px;
 }
 
+.board-header-side-menu .chatting-bar-closer {
+    display: none;
+
+    line-height: 35px;
+    font-size: 30px;
+}
+
 .board-scroll-container {
     position: absolute;
     top: 80px;
@@ -462,8 +469,6 @@ div,span {
 .message-holder-right .speech-bubble-holder {
     position: relative;
     max-width: 100%;
-
-
 }
 
 .speech-bubble-right {

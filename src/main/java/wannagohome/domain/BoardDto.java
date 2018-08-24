@@ -15,6 +15,6 @@ public class BoardDto {
     private List<TaskDto> tasks;
 //    private List<AbstractActivity> activities;
 
-//    private Color color;
+    private Color color;
 
 }

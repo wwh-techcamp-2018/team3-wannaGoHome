@@ -125,6 +125,14 @@ a.header-logo {
     list-style: none;
 }
 
+.header-notification-content a {
+    width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+
 .header-notification-content:hover {
     cursor: pointer;
 }

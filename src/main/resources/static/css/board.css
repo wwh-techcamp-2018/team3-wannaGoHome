@@ -1,5 +1,4 @@
 html, body {
-    background-color: #0079bf;
     height: 100%;
     overflow: hidden;
 }
@@ -209,7 +208,7 @@ a.header-logo {
 }
 
 .task-list-wrapper {
-    background-color: #006098;
+    background-color: rgba(0,0,0,0.25);
     border-radius: 3px;
 }
 

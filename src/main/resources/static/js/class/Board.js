@@ -44,12 +44,14 @@ class Board {
             const obj = {};
             obj.title = this.selector(".hidden-list-title-form input").value.trim();
 
-            // hide addListButton temporarily
-            this.addListButton.style.display = "none";
-
-            this.addTask(obj);
-
             this.selector(".hidden-list-title-form").style.display = "none";
+
+            if(obj.title.length > 0) {
+                // hide addListButton temporarily
+                this.addListButton.style.display = "none";
+                this.addTask(obj);
+
+            }
 
         }.bind(this));
 

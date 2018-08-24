@@ -121,6 +121,7 @@ class Board {
 
     setBoardInfo(boardObj) {
         $_(".board-header-title").innerHTML = boardObj.title;
+        $_("body").style.backgroundColor = boardObj.color;
     }
 
     updateBoardState() {

@@ -41,8 +41,8 @@ public class TeamActivity extends AbstractActivity {
     @Override
     public Object[] getArguments() {
         return new Object[]{
-                team.getName(),
                 source.getName(),
+                team.getName(),
                 Objects.isNull(target) ? "" : target.getName(),
                 Objects.isNull(permission) ? "" : permission.name()
         };

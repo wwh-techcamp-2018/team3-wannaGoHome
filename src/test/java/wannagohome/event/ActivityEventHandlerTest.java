@@ -38,11 +38,5 @@ public class ActivityEventHandlerTest extends SpringTest {
         applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         verify(activityEventListener, times(1)).onApplicationEvent(any());
     }
-
-    @Test
-    public void getMessageByCode() {
-        String message = messageSourceAccessor.getMessage(ActivityType.BOARD_UPDATE.getCode(), new String[]{"junsulime"});
-        assertThat(message).isEqualTo("junsulime 보드를 수정하였습니다.");
-    }
 }
 

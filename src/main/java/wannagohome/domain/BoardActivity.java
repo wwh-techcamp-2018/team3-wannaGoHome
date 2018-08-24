@@ -16,7 +16,11 @@ public class BoardActivity extends AbstractActivity {
 
     @Override
     public Object[] getArguments() {
-        return new Object[]{board.getTitle(), source.getName()};
+        return new Object[]{
+                source.getName(),
+                getTeam().getName(),
+                getBoard().getTitle()
+        };
     }
 
     private BoardActivity(User source, Board board, ActivityType activityType) {

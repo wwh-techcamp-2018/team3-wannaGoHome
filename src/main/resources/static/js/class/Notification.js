@@ -1,7 +1,8 @@
 class Notification {
     constructor(header) {
         this.connection = new SockJS("/websocket");
-        this.client = Stomp.over(this.connection);
+        this.stompClient = Stomp.over(this.connection);
+        this.stompClient.debug = false;
 
         this.notificationButton = header.querySelector(".header-notification-button");
         this.showMoreButton = header.querySelector(".header-notification-more");
@@ -13,8 +14,8 @@ class Notification {
 
         this.template = Handlebars.templates["precompile/header_notification_template"];
 
-        this.client.connect({}, (frame) => {
-            this.initSubscribeId = this.client.subscribe("/topic/activity/init", (frame) => {
+        this.stompClient.connect({}, (frame) => {
+            this.initSubscribeId = this.stompClient.subscribe("/topic/activity/init", (frame) => {
                 this.initSubscribeId.unsubscribe();
                 const {topic, messages} = JSON.parse(frame.body);
                 this.initSubscription(topic);
@@ -22,7 +23,7 @@ class Notification {
 
             });
 
-            this.client.send("/app/activity/init");
+            this.stompClient.send("/app/activity/init");
         });
 
         this.notificationButton.addEventListener("click", (evt) => {
@@ -38,7 +39,7 @@ class Notification {
     }
 
     subscribeTopic(topic, callback) {
-        this.client.subscribe(topic, (frame) => {
+        this.stompClient.subscribe(topic, (frame) => {
             callback(JSON.parse(frame.body));
         });
     }
@@ -77,7 +78,7 @@ class Notification {
     }
 
     onClickShowMoreButton() {
-        this.client.send(
+        this.stompClient.send(
             "/app/activity/fetch",
             {},
             JSON.stringify(

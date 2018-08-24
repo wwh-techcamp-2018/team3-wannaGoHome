@@ -63,7 +63,6 @@ function drawinitTeams() {
 }
 
 function drawTeams(status, result) {
-    console.log("drawTeams");
     let html = "";
     const template = Handlebars.templates["precompile/sidebar_template"];
     for(team of result) {

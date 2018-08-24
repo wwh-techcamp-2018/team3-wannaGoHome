@@ -11,6 +11,9 @@ function initHeader() {
         evt.stopPropagation();
     });
     $_(".header-button").addEventListener("click", (evt) => {
+        if($_(".header-button-boardlist").style.display !== 'none') {
+            return;
+        }
         fetchManager({
             url: "/api/boards",
             method: "GET",

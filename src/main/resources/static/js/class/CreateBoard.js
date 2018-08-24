@@ -164,6 +164,7 @@ class CreateBoard {
     handleCreateBoardError(response) {
         this.clearTitleNode();
         this.titleNode.placeholder = response[0].message;
+        this.titleNode.focus();
     }
 
     clearTitleNode() {

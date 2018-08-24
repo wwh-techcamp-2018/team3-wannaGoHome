@@ -408,6 +408,7 @@ div,span {
 
 .speech-bubble-text {
     text-align: left;
+    white-space: pre-wrap;
 }
 
 .message-holder-left .speech-bubble-holder {

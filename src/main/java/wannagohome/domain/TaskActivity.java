@@ -27,7 +27,12 @@ public class TaskActivity extends AbstractActivity {
 
     @Override
     public Object[] getArguments() {
-        return new Object[]{this.task.getTitle()};
+        return new Object[]{
+                this.source.getName(),
+                this.getTeam().getName(),
+                this.getBoard().getTitle(),
+                this.task.getTitle()
+        };
     }
 
     @Override

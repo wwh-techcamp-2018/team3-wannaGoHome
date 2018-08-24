@@ -41,6 +41,9 @@ public class CardActivity extends AbstractActivity {
     @Override
     public Object[] getArguments() {
         return new Object[]{
+                source.getName(),
+                getTeam().getName(),
+                getBoard().getTitle(),
                 card.getTitle(),
                 Objects.isNull(target) ? "" : target.getName()
         };

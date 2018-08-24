@@ -27,8 +27,10 @@ class Message {
         } else {
             messageTemplate = Handlebars.templates["precompile/board/chat_message_left_template"];
         }
+        message.text = message.text.trim();
         const newMessage = createElementFromHTML(messageTemplate(message));
-        newMessage.querySelector(".speech-bubble-text").innerHTML = message.text.replaceAll("\n", "<br />");
+        // replacing innerHTML susceptible to html injection
+        // newMessage.querySelector(".speech-bubble-text").innerHTML = message.text.replaceAll("\n", "<br />");
 
         // creating and assigning messageElem
         this.messageElem = newMessage;

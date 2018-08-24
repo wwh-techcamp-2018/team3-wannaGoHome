@@ -19,8 +19,10 @@ class Board {
     }
 
     init() {
+        this.scrollContainer = $_(".board-scroll-container");
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
+        this.addListButton = $_(".add-list-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
         this.connectSocket();
     }
@@ -42,8 +44,8 @@ class Board {
             const obj = {};
             obj.title = this.selector(".hidden-list-title-form input").value.trim();
 
-            // hide addButton temporarily
-            this.addButton.style.display = "none";
+            // hide addListButton temporarily
+            this.addListButton.style.display = "none";
 
             this.addTask(obj);
 
@@ -88,6 +90,8 @@ class Board {
     }
 
     setBoard(unsortedTasks) {
+        this.scrollLeft = this.scrollContainer.scrollLeft;
+        const originalTaskListLength = this.taskList.length;
         while (this.taskList.length) {
             const task = this.taskList[0];
             task.remove();
@@ -96,7 +100,8 @@ class Board {
         const tasks = unsortedTasks.sort((a, b) => {
             return a.orderId - b.orderId;
         });
-        this.container.style.width = "300px";
+        console.log("Resetting width!");
+        this.container.style.width = "280px";
         for (const task of tasks) {
             const taskObject = new Task(this, task);
             this.taskList.push(taskObject);
@@ -106,7 +111,16 @@ class Board {
             }
 
         }
-        this.addButton.style.display = "block";
+        // show add List button after loading inline-block
+        this.addListButton.style.display = "inline-block";
+        // reset scroll Left
+        this.scrollContainer.scrollLeft = this.scrollLeft;// + (tasks.length - originalTaskListLength) * 278;
+
+
+    }
+
+    setBoardInfo(boardObj) {
+        $_(".board-header-title").innerHTML = boardObj.title;
     }
 
     updateBoardState() {
@@ -134,6 +148,7 @@ class Board {
                     return;
                 }
                 this.setBoard(JSON.parse(board.body).tasks);
+                this.setBoardInfo(JSON.parse(board.body));
 
             }.bind(this));
 

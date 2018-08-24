@@ -94,13 +94,12 @@ class Task {
     }
 
     incrementContainerWidth() {
-        const currentHeight = this.board.container.style.width.trim();
+        const boundRect = getBoundingRect(this.board.container);
+        const boundWidth = boundRect.width;
         const rect = this.getBoundingRect(this.board.selector(".add-list-button"));
-        if (!currentHeight) {
-            this.board.container.style.width = (rect.right - rect.left + 6) * 2 + "px";
-        } else {
-            this.board.container.style.width = parseInt(currentHeight.substring(0, currentHeight.length - 2)) + (rect.right - rect.left + 6) + "px";
-        }
+        console.log(boundWidth);
+        this.board.container.style.width = boundWidth + 280 + "px";
+
     }
 
     remove() {

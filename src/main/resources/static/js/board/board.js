@@ -22,20 +22,20 @@ document.addEventListener("DOMContentLoaded", function (evt) {
     });
 
     $_(".chatting-bar .chatting-bar-closer").addEventListener("click", function (evt) {
-        $_(".board-header-side-menu .chatting-bar-closer").style.display = "inline-block";
+        $_(".board-header .chatting-bar-closer").style.display = "inline-block";
         $_(".chatting-bar").style.width = "0px";
         window.dispatchEvent(new Event("resize"));
     });
 
-    $_(".board-header-side-menu .chatting-bar-closer").addEventListener("click", function (evt) {
+    $_(".board-header .chatting-bar-closer").addEventListener("click", function (evt) {
         $_(".chatting-bar").style.width = "320px";
-        $_(".board-header-side-menu .chatting-bar-closer").style.display = "none";
+        $_(".board-header .chatting-bar-closer").style.display = "none";
         window.dispatchEvent(new Event("resize"));
     });
 
     window.dispatchEvent(new Event("resize"));
 
-    $_(".board-header-side-menu .fa-calendar").addEventListener("click", (evt) => {
+    $_(".board-header .fa-calendar").addEventListener("click", (evt) => {
         evt.stopPropagation();
         if ($_("#calendar").style.display == 'block') {
             $_("#calendar").style.display = 'none';

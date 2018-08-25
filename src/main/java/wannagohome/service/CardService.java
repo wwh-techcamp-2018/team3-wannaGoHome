@@ -39,4 +39,13 @@ public class CardService {
         card.addAssignee(assignee);
         return assignee;
     }
+
+    @Transactional
+    public User dischargeCardFromUser(Long cardId, CardDetailDto dto) {
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
+        User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
+
+        card.dischargeAssignee(assignee);
+        return assignee;
+    }
 }

@@ -36,9 +36,7 @@ public class ApiCardController {
     }
 
     @DeleteMapping("/{cardId}/assign")
-    public User dischargeCardFromUser(@RequestBody CardDetailDto cardDetail) {
-        return null;
+    public User dischargeCardFromUser(@PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
+        return cardService.dischargeCardFromUser(cardId, cardDetail);
     }
-
-
 }

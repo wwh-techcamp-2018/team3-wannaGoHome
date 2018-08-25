@@ -32,7 +32,9 @@ class Task {
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
         this.addCardButton = this.task.querySelector(".add-card-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
+        this.taskListTitle = this.task.querySelector(".task-list-title");
         this.cardWrapper = this.task.querySelector(".new-card-wrapper");
+        this.cardListContainer = this.task.querySelector(".card-list-container");
     }
 
     remove() {
@@ -41,28 +43,47 @@ class Task {
     }
 
     addListeners() {
-        document.addEventListener("click", (evt)=>{
+        document.addEventListener("click", (evt) => {
             this.addCardButton.style.display = 'block';
             this.cardWrapper.style.display = 'none';
+
+            this.board.unsetDraggable();
+
+            // dispatch event to resize screen objects
+            window.dispatchEvent(new Event("resize"));
         });
-        this.cardWrapper.addEventListener("click", (evt)=>{
+        this.cardWrapper.addEventListener("click", (evt) => {
             evt.stopPropagation();
-        })
-        this.addCardButton.addEventListener("click", (evt)=>{
+        });
+        this.addCardButton.addEventListener("click", (evt) => {
             evt.stopPropagation();
+            // click body to reset any opened up boxes
+            document.querySelector("body").click();
+            // set dragObject to true in order to prevent reloading
+            this.board.dragObject = true;
+
             this.addCardButton.style.display = 'none';
             this.cardWrapper.style.display = 'block';
             this.cardWrapper.querySelector(".new-card-title").value = "";
             this.cardWrapper.querySelector(".new-card-title").focus();
+            this.cardListContainer.scrollTop = this.cardListContainer.scrollHeight;
+
+            // dispatch event to resize screen objects
+            window.dispatchEvent(new Event("resize"));
         });
 
-        this.cardWrapper.querySelector("i").addEventListener("click", (evt)=>{
+        this.cardWrapper.querySelector("i").addEventListener("click", (evt) => {
             this.addCardButton.style.display = 'block';
             this.cardWrapper.style.display = 'none';
+
+            this.board.unsetDraggable();
+
+            // dispatch event to resize screen objects
+            window.dispatchEvent(new Event("resize"));
         });
 
 
-        this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt)=>{
+        this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt) => {
             const obj = {};
             obj.title = this.cardWrapper.querySelector(".new-card-title").value;
             obj.createDate = new Date();
@@ -72,7 +93,7 @@ class Task {
             this.addCard(obj);
         });
 
-        this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function(evt) {
+        this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function (evt) {
             if (detectShiftEnter(evt)) {
                 evt.preventDefault();
                 pasteIntoInput(evt.currentTarget, "\n");
@@ -91,13 +112,19 @@ class Task {
             this.setDraggable.call(this);
         }.bind(this));
 
+        window.addEventListener("resize", function (evt) {
+            const rect = getBoundingRect(this.taskContainer);
+            const titleRect = getBoundingRect(this.taskListTitle);
+            const addButtonRect = getBoundingRect(this.addCardButton);
+            this.cardListContainer.style.maxHeight = rect.height - titleRect.height - addButtonRect.height + "px";
+        }.bind(this));
+
     }
 
     incrementContainerWidth() {
         const boundRect = getBoundingRect(this.board.container);
         const boundWidth = boundRect.width;
         const rect = this.getBoundingRect(this.board.selector(".add-list-button"));
-        console.log(boundWidth);
         this.board.container.style.width = boundWidth + 280 + "px";
 
     }

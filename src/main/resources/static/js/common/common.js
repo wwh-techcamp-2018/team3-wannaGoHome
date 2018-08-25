@@ -89,6 +89,11 @@ function getFormattedDate(date) {
             checkTime(date.getDate());
 }
 
+function addEscapedText(elem, text) {
+    elem.innerHTML = "";
+    elem.appendChild(document.createTextNode(text));
+}
+
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);

@@ -1,0 +1,71 @@
+.sign-container {
+    padding: 80px 20px 80px 20px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sign-container fieldset {
+    border: none;
+    display: block;
+}
+
+.sign-container legend {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.sign-container span,input,button {
+    width: 100%;
+    display: block;
+}
+
+.sign-container input {
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #aaaaaa;
+    background-color: #ffffff;
+    font-size: 15px;
+    padding-left: 8px;
+    padding-right: 8px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.sign-container .sign-component {
+    margin-top: 30px;
+}
+
+.sign-container .sign-component>span {
+    font-size: 20px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.sign-container .sign-button {
+    background: #61bd4f;
+    color: #ffffff;
+    border-radius: 5px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.sign-container .sign-button:focus {
+    outline: none;
+}
+
+
+.sign-container .sign-button.inactive {
+    background-color: #f8f9f9;
+    color: #aaaaaa;
+}
+
+.sign-container .sign-component .caution-on::placeholder {
+    color: #e25b52;
+}
+
+
+
+
+

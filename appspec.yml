@@ -1,0 +1,10 @@
+version : 0.0 #버전 정보는 어플리케이션 버전정보가 아니다. 여기서는 꼭 0.0을 입력해야함
+os : linux   #EC2에서 사용하는 운영체제를 입력해주면 된다 Window를 제외하고는 linux를 입력.
+files :
+  - source : /  #S3에서 버킷에서 복사해올 파일의 위치이다.
+    destination : /home/ubuntu/wannagohome #EC2안에 S3에서 얻어온 파일을 복사할 위치이다.
+
+hooks:
+    AfterInstall: # 배포가 끝나면 아래 명령어를 실행
+    - location: execute-deploy.sh
+      timeout: 180

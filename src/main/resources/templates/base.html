@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="team3">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>WannaGoHome</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    {{> common_resource}}
+
+    <link rel="stylesheet" type="text/css" href="/css/header.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="/js/common/stomp.min.js"></script>
+    <script src="/js/common/header.js"></script>
+    <script src="/js/class/Notification.js"></script>
+
+    {{#block "head"}}
+    {{/block}}
+</head>
+<body class="no-drag">
+    <header>
+        <div class="row">
+            <div class="col-2">
+                <button class="header-button ml-1" type="button"><i class="fa fa-th-list"></i> Boards</button>
+                <ul class="header-button-boardlist" style="display: none">
+                    <div>
+                        <ul class="header-recently-boards">
+
+                        </ul>
+                    </div>
+                    <div class="header-team-boards">
+
+                    </div>
+                </ul>
+
+            </div>
+
+            <div class="col-8 header-logo-div">
+                <a href="/" class="header-logo">
+                    <i class="fa fa-home"></i> WannaGoHome
+                </a>
+            </div>
+
+            <div class="col-2 text-right">
+                <button class="header-button">1</button>
+                <button class="header-button header-notification-button"><i class="far fa-bell"></i></button>
+                <a class="header-button logout-button" href="/users/logout"><i class="fas fa-sign-out-alt"></i></a>
+                <div class="header-notification-holder header-notification-hide">
+                    <p class="header-button-boardlist-title"><i class="far fa-clock"></i> RECENT ACTIVITY</p>
+                    <div class="header-notification-scrollable">
+                        <ul class="header-notification-ul">
+                        </ul>
+                        <p class="header-notification-more"><i class="fas fa-plus-circle"></i> 더 보기...</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script type="text/javascript">
+            {{precompile "precompile/header_team_template"}}
+            {{precompile "precompile/header_board_template"}}
+            {{precompile "precompile/header_notification_template"}}
+        </script>
+    </header>
+
+    {{#block "createboard"}}
+    {{/block}}
+
+    {{#block "page_body"}}
+    {{/block}}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                {{#block "sidebar"}}
+                {{/block}}
+            </div>
+            <div class="col-9">
+                {{#block "contents"}}
+                {{/block}}
+            </div>
+        </div>
+
+    </div>
+
+    {{#block "footer"}}
+    {{/block}}
+</body>
+</html>

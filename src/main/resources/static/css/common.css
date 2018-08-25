@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Helvetica Neue, Arial, Helvetica, sans-serif !important;
+
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #0079bf !important;
+}
+
+textarea, select, input, button { outline: none; }
+
+.container {
+    margin: 20px;
+}
+
+.no-drag {
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select:none;
+}
+
+button:hover {
+    cursor: pointer;
+
+}
+
+button {
+    border: none;
+}
+
+button:focus {
+    outline: none!important;
+    border: none;
+}
+
+.header-button {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    line-height: 35px;
+}

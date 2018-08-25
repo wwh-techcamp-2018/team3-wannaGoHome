@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    {{> common_resource}}
+
+    <link rel="stylesheet" type="text/css" href="/css/users/sign.css"/>
+
+    <script src="/js/class/SignForm.js"></script>
+    <script src="/js/users/signin.js"></script>
+</head>
+<body>
+
+<div class="sign-container">
+    <form>
+        <fieldset>
+            <legend>Sign in to WGH</legend>
+            <span>or <a href="/users/signup">sign up to your account</a></span>
+            <div class="sign-component">
+                <span>이메일</span>
+                <input class="sign-input" type="email" name="email" data-type="email"  placeholder="이메일을 입력해주세요">
+            </div>
+            <div class="sign-component">
+                <span>비밀번호</span>
+                <input class="sign-input" type="password" name="password" data-type="password" placeholder="비밀번호를 입력해주세요">
+            </div>
+            <div class="sign-component">
+                <button class="sign-button inactive">로그인</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+
+</body>
+</html>

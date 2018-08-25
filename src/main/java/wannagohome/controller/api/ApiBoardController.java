@@ -8,6 +8,7 @@ import wannagohome.interceptor.LoginUser;
 import wannagohome.service.BoardService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/boards")
@@ -31,4 +32,15 @@ public class ApiBoardController {
     public BoardCardDto createBoard(@LoginUser User user, @RequestBody  @Valid CreateBoardDto createBoardDto) {
         return BoardCardDto.valueOf(boardService.createBoard(user, createBoardDto));
     }
+
+    @GetMapping("/{boardId}/members")
+    public List<User> getBoardMembers() {
+        return null;
+    }
+
+    @GetMapping("/{boardId}/members")
+    public List<User> getBoardMembers(@RequestParam String keyword) {
+        return null;
+    }
+
 }

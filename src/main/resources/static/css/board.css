@@ -220,12 +220,6 @@ a.header-logo {
     background-color: #e2e4e6;
     border-radius: 3px;
     position: relative;
-    /*padding-top: 36px;*/
-    /*padding-bottom: 41px;*/
-
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*flex: 0 0 auto;*/
 
     width: 100%;
     height: 100%;
@@ -241,24 +235,55 @@ a.header-logo {
     transform-origin: 50% 0%;
 }
 
+.task-list-header {
+    position: relative;
+    height: 36px;
+    width: 272px;
+}
+
+.task-list-header input {
+    display: block;
+    position: absolute;
+    font-weight: bold;
+    height: 26px;
+    width: 240px;
+    top: 9px;
+    left: 9px;
+    padding-left: 4px;
+    padding-right: 4px;
+    z-index: 3;
+    display: none;
+    border-radius: 3px;
+    border-color: #888;
+    border-style: solid;
+    border-width: 1px;
+}
+
 .task-list-title {
-    /*flex: 0 0 auto;*/
-    padding: 10px 12px 10px 12px;
+    padding: 10px 0px 10px 14px;
     font-weight: bold;
     vertical-align: middle;
     height: 36px;
-    /*position: absolute;*/
+    width: 260px;
+    position: absolute;
     top: 0px;
     left: 0px;
-    width: 100%;
+    z-index: 2;
+}
+
+.task-list-option {
+    position: absolute;
+    font-size: 14px;
+    padding: 4px 2px 4px 2px;
+    top: 8px;
+    right: 10px;
+    color: #9c9c9c;
 }
 
 .add-card-button {
-    /*flex: 0 0 auto;*/
     padding: 10px 12px 10px 12px;
     color: #8c8c8c;
     font-size: 0.9em;
-    /*position: absolute;*/
     bottom: 0px;
     left: 0px;
     width: 100%;
@@ -268,7 +293,6 @@ a.header-logo {
 .card-list-container {
     overflow-y: auto;
     overflow-x: hidden;
-    /*flex: 1 1 auto;*/
     margin-right: 2px;
     margin-left: 2px;
 }
@@ -318,7 +342,6 @@ a.header-logo {
     width: 100px;
     height: 35px;
     text-align: center;
-    /*padding: 10px;*/
     line-height: 35px;
     background-color: #5aac44;
     border-radius: 5px;
@@ -337,9 +360,8 @@ a.header-logo {
 }
 
 .card-wrapper {
-    max-width: 250px;
-    /*margin: 10px;*/
-    padding: 10px;
+    max-width: 256px;
+    padding: 6px 10px 6px 10px;
     border-radius: 3px;
     border-style: none;
     background-color: #fff;
@@ -347,13 +369,19 @@ a.header-logo {
     box-shadow: 0 1px 0 #ccc;
 }
 
+.card-wrapper:hover {
+    background-color: #f6f7f7;
+    border-bottom-color: #d6dadc;
+
+}
+
 .card-list-dragging {
     transform: rotate(5deg);
     transform-origin: 50% 0%;
+    background-color: #fff !important;
 }
 
 .card-list-container::-webkit-scrollbar-track {
-    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
     border-radius: 10px;
     background-color: rgba(100,100,100,.12);
     opacity: 0.7;
@@ -377,8 +405,8 @@ a.header-logo {
     background-color: #aaaaaa;
     border-radius: 3px;
     border-style: none;
-    margin: 10px;
-    max-width: 250px;
+    margin: 8px 6px 8px 6px;
+    max-width: 256px;
     position: relative;
 }
 

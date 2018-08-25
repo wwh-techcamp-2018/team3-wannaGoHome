@@ -27,9 +27,11 @@ class Task {
 
         this.incrementContainerWidth();
 
+
         this.taskContainer = newTask;
         this.task = newTask.querySelector(".task-list-content");
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
+        this.taskTitleInput = newTask.querySelector(".task-list-header input");
         this.addCardButton = this.task.querySelector(".add-card-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
         this.taskListTitle = this.task.querySelector(".task-list-title");
@@ -90,7 +92,12 @@ class Task {
             this.cardWrapper.style.display = 'none';
             this.addCardButton.style.display = 'block';
             this.cardWrapper.querySelector(".new-card-title").value = "";
+
+            this.board.unsetDraggable();
+
             this.addCard(obj);
+
+
         });
 
         this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function (evt) {
@@ -103,14 +110,33 @@ class Task {
             }
         }.bind(this));
 
-        this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
-            this.moving = true;
+        // this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
+        //     this.moving = true;
+        //
+        //     this.board.startDrag.x = evt.clientX;
+        //     this.board.startDrag.y = evt.clientY;
+        //
+        //     this.setDraggable.call(this);
+        // }.bind(this));
 
-            this.board.startDrag.x = evt.clientX;
-            this.board.startDrag.y = evt.clientY;
-
-            this.setDraggable.call(this);
+        this.task.querySelector(".task-list-title").addEventListener("click", function(evt) {
+            this.taskTitleInput.value = this.taskListTitle.innerHTML.trim();
+            this.taskTitleInput.style.display = "block";
+            this.taskTitleInput.focus();
         }.bind(this));
+
+        this.taskTitleInput.addEventListener("blur", function(evt) {
+            this.taskTitleInput.style.display = "none";
+        }.bind(this));
+
+        this.taskTitleInput.addEventListener("keypress", function(evt) {
+            if(detectEnter(evt)) {
+                evt.preventDefault();
+                console.log("New title Entered");
+                evt.currentTarget.blur();
+            }
+        }.bind(this));
+
 
         window.addEventListener("resize", function (evt) {
             const rect = getBoundingRect(this.taskContainer);

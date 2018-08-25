@@ -2,12 +2,11 @@ package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wannagohome.domain.Card;
-import wannagohome.domain.CardDetailDto;
-import wannagohome.domain.ErrorType;
-import wannagohome.domain.User;
+import wannagohome.domain.*;
 import wannagohome.exception.NotFoundException;
+import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.CardRepository;
+import wannagohome.repository.CommentRepository;
 import wannagohome.repository.UserRepository;
 
 import javax.transaction.Transactional;
@@ -22,6 +21,8 @@ public class CardService {
     @Autowired
     private CardRepository cardRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
 
     public List<Card> findCardsByUser(User user) {
         return cardRepository.findAllByAuthorAndDeletedFalse(user);
@@ -33,7 +34,7 @@ public class CardService {
 
     @Transactional
     public User assignCardToUser(User user, Long cardId, CardDetailDto dto) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
+        Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
 
         card.addAssignee(assignee);
@@ -42,10 +43,34 @@ public class CardService {
 
     @Transactional
     public User dischargeCardFromUser(Long cardId, CardDetailDto dto) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
+        Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
 
         card.dischargeAssignee(assignee);
         return assignee;
+    }
+
+    @Transactional
+    public Comment addComment(User user, Long cardId, CommentDto dto) {
+        Card card = findCardById(cardId);
+        Comment comment = Comment.valueOf(dto, user, card);
+
+        return commentRepository.save(comment);
+    }
+
+    @Transactional
+    public Comment removeComment(User user, Long cardId, Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(ErrorType.COMMENT_ID, "없는 댓글 아이디 입니다."));
+        comment.delete(user);
+        return commentRepository.save(comment);
+    }
+
+    public List<Comment> getComments() {
+        return commentRepository.findAllByDeletedFalse();
+    }
+
+    private Card findCardById(Long id) {
+        return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
+
     }
 }

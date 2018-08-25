@@ -12,6 +12,4 @@ public class CardDetailDto {
     private Long userId;
 
     private String description;
-
-    private String comment;
 }

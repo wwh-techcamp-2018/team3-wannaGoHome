@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
@@ -69,10 +70,12 @@ public class Card {
 
     private Integer orderId;
 
+    @JsonIgnore
     public Board getBoard() {
         return task.getBoard();
     }
 
+    @JsonIgnore
     public Team getTeam() {
         return getBoard().getTeam();
     }

@@ -94,4 +94,8 @@ public class Card {
     public boolean equalsId(Long id) {
         return this.id.equals(id);
     }
+
+    public void addAssignee(User assignee) {
+        assignees.add(assignee);
+    }
 }

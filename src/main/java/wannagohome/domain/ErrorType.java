@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 public enum ErrorType {
     UNAUTHENTICATED("unauthenticated"),
+    USER_ID("userId"),
     USER_EMAIL("email"),
     USER_NAME("name"),
     USER_PASSWORD("password"),

@@ -34,13 +34,7 @@ public class ApiBoardController {
     }
 
     @GetMapping("/{boardId}/members")
-    public List<User> getBoardMembers() {
-        return null;
-    }
-
-    @GetMapping("/{boardId}/members")
     public List<User> getBoardMembers(@RequestParam String keyword) {
         return null;
     }
-
 }

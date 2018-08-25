@@ -16,7 +16,7 @@ import java.util.List;
 public class ApiCardController {
 
     @Autowired
-    CardService cardService;
+    private CardService cardService;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
@@ -31,8 +31,8 @@ public class ApiCardController {
     }
 
     @PostMapping("/{cardId}/assign")
-    public User assignCardToUser(@RequestBody CardDetailDto cardDetail) {
-        return null;
+    public User assignCardToUser(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
+        return cardService.assignCardToUser(user, cardId, cardDetail);
     }
 
     @DeleteMapping("/{cardId}/assign")

@@ -1,11 +1,15 @@
 package wannagohome.domain;
 
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CardDetailDto {
 
-    private String userId;
+    private Long userId;
 
     private String description;
 

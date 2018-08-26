@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
 import wannagohome.exception.NotFoundException;
-import wannagohome.repository.CardRepository;
-import wannagohome.repository.CommentRepository;
-import wannagohome.repository.LabelRepository;
-import wannagohome.repository.UserRepository;
+import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -15,6 +12,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class CardService {
+
+    @Autowired
+    private UserIncludedInBoardRepository userIncludedInBoardRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -53,21 +53,23 @@ public class CardService {
     }
 
     @Transactional
-    public User assignCardToUser(User user, Long cardId, CardDetailDto dto) {
+    public List<AssigneeDto> assignCardToUser(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
 
         card.addAssignee(assignee);
-        return assignee;
+        return userIncludedInBoardRepository.findAllByBoard(card.getBoard()).stream()
+                .map(userInBoard -> AssigneeDto.valueOf(userInBoard.getUser(), card)).collect(Collectors.toList());
     }
 
     @Transactional
-    public User dischargeCardFromUser(Long cardId, CardDetailDto dto) {
+    public List<AssigneeDto> dischargeCardFromUser(Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
 
         card.dischargeAssignee(assignee);
-        return assignee;
+        return userIncludedInBoardRepository.findAllByBoard(card.getBoard()).stream()
+                .map(userInBoard -> AssigneeDto.valueOf(userInBoard.getUser(), card)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -119,6 +121,14 @@ public class CardService {
         card.getLabels().remove(labelRepository.findById(labelId).orElseThrow(()->new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다.")));
         return labelRepository.findAll().stream()
                 .map(label -> CardLabelDto.valueOf(label, card))
+                .collect(Collectors.toList());
+    }
+
+    public List<AssigneeDto> getMembers(Long cardId, String keyword) {
+        Card card = findCardById(cardId);
+        List<UserIncludedInBoard> users = userIncludedInBoardRepository.findAllByBoardAndUserNameContains(card.getBoard(), keyword);
+        return users.stream()
+                .map(userIncludedInBoard -> AssigneeDto.valueOf(userIncludedInBoard.getUser(), card))
                 .collect(Collectors.toList());
     }
 }

@@ -33,6 +33,8 @@ class Card {
 
             this.setDraggable.call(this, evt);
         }.bind(this));
+
+        this.setDueDate('2018-08-30');
     }
 
     setDraggable(evt) {
@@ -219,5 +221,41 @@ class Card {
         const rect = getBoundingRect(this.cardHolder);
         return (rect.top < y && rect.bottom > y); // && (this != card));
     }
+
+    setDueDate(date) {
+        const cardDetailDto = {
+            id: this.id,
+            endDate: date,
+            assignees: [],
+            labels: []
+        };
+        fetchManager({
+            url: "/api/cards/details/date/" + this.id,
+            method: "POST",
+            body: JSON.stringify(cardDetailDto),
+            callback: this.board.calendar.constructCardForm
+        });
+    }
+
+    setLabels(labels) {
+        const cardDetailDto = {
+            id: this.id,
+            endDate: "",
+            assignees: [],
+            labels: labels
+        };
+        fetchManager({
+            url: "/api/cards/details/label/" + this.id,
+            method: "POST",
+            body: JSON.stringify(cardDetailDto),
+            callback: this.drawLabels.bind(this)
+        });
+    }
+
+    drawLabels() {
+
+    }
+
+
 
 }

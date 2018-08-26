@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", function (evt) {
-    const board = new Board();
+
     const calendar = new Calendar();
     initEvent(calendar);
-
+    const board = new Board();
+    board.calendar = calendar;
+    calendar.board = board;
 
     const chat = new Chat();
 

@@ -1,5 +1,6 @@
 class Board {
     constructor() {
+        this.calendar;
         this.taskList = [];
         this.stompClient = null;
 

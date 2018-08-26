@@ -1,6 +1,7 @@
 const BLANK = '&nbsp;&nbsp;#';
 class Calendar {
     constructor() {
+        this.board;
         this.calendar = new tui.Calendar(document.getElementById('calendar'), {
             disableDblClick: true,
             defaultView: 'month',
@@ -42,15 +43,17 @@ class Calendar {
     constructCardForm(card) {
         this.cardList.push({
             id: card.id,
-            calendarId: '1', //TODO boardId로
+            calendarId: this.board.boardIndex,
             title: card.title,
             category: 'time',
             dueDateClass: '',
-            start: card.startDate,
+            start: card.createDate,
             end: card.endDate,
             isAllDay: true,
             bgColor: this.getRandomColor()
         });
+        this.calendar.clear();
+        this.calendar.createSchedules(this.cardList);
     }
 
     getRandomColor() {

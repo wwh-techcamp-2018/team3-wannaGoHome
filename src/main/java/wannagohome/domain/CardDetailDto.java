@@ -1,8 +1,6 @@
 package wannagohome.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -10,9 +8,15 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CardDetailDto {
     private Long id;
     private Date endDate;
-    private List<User> assignees;
     private List<Label> labels;
+
+    private Long userId;
+
+    private String description;
 }

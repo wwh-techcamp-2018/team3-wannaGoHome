@@ -36,3 +36,8 @@ INSERT INTO user_included_in_team(id,permission,team_id,user_id)VALUES(4,'ADMIN'
 INSERT INTO abstract_activity(activity_type,type,source_id,receiver_id,board_id,registered_date) VALUES('BoardActivity', 'BOARD_CREATE', 3, 3 , 1,'2018-08-23 14:20:47');
 INSERT INTO abstract_activity(activity_type,type,source_id,receiver_id,board_id,registered_date) VALUES('BoardActivity', 'BOARD_CREATE', 3, 3 , 1,'2018-08-23 14:45:47');
 
+INSERT INTO task(user_id, board_id, title, order_id) VALUES(1, 2, 'sampleT1', 0);
+INSERT INTO task(user_id, board_id, title, order_id) VALUES(4, 2, 'sampleT2', 1);
+
+INSERT INTO card(title, description, user_id, task_id, create_date, order_id) VALUES('ImportedCard1', 'Hell Wannagohome', 3, 1, '2018-08-23 14:20:47', 0);
+INSERT INTO card(title, description, user_id, task_id, create_date, order_id) VALUES('ImportedCard2', 'Haha Wannagohome', 1, 1, '2018-08-23 14:27:45', 1);

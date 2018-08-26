@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
+import wannagohome.exception.BadRequestException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -69,10 +70,12 @@ public class Card {
 
     private Integer orderId;
 
+    @JsonIgnore
     public Board getBoard() {
         return task.getBoard();
     }
 
+    @JsonIgnore
     public Team getTeam() {
         return getBoard().getTeam();
     }
@@ -94,5 +97,19 @@ public class Card {
 
     public boolean equalsId(Long id) {
         return this.id.equals(id);
+    }
+
+    public void addAssignee(User assignee) {
+        if (assignees.contains(assignee)) {
+            throw new BadRequestException(ErrorType.CARD_ASSIGN_ALREADY_EXIST, "이미 존재하는 유저입니다.");
+        }
+        assignees.add(assignee);
+    }
+
+    public void dischargeAssignee(User assignee) {
+        if (!assignees.contains(assignee)) {
+            throw new BadRequestException(ErrorType.CARD_ASSIGN_NOT_EXIST, "해당 유저는 카드에 존재하지 않습니다.");
+        }
+        assignees.remove(assignee);
     }
 }

@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import wannagohome.domain.Card;
-import wannagohome.domain.CardDetailDto;
-import wannagohome.domain.Team;
-import wannagohome.domain.User;
+import wannagohome.domain.*;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.CardService;
 
@@ -21,7 +18,7 @@ public class ApiCardController {
     private static final Logger log = LoggerFactory.getLogger(ApiCardController.class);
 
     @Autowired
-    CardService cardService;
+    private CardService cardService;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
@@ -47,5 +44,29 @@ public class ApiCardController {
         return cardService.setCardLabel(id, cardDetailDto);
     }
 
+    @PostMapping("/{cardId}/assign")
+    public User assignCardToUser(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
+        return cardService.assignCardToUser(user, cardId, cardDetail);
+    }
 
+    @DeleteMapping("/{cardId}/assign")
+    public User dischargeCardFromUser(@PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
+        return cardService.dischargeCardFromUser(cardId, cardDetail);
+    }
+
+    @PostMapping("/{cardId}/comments")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Comment addComment(@LoginUser User user, @PathVariable Long cardId, @RequestBody CommentDto dto) {
+        return cardService.addComment(user, cardId, dto);
+    }
+
+    @DeleteMapping("/{cardId}/comments/{commentId}")
+    public Comment removeComment(@LoginUser User user, @PathVariable Long cardId, @PathVariable Long commentId) {
+        return cardService.removeComment(user, cardId, commentId);
+    }
+
+    @GetMapping("/{cardId}/comments")
+    public List<Comment> getComments() {
+        return cardService.getComments();
+    }
 }

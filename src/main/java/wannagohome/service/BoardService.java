@@ -75,7 +75,7 @@ public class BoardService {
 
     private UserIncludedInTeam confirmAuthorityOfUser(User user, Board board) {
         return userIncludedInTeamRepository.findByUserAndTeam(user,board.getTeam())
-                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHENTICATED, "Board에 접근할 권한이 없습니다."));
+                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Board에 접근할 권한이 없습니다."));
 
     }
     private RecentlyViewBoard saveRecentlyViewBoard(User user, Board board) {

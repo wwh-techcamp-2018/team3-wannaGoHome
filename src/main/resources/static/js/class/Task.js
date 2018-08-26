@@ -110,16 +110,21 @@ class Task {
             }
         }.bind(this));
 
-        // this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
-        //     this.moving = true;
-        //
-        //     this.board.startDrag.x = evt.clientX;
-        //     this.board.startDrag.y = evt.clientY;
-        //
-        //     this.setDraggable.call(this);
-        // }.bind(this));
+        this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
+
+            this.board.startDrag.x = evt.clientX;
+            this.board.startDrag.y = evt.clientY;
+
+            this.board.dragObject = this;
+            this.board.dragCallBack = this.moveTaskPosition;
+            this.board.dragEndCallBack = this.unsetDraggable;
+
+
+
+        }.bind(this));
 
         this.task.querySelector(".task-list-title").addEventListener("click", function(evt) {
+            console.log("Clicked!");
             this.taskTitleInput.value = this.taskListTitle.innerHTML.trim();
             this.taskTitleInput.style.display = "block";
             this.taskTitleInput.focus();
@@ -188,10 +193,6 @@ class Task {
 
         this.task.style.boxShadow = "2px 2px 2px 2px rgba(51,51,51,0.3)";
 
-        this.board.dragObject = this;
-        this.board.dragCallBack = this.moveTaskPosition;
-        this.board.dragEndCallBack = this.unsetDraggable;
-
         this.task.classList.toggle("task-list-dragging");
 
         for (let i = 0; i < this.board.taskList.length; ++i) {
@@ -204,7 +205,10 @@ class Task {
     }
 
     moveTaskPosition(evt) {
-        if (!this.moving) return;
+        if (!this.moving) {
+            this.moving = true;
+            this.setDraggable.call(this);
+        }
 
         const rect = this.getBoundingRect(this.task);
         const centerX = (rect.left + rect.right) / 2;

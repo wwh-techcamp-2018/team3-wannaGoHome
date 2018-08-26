@@ -6,10 +6,12 @@ import wannagohome.domain.*;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.CommentRepository;
+import wannagohome.repository.LabelRepository;
 import wannagohome.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CardService {
@@ -22,6 +24,9 @@ public class CardService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private LabelRepository labelRepository;
 
     public List<Card> findCardsByUser(User user) {
         return cardRepository.findAllByAuthorAndDeletedFalse(user);
@@ -88,4 +93,32 @@ public class CardService {
         return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
     }
 
+    public List<CardLabelDto> addLabel(Long cardId, Label label) {
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        card.getLabels().add(label);
+        cardRepository.save(card);
+
+        return labelRepository.findAll().stream()
+                .map(l -> CardLabelDto.valueOf(l, card))
+                .collect(Collectors.toList());
+    }
+
+    public List<CardLabelDto> getLabels(Long cardId) {
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        return labelRepository.findAll().stream()
+                .map(label -> CardLabelDto.valueOf(label, card))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<CardLabelDto> deleteLabel(Long cardId, Long labelId) {
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        card.getLabels().remove(labelRepository.findById(labelId).orElseThrow(()->new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다.")));
+        return labelRepository.findAll().stream()
+                .map(label -> CardLabelDto.valueOf(label, card))
+                .collect(Collectors.toList());
+    }
 }

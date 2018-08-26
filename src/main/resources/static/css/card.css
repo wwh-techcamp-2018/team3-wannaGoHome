@@ -111,3 +111,35 @@
     max-height: 200px;
     overflow: scroll;
 }
+
+.card-detail-label-container {
+    padding: 5px;
+    background-color: #f8f9f9;
+    border-radius: 3px;
+    z-index: 200;
+    position: relative;
+    width: 200px;
+    margin-left: -20px;
+    margin-top: 2px;
+    box-shadow: 1px 1px 1px #b4b6b8;
+
+}
+
+.card-detail-label-title {
+    padding-left: 5px;
+    color: #888888;
+}
+
+.card-detail-label-list > li {
+    border-radius: 3px;
+    height: 30px;
+    margin: 5px;
+    color: #fff;
+    text-align: right;
+    padding-right: 5px;
+
+}
+
+.label-check-toggle {
+    display: none;
+}

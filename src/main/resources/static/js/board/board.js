@@ -56,6 +56,7 @@ function initEvent(calendar, board) {
         $_("#calendar").style.display = 'none';
         calendar.clearCalendar();
         board.hideCardDetailForm();
+
     });
 
     $_("#calendar").addEventListener("click", (evt) => {
@@ -64,6 +65,7 @@ function initEvent(calendar, board) {
 
     $_(".card-detail-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();
+
     })
 
 }

@@ -20,7 +20,8 @@ public enum ErrorType {
     CARD_ID("cardId"),
     CARD_ASSIGN_ALREADY_EXIST("cardAssigneeAlreadyExist"),
     CARD_ASSIGN_NOT_EXIST("cardAssigneeNotExist"),
-    COMMENT_ID("commendId");
+    COMMENT_ID("commendId"),
+    LABEL_ID("labelId");
 
     private static final Logger log = LoggerFactory.getLogger(ErrorType.class);
 

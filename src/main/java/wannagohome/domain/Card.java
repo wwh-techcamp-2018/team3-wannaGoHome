@@ -122,4 +122,8 @@ public class Card {
     public boolean existDueDate() {
         return (!Objects.isNull(this.endDate));
     }
+
+    public boolean containsLabel(Label label) {
+        return labels.contains(label);
+    }
 }

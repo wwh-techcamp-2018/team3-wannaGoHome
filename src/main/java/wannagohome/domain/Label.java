@@ -1,9 +1,14 @@
 package wannagohome.domain;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+@Getter
 @Entity
+@EqualsAndHashCode
 public class Label {
 
     @Id
@@ -11,8 +16,8 @@ public class Label {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    private Color color;
+    private LabelColor color;
 
-    @Size(max = 20)
-    private String title;
+
+
 }

@@ -37,4 +37,10 @@ public class ApiBoardController {
     public List<User> getBoardMembers(@RequestParam String keyword) {
         return null;
     }
+
+    @GetMapping("/{boardId}/cards")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Card> getCardsByDueDate(@PathVariable Long boardId) {
+        return boardService.findCardsByDueDate(boardId);
+    }
 }

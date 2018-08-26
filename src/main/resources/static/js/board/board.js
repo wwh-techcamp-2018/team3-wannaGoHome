@@ -44,8 +44,7 @@ document.addEventListener("DOMContentLoaded", function (evt) {
             calendar.clearCalendar();
         } else {
             //카드 날짜 정하기 전까지 임시 카드리스트
-            const cards = [];
-            calendar.constructCard(cards);
+            getCalendarCardList(calendar.board.boardIndex);
             $_("#calendar").style.display = 'block';
         }
     });
@@ -62,5 +61,19 @@ function initEvent(calendar) {
         evt.stopPropagation();
     })
 
+}
+
+function getCalendarCardList(boardId) {
+    fetchManager({
+        url: "/api/boards/"+ boardId + "/cards",
+        method: "GET",
+        callback: drawCalendarCardList
+    });
+}
+
+function drawCalendarCardList(status, cards) {
+    if(status === 200) {
+        calendar.constructCard(cards);
+    }
 }
 

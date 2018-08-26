@@ -87,4 +87,5 @@ public class CardService {
     private Card findCardById(Long id) {
         return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
     }
+
 }

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -111,5 +112,9 @@ public class Card {
             throw new BadRequestException(ErrorType.CARD_ASSIGN_NOT_EXIST, "해당 유저는 카드에 존재하지 않습니다.");
         }
         assignees.remove(assignee);
+    }
+
+    public boolean existDueDate() {
+        return (!Objects.isNull(this.endDate));
     }
 }

@@ -24,12 +24,12 @@ class Calendar {
         this.clickSchedule();
         this.clickCalendar();
         this.dragSchedule();
+        this.cardList= [];
      }
 
 
     constructCard(cards) {
         this.cards = cards;
-        this.cardList = [];
         this.cards.forEach((card)=>{
             this.constructCardForm(card);
         });
@@ -38,6 +38,12 @@ class Calendar {
 
     clearCalendar() {
         this.calendar.clear();
+    }
+
+    constructCardCallBack(status, card) {
+        if(status === 200) {
+            this.constructCardForm(card);
+        }
     }
 
     constructCardForm(card) {
@@ -54,6 +60,7 @@ class Calendar {
         });
         this.calendar.clear();
         this.calendar.createSchedules(this.cardList);
+
     }
 
     getRandomColor() {

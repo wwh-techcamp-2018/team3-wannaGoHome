@@ -34,7 +34,6 @@ class Card {
             this.setDraggable.call(this, evt);
         }.bind(this));
 
-        this.setDueDate('2018-08-30');
     }
 
     setDraggable(evt) {
@@ -225,23 +224,19 @@ class Card {
     setDueDate(date) {
         const cardDetailDto = {
             id: this.id,
-            endDate: date,
-            assignees: [],
-            labels: []
+            endDate: date
         };
         fetchManager({
             url: "/api/cards/details/date/" + this.id,
             method: "POST",
             body: JSON.stringify(cardDetailDto),
-            callback: this.board.calendar.constructCardForm
+            callback: this.board.calendar.constructCardCallBack.bind(this.board.calendar)
         });
     }
 
     setLabels(labels) {
         const cardDetailDto = {
             id: this.id,
-            endDate: "",
-            assignees: [],
             labels: labels
         };
         fetchManager({

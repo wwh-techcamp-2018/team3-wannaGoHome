@@ -38,7 +38,6 @@ class Card {
 
             this.setDraggable.call(this, evt);
         }.bind(this));
-
     }
 
     setDraggable(evt) {

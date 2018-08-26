@@ -55,9 +55,14 @@ function initEvent(calendar) {
     document.addEventListener("click", (evt) => {
         $_("#calendar").style.display = 'none';
         calendar.clearCalendar();
+        $_("#card-detail").style.display = 'none';
     });
 
     $_("#calendar").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+    })
+
+    $_(".card-detail-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();
     })
 

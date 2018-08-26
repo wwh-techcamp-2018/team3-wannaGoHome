@@ -6,13 +6,18 @@ import wannagohome.domain.*;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.CommentRepository;
+import wannagohome.repository.UserIncludedInBoardRepository;
 import wannagohome.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CardService {
+
+    @Autowired
+    private UserIncludedInBoardRepository userIncludedInBoardRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -86,6 +91,14 @@ public class CardService {
 
     public Card findCardById(Long id) {
         return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
+    }
+
+    public List<AssigneeDto> getMembers(Long cardId, String keyword) {
+        Card card = findCardById(cardId);
+        List<UserIncludedInBoard> users = userIncludedInBoardRepository.findAllByBoardAndUserNameContains(card.getBoard(), keyword);
+        return users.stream()
+                .map(userIncludedInBoard -> AssigneeDto.valueOf(userIncludedInBoard.getUser(), card))
+                .collect(Collectors.toList());
     }
 
 }

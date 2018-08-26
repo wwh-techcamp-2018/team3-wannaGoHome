@@ -75,4 +75,9 @@ public class ApiCardController {
     public Card getCard(@PathVariable Long cardId) {
         return cardService.findCardById(cardId);
     }
+
+    @GetMapping("/{cardId}/members")
+    public List<AssigneeDto> getMembers(@PathVariable Long cardId, @RequestParam String keyword) {
+        return cardService.getMembers(cardId, keyword);
+    }
 }

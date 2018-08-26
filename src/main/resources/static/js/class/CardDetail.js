@@ -1,5 +1,7 @@
 class CardDetail {
     constructor() {
+        this.cardId = null;
+
         this.form = $_("#card-detail");
         this.commentText = this.form.querySelector(".card-detail-comment");
         this.descriptionText = this.form.querySelector(".card-detail-desc");
@@ -9,7 +11,7 @@ class CardDetail {
 
         this.form.querySelector(".card-comment-save-button").addEventListener("click", this.addComment.bind(this));
         this.form.querySelector(".card-detail-side-button.due-date").addEventListener("click", this.addDueDate.bind(this));
-        this.cardId;
+        this.form.querySelector(".card-assignee").addEventListener("click", this.handleAssigneeButton.bind(this));
     }
 
     addDueDate() {
@@ -62,9 +64,34 @@ class CardDetail {
         card.comments.forEach(this.drawComment.bind(this));
     }
 
+    get assigneeSearchKeyword() {
+        return "";
+    }
+
+    handleAssigneeButton() {
+        if (true) {
+            fetchManager({
+                url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
+                method: "GET",
+                callback: this.showBoardMembers.bind(this)
+            })
+        }
+        else {
+            this.hideBoardMemebers();
+        }
+    }
+
+    showBoardMembers(status, members) {
+        console.log(members);
+    }
+
+    hideBoardMemebers() {
+
+    }
+
     hide() {
         this.form.style.display = "none";
-        this.cardId = undefined;
+        this.cardId = null;
         this.commentText.value = "";
         this.descriptionText.value = "";
         this.commentListContainer.innerHTML = "";

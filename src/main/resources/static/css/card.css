@@ -113,18 +113,52 @@
 }
 
 .card-detail-assignee-container {
-    background-color: white;
-    border: solid 1px #ccc;
-    border-radius: 3px;
+    background-color: #f8f9f9;
+    width: 200px;
+    border: solid 1px #b4b6b8;
+    border-radius: 5px;
     z-index: 200;
     position: relative;
-    padding: 5px;
+    padding: 10px;
+    margin-left: -20px;
+}
+
+.card-detail-assignee-container .card-detail-assignee-container-title {
+    border-bottom: solid 1px #b4b6b8;
+    font-weight: lighter;
+    font-size: 15px;
+    color: #888888;
+    margin-bottom: 5px;
+}
+
+.card-detail-assignee-container .card-detail-assignee-list-container-tag {
+    margin: 0px;
+    font-weight: lighter;
+    font-size: 13px;
+    color: #888888;
+}
+
+.card-detail-assignee-search {
+    border: solid 1px #b4b6b8;
+    border-radius: 5px;
+    width: 100%;
+    height: 30px;
 }
 
 .card-detail-assignee-container-hide {
     display: none;
 }
 
-.assignee-check-hide {
+.card-detail-assignee-list-container .assignee-check-hide {
     display: none;
+}
+
+.card-detail-assignee-list-container .assignee-check {
+    float: right;
+    line-height: 35px;
+}
+
+.card-detail-assignee-list-container .assignee-img {
+    width: 20px;
+    border-radius: 50%;
 }

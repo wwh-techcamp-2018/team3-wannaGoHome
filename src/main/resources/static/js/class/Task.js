@@ -119,8 +119,6 @@ class Task {
             this.board.dragCallBack = this.moveTaskPosition;
             this.board.dragEndCallBack = this.unsetDraggable;
 
-
-
         }.bind(this));
 
         this.task.querySelector(".task-list-title").addEventListener("click", function(evt) {
@@ -137,7 +135,9 @@ class Task {
         this.taskTitleInput.addEventListener("keypress", function(evt) {
             if(detectEnter(evt)) {
                 evt.preventDefault();
-                console.log("New title Entered");
+                const newTitle = evt.currentTarget.value.trim();
+                this.taskObject.title = newTitle;
+                this.renameTask(this.taskObject);
                 evt.currentTarget.blur();
             }
         }.bind(this));
@@ -312,6 +312,10 @@ class Task {
     getBoundingRect(element) {
         const rect = element.getBoundingClientRect();
         return rect;
+    }
+
+    renameTask(obj) {
+        this.board.stompClient.send(`/app/message/rename/${this.boardIndex}/${this.taskObject.id}`, {}, JSON.stringify(obj));
     }
 
     addCard(obj) {

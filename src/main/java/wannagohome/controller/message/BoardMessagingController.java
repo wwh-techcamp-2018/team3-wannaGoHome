@@ -1,5 +1,6 @@
 package wannagohome.controller.message;
 
+import org.jboss.logging.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -44,6 +45,13 @@ public class BoardMessagingController {
         return boardService.addBoardTask(boardId, new Task(taskDto)).getBoardDto();
     }
 
+    @MessageMapping("/message/rename/{boardId}/{taskId}")
+    @SendTo("/topic/board/{boardId}")
+    public BoardDto renameTask(@DestinationVariable Long boardId, TaskDto taskDto) throws Exception {
+        taskService.renameTask(taskDto);
+        return boardService.findById(boardId).getBoardDto();
+    }
+
     @MessageMapping("/message/reorder/{boardId}/task")
     @SendTo("/topic/board/{boardId}")
     public BoardDto reorderTasks(@DestinationVariable Long boardId,
@@ -69,4 +77,5 @@ public class BoardMessagingController {
         Task task = taskService.reorderTaskCard(taskId, cardOrderDto);
         return task.getBoard().getBoardDto();
     }
+
 }

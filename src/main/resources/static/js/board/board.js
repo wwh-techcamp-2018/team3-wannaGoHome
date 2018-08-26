@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function (evt) {
             calendar.clearCalendar();
         } else {
             //카드 날짜 정하기 전까지 임시 카드리스트
-            getCalendarCardList(calendar.board.boardIndex);
+            getCalendarCardList(calendar, calendar.board.boardIndex);
             $_("#calendar").style.display = 'block';
         }
     });
@@ -65,22 +65,24 @@ function initEvent(calendar, board) {
 
     $_(".card-detail-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();
-
+        $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
+        $_(".card-detail-label-container").style.display = 'none';
+        $_("#smallCalendar").style.display = 'none';
     })
 
 }
 
-function getCalendarCardList(boardId) {
+function getCalendarCardList(calendar, boardId) {
     fetchManager({
         url: "/api/boards/"+ boardId + "/cards",
         method: "GET",
-        callback: drawCalendarCardList
+        callback: drawCalendarCardList.bind(calendar)
     });
 }
 
 function drawCalendarCardList(status, cards) {
     if(status === 200) {
-        calendar.constructCard(cards);
+        this.constructCard(cards);
     }
 }
 

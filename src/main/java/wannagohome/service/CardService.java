@@ -7,6 +7,7 @@ import wannagohome.exception.NotFoundException;
 import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,16 +38,13 @@ public class CardService {
     }
 
     public Card setCardDueDate(Long id, CardDetailDto cardDetailDto) {
-        Card card = cardRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        Card card = findCardById(id);
         card.setEndDate(cardDetailDto.getEndDate());
-
         return cardRepository.save(card);
     }
 
     public Card setCardLabel(Long id, CardDetailDto cardDetailDto) {
-        Card card = cardRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        Card card = findCardById(id);
         card.setLabels(cardDetailDto.getLabels());
 
         return cardRepository.save(card);
@@ -96,8 +94,7 @@ public class CardService {
     }
 
     public List<CardLabelDto> addLabel(Long cardId, Label label) {
-        Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        Card card = findCardById(cardId);
         card.getLabels().add(label);
         cardRepository.save(card);
 
@@ -107,8 +104,7 @@ public class CardService {
     }
 
     public List<CardLabelDto> getLabels(Long cardId) {
-        Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        Card card = findCardById(cardId);
         return labelRepository.findAll().stream()
                 .map(label -> CardLabelDto.valueOf(label, card))
                 .collect(Collectors.toList());
@@ -116,8 +112,7 @@ public class CardService {
 
     @Transactional
     public List<CardLabelDto> deleteLabel(Long cardId, Long labelId) {
-        Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        Card card = findCardById(cardId);
         card.getLabels().remove(labelRepository.findById(labelId).orElseThrow(()->new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다.")));
         return labelRepository.findAll().stream()
                 .map(label -> CardLabelDto.valueOf(label, card))
@@ -130,5 +125,12 @@ public class CardService {
         return users.stream()
                 .map(userIncludedInBoard -> AssigneeDto.valueOf(userIncludedInBoard.getUser(), card))
                 .collect(Collectors.toList());
+    }
+
+    public Card updateCardDate(Long id, CardDetailDto cardDetailDto) {
+        Card card = findCardById(id);
+        card.setCreateDate(cardDetailDto.getCreateDate());
+        card.setEndDate(cardDetailDto.getEndDate());
+        return cardRepository.save(card);
     }
 }

@@ -3,7 +3,10 @@ class Board {
         this.calendar;
         this.taskList = [];
         this.stompClient = null;
+        this.smallCalendar = new SmallCalendar();
         this.cardDetailForm = new CardDetail();
+        this.cardDetailForm.smallCalendar = this.smallCalendar;
+        this.smallCalendar.cardDetail = this.cardDetailForm;
 
         // placeholder to hold mousedown coords
         this.startDrag = {x: 0, y: 0};

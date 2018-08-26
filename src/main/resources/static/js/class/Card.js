@@ -244,18 +244,18 @@ class Card {
         return (rect.top < y && rect.bottom > y); // && (this != card));
     }
 
-    setDueDate(date) {
-        const cardDetailDto = {
-            id: this.id,
-            endDate: date
-        };
-        fetchManager({
-            url: "/api/cards/details/date/" + this.id,
-            method: "POST",
-            body: JSON.stringify(cardDetailDto),
-            callback: this.board.calendar.constructCardCallBack.bind(this.board.calendar)
-        });
-    }
+    // setDueDate(date) {
+    //     const cardDetailDto = {
+    //         id: this.id,
+    //         endDate: date
+    //     };
+    //     fetchManager({
+    //         url: "/api/cards/details/date/" + this.id,
+    //         method: "POST",
+    //         body: JSON.stringify(cardDetailDto),
+    //         callback: this.board.calendar.constructCardCallBack.bind(this.board.calendar)
+    //     });
+    // }
 
     setLabels(labels) {
         const cardDetailDto = {

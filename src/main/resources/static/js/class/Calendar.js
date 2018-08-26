@@ -25,6 +25,7 @@ class Calendar {
         this.clickCalendar();
         this.dragSchedule();
         this.cardList= [];
+        // this.calendar.createSchedules(this.cardList);
      }
 
 
@@ -33,10 +34,12 @@ class Calendar {
         this.cards.forEach((card)=>{
             this.constructCardForm(card);
         });
+        this.calendar.clear();
         this.calendar.createSchedules(this.cardList);
     }
 
     clearCalendar() {
+        this.cardList = [];
         this.calendar.clear();
     }
 
@@ -72,8 +75,8 @@ class Calendar {
         this.calendar.on({
             'clickSchedule': function (e) {
                 console.log(e.schedule);
-                //TODO e.schedule로 카드 상세정보 페이지 띄울수 있음(카드상세페이지 생기면 연결)
-            }
+                this.board.cardDetailForm.showCardDetailForm(e.schedule.id);
+            }.bind(this)
         })
     }
     clickCalendar() {
@@ -93,8 +96,30 @@ class Calendar {
                 start: startTime,
                 end: endTime
             });
+
+            let mm = (startTime.getMonth()+1 > 9 ? '' : '0') +(startTime.getMonth()+1);
+            const startDate = startTime.getFullYear() +"-" + mm + "-" + startTime.getDate();
+            mm = (endTime.getMonth()+1 > 9 ? '' : '0') +(endTime.getMonth()+1);
+            const endDate = endTime.getFullYear() +"-" + mm + "-" + endTime.getDate();
+
+            const cardDetailDto = {
+                endDate: endDate,
+                createDate: startDate
+            }
+            fetchManager({
+                url: "/api/cards/"+schedule.id+"/date",
+                method: "PUT",
+                body: JSON.stringify(cardDetailDto),
+                callback: this.handleUpdateSchedule.bind(this)
+
+            })
             //TODO schedule에서 업데이트 된 정보를 카드에도 업데이트 시켜줘야함
         }.bind(this));
+    }
+
+    handleUpdateSchedule(status, card) {
+        console.log(status);
+        console.log(card);
     }
 
 

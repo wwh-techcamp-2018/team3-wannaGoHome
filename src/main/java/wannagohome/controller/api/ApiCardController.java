@@ -11,6 +11,7 @@ import wannagohome.interceptor.LoginUser;
 import wannagohome.service.CardService;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -33,10 +34,15 @@ public class ApiCardController {
         return cardService.findDueCardsByUser(user);
     }
 
-    @PostMapping("/details/date/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Card setCardDueDate(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
+    @PostMapping("/{id}/date")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Card setCardDueDate(@PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
         return cardService.setCardDueDate(id, cardDetailDto);
+    }
+
+    @PutMapping("/{id}/date")
+    public Card updateCardDate(@PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
+        return cardService.updateCardDate(id, cardDetailDto);
     }
 
     @PostMapping("/details/label/{id}")

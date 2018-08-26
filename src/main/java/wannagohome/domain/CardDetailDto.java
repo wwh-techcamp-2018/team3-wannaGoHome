@@ -14,6 +14,7 @@ import java.util.List;
 public class CardDetailDto {
     private Long id;
     private Date endDate;
+    private Date createDate;
     private List<Label> labels;
 
     private Long userId;

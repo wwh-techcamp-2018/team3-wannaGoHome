@@ -153,6 +153,7 @@
     position: relative;
     padding: 10px;
     margin-left: -20px;
+    margin-top: 2px;
 }
 
 .card-detail-assignee-container .card-detail-assignee-container-title {

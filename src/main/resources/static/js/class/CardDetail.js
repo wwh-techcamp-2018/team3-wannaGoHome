@@ -1,5 +1,7 @@
 class CardDetail {
     constructor() {
+        this.smallCalendar;
+
         this.cardId = null;
 
         this.form = $_("#card-detail");
@@ -16,17 +18,52 @@ class CardDetail {
 
         this.commentTemplate = Handlebars.templates["precompile/board/card_list_comment_template"];
         this.labelTemplate = Handlebars.templates["precompile/board/card_label_template"];
-        this.assigneeTemplate = Handlebars.templates["precompile/board/card_assignee_item_template"]
+        this.assigneeTemplate = Handlebars.templates["precompile/board/card_assignee_item_template"];
 
         this.form.querySelector(".card-comment-save-button").addEventListener("click", this.addComment.bind(this));
-        this.form.querySelector(".card-detail-side-button.label").addEventListener("click", this.toggleLabels.bind(this));
-        this.form.querySelector(".card-assignee").addEventListener("click", this.handleAssigneeButton.bind(this));
+
+        this.form.querySelector(".card-detail-side-button.label").addEventListener("click", (evt) =>{
+            evt.stopPropagation();
+            this.toggleLabels();
+        });
+        this.form.querySelector(".card-assignee").addEventListener("click", (evt)=> {
+            evt.stopPropagation();
+            this.handleAssigneeButton();
+        });
+        this.form.querySelector(".card-detail-side-button.due-date").addEventListener("click", (evt)=>{
+            evt.stopPropagation();
+            this.handleCalendar();
+        });
 
         this.labelContainer.addEventListener("click", (evt)=> evt.stopPropagation());
 
         this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeListContainer.addEventListener("click", this.handleUserAssign.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.handleAssigneeSearch.bind(this));
+    }
+
+    setDueDate(date) {
+        console.log(date);
+        let mm = (date.getMonth()+1 > 9 ? '' : '0') +(date.getMonth()+1);
+        let dd =(date.getDate() > 9 ? '' : '0') +date.getDate();
+        const endDate = date.getFullYear() +"-" + mm + "-" + dd;
+        const cardDetailDto = {
+            endDate: endDate
+        };
+        fetchManager({
+            url: `/api/cards/${this.cardId}/date`,
+            method: "POST",
+            body: JSON.stringify(cardDetailDto),
+            callback: this.handleDueDate.bind(this)
+        });
+    }
+
+    handleDueDate(status, card) {
+        if(status !== 201) {
+            return;
+        }
+        console.log(card.createDate, card.endDate);
+        this.smallCalendar.drawDueDate(card);
     }
 
     addComment() {
@@ -214,5 +251,16 @@ class CardDetail {
         this.commentText.value = "";
         this.descriptionText.value = "";
         this.commentListContainer.innerHTML = "";
+        $_("#smallCalendar").style.display = 'none';
+    }
+
+    handleCalendar() {
+        if(this.form.querySelector("#smallCalendar").style.display === 'none'){
+            this.form.querySelector("#smallCalendar").style.display = 'block';
+            this.smallCalendar.createSchedule();
+        } else {
+            this.form.querySelector("#smallCalendar").style.display = 'none';
+        }
+
     }
 }

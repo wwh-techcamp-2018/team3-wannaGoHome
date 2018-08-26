@@ -1,6 +1,7 @@
 package wannagohome.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Comment {
     @JoinColumn(name = "USER_ID")
     private User author;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "CARD_ID")
     private Card card;

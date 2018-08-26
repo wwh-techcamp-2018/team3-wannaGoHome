@@ -70,4 +70,9 @@ public class ApiCardController {
     public List<Comment> getComments() {
         return cardService.getComments();
     }
+
+    @GetMapping("/{cardId}")
+    public Card getCard(@PathVariable Long cardId) {
+        return cardService.findCardById(cardId);
+    }
 }

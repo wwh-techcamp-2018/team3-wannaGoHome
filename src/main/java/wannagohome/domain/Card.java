@@ -2,6 +2,7 @@ package wannagohome.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
@@ -59,6 +60,10 @@ public class Card {
             inverseJoinColumns = @JoinColumn(name = "LABEL_ID")
     )
     private List<Label> labels;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "card")
+    private List<Comment> comments;
 
     @CreatedDate
     private Date createDate;

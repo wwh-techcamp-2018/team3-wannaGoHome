@@ -1,5 +1,5 @@
 class Card {
-    constructor(card, task, board) {
+    constructor(card, task, board, cardDetailForm) {
         this.card = card;
         this.task = task;
         this.board = board;
@@ -12,6 +12,7 @@ class Card {
         this.startDate = card.createDate;
         this.moving = false;
         this.showflag = false;
+        this.cardDetailForm = cardDetailForm;
         this.init();
 
     }
@@ -25,7 +26,6 @@ class Card {
         this.card = newCard.querySelector(".card-wrapper");
         this.cardHolder = newCard;
         this.cardListContainer = this.task.taskWrapper.querySelector(".card-list-wrapper");
-        this.cardDetailForm = $_("#card-detail");
 
         this.card.addEventListener("mousedown", function (evt) {
             this.showflag = true;
@@ -220,8 +220,7 @@ class Card {
 
         if(this.showflag === true) {
             //단순 클릭 이벤트
-            this.cardDetailForm.style.display = "block";
-
+            this.cardDetailForm.showCardDetailForm(this.id);
         } else {
             //moving event
             this.task.reorderCard(this.id, this.destinationIndex);
@@ -274,7 +273,4 @@ class Card {
     drawLabels() {
 
     }
-
-
-
 }

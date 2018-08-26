@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function (evt) {
 
     const calendar = new Calendar();
-    initEvent(calendar);
     const board = new Board();
+    initEvent(calendar, board);
     board.calendar = calendar;
     calendar.board = board;
 
@@ -51,11 +51,11 @@ document.addEventListener("DOMContentLoaded", function (evt) {
 
 });
 
-function initEvent(calendar) {
+function initEvent(calendar, board) {
     document.addEventListener("click", (evt) => {
         $_("#calendar").style.display = 'none';
         calendar.clearCalendar();
-        $_("#card-detail").style.display = 'none';
+        board.hideCardDetailForm();
     });
 
     $_("#calendar").addEventListener("click", (evt) => {

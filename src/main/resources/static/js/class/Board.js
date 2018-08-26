@@ -167,7 +167,15 @@ class Board {
     }
 
     fetchBoardState() {
-        this.stompClient.send(`/app/message/board/${this.boardIndex}`, {}, JSON.stringify({}));
+        fetchManager({
+            url: `/api/boards/${this.boardIndex}`,
+            method: "GET",
+            headers: {"content-type": "application/json"},
+            callback: (status, result) => {
+                this.setBoard(result.tasks);
+                this.setBoardInfo(result);
+            }
+        });
     }
 
     addTask(obj) {

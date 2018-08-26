@@ -165,7 +165,6 @@ class Task {
             document.querySelector("body").click();
             evt.preventDefault();
             evt.stopPropagation();
-            console.log(evt.clientX);
             this.taskListOptionHolder.style.display = "block";
             this.taskListOptionHolder.style.left = evt.clientX + "px";
             this.taskListOptionHolder.style.top = evt.clientY - 80 + "px";

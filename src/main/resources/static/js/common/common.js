@@ -99,4 +99,30 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+function setOverlayClickFunctions(elem, clickCallBack, backgroundCallBack) {
+    elem.addEventListener("click", function(evt) {
+        document.querySelector("body").click();
+        clickCallBack(evt);
+    });
 
+    document.addEventListener("click", function(evt) {
+       backgroundCallBack(evt);
+    });
+}
+
+class PageObject {
+    constructor() {
+
+        this.init();
+        this.connectSocket();
+    }
+
+    init() {
+
+    }
+
+    // TODO: make a common singleton pattern socket
+    connectSocket() {
+
+    }
+}

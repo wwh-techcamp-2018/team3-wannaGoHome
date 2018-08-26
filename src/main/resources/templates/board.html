@@ -1,4 +1,5 @@
 {{#partial "head"}}
+<link rel="stylesheet" href="/css/card.css"/>
     <link rel="stylesheet" href="/css/board.css"/>
     <script src="/js/common/stomp.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
@@ -48,6 +49,49 @@
                 <input type="text" placeholder="Enter list title..."/>
                 <div class="add-list-inner-button">Add List</div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div id="card-detail" style="display: none;">
+    <div class="card-detail-background"></div>
+    <div class="card-detail-container">
+        <div class="card-detail-title-wrapper">
+            <p class="card-detail-title"><i class="fas fa-check"></i> card title</p>
+            <p class="card-detail-task-title">task title</p>
+        </div>
+        <div class="card-detail-main-container">
+            <div class="card-detail-desc-wrapper">
+                <p class="card-detail-title"><i class="fas fa-align-left"></i> Description</p>
+                <textarea class="card-detail-desc" rows="4" placeholder="카드 상세 설명을 입력해주세요."></textarea>
+                <button class="card-detail-save-button">SAVE</button>
+            </div>
+            <div class="card-detail-comment-wrapper">
+                <p class="card-detail-title"><i class="far fa-comments"></i> Add Comment</p>
+                <textarea class="card-detail-comment" rows="3" placeholder="카드에 댓글을 달아주세요."></textarea>
+                <button class="card-comment-save-button">SAVE</button>
+            </div>
+            <div class="card-detail-activity-wrapper">
+                <p class="card-detail-title">Activity</p>
+                <ul>
+                    <li>
+                        ㅇㅇㅇ보드 멤버로 초대되었습니다.
+                        <p>2018-08-18 15:00</p>
+                    </li>
+                    <li>
+                        ㅁㅁㅁ카드를 생성했습니다.
+                        <p>2018-08-18 15:00</p>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="card-detail-side-container">
+            <div class="card-detail-side-button"><i class="far fa-user"></i> Members</div>
+            <div class="card-detail-side-button"><i class="fas fa-tags"></i> Labels</div>
+            <div class="card-detail-side-button"><i class="far fa-calendar-alt"></i> Due Date</div>
+            <div class="card-detail-side-button"><i class="fas fa-file-upload"></i> Attachment</div>
+            <div class="card-detail-side-button"><i class="far fa-trash-alt"></i> Delete</div>
         </div>
     </div>
 </div>

@@ -111,3 +111,20 @@
     max-height: 200px;
     overflow: scroll;
 }
+
+.card-detail-assignee-container {
+    background-color: white;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    z-index: 200;
+    position: relative;
+    padding: 5px;
+}
+
+.card-detail-assignee-container-hide {
+    display: none;
+}
+
+.assignee-check-hide {
+    display: none;
+}

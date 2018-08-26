@@ -83,7 +83,15 @@
             </div>
         </div>
         <div class="card-detail-side-container">
-            <div class="card-detail-side-button card-assignee"><i class="far fa-user"></i> Members</div>
+            <div class="card-detail-side-button card-assignee">
+                <i class="far fa-user"></i> Members
+                <div class="card-detail-assignee-container card-detail-assignee-container-hide">
+                    <p>Members</p>
+                    <input class="card-detail-assignee-search" type="text">
+                    <p>Board Members</p>
+                    <ul class="card-detail-assignee-list-container"></ul>
+                </div>
+            </div>
             <div class="card-detail-side-button"><i class="fas fa-tags"></i> Labels</div>
             <div class="card-detail-side-button due-date"><i class="far fa-calendar-alt"></i> Due Date
                 <input class="card-detail-due-date-input" style="display: none">
@@ -126,6 +134,7 @@
         {{precompile "precompile/board/chat_message_right_template"}}
         {{precompile "precompile/board/date_divider_template"}}
         {{precompile "precompile/board/card_list_comment_template"}}
+        {{precompile "precompile/board/card_assignee_item_template"}}
 
     </script>
 {{/partial}}

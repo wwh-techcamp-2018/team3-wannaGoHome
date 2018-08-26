@@ -1,6 +1,7 @@
 package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
 import wannagohome.exception.NotFoundException;
@@ -53,21 +54,23 @@ public class CardService {
     }
 
     @Transactional
-    public User assignCardToUser(User user, Long cardId, CardDetailDto dto) {
+    public List<AssigneeDto> assignCardToUser(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
 
         card.addAssignee(assignee);
-        return assignee;
+        return userIncludedInBoardRepository.findAllByBoard(card.getBoard()).stream()
+                .map(userInBoard -> AssigneeDto.valueOf(userInBoard.getUser(), card)).collect(Collectors.toList());
     }
 
     @Transactional
-    public User dischargeCardFromUser(Long cardId, CardDetailDto dto) {
+    public List<AssigneeDto> dischargeCardFromUser(Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
 
         card.dischargeAssignee(assignee);
-        return assignee;
+        return userIncludedInBoardRepository.findAllByBoard(card.getBoard()).stream()
+                .map(userInBoard -> AssigneeDto.valueOf(userInBoard.getUser(), card)).collect(Collectors.toList());
     }
 
     @Transactional

@@ -10,11 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AssigneeDto {
 
+    private Long assigneeId;
     private String name;
     private String email;
     private boolean assigned;
 
     public static AssigneeDto valueOf(User user, Card card) {
-        return new AssigneeDto(user.getName(), user.getEmail(), card.containsAssignee(user));
+        return new AssigneeDto(user.getId(), user.getName(), user.getEmail(), card.containsAssignee(user));
     }
 }

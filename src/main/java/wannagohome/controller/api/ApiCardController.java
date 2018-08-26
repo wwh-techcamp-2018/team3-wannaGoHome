@@ -46,12 +46,12 @@ public class ApiCardController {
     }
 
     @PostMapping("/{cardId}/assign")
-    public User assignCardToUser(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
+    public List<AssigneeDto> assignCardToUser(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
         return cardService.assignCardToUser(user, cardId, cardDetail);
     }
 
     @DeleteMapping("/{cardId}/assign")
-    public User dischargeCardFromUser(@PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
+    public List<AssigneeDto> dischargeCardFromUser(@PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
         return cardService.dischargeCardFromUser(cardId, cardDetail);
     }
 

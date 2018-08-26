@@ -29,6 +29,7 @@ class Board {
 
     addListeners() {
         this.addButton.addEventListener("click", function (evt) {
+            document.querySelector("body").click();
             evt.stopPropagation();
             this.selector(".hidden-list-title-form").style.display = "block";
             this.selector(".hidden-list-title-form input").value = "";

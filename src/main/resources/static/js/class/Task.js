@@ -21,6 +21,7 @@ class Task {
 
     init() {
         this.taskListTemplate = Handlebars.templates["precompile/board/task_list_template"];
+        this.optionsTemplate = Handlebars.templates["precompile/board/task_options_template"]
 
         const newTask = createElementFromHTML(this.taskListTemplate(this.taskObject));
         this.board.container.insertBefore(newTask, this.board.selector(".task-item:last-child"));
@@ -35,9 +36,12 @@ class Task {
         this.addCardButton = this.task.querySelector(".add-card-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
         this.taskListTitle = this.task.querySelector(".task-list-title");
-        this.taskListOption = this.task.querySelector(".task-list-option");
+        this.taskListOptionButton = this.task.querySelector(".task-list-option");
         this.cardWrapper = this.task.querySelector(".new-card-wrapper");
         this.cardListContainer = this.task.querySelector(".card-list-container");
+
+        this.taskListOptionHolder = createElementFromHTML(this.optionsTemplate({}));
+        $_(".board-scroll-container").appendChild(this.taskListOptionHolder);
     }
 
     remove() {
@@ -54,7 +58,7 @@ class Task {
             this.board.unsetDraggable();
 
             // hide options holder
-            $_(".task-options-holder").style.display = "none";
+            this.taskListOptionHolder.style.display = "none";
 
             // dispatch event to resize screen objects
             window.dispatchEvent(new Event("resize"));
@@ -157,14 +161,19 @@ class Task {
             }
         }.bind(this));
 
-        this.taskListOption.addEventListener("click", function(evt) {
+        this.taskListOptionButton.addEventListener("click", function(evt) {
             document.querySelector("body").click();
             evt.preventDefault();
             evt.stopPropagation();
             console.log(evt.clientX);
-            $_(".task-options-holder").style.display = "block";
-            $_(".task-options-holder").style.left = evt.clientX + "px";
-            $_(".task-options-holder").style.top = evt.clientY - 80 + "px";
+            this.taskListOptionHolder.style.display = "block";
+            this.taskListOptionHolder.style.left = evt.clientX + "px";
+            this.taskListOptionHolder.style.top = evt.clientY - 80 + "px";
+        }.bind(this));
+
+        this.taskListOptionHolder.querySelector(".delete-options").addEventListener("click", function(evt) {
+
+            console.log(this.taskObject.title);
         }.bind(this));
 
         window.addEventListener("resize", function (evt) {

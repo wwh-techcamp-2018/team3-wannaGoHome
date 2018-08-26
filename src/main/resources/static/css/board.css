@@ -133,10 +133,45 @@ a.header-logo {
     border-radius: 3px;
 }
 
+.task-options-holder {
+    font-size: 0.85em;
+    position: absolute;
+    padding: 8px;
+    left: 200px;
+    top: 40px;
+    z-index: 5;
+    background-color: #FFF;
+    border-radius: 5px;
+    width: 250px;
+    display: none;
+}
+
+.task-options-title {
+    color: #777;
+    text-align: center;
+    border-bottom: 1px #ccc solid;
+    padding: 2px 0px 8px 0px;
+}
+
+.task-options-item-container {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.task-options-item {
+    color: #333;
+    text-align: left;
+    padding: 6px 0px 6px 0px;
+    font-weight: bold;
+}
+
+.task-options-item:hover {
+    cursor: pointer;
+}
+
 .add-list-button {
     background-color: rgba(0,0,0,.12);
     position: relative;
-
     display: inline-block;
     height: 38px;
     width: 272px;
@@ -264,7 +299,7 @@ a.header-logo {
     font-weight: bold;
     vertical-align: middle;
     height: 36px;
-    width: 260px;
+    width: 250px;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -274,10 +309,15 @@ a.header-logo {
 .task-list-option {
     position: absolute;
     font-size: 14px;
-    padding: 4px 2px 4px 2px;
+    padding: 4px 4px 4px 4px;
     top: 8px;
     right: 10px;
+    border-radius: 3px;
     color: #9c9c9c;
+}
+
+.task-list-option:hover {
+    background-color: #d2d3d4;
 }
 
 .add-card-button {
@@ -466,7 +506,6 @@ a.header-logo {
 
 .message-holder-left {
     position: relative;
-
     padding-top: 6px;
     padding: 4px 60px 4px 4px
 }

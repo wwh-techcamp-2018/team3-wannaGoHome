@@ -35,6 +35,7 @@ class Task {
         this.addCardButton = this.task.querySelector(".add-card-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
         this.taskListTitle = this.task.querySelector(".task-list-title");
+        this.taskListOption = this.task.querySelector(".task-list-option");
         this.cardWrapper = this.task.querySelector(".new-card-wrapper");
         this.cardListContainer = this.task.querySelector(".card-list-container");
     }
@@ -49,14 +50,20 @@ class Task {
             this.addCardButton.style.display = 'block';
             this.cardWrapper.style.display = 'none';
 
+            // make the board updatable again
             this.board.unsetDraggable();
+
+            // hide options holder
+            $_(".task-options-holder").style.display = "none";
 
             // dispatch event to resize screen objects
             window.dispatchEvent(new Event("resize"));
         });
+
         this.cardWrapper.addEventListener("click", (evt) => {
             evt.stopPropagation();
         });
+
         this.addCardButton.addEventListener("click", (evt) => {
             evt.stopPropagation();
             // click body to reset any opened up boxes
@@ -97,7 +104,6 @@ class Task {
 
             this.addCard(obj);
 
-
         });
 
         this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function (evt) {
@@ -126,10 +132,16 @@ class Task {
             this.taskTitleInput.value = this.taskListTitle.innerHTML.trim();
             this.taskTitleInput.style.display = "block";
             this.taskTitleInput.focus();
+
+            // set dragObject to true in order to prevent reloading
+            this.board.dragObject = true;
         }.bind(this));
 
         this.taskTitleInput.addEventListener("blur", function(evt) {
             this.taskTitleInput.style.display = "none";
+
+            // make the board updatable again
+            this.board.unsetDraggable();
         }.bind(this));
 
         this.taskTitleInput.addEventListener("keypress", function(evt) {
@@ -139,9 +151,21 @@ class Task {
                 this.taskObject.title = newTitle;
                 this.renameTask(this.taskObject);
                 evt.currentTarget.blur();
+
+                // make the board updatable again
+                this.board.unsetDraggable();
             }
         }.bind(this));
 
+        this.taskListOption.addEventListener("click", function(evt) {
+            document.querySelector("body").click();
+            evt.preventDefault();
+            evt.stopPropagation();
+            console.log(evt.clientX);
+            $_(".task-options-holder").style.display = "block";
+            $_(".task-options-holder").style.left = evt.clientX + "px";
+            $_(".task-options-holder").style.top = evt.clientY - 80 + "px";
+        }.bind(this));
 
         window.addEventListener("resize", function (evt) {
             const rect = getBoundingRect(this.taskContainer);

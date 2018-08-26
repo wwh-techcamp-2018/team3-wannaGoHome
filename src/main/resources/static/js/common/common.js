@@ -110,9 +110,15 @@ function setOverlayClickFunctions(elem, clickCallBack, backgroundCallBack) {
     });
 }
 
+function limitInputSize(inputElem, size) {
+    inputElem.addEventListener("input", (evt) => {
+        const currentValue = evt.currentTarget.value.trim();
+        evt.currentTarget.value = currentValue.substring(0, Math.min(currentValue.length, size));
+    });
+}
+
 class PageObject {
     constructor() {
-
         this.init();
         this.connectSocket();
     }
@@ -123,6 +129,11 @@ class PageObject {
 
     // TODO: make a common singleton pattern socket
     connectSocket() {
+        const socket = new SockJS('/websocket');
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.debug = null;
+        this.stompClient.connect({}, function (frame) {
 
+        }.bind(this))
     }
 }

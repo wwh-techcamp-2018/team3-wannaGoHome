@@ -42,6 +42,8 @@ class Task {
 
         this.taskListOptionHolder = createElementFromHTML(this.optionsTemplate({}));
         $_(".board-scroll-container").appendChild(this.taskListOptionHolder);
+
+        limitInputSize(this.taskTitleInput, 30);
     }
 
     remove() {

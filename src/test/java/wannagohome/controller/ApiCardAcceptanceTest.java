@@ -186,14 +186,13 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         RequestEntity addLabelRequest = new RequestEntity.Builder()
                 .withMethod(HttpMethod.POST)
                 .withBody(label)
-                .withReturnType(CardLabelDto[].class)
+                .withReturnType(Label[].class)
                 .withUrl("/api/cards/1/label")
                 .build();
 
-        ResponseEntity<CardLabelDto[]> responseEntity = basicAuthRequest(addLabelRequest, signInDto);
+        ResponseEntity<Label[]> responseEntity = basicAuthRequest(addLabelRequest, signInDto);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(Arrays.stream(responseEntity.getBody())
-                .filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(1);
+        assertThat(responseEntity.getBody().length).isEqualTo(1);
 
         Card card = cardRepository.findById(1L).get();
         card.getLabels().clear();
@@ -247,35 +246,33 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         RequestEntity addLabel1Request = new RequestEntity.Builder()
                 .withMethod(HttpMethod.POST)
                 .withBody(label1)
-                .withReturnType(CardLabelDto[].class)
+                .withReturnType(Label[].class)
                 .withUrl("/api/cards/1/label")
                 .build();
         RequestEntity addLabel2Request = new RequestEntity.Builder()
                 .withMethod(HttpMethod.POST)
                 .withBody(label2)
-                .withReturnType(CardLabelDto[].class)
+                .withReturnType(Label[].class)
                 .withUrl("/api/cards/1/label")
                 .build();
-        ResponseEntity<CardLabelDto[]> addLabel1responseEntity = basicAuthRequest(addLabel1Request, signInDto);
+        ResponseEntity<Label[]> addLabel1responseEntity = basicAuthRequest(addLabel1Request, signInDto);
         assertThat(addLabel1responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        ResponseEntity<CardLabelDto[]> addLabel2responseEntity = basicAuthRequest(addLabel2Request, signInDto);
+        ResponseEntity<Label[]> addLabel2responseEntity = basicAuthRequest(addLabel2Request, signInDto);
         assertThat(addLabel2responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        assertThat(Arrays.stream(addLabel2responseEntity.getBody())
-                .filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(2);
+        assertThat(addLabel2responseEntity.getBody().length).isEqualTo(2);
 
         RequestEntity deleteLabelRequest = new RequestEntity.Builder()
                 .withMethod(HttpMethod.DELETE)
                 .withBody(label1)
-                .withReturnType(CardLabelDto[].class)
+                .withReturnType(Label[].class)
                 .withUrl("/api/cards/1/label")
                 .build();
-        ResponseEntity<CardLabelDto[]> deleteResponseEntity = basicAuthRequest(deleteLabelRequest, signInDto);
+        ResponseEntity<Label[]> deleteResponseEntity = basicAuthRequest(deleteLabelRequest, signInDto);
         assertThat(deleteResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(Arrays.stream(deleteResponseEntity.getBody())
-                .filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(1);
-        Card card = cardRepository.findById(1L).get();
+        assertThat(deleteResponseEntity.getBody().length).isEqualTo(1);
+        Card card = cardRepository.findById(1L).orElseThrow(RuntimeException::new);
         card.getLabels().clear();
         cardRepository.save(card);
 
@@ -291,13 +288,10 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         RequestEntity deleteLabelRequest = new RequestEntity.Builder()
                 .withMethod(HttpMethod.DELETE)
                 .withBody(label)
-                .withReturnType(CardLabelDto[].class)
+                .withReturnType(Label[].class)
                 .withUrl("/api/cards/1/label")
                 .build();
-        ResponseEntity<CardLabelDto[]> deleteResponseEntity = basicAuthRequest(deleteLabelRequest, signInDto);
+        ResponseEntity<Label[]> deleteResponseEntity = basicAuthRequest(deleteLabelRequest, signInDto);
         assertThat(deleteResponseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
-
-
-
 }

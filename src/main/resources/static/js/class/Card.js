@@ -220,7 +220,7 @@ class Card {
 
         if(this.showflag === true) {
             //단순 클릭 이벤트
-            this.cardDetailForm.showCardDetailForm(this.id);
+            this.cardDetailForm.show(this.id);
         } else {
             //moving event
             this.task.reorderCard(this.id, this.destinationIndex);

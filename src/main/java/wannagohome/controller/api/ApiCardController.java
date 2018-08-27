@@ -92,18 +92,18 @@ public class ApiCardController {
 
     @GetMapping("/{cardId}/label")
     @ResponseStatus(HttpStatus.OK)
-    public List<CardLabelDto> getLabels(@PathVariable Long cardId) {
+    public List<Label> getLabels(@PathVariable Long cardId) {
         return cardService.getLabels(cardId);
     }
 
     @PostMapping("/{cardId}/label")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<CardLabelDto> addLabel(@PathVariable Long cardId, @RequestBody Label label) {
+    public List<Label> addLabel(@PathVariable Long cardId, @RequestBody Label label) {
         return cardService.addLabel(cardId, label);
     }
 
     @DeleteMapping("/{cardId}/label")
-    public List<CardLabelDto> deleteLabel(@PathVariable Long cardId, @RequestBody Label label) {
+    public List<Label> deleteLabel(@PathVariable Long cardId, @RequestBody Label label) {
         return cardService.deleteLabel(cardId, label.getId());
     }
 

@@ -15,8 +15,15 @@ public class AssigneeDto {
     private String name;
     private String email;
     private boolean assigned;
+    private String profile;
 
     public static AssigneeDto valueOf(User user, Card card) {
-        return new AssigneeDto(user.getId(), user.getName(), user.getEmail(), card.containsAssignee(user));
+        return new AssigneeDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                card.containsAssignee(user),
+                user.getProfile()
+        );
     }
 }

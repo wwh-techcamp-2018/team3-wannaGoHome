@@ -98,12 +98,14 @@ public class Card {
     }
 
     public CardDto getCardDto() {
-        CardDto cardDto = new CardDto();
-        cardDto.setId(id);
-        cardDto.setAuthor(author);
-        cardDto.setCreateDate(createDate);
-        cardDto.setTitle(title);
-        return  cardDto;
+        return CardDto.builder()
+                .id(id)
+                .author(author)
+                .createDate(createDate)
+                .title(title)
+                .labels(labels)
+                .dueDate(endDate)
+                .build();
     }
 
     public boolean equalsId(Long id) {

@@ -99,48 +99,39 @@ public class CardService {
 
     public CardDetailDto getCardDetail(Long id) {
         Card card = findCardById(id);
-        return new CardDetailDto(
-                card.getTitle(),
-                card.getTask().getTitle(),
-                card.getDescription(),
-                card.getComments()
-        );
+        return CardDetailDto.builder()
+                .cardTitle(card.getTitle())
+                .taskTitle(card.getTask().getTitle())
+                .description(card.getDescription())
+                .comments(card.getComments())
+                .labels(card.getLabels())
+                .allLabels(labelRepository.findAll())
+                .assignees(card.getAssignees())
+                .build();
     }
 
     public Card findCardById(Long id) {
         return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
     }
 
-    public List<CardLabelDto> addLabel(Long cardId, Label label) {
+    public List<Label> addLabel(Long cardId, Label label) {
         Card card = findCardById(cardId);
         card.getLabels().add(label);
-        cardRepository.save(card);
-
-        return labelRepository.findAll().stream()
-                .map(l -> CardLabelDto.valueOf(l, card))
-                .collect(Collectors.toList());
+        card = cardRepository.save(card);
+        return card.getLabels();
     }
 
-    public List<CardLabelDto> getLabels(Long cardId) {
+    public List<Label> getLabels(Long cardId) {
         Card card = findCardById(cardId);
-        return labelRepository.findAll().stream()
-                .map(label -> CardLabelDto.valueOf(label, card))
-                .collect(Collectors.toList());
+        return card.getLabels();
     }
 
     @Transactional
-    public List<CardLabelDto> deleteLabel(Long cardId, Long labelId) {
+    public List<Label> deleteLabel(Long cardId, Long labelId) {
         Card card = findCardById(cardId);
         Label getLabel = labelRepository.findById(labelId).orElseThrow(()->new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다."));
-//        if(card.getLabels().contains(getLabel)) {
-//            card.getLabels().remove(getLabel);
-//        } else {
-//            throw new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다.");
-//        }
         card.removeLabel(getLabel);
-        return labelRepository.findAll().stream()
-                .map(label -> CardLabelDto.valueOf(label, card))
-                .collect(Collectors.toList());
+        return card.getLabels();
     }
 
     public List<AssigneeDto> getMembers(Long cardId, String keyword) {

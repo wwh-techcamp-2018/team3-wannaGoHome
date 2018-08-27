@@ -1,6 +1,8 @@
 <div class="card-holder">
     <div class="card-wrapper">
-        <div class="card-list-label"></div>
+        <div class="card-list-label">
+            {{#labels}}<span class="card-label-bar" style="background-color: {{color}}"></span>{{/labels}}
+        </div>
         <div class="card-list-title">{{title}}</div>
         <div class="card-list-calendar"></div>
     </div>

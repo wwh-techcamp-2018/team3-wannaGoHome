@@ -122,12 +122,10 @@ public class CardServiceTest {
                         .color(LabelColor.BLUE)
                         .build()
         );
-        when(labelRepository.findAll()).thenReturn(labelList);
         cardService.addLabel(card.getId(), label);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(1)).findById((any()));
         assertThat(card.getLabels()).contains(label);
-        verify(labelRepository, times(1)).findAll();
     }
 
     @Test
@@ -154,13 +152,11 @@ public class CardServiceTest {
                         .color(LabelColor.BLUE)
                         .build()
         );
-        when(labelRepository.findAll()).thenReturn(labelList);
         cardService.addLabel(card.getId(), label);
-        List<CardLabelDto> cardLabelDtos = cardService.getLabels(card.getId());
-        assertThat(cardLabelDtos.stream().filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(1);
+        List<Label> labels = cardService.getLabels(card.getId());
+        assertThat(labels.size()).isEqualTo(1);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(2)).findById((any()));
-        verify(labelRepository, times(2)).findAll();
     }
 
     @Test
@@ -168,9 +164,8 @@ public class CardServiceTest {
         when(labelRepository.findById(label.getId())).thenReturn(Optional.ofNullable(label));
         cardService.addLabel(card.getId(), label);
         cardService.deleteLabel(card.getId(), label.getId());
-        List<CardLabelDto> cardLabelDtos = cardService.getLabels(card.getId());
-        assertThat(cardLabelDtos.stream().filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(0);
-        verify(labelRepository, times(3)).findAll();
+        List<Label> labels = cardService.getLabels(card.getId());
+        assertThat(labels.size()).isEqualTo(0);
         verify(labelRepository, times(1)).findById((any()));
     }
 

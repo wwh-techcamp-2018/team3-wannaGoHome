@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
@@ -27,14 +28,15 @@ public class S3Service {
 
     public String upload(MultipartFile multipartFile, String dirName) {
         File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+                .orElseThrow(() -> new UnsupportedFileFormatException(ErrorType.UNSUPPORTED_FILE
+                        ,"MultipartFile을 File로 전환이 실패했습니다."));
         return upload(uploadFile, dirName);
     }
 
     private Optional<File> convert(MultipartFile file) {
         File convertFile = new File(file.getOriginalFilename());
         try {
-            if(convertFile.createNewFile()) {
+            if (convertFile.createNewFile()) {
                 try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                     fos.write(file.getBytes());
                 }
@@ -47,11 +49,17 @@ public class S3Service {
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        String fileName = dirName + "/" + getUUIDFileName(uploadFile.getName());
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
+
+    private String getUUIDFileName(String fileName) {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString() + "_" + fileName;
+    }
+
 
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(BUCKET_NAME, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));

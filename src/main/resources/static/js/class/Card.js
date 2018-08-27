@@ -1,5 +1,5 @@
 class Card {
-    constructor(card, task, board) {
+    constructor(card, task, board, cardDetailForm) {
         this.card = card;
         this.task = task;
         this.board = board;
@@ -11,6 +11,8 @@ class Card {
         this.endDate = card.endDate;
         this.startDate = card.createDate;
         this.moving = false;
+        this.showflag = false;
+        this.cardDetailForm = cardDetailForm;
         this.init();
 
     }
@@ -26,6 +28,9 @@ class Card {
         this.cardListContainer = this.task.taskWrapper.querySelector(".card-list-wrapper");
 
         this.card.addEventListener("mousedown", function (evt) {
+            this.showflag = true;
+            this.originX = evt.clientX;
+            this.originY = evt.clientY;
             this.moving = true;
 
             this.board.startDrag.x = evt.clientX;
@@ -85,6 +90,11 @@ class Card {
 
     moveTaskPosition(evt) {
         if (!this.moving) return;
+
+        if(this.getDistance(this.originX, this.originY, evt.clientX, evt.clientY) > 5) {
+            console.log("showflag");
+            this.showflag = false;
+        }
 
         const rect = getBoundingRect(this.card);
         const centerX = (rect.left + rect.right) / 2;
@@ -163,6 +173,10 @@ class Card {
 
     }
 
+    getDistance(originX, originY, currentX, currentY) {
+        return Math.sqrt(Math.pow((originX-currentX),2) + Math.pow((originY-currentY),2));
+    }
+
     getCurrentCoords(evt) {
         const coordObj = {x: evt.clientX - this.board.startDrag.x, y: evt.clientY - this.board.startDrag.y};
         return coordObj;
@@ -204,7 +218,17 @@ class Card {
 
         this.moving = false;
 
-        this.task.reorderCard(this.id, this.destinationIndex);
+        if(this.showflag === true) {
+            //단순 클릭 이벤트
+            this.cardDetailForm.showCardDetailForm(this.id);
+        } else {
+            //moving event
+            this.task.reorderCard(this.id, this.destinationIndex);
+        }
+
+        this.showflag = false;
+        this.originX = undefined;
+        this.originY = undefined;
         // reset drag object
         this.board.unsetDraggable();
 
@@ -220,4 +244,33 @@ class Card {
         return (rect.top < y && rect.bottom > y); // && (this != card));
     }
 
+    // setDueDate(date) {
+    //     const cardDetailDto = {
+    //         id: this.id,
+    //         endDate: date
+    //     };
+    //     fetchManager({
+    //         url: "/api/cards/details/date/" + this.id,
+    //         method: "POST",
+    //         body: JSON.stringify(cardDetailDto),
+    //         callback: this.board.calendar.constructCardCallBack.bind(this.board.calendar)
+    //     });
+    // }
+
+    setLabels(labels) {
+        const cardDetailDto = {
+            id: this.id,
+            labels: labels
+        };
+        fetchManager({
+            url: "/api/cards/details/label/" + this.id,
+            method: "POST",
+            body: JSON.stringify(cardDetailDto),
+            callback: this.drawLabels.bind(this)
+        });
+    }
+
+    drawLabels() {
+
+    }
 }

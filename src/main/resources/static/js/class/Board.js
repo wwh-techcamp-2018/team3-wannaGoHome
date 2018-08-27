@@ -1,7 +1,12 @@
 class Board {
     constructor() {
+        this.calendar;
         this.taskList = [];
         this.stompClient = null;
+        this.smallCalendar = new SmallCalendar();
+        this.cardDetailForm = new CardDetail();
+        this.cardDetailForm.smallCalendar = this.smallCalendar;
+        this.smallCalendar.cardDetail = this.cardDetailForm;
 
         // placeholder to hold mousedown coords
         this.startDrag = {x: 0, y: 0};
@@ -108,7 +113,7 @@ class Board {
             const taskObject = new Task(this, task);
             this.taskList.push(taskObject);
             for (const card of task.cards) {
-                const newCard = new Card(card, taskObject, this);
+                const newCard = new Card(card, taskObject, this, this.cardDetailForm);
                 taskObject.cardList.push(newCard);
             }
 
@@ -188,5 +193,10 @@ class Board {
             destinationIndex: destTaskIndex
         };
         this.stompClient.send(`/app/message/reorder/${this.boardIndex}/task`, {}, JSON.stringify(obj));
+    }
+
+
+    hideCardDetailForm() {
+        this.cardDetailForm.hide();
     }
 }

@@ -1,6 +1,7 @@
 const BLANK = '&nbsp;&nbsp;#';
 class Calendar {
     constructor() {
+        this.board;
         this.calendar = new tui.Calendar(document.getElementById('calendar'), {
             disableDblClick: true,
             defaultView: 'month',
@@ -23,34 +24,46 @@ class Calendar {
         this.clickSchedule();
         this.clickCalendar();
         this.dragSchedule();
+        this.cardList= [];
+        // this.calendar.createSchedules(this.cardList);
      }
 
 
     constructCard(cards) {
         this.cards = cards;
-        this.cardList = [];
         this.cards.forEach((card)=>{
             this.constructCardForm(card);
         });
+        this.calendar.clear();
         this.calendar.createSchedules(this.cardList);
     }
 
     clearCalendar() {
+        this.cardList = [];
         this.calendar.clear();
+    }
+
+    constructCardCallBack(status, card) {
+        if(status === 200) {
+            this.constructCardForm(card);
+        }
     }
 
     constructCardForm(card) {
         this.cardList.push({
             id: card.id,
-            calendarId: '1', //TODO boardId로
+            calendarId: this.board.boardIndex,
             title: card.title,
             category: 'time',
             dueDateClass: '',
-            start: card.startDate,
+            start: card.createDate,
             end: card.endDate,
             isAllDay: true,
             bgColor: this.getRandomColor()
         });
+        this.calendar.clear();
+        this.calendar.createSchedules(this.cardList);
+
     }
 
     getRandomColor() {
@@ -62,8 +75,8 @@ class Calendar {
         this.calendar.on({
             'clickSchedule': function (e) {
                 console.log(e.schedule);
-                //TODO e.schedule로 카드 상세정보 페이지 띄울수 있음(카드상세페이지 생기면 연결)
-            }
+                this.board.cardDetailForm.showCardDetailForm(e.schedule.id);
+            }.bind(this)
         })
     }
     clickCalendar() {
@@ -83,8 +96,30 @@ class Calendar {
                 start: startTime,
                 end: endTime
             });
+
+            let mm = (startTime.getMonth()+1 > 9 ? '' : '0') +(startTime.getMonth()+1);
+            const startDate = startTime.getFullYear() +"-" + mm + "-" + startTime.getDate();
+            mm = (endTime.getMonth()+1 > 9 ? '' : '0') +(endTime.getMonth()+1);
+            const endDate = endTime.getFullYear() +"-" + mm + "-" + endTime.getDate();
+
+            const cardDetailDto = {
+                endDate: endDate,
+                createDate: startDate
+            }
+            fetchManager({
+                url: "/api/cards/"+schedule.id+"/date",
+                method: "PUT",
+                body: JSON.stringify(cardDetailDto),
+                callback: this.handleUpdateSchedule.bind(this)
+
+            })
             //TODO schedule에서 업데이트 된 정보를 카드에도 업데이트 시켜줘야함
         }.bind(this));
+    }
+
+    handleUpdateSchedule(status, card) {
+        console.log(status);
+        console.log(card);
     }
 
 

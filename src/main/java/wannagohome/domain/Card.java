@@ -1,15 +1,19 @@
 package wannagohome.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
+import wannagohome.exception.BadRequestException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -57,6 +61,10 @@ public class Card {
     )
     private List<Label> labels;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "card")
+    private List<Comment> comments;
+
     @CreatedDate
     private Date createDate;
 
@@ -68,10 +76,12 @@ public class Card {
 
     private Integer orderId;
 
+    @JsonIgnore
     public Board getBoard() {
         return task.getBoard();
     }
 
+    @JsonIgnore
     public Team getTeam() {
         return getBoard().getTeam();
     }
@@ -93,5 +103,42 @@ public class Card {
 
     public boolean equalsId(Long id) {
         return this.id.equals(id);
+    }
+
+    public void addAssignee(User assignee) {
+        if (containsAssignee(assignee)) {
+            throw new BadRequestException(ErrorType.CARD_ASSIGN_ALREADY_EXIST, "이미 존재하는 유저입니다.");
+        }
+        assignees.add(assignee);
+    }
+
+    public void dischargeAssignee(User assignee) {
+        if (!containsAssignee(assignee)) {
+            throw new BadRequestException(ErrorType.CARD_ASSIGN_NOT_EXIST, "해당 유저는 카드에 존재하지 않습니다.");
+        }
+        assignees.remove(assignee);
+    }
+
+    public void updateDescription(CardDetailDto dto) {
+        this.description = dto.getDescription();
+    }
+
+    public boolean containsAssignee(User assignee) {
+        return assignees.contains(assignee);
+    }
+
+    public boolean existDueDate() {
+        return (!Objects.isNull(this.endDate));
+    }
+
+    public boolean containsLabel(Label label) {
+        return labels.contains(label);
+    }
+
+    public void removeLabel(Label getLabel) {
+        if(!containsLabel(getLabel)) {
+            throw new BadRequestException(ErrorType.CARD_LABEL_NOT_EXIST, "해당 라벨은 카드에 존재하지 않습니다.");
+        }
+        labels.remove(getLabel);
     }
 }

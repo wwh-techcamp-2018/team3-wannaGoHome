@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", function (evt) {
-    const board = new Board();
-    const calendar = new Calendar();
-    initEvent(calendar);
 
+    const calendar = new Calendar();
+    const board = new Board();
+    initEvent(calendar, board);
+    board.calendar = calendar;
+    calendar.board = board;
 
     const chat = new Chat();
 
@@ -42,23 +44,45 @@ document.addEventListener("DOMContentLoaded", function (evt) {
             calendar.clearCalendar();
         } else {
             //카드 날짜 정하기 전까지 임시 카드리스트
-            const cards = [];
-            calendar.constructCard(cards);
+            getCalendarCardList(calendar, calendar.board.boardIndex);
             $_("#calendar").style.display = 'block';
         }
     });
 
 });
 
-function initEvent(calendar) {
+function initEvent(calendar, board) {
     document.addEventListener("click", (evt) => {
         $_("#calendar").style.display = 'none';
         calendar.clearCalendar();
+        board.hideCardDetailForm();
+
     });
 
     $_("#calendar").addEventListener("click", (evt) => {
         evt.stopPropagation();
     })
 
+    $_(".card-detail-container").addEventListener("click", (evt)=>{
+        evt.stopPropagation();
+        $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
+        $_(".card-detail-label-container").style.display = 'none';
+        $_("#smallCalendar").style.display = 'none';
+    })
+
+}
+
+function getCalendarCardList(calendar, boardId) {
+    fetchManager({
+        url: "/api/boards/"+ boardId + "/cards",
+        method: "GET",
+        callback: drawCalendarCardList.bind(calendar)
+    });
+}
+
+function drawCalendarCardList(status, cards) {
+    if(status === 200) {
+        this.constructCard(cards);
+    }
 }
 

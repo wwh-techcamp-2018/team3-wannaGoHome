@@ -357,6 +357,19 @@ a.header-logo {
     box-shadow: -2px 2px 2px #aaaaaa;
 }
 
+#smallCalendar {
+    height: 450px;
+    width: 300px;
+    z-index: 200;
+    position: relative;
+    border-radius: 3px;
+    padding: 1px;
+    background-color: #fff;
+    box-shadow: -2px 2px 2px #aaaaaa;
+    margin-left: -20px;
+    margin-top: 2px;
+}
+
 .new-card-wrapper {
     width: 100%;
     padding: 10px;

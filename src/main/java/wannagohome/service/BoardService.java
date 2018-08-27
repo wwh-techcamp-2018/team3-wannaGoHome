@@ -10,13 +10,12 @@ import wannagohome.domain.*;
 import wannagohome.event.BoardEvent;
 import wannagohome.event.TeamEvent;
 import wannagohome.exception.BadRequestException;
+import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,7 +74,7 @@ public class BoardService {
 
     private UserIncludedInTeam confirmAuthorityOfUser(User user, Board board) {
         return userIncludedInTeamRepository.findByUserAndTeam(user,board.getTeam())
-                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHENTICATED, "Board에 접근할 권한이 없습니다."));
+                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Board에 접근할 권한이 없습니다."));
 
     }
     private RecentlyViewBoard saveRecentlyViewBoard(User user, Board board) {
@@ -171,4 +170,14 @@ public class BoardService {
                 .build();
     }
 
+    public List<Card> findCardsByDueDate(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "일치하는 보드가 없습니다."));
+        List<Card> cardList = new ArrayList<>();
+        board.getTasks().forEach(task -> {
+            cardList.addAll(task.getCards().stream().filter(card -> card.existDueDate()).collect(Collectors.toList()));
+        });
+        return cardList;
+
+    }
 }

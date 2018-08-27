@@ -2,6 +2,10 @@ package wannagohome.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import wannagohome.domain.card.Card;
+import wannagohome.domain.card.Comment;
+import wannagohome.domain.card.CommentDto;
+import wannagohome.domain.user.User;
 import wannagohome.exception.UnAuthorizedException;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import wannagohome.domain.*;
+import wannagohome.domain.error.ErrorEntity;
+import wannagohome.domain.error.ErrorType;
+import wannagohome.domain.user.SignInDto;
+import wannagohome.domain.user.SignUpDto;
+import wannagohome.domain.user.User;
 import wannagohome.support.AcceptanceTest;
 
 import java.util.Arrays;

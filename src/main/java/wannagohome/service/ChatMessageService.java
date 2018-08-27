@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wannagohome.domain.Board;
-import wannagohome.domain.ChatMessage;
-import wannagohome.domain.ChatMessageDto;
-import wannagohome.domain.User;
+import wannagohome.domain.board.Board;
+import wannagohome.domain.board.ChatMessage;
+import wannagohome.domain.board.ChatMessageDto;
+import wannagohome.domain.user.User;
 import wannagohome.repository.ChatMessageRepository;
 
 import javax.transaction.Transactional;

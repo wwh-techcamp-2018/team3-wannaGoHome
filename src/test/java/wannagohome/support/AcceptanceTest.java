@@ -3,7 +3,7 @@ package wannagohome.support;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
-import wannagohome.domain.SignInDto;
+import wannagohome.domain.user.SignInDto;
 
 
 public abstract class AcceptanceTest extends SpringTest {

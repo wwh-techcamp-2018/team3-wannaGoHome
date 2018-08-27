@@ -1,7 +1,7 @@
 package wannagohome.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import wannagohome.domain.Team;
+import wannagohome.domain.team.Team;
 
 import java.util.Optional;
 

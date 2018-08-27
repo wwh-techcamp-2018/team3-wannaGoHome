@@ -1,9 +1,9 @@
 package wannagohome.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import wannagohome.domain.Team;
-import wannagohome.domain.User;
-import wannagohome.domain.UserIncludedInTeam;
+import wannagohome.domain.team.Team;
+import wannagohome.domain.user.User;
+import wannagohome.domain.user.UserIncludedInTeam;
 
 import java.util.List;
 import java.util.Optional;

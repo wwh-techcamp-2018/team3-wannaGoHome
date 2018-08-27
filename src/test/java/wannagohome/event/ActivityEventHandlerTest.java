@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.support.MessageSourceAccessor;
-import wannagohome.domain.ActivityType;
-import wannagohome.domain.Team;
-import wannagohome.domain.TeamActivity;
-import wannagohome.domain.User;
+import wannagohome.domain.activity.ActivityType;
+import wannagohome.domain.team.Team;
+import wannagohome.domain.activity.TeamActivity;
+import wannagohome.domain.user.User;
 import wannagohome.support.SpringTest;
 
 import javax.annotation.Resource;

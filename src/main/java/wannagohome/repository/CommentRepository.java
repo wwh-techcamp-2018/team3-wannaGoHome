@@ -1,7 +1,7 @@
 package wannagohome.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import wannagohome.domain.Comment;
+import wannagohome.domain.card.Comment;
 
 import java.util.List;
 

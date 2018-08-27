@@ -5,8 +5,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
-import wannagohome.domain.ActivityInitDto;
-import wannagohome.domain.RequestActivityDto;
+import wannagohome.domain.activity.ActivityInitDto;
+import wannagohome.domain.activity.RequestActivityDto;
 import wannagohome.service.ActivityService;
 import wannagohome.util.SessionUtil;
 

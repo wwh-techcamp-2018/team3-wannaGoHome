@@ -2,6 +2,8 @@ package wannagohome.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import wannagohome.domain.card.Card;
+import wannagohome.domain.task.Task;
 
 import java.util.ArrayList;
 import java.util.Arrays;

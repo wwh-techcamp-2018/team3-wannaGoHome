@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import wannagohome.domain.user.SignInDto;
+import wannagohome.domain.user.User;
 import wannagohome.exception.UnAuthenticationException;
 
 import static org.assertj.core.api.Assertions.assertThat;

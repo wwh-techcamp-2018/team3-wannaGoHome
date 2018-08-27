@@ -1,8 +1,8 @@
 package wannagohome.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import wannagohome.domain.Card;
-import wannagohome.domain.User;
+import wannagohome.domain.card.Card;
+import wannagohome.domain.user.User;
 
 import java.util.List;
 

@@ -7,10 +7,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationEventPublisher;
-import wannagohome.domain.Card;
-import wannagohome.domain.CardOrderDto;
-import wannagohome.domain.Task;
-import wannagohome.domain.User;
+import wannagohome.domain.card.Card;
+import wannagohome.domain.card.CardOrderDto;
+import wannagohome.domain.task.Task;
+import wannagohome.domain.user.User;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.TaskRepository;
 

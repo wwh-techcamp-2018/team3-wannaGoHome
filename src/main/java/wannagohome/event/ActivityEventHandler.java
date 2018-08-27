@@ -5,8 +5,8 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import wannagohome.component.ActivityMessageGenerator;
-import wannagohome.domain.AbstractActivity;
-import wannagohome.domain.User;
+import wannagohome.domain.activity.AbstractActivity;
+import wannagohome.domain.user.User;
 import wannagohome.repository.ActivityRepository;
 
 import javax.annotation.Resource;

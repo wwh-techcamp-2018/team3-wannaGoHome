@@ -98,9 +98,61 @@ function getFormattedDate(date) {
             checkTime(date.getDate());
 }
 
+function addEscapedText(elem, text) {
+    elem.innerHTML = "";
+    elem.appendChild(document.createTextNode(text));
+}
+
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+// if true landscape non jquery
+function imageDimensions(img) {
+    if(img.height > img.width) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
+function setOverlayClickFunctions(elem, clickCallBack, backgroundCallBack) {
+    elem.addEventListener("click", function(evt) {
+        elem.stopPropagation();
+        document.querySelector("body").click();
+        clickCallBack(evt);
+    });
+
+    document.addEventListener("click", function(evt) {
+       backgroundCallBack(evt);
+    });
+}
+
+function limitInputSize(inputElem, size) {
+    inputElem.addEventListener("input", (evt) => {
+        const currentValue = evt.currentTarget.value.trim();
+        evt.currentTarget.value = currentValue.substring(0, Math.min(currentValue.length, size));
+    });
+}
+
+class PageObject {
+    constructor() {
+        this.init();
+        this.connectSocket();
+    }
+
+    init() {
+
+    }
+
+    // TODO: make a common singleton pattern socket
+    connectSocket() {
+        const socket = new SockJS('/websocket');
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.debug = null;
+        this.stompClient.connect({}, function (frame) {
+
+        }.bind(this))
+    }
+}

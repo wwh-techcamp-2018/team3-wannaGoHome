@@ -43,3 +43,15 @@ INSERT INTO user_included_in_board(permission,board_id,user_id)VALUES('ADMIN',2,
 INSERT INTO user_included_in_board(permission,board_id,user_id)VALUES('ADMIN',2,7);
 INSERT INTO user_included_in_board(permission,board_id,user_id)VALUES('ADMIN',2,8);
 INSERT INTO user_included_in_board(permission,board_id,user_id)VALUES('ADMIN',2,9);
+
+INSERT INTO task(user_id, board_id, title, order_id) VALUES(1, 2, 'sampleT1', 0);
+INSERT INTO task(user_id, board_id, title, order_id) VALUES(4, 2, 'sampleT2', 1);
+
+INSERT INTO card(title, description, user_id, task_id, create_date, order_id) VALUES('ImportedCard1', 'Hell Wannagohome', 3, 1, '2018-08-23 14:20:47', 0);
+INSERT INTO card(title, description, user_id, task_id, create_date, order_id) VALUES('ImportedCard2', 'Haha Wannagohome', 1, 1, '2018-08-23 14:27:45', 1);
+
+INSERT INTO label(id, color) VALUES(1, 'RED');
+INSERT INTO label(id, color) VALUES(2, 'ORANGE');
+INSERT INTO label(id, color) VALUES(3, 'YELLOW');
+INSERT INTO label(id, color) VALUES(4, 'GREEN');
+INSERT INTO label(id, color) VALUES(5, 'BLUE');

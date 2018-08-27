@@ -9,4 +9,5 @@ import java.util.List;
 public interface BoardRepository extends CrudRepository<Board, Long> {
 
     List<Board> findAllByTeamAndDeletedFalse(Team team);
+
 }

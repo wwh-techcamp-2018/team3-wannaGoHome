@@ -1,15 +1,22 @@
 <div class="task-list-holder task-item">
     <div class="task-list-wrapper">
         <div class="task-list-content">
-            <div class="task-list-title">
-                {{title}}
+            <div class="task-list-header">
+                <div class="task-list-title">
+                    {{title}}
+                </div>
+                <input type="text" />
+                <div class="task-list-option">
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+
             </div>
 
             <div class="card-list-container">
                 <div class="card-list-wrapper">
                 </div>
                 <div class="new-card-wrapper" style="display: none;">
-                    <textarea cols="3" class="new-card-title"></textarea>
+                    <textarea cols="3" class="new-card-title" placeholder="Enter a title for this card..."></textarea>
                     <button class="new-card-button">Add Card</button> <i class="fa fa-times"></i>
                 </div>
 

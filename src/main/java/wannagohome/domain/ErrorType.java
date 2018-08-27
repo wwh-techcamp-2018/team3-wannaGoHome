@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 public enum ErrorType {
+    UNAUTHORIZED("unauthorized"),
     UNAUTHENTICATED("unauthenticated"),
+    USER_ID("userId"),
     USER_EMAIL("email"),
     USER_NAME("name"),
     USER_PASSWORD("password"),
@@ -18,7 +20,13 @@ public enum ErrorType {
     CARD_ID("cardId"),
     EMPTY_FILE("emptyFile"),
     UNSUPPORTED_FILE("unsupportedFile"),
-    EXCEED_FILE("exceedFile");
+    EXCEED_FILE("exceedFile"),
+    CARD_ASSIGN_ALREADY_EXIST("cardAssigneeAlreadyExist"),
+    CARD_ASSIGN_NOT_EXIST("cardAssigneeNotExist"),
+    CARD_LABEL_NOT_EXIST("cardLabelNotExist"),
+    COMMENT_ID("commendId"),
+    LABEL_ID("labelId");
+
     private static final Logger log = LoggerFactory.getLogger(ErrorType.class);
 
     private String errorType;

@@ -1,7 +1,12 @@
 class Board {
     constructor() {
+        this.calendar;
         this.taskList = [];
         this.stompClient = null;
+        this.smallCalendar = new SmallCalendar();
+        this.cardDetailForm = new CardDetail();
+        this.cardDetailForm.smallCalendar = this.smallCalendar;
+        this.smallCalendar.cardDetail = this.cardDetailForm;
 
         // placeholder to hold mousedown coords
         this.startDrag = {x: 0, y: 0};
@@ -29,6 +34,7 @@ class Board {
 
     addListeners() {
         this.addButton.addEventListener("click", function (evt) {
+            document.querySelector("body").click();
             evt.stopPropagation();
             this.selector(".hidden-list-title-form").style.display = "block";
             this.selector(".hidden-list-title-form input").value = "";
@@ -102,13 +108,12 @@ class Board {
         const tasks = unsortedTasks.sort((a, b) => {
             return a.orderId - b.orderId;
         });
-        console.log("Resetting width!");
         this.container.style.width = "280px";
         for (const task of tasks) {
             const taskObject = new Task(this, task);
             this.taskList.push(taskObject);
             for (const card of task.cards) {
-                const newCard = new Card(card, taskObject, this);
+                const newCard = new Card(card, taskObject, this, this.cardDetailForm);
                 taskObject.cardList.push(newCard);
             }
 
@@ -118,11 +123,13 @@ class Board {
         // reset scroll Left
         this.scrollContainer.scrollLeft = this.scrollLeft;// + (tasks.length - originalTaskListLength) * 278;
 
+        // dispatch event to resize screen objects
+        window.dispatchEvent(new Event("resize"));
 
     }
 
     setBoardInfo(boardObj) {
-        $_(".board-header-title").innerHTML = boardObj.title;
+        addEscapedText($_(".board-header-title"), boardObj.title);
         $_("body").style.backgroundColor = boardObj.color;
     }
 
@@ -165,7 +172,15 @@ class Board {
     }
 
     fetchBoardState() {
-        this.stompClient.send(`/app/message/board/${this.boardIndex}`, {}, JSON.stringify({}));
+        fetchManager({
+            url: `/api/boards/${this.boardIndex}`,
+            method: "GET",
+            headers: {"content-type": "application/json"},
+            callback: (status, result) => {
+                this.setBoard(result.tasks);
+                this.setBoardInfo(result);
+            }
+        });
     }
 
     addTask(obj) {
@@ -178,5 +193,10 @@ class Board {
             destinationIndex: destTaskIndex
         };
         this.stompClient.send(`/app/message/reorder/${this.boardIndex}/task`, {}, JSON.stringify(obj));
+    }
+
+
+    hideCardDetailForm() {
+        this.cardDetailForm.hide();
     }
 }

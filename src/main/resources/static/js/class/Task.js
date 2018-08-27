@@ -141,13 +141,16 @@ class Task {
 
             // set dragObject to true in order to prevent reloading
             this.board.dragObject = true;
+
         }.bind(this));
 
         this.taskTitleInput.addEventListener("blur", function(evt) {
             this.taskTitleInput.style.display = "none";
 
             // make the board updatable again
-            this.board.unsetDraggable();
+            if(this.board.dragObject === true) {
+                this.board.unsetDraggable();
+            }
         }.bind(this));
 
         this.taskTitleInput.addEventListener("keypress", function(evt) {

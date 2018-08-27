@@ -99,8 +99,18 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+// if true landscape non jquery
+function imageDimensions(img) {
+    if(img.height > img.width) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function setOverlayClickFunctions(elem, clickCallBack, backgroundCallBack) {
     elem.addEventListener("click", function(evt) {
+        elem.stopPropagation();
         document.querySelector("body").click();
         clickCallBack(evt);
     });

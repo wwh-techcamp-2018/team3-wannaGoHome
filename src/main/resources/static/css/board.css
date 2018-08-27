@@ -516,9 +516,36 @@ a.header-logo {
 
 .profile-image-holder {
     display: inline-block;
+    position: relative;
+    width: 36px;
+    height: 36px;
     font-size: 36px;
     line-height: 36px;
+    border-radius: 20px;
+    overflow: hidden;
+    /*background-color: #5c5c5c;*/
+    /*border: 0.5px #0079bf solid;*/
+}
 
+.profile-image-holder .profile-image-background {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    left: 0px;
+    top: 0px;
+    text-align: center;
+}
+
+.profile-image-holder .profile-image-long {
+    max-width: 36px;
+    transform: translateY(-50%);
+    margin-top: 50%;
+}
+
+.profile-image-holder .profile-image-widt {
+    max-height: 36px;
+    transform: translateX(-50%);
+    margin-left: 50%;
 }
 
 .message-holder-left .profile-name-holder {

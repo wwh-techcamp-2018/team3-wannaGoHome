@@ -8,10 +8,15 @@ class CardDetail {
         this.commentText = this.form.querySelector(".card-detail-comment");
         this.descriptionText = this.form.querySelector(".card-detail-desc");
 
+        this.cardTitleText = this.form.querySelector(".card-detail-title-text");
+        this.taskTitleText = this.form.querySelector(".card-detail-task-title");
+
         this.commentListContainer = this.form.querySelector(".card-detail-comment-list-container");
         this.assigneeContainer = this.form.querySelector(".card-detail-assignee-container");
         this.assigneeListContainer = this.form.querySelector(".card-detail-assignee-list-container");
         this.assigneeSearchBox = this.form.querySelector(".card-detail-assignee-search");
+        this.descriptionShowBox = this.form.querySelector(".card-detail-description-show-box");
+        this.descriptionEditBox = this.form.querySelector(".card-detail-description-edit-box");
 
         this.labelListContainer = this.form.querySelector(".card-detail-label-list");
         this.labelContainer = this.form.querySelector(".card-detail-label-container");
@@ -34,6 +39,16 @@ class CardDetail {
             evt.stopPropagation();
             this.handleCalendar();
         });
+        this.form.querySelector(".card-detail-description-edit-button").addEventListener("click", (evt) => {
+            if (this.descriptionShowBox.classList.contains("card-detail-description-hide")) {
+                this.setDescriptionNormalMode();
+            }
+            else {
+                this.setDescriptionEditMode();
+            }
+        });
+
+        this.form.querySelector(".card-detail-save-button").addEventListener("click", this.onClickUpdateDescription.bind(this));
 
         this.labelContainer.addEventListener("click", (evt)=> evt.stopPropagation());
 
@@ -111,7 +126,7 @@ class CardDetail {
         this.labelListContainer.innerHTML = "";
         labels.forEach(function(value) {
             let html = createElementFromHTML(this.labelTemplate(value));
-            if(value.checked == true) {
+            if(value.checked) {
                 html.querySelector("i").style.display = "inline-block";
             }
             this.labelListContainer.append(html);
@@ -156,12 +171,15 @@ class CardDetail {
         });
     }
 
-    drawCardForm(status, card) {
+    drawCardForm(status, body) {
         if (status !== 200) {
             return;
         }
-        this.descriptionText.value = card.description;
-        card.comments.forEach(this.drawComment.bind(this));
+
+        this.cardTitleText.innerText = body.cardTitle;
+        this.taskTitleText.innerText = body.taskTitle;
+        this.descriptionShowBox.innerText = body.description;
+        body.comments.forEach(this.drawComment.bind(this));
     }
 
     get assigneeSearchKeyword() {
@@ -187,6 +205,34 @@ class CardDetail {
         else {
             this.hideBoardMembers();
         }
+    }
+
+    onClickUpdateDescription() {
+        fetchManager({
+            url: `/api/cards/${this.cardId}/description`,
+            method: "POST",
+            body: JSON.stringify({description: this.descriptionText.value}),
+            callback: this.handleUpdateDescription.bind(this)
+        })
+    }
+
+    handleUpdateDescription(status, body) {
+        console.log("handleUpdateDescription is called");
+        console.log(body);
+        this.descriptionShowBox.innerText = body.description;
+        this.setDescriptionNormalMode();
+    }
+
+    setDescriptionEditMode() {
+        this.descriptionShowBox.classList.add("card-detail-description-hide");
+        this.descriptionEditBox.classList.remove("card-detail-description-hide");
+
+        this.descriptionText.value = this.descriptionShowBox.innerText;
+    }
+
+    setDescriptionNormalMode() {
+        this.descriptionShowBox.classList.remove("card-detail-description-hide");
+        this.descriptionEditBox.classList.add("card-detail-description-hide");
     }
 
     handleUserAssign(evt) {

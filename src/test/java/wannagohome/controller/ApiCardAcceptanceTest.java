@@ -61,26 +61,25 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
                 .build();
 
         RequestEntity assignRequest = new RequestEntity.Builder()
-                .withReturnType(User.class)
+                .withReturnType(AssigneeDto[].class)
                 .withMethod(HttpMethod.POST)
                 .withUrl(CARD_BASE_URL + "/assign")
                 .withBody(cardDetailDto)
                 .build();
 
-        ResponseEntity<User> responseEntity;
+        ResponseEntity<AssigneeDto[]> responseEntity;
         Card card;
 
         responseEntity = basicAuthRequest(assignRequest, signInDto);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isEqualTo(actual);
 
         card = cardRepository.findById(1L).orElseThrow(RuntimeException::new);
         log.debug("after assignCardToUser: {}", card.getAssignees());
         assertThat(card.getAssignees()).contains(actual);
 
         RequestEntity dischargeEntity = new RequestEntity.Builder()
-                .withReturnType(User.class)
+                .withReturnType(AssigneeDto[].class)
                 .withMethod(HttpMethod.DELETE)
                 .withUrl(CARD_BASE_URL + "/assign")
                 .withBody(cardDetailDto)
@@ -113,7 +112,6 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
 
         assertThat(addResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(comment.getContents()).isEqualTo(commentDto.getContents());
-        assertThat(comment.getCard().getId()).isEqualTo(1L);
         assertThat(comment.getAuthor().getEmail()).isEqualTo(signInDto.getEmail());
 
         RequestEntity getCommentRequest = new RequestEntity.Builder()

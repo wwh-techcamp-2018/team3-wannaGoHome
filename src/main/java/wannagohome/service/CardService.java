@@ -50,6 +50,12 @@ public class CardService {
         return cardRepository.save(card);
     }
 
+    public Card updateCardDescription(User user, Long cardId, CardDetailDto dto) {
+        Card card = findCardById(cardId);
+        card.updateDescription(dto);
+        return cardRepository.save(card);
+    }
+
     @Transactional
     public List<AssigneeDto> assignCardToUser(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
@@ -87,6 +93,16 @@ public class CardService {
 
     public List<Comment> getComments() {
         return commentRepository.findAllByDeletedFalse();
+    }
+
+    public CardDetailDto getCardDetail(Long id) {
+        Card card = findCardById(id);
+        return new CardDetailDto(
+                card.getTitle(),
+                card.getTask().getTitle(),
+                card.getDescription(),
+                card.getComments()
+        );
     }
 
     public Card findCardById(Long id) {

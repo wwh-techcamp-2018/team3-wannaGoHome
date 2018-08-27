@@ -84,6 +84,7 @@ class SmallCalendar {
         this.calendar.on({
             'beforeCreateSchedule': function(e) {
                 this.cardDetail.setDueDate(e.end._date);
+                console.log(e.guide);
                 console.log(e);
                 // e.guide.clearGuideElement();
             }.bind(this)

@@ -305,7 +305,7 @@ class CardDetail {
             this.form.querySelector("#smallCalendar").style.display = 'block';
             this.smallCalendar.createSchedule();
         } else {
-            this.form.querySelector("#smallCalendar").style.display = 'none';
+            // this.form.querySelector("#smallCalendar").style.display = 'none';
         }
 
     }

@@ -198,6 +198,10 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         assertThat(Arrays.stream(responseEntity.getBody())
                 .filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(1);
 
+        Card card = cardRepository.findById(1L).get();
+        card.getLabels().clear();
+        cardRepository.save(card);
+
     }
 
     @Test
@@ -225,6 +229,10 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         assertThat(deleteResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(Arrays.stream(deleteResponseEntity.getBody())
                 .filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(0);
+
+        Card card = cardRepository.findById(1L).get();
+        card.getLabels().clear();
+        cardRepository.save(card);
 
     }
 
@@ -270,6 +278,9 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         assertThat(deleteResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(Arrays.stream(deleteResponseEntity.getBody())
                 .filter(cardLabelDto -> cardLabelDto.isChecked()).collect(Collectors.toList()).size()).isEqualTo(1);
+        Card card = cardRepository.findById(1L).get();
+        card.getLabels().clear();
+        cardRepository.save(card);
 
     }
 

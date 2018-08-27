@@ -70,6 +70,7 @@ class Profile {
     }
 
     hideProfileImageHolder() {
+        this.hideProfileImageErrorMessage();
         this.profileAvatorHolder.style.display = "none";
     }
 
@@ -82,15 +83,14 @@ class Profile {
     }
 
     handleInitProfile(status, response) {
-        this.changeProfileImange(response.profile);
+        this.changeProfileImage(response.profile);
         this.hideProfileImageHolder();
     }
 
     handleUploadProfileImage(status, response) {
         if(status === 200) {
             this.profileAvatorHolder.querySelector(".profile-upload").reset();
-            this.changeProfileImange(response.profile);
-            this.hideProfileImageErrorMessage();
+            this.changeProfileImage(response.profile);
             this.hideProfileImageHolder();
             return;
         }
@@ -99,7 +99,7 @@ class Profile {
 
     }
 
-    changeProfileImange(imgUrl) {
+    changeProfileImage(imgUrl) {
         const profileImageNode = this.profileHolder.querySelector(".profile-image-section");
         profileImageNode.src = imgUrl;
         this.hideProfileImageHolder();

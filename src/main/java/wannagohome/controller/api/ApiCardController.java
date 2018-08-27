@@ -83,8 +83,8 @@ public class ApiCardController {
     }
 
     @GetMapping("/{cardId}")
-    public Card getCard(@PathVariable Long cardId) {
-        return cardService.findCardById(cardId);
+    public CardDetailDto getCard(@PathVariable Long cardId) {
+        return cardService.getCardDetail(cardId);
     }
 
     @GetMapping("/{cardId}/label")

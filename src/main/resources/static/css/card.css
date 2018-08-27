@@ -56,6 +56,10 @@
     color: #888888;
 }
 
+.card-detail-task-title {
+    padding-top: 5px;
+}
+
 .card-detail-desc, .card-detail-comment {
     background-color: #f8f9f9;
     border-style: none;

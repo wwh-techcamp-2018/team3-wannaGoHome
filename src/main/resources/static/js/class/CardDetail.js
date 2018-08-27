@@ -8,6 +8,9 @@ class CardDetail {
         this.commentText = this.form.querySelector(".card-detail-comment");
         this.descriptionText = this.form.querySelector(".card-detail-desc");
 
+        this.cardTitleText = this.form.querySelector(".card-detail-title-text");
+        this.taskTitleText = this.form.querySelector(".card-detail-task-title");
+
         this.commentListContainer = this.form.querySelector(".card-detail-comment-list-container");
         this.assigneeContainer = this.form.querySelector(".card-detail-assignee-container");
         this.assigneeListContainer = this.form.querySelector(".card-detail-assignee-list-container");
@@ -123,7 +126,7 @@ class CardDetail {
         this.labelListContainer.innerHTML = "";
         labels.forEach(function(value) {
             let html = createElementFromHTML(this.labelTemplate(value));
-            if(value.checked == true) {
+            if(value.checked) {
                 html.querySelector("i").style.display = "inline-block";
             }
             this.labelListContainer.append(html);
@@ -168,12 +171,15 @@ class CardDetail {
         });
     }
 
-    drawCardForm(status, card) {
+    drawCardForm(status, body) {
         if (status !== 200) {
             return;
         }
-        this.descriptionShowBox.innerText = card.description;
-        card.comments.forEach(this.drawComment.bind(this));
+
+        this.cardTitleText.innerText = body.cardTitle;
+        this.taskTitleText.innerText = body.taskTitle;
+        this.descriptionShowBox.innerText = body.description;
+        body.comments.forEach(this.drawComment.bind(this));
     }
 
     get assigneeSearchKeyword() {

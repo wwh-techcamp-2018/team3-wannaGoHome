@@ -95,6 +95,16 @@ public class CardService {
         return commentRepository.findAllByDeletedFalse();
     }
 
+    public CardDetailDto getCardDetail(Long id) {
+        Card card = findCardById(id);
+        return new CardDetailDto(
+                card.getTitle(),
+                card.getTask().getTitle(),
+                card.getDescription(),
+                card.getComments()
+        );
+    }
+
     public Card findCardById(Long id) {
         return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
     }

@@ -19,5 +19,18 @@ public class CardDetailDto {
 
     private Long userId;
 
+    private String cardTitle;
+
+    private String taskTitle;
+
+    private List<Comment> comments;
+
     private String description;
+
+    public CardDetailDto(String cardTitle, String taskTitle, String description, List<Comment> comments) {
+        this.cardTitle = cardTitle;
+        this.taskTitle = taskTitle;
+        this.description = description;
+        this.comments = comments;
+    }
 }

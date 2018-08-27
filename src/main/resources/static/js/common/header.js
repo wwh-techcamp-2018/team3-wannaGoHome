@@ -19,6 +19,11 @@ function initHeader() {
     $_(".header-button-boardlist").addEventListener("click", (evt)=>{
         evt.stopPropagation();
     });
+
+    $_(".header-profile-button").addEventListener("click", (evt)=>{
+        window.location.href = "/users/profile";
+    });
+
     $_(".header-button").addEventListener("click", (evt) => {
         if($_(".header-button-boardlist").style.display !== 'none') {
             return;

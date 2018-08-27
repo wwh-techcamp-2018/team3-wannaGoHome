@@ -1,0 +1,90 @@
+{{#partial "head"}}
+<link rel="stylesheet" type="text/css" href="/css/mypage.css"/>
+<script src="/js/class/MyPage.js"></script>
+<script src="/js/class/Profile.js"></script>
+<script src="/js/users/profile.js"></script>
+<script type="text/javascript">
+    {{precompile "precompile/mypage/mypage_profile_template"}}
+    {{precompile "precompile/mypage/mypage_team_template"}}
+    {{precompile "precompile/mypage/mypage_activity_template"}}
+</script>
+{{/partial}}
+
+{{#partial "createboard"}}
+{{/partial}}
+{{#partial "sidebar"}}
+<div class="mypage-sidebar-container">
+    <div class="mypage-invitation-holder">
+        <div class="invitation-title-holder">
+            <i class="fas fa-envelope-square invitation-icon"></i>
+            <h3>Team Invitation</h3>
+        </div>
+        <ul class="invitation-list">
+            <li>
+                <div class="invitation-box">
+                    <span class="invitation-team-name">팀 초대</span>
+                    <input type="submit" class="invitation-agree-button" value="수락">
+                    <input type="submit" class="invitation-refuse-button" value="거절">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{{/partial}}
+
+{{#partial "page_body"}}
+<div class="mypage-header-container">
+    <div class="mypage-profile-holder">
+    </div>
+    <div class="profile-avatar-holder">
+        <div class="profile-avatar-header">
+            <span class="profile-avatar-header-title">Change Avatar</span>
+            <i class="fas fa-times profile-avatar-holder-icon"></i>
+        </div>
+        <div>
+            <div class="profile-avatar-contents">
+                <a class="avatar-option">
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/wannagohome/default_image.png" class="profile-init">
+                    <span class="avatar-option-text">Initials (no avatar)</span>
+                </a>
+                <hr class="avatar-option-border">
+                <form class="profile-upload" action="/api/users/profile" method="POST" enctype="multipart/form-data">
+                    <i class="fas fa-paperclip profile-upload-icon"></i>
+                    <input type="file" class="profile-upload-button" tabindex="-1" name="file">
+                    <a class="profile-upload-text">Upload a new picture</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{#partial "contents"}}
+<div class="mypage-contents-container">
+    <div class="maypage-team-holder">
+        <div class="team-title-holder">
+            <i class="fas fa-users teams-icon"></i>
+            <h3>Teams</h3>
+        </div>
+        <div class="team-list-holder">
+            <ul class="team-list">
+
+            </ul>
+        </div>
+    </div>
+    <div class="maypage-activity-holder">
+        <div class="activity-title-holder">
+            <i class="fas fa-list-ul activity-icon"></i>
+            <h3>Activity</h3>
+        </div>
+        <div class="activity-list-holder">
+            <ul class="activity-list">
+            </ul>
+        </div>
+        <p class ="show-more">
+            <a>Load More Activity</a>
+        </p>
+    </div>
+</div>
+{{/partial}}
+
+{{>base}}

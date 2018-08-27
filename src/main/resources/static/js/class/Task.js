@@ -21,18 +21,29 @@ class Task {
 
     init() {
         this.taskListTemplate = Handlebars.templates["precompile/board/task_list_template"];
+        this.optionsTemplate = Handlebars.templates["precompile/board/task_options_template"]
 
         const newTask = createElementFromHTML(this.taskListTemplate(this.taskObject));
         this.board.container.insertBefore(newTask, this.board.selector(".task-item:last-child"));
 
         this.incrementContainerWidth();
 
+
         this.taskContainer = newTask;
         this.task = newTask.querySelector(".task-list-content");
         this.taskWrapper = newTask.querySelector(".task-list-wrapper");
+        this.taskTitleInput = newTask.querySelector(".task-list-header input");
         this.addCardButton = this.task.querySelector(".add-card-button");
         this.boardIndex = window.location.href.trim().split("/").pop();
+        this.taskListTitle = this.task.querySelector(".task-list-title");
+        this.taskListOptionButton = this.task.querySelector(".task-list-option");
         this.cardWrapper = this.task.querySelector(".new-card-wrapper");
+        this.cardListContainer = this.task.querySelector(".card-list-container");
+
+        this.taskListOptionHolder = createElementFromHTML(this.optionsTemplate({}));
+        $_(".board-scroll-container").appendChild(this.taskListOptionHolder);
+
+        limitInputSize(this.taskTitleInput, 30);
     }
 
     remove() {
@@ -41,38 +52,67 @@ class Task {
     }
 
     addListeners() {
-        document.addEventListener("click", (evt)=>{
+        document.addEventListener("click", (evt) => {
             this.addCardButton.style.display = 'block';
             this.cardWrapper.style.display = 'none';
+
+            // make the board updatable again
+            this.board.unsetDraggable();
+
+            // hide options holder
+            this.taskListOptionHolder.style.display = "none";
+
+            // dispatch event to resize screen objects
+            window.dispatchEvent(new Event("resize"));
         });
-        this.cardWrapper.addEventListener("click", (evt)=>{
+
+        this.cardWrapper.addEventListener("click", (evt) => {
             evt.stopPropagation();
-        })
-        this.addCardButton.addEventListener("click", (evt)=>{
+        });
+
+        this.addCardButton.addEventListener("click", (evt) => {
             evt.stopPropagation();
+            // click body to reset any opened up boxes
+            document.querySelector("body").click();
+            // set dragObject to true in order to prevent reloading
+            this.board.dragObject = true;
+
             this.addCardButton.style.display = 'none';
             this.cardWrapper.style.display = 'block';
             this.cardWrapper.querySelector(".new-card-title").value = "";
             this.cardWrapper.querySelector(".new-card-title").focus();
+            this.cardListContainer.scrollTop = this.cardListContainer.scrollHeight;
+
+            // dispatch event to resize screen objects
+            window.dispatchEvent(new Event("resize"));
         });
 
-        this.cardWrapper.querySelector("i").addEventListener("click", (evt)=>{
+        this.cardWrapper.querySelector("i").addEventListener("click", (evt) => {
             this.addCardButton.style.display = 'block';
             this.cardWrapper.style.display = 'none';
+
+            this.board.unsetDraggable();
+
+            // dispatch event to resize screen objects
+            window.dispatchEvent(new Event("resize"));
         });
 
 
-        this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt)=>{
+        this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt) => {
             const obj = {};
             obj.title = this.cardWrapper.querySelector(".new-card-title").value;
             obj.createDate = new Date();
             this.cardWrapper.style.display = 'none';
             this.addCardButton.style.display = 'block';
             this.cardWrapper.querySelector(".new-card-title").value = "";
+
+            this.board.unsetDraggable();
+
             this.addCard(obj);
+
         });
 
-        this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function(evt) {
+        this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function (evt) {
             if (detectShiftEnter(evt)) {
                 evt.preventDefault();
                 pasteIntoInput(evt.currentTarget, "\n");
@@ -83,12 +123,68 @@ class Task {
         }.bind(this));
 
         this.task.querySelector(".task-list-title").addEventListener("mousedown", function (evt) {
-            this.moving = true;
 
             this.board.startDrag.x = evt.clientX;
             this.board.startDrag.y = evt.clientY;
 
-            this.setDraggable.call(this);
+            this.board.dragObject = this;
+            this.board.dragCallBack = this.moveTaskPosition;
+            this.board.dragEndCallBack = this.unsetDraggable;
+
+        }.bind(this));
+
+        this.task.querySelector(".task-list-title").addEventListener("click", function(evt) {
+            console.log("Clicked!");
+            this.taskTitleInput.value = this.taskListTitle.innerHTML.trim();
+            this.taskTitleInput.style.display = "block";
+            this.taskTitleInput.focus();
+
+            // set dragObject to true in order to prevent reloading
+            this.board.dragObject = true;
+
+        }.bind(this));
+
+        this.taskTitleInput.addEventListener("blur", function(evt) {
+            this.taskTitleInput.style.display = "none";
+
+            // make the board updatable again
+            if(this.board.dragObject === true) {
+                this.board.unsetDraggable();
+            }
+        }.bind(this));
+
+        this.taskTitleInput.addEventListener("keypress", function(evt) {
+            if(detectEnter(evt)) {
+                evt.preventDefault();
+                const newTitle = evt.currentTarget.value.trim();
+                this.taskObject.title = newTitle;
+                this.renameTask(this.taskObject);
+                evt.currentTarget.blur();
+
+                // make the board updatable again
+                this.board.unsetDraggable();
+            }
+        }.bind(this));
+
+        this.taskListOptionButton.addEventListener("click", function(evt) {
+            document.querySelector("body").click();
+            evt.preventDefault();
+            evt.stopPropagation();
+            this.taskListOptionHolder.style.display = "block";
+            this.taskListOptionHolder.style.left = evt.clientX + "px";
+            this.taskListOptionHolder.style.top = evt.clientY - 80 + "px";
+        }.bind(this));
+
+        this.taskListOptionHolder.querySelector(".delete-options").addEventListener("click", function(evt) {
+
+            console.log(this.taskObject.title);
+        }.bind(this));
+
+        window.addEventListener("resize", function (evt) {
+            const rect = getBoundingRect(this.taskContainer);
+            const titleRect = getBoundingRect(this.taskListTitle);
+            const addButtonRect = getBoundingRect(this.addCardButton);
+            this.cardListContainer.style.maxHeight = rect.height - titleRect.height - addButtonRect.height + "px";
         }.bind(this));
 
     }
@@ -97,7 +193,6 @@ class Task {
         const boundRect = getBoundingRect(this.board.container);
         const boundWidth = boundRect.width;
         const rect = this.getBoundingRect(this.board.selector(".add-list-button"));
-        console.log(boundWidth);
         this.board.container.style.width = boundWidth + 280 + "px";
 
     }
@@ -135,10 +230,6 @@ class Task {
 
         this.task.style.boxShadow = "2px 2px 2px 2px rgba(51,51,51,0.3)";
 
-        this.board.dragObject = this;
-        this.board.dragCallBack = this.moveTaskPosition;
-        this.board.dragEndCallBack = this.unsetDraggable;
-
         this.task.classList.toggle("task-list-dragging");
 
         for (let i = 0; i < this.board.taskList.length; ++i) {
@@ -151,7 +242,10 @@ class Task {
     }
 
     moveTaskPosition(evt) {
-        if (!this.moving) return;
+        if (!this.moving) {
+            this.moving = true;
+            this.setDraggable.call(this);
+        }
 
         const rect = this.getBoundingRect(this.task);
         const centerX = (rect.left + rect.right) / 2;
@@ -255,6 +349,10 @@ class Task {
     getBoundingRect(element) {
         const rect = element.getBoundingClientRect();
         return rect;
+    }
+
+    renameTask(obj) {
+        this.board.stompClient.send(`/app/message/rename/${this.boardIndex}/${this.taskObject.id}`, {}, JSON.stringify(obj));
     }
 
     addCard(obj) {

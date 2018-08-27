@@ -16,6 +16,11 @@ class Message {
         } else {
             this.handleMessage.call(this, this.message);
         }
+
+        if(this.selector(".profile-image")) {
+            this.profileImage = this.selector(".profile-image");
+
+        }
     }
 
     createMessageElement(message) {

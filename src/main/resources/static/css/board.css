@@ -88,7 +88,7 @@ a.header-logo {
     bottom: 4px;
     padding: 4px;
     overflow-y: hidden;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .board-scroll-container::-webkit-scrollbar-track {
@@ -133,10 +133,45 @@ a.header-logo {
     border-radius: 3px;
 }
 
+.task-options-holder {
+    font-size: 0.85em;
+    position: absolute;
+    padding: 8px;
+    left: 200px;
+    top: 40px;
+    z-index: 5;
+    background-color: #FFF;
+    border-radius: 5px;
+    width: 250px;
+    display: none;
+}
+
+.task-options-title {
+    color: #777;
+    text-align: center;
+    border-bottom: 1px #ccc solid;
+    padding: 2px 0px 4px 0px;
+}
+
+.task-options-item-container {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.task-options-item {
+    color: #333;
+    text-align: left;
+    padding: 6px 0px 6px 0px;
+    font-weight: bold;
+}
+
+.task-options-item:hover {
+    cursor: pointer;
+}
+
 .add-list-button {
     background-color: rgba(0,0,0,.12);
     position: relative;
-
     display: inline-block;
     height: 38px;
     width: 272px;
@@ -209,15 +244,21 @@ a.header-logo {
 
 .task-list-wrapper {
     background-color: rgba(0,0,0,0.25);
+    max-height: 100%;
     border-radius: 3px;
+    position: relative;
+    /*display: flex;*/
+    /*flex-direction: column;*/
 }
 
 .task-list-content {
     background-color: #e2e4e6;
     border-radius: 3px;
-    overflow: visible;
-    overflow-y: hidden;
+    position: relative;
 
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
 }
 
 .task-list-content:hover {
@@ -229,19 +270,71 @@ a.header-logo {
     transform-origin: 50% 0%;
 }
 
+.task-list-header {
+    position: relative;
+    height: 36px;
+    width: 272px;
+}
+
+.task-list-header input {
+    display: block;
+    position: absolute;
+    font-weight: bold;
+    height: 26px;
+    width: 240px;
+    top: 9px;
+    left: 9px;
+    padding-left: 4px;
+    padding-right: 4px;
+    z-index: 3;
+    display: none;
+    border-radius: 3px;
+    border-color: #888;
+    border-style: solid;
+    border-width: 1px;
+}
+
 .task-list-title {
-    padding: 10px 12px 10px 12px;
+    padding: 10px 0px 10px 14px;
     font-weight: bold;
     vertical-align: middle;
     height: 36px;
+    width: 250px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+}
 
+.task-list-option {
+    position: absolute;
+    font-size: 14px;
+    padding: 4px 4px 4px 4px;
+    top: 8px;
+    right: 10px;
+    border-radius: 3px;
+    color: #9c9c9c;
+}
 
+.task-list-option:hover {
+    background-color: #d2d3d4;
 }
 
 .add-card-button {
     padding: 10px 12px 10px 12px;
     color: #8c8c8c;
     font-size: 0.9em;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 1;
+}
+
+.card-list-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-right: 2px;
+    margin-left: 2px;
 }
 
 .add-card-button:hover {
@@ -264,59 +357,96 @@ a.header-logo {
     box-shadow: -2px 2px 2px #aaaaaa;
 }
 
+.new-card-wrapper {
+    width: 100%;
+    padding: 10px;
+    padding-top: 0px;
+}
+
 .new-card-title {
+    box-shadow: 0 1px 0 #ccc;
+    box-sizing: border-box;
+    font-size: 0.8em;
+    display: block;
     border-radius: 5px;
     border-style: none;
-    width: 230px;
-    margin: 10px;
     height: 50px;
-    padding: 10px;
-
+    padding: 8px 10px 8px 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    resize: none;
 }
 
 .new-card-button {
+    vertical-align: top;
     width: 100px;
     height: 35px;
     text-align: center;
-    /*padding: 10px;*/
-    margin: 10px;
-    margin-top: 0px;
     line-height: 35px;
     background-color: #5aac44;
     border-radius: 5px;
     border-style: none;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 1.0em;
     color: #fff;
 }
 
 .new-card-wrapper> i {
+    margin-left: 12px;
+    vertical-align: top;
     font-size: 20px;
     color: #aaaaaa;
     line-height: 35px;
 }
 
 .card-wrapper {
-    width: 250px;
-    /*margin: 10px;*/
-    padding: 10px;
+    max-width: 256px;
+    padding: 6px 10px 6px 10px;
     border-radius: 3px;
     border-style: none;
     background-color: #fff;
     font-size: 13px;
+    box-shadow: 0 1px 0 #ccc;
+}
+
+.card-wrapper:hover {
+    background-color: #f6f7f7;
+    border-bottom-color: #d6dadc;
+
 }
 
 .card-list-dragging {
     transform: rotate(5deg);
     transform-origin: 50% 0%;
+    background-color: #fff !important;
 }
+
+.card-list-container::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: rgba(100,100,100,.12);
+    opacity: 0.7;
+}
+
+.card-list-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 10px;
+    opacity: 0.7;
+    background-color: rgba(100,100,100,.12);
+}
+
+.card-list-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(80, 80, 80, 0.5);
+}
+
 
 .card-holder {
     background-color: #aaaaaa;
     border-radius: 3px;
     border-style: none;
-    margin: 10px;
-    width: 250px;
+    margin: 8px 6px 8px 6px;
+    max-width: 256px;
     position: relative;
 }
 
@@ -371,17 +501,11 @@ a.header-logo {
 }
 
 .chatting-bar ::-webkit-scrollbar {
-    width: 0px;  /* remove scrollbar space */
-    /*background: transparent;  !* optional: just make scrollbar invisible *!*/
-}
-/* optional: show position indicator in red */
-.chatting-bar ::-webkit-scrollbar-thumb {
-    /*background: #FF0000;*/
+    width: 0px; /* remove scrollbar space */
 }
 
 .message-holder-left {
     position: relative;
-
     padding-top: 6px;
     padding: 4px 60px 4px 4px
 }
@@ -392,9 +516,36 @@ a.header-logo {
 
 .profile-image-holder {
     display: inline-block;
+    position: relative;
+    width: 36px;
+    height: 36px;
     font-size: 36px;
     line-height: 36px;
+    border-radius: 20px;
+    overflow: hidden;
+    /*background-color: #5c5c5c;*/
+    /*border: 0.5px #0079bf solid;*/
+}
 
+.profile-image-holder .profile-image-background {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    left: 0px;
+    top: 0px;
+    text-align: center;
+}
+
+.profile-image-holder .profile-image-long {
+    max-width: 36px;
+    transform: translateY(-50%);
+    margin-top: 50%;
+}
+
+.profile-image-holder .profile-image-widt {
+    max-height: 36px;
+    transform: translateX(-50%);
+    margin-left: 50%;
 }
 
 .message-holder-left .profile-name-holder {

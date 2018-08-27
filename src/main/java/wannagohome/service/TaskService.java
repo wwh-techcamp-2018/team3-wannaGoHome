@@ -65,4 +65,11 @@ public class TaskService {
         }
         return taskRepository.save(task);
     }
+
+    @Transactional
+    public Task renameTask(TaskDto taskDto) {
+        Task task = taskRepository.findById(taskDto.getId()).get();
+        task.setTitle(taskDto.getTitle());
+        return taskRepository.save(task);
+    }
 }

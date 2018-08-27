@@ -31,4 +31,9 @@ public class ApiBoardController {
     public BoardCardDto createBoard(@LoginUser User user, @RequestBody  @Valid CreateBoardDto createBoardDto) {
         return BoardCardDto.valueOf(boardService.createBoard(user, createBoardDto));
     }
+
+    @GetMapping("/{boardId}")
+    public BoardDto getBoardState(@PathVariable Long boardId) {
+        return boardService.findById(boardId).getBoardDto();
+    }
 }

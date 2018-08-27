@@ -1,6 +1,6 @@
 package wannagohome.exception;
 
-import wannagohome.domain.ErrorType;
+import wannagohome.domain.error.ErrorType;
 
 public class NotFoundException extends ErrorEntityException {
 

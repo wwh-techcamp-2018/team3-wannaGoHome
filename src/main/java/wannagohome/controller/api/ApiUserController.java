@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import wannagohome.domain.*;
+import wannagohome.domain.user.*;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.ActivityService;
 import wannagohome.service.TeamService;

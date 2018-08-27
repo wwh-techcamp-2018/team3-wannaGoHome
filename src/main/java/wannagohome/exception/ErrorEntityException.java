@@ -1,7 +1,7 @@
 package wannagohome.exception;
 
-import wannagohome.domain.ErrorEntity;
-import wannagohome.domain.ErrorType;
+import wannagohome.domain.error.ErrorEntity;
+import wannagohome.domain.error.ErrorType;
 
 public class ErrorEntityException extends RuntimeException {
 

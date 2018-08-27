@@ -2,7 +2,7 @@ package wannagohome.event;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
-import wannagohome.domain.AbstractActivity;
+import wannagohome.domain.activity.AbstractActivity;
 
 public class TeamEvent extends ApplicationEvent {
 

@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import wannagohome.domain.ActivityDto;
-import wannagohome.domain.RequestActivityDto;
-import wannagohome.domain.User;
+import wannagohome.domain.activity.ActivityDto;
+import wannagohome.domain.activity.RequestActivityDto;
+import wannagohome.domain.user.User;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.ActivityService;
 

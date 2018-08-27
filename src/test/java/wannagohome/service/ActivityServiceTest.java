@@ -2,8 +2,8 @@ package wannagohome.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import wannagohome.domain.ActivityDto;
-import wannagohome.domain.User;
+import wannagohome.domain.activity.ActivityDto;
+import wannagohome.domain.user.User;
 import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.UserRepository;
 import wannagohome.support.SpringTest;

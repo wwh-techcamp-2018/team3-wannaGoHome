@@ -2,12 +2,14 @@ package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wannagohome.domain.*;
+import wannagohome.domain.card.*;
+import wannagohome.domain.error.ErrorType;
+import wannagohome.domain.user.User;
+import wannagohome.domain.user.UserIncludedInBoard;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.*;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 

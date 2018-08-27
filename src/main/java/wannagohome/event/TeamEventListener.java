@@ -3,7 +3,7 @@ package wannagohome.event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import wannagohome.domain.AbstractActivity;
+import wannagohome.domain.activity.AbstractActivity;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 @Component

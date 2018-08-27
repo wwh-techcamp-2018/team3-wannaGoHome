@@ -10,8 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import wannagohome.domain.ErrorEntity;
-import wannagohome.domain.ErrorType;
+import wannagohome.domain.error.ErrorEntity;
+import wannagohome.domain.error.ErrorType;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

@@ -29,7 +29,6 @@ function initHeader() {
             callback: drawBoardSummary
         });
 
-        console.log("click");
     });
 }
 

@@ -34,6 +34,7 @@ class Board {
 
     addListeners() {
         this.addButton.addEventListener("click", function (evt) {
+            document.querySelector("body").click();
             evt.stopPropagation();
             this.selector(".hidden-list-title-form").style.display = "block";
             this.selector(".hidden-list-title-form input").value = "";
@@ -107,7 +108,6 @@ class Board {
         const tasks = unsortedTasks.sort((a, b) => {
             return a.orderId - b.orderId;
         });
-        console.log("Resetting width!");
         this.container.style.width = "280px";
         for (const task of tasks) {
             const taskObject = new Task(this, task);
@@ -123,11 +123,13 @@ class Board {
         // reset scroll Left
         this.scrollContainer.scrollLeft = this.scrollLeft;// + (tasks.length - originalTaskListLength) * 278;
 
+        // dispatch event to resize screen objects
+        window.dispatchEvent(new Event("resize"));
 
     }
 
     setBoardInfo(boardObj) {
-        $_(".board-header-title").innerHTML = boardObj.title;
+        addEscapedText($_(".board-header-title"), boardObj.title);
         $_("body").style.backgroundColor = boardObj.color;
     }
 
@@ -170,7 +172,15 @@ class Board {
     }
 
     fetchBoardState() {
-        this.stompClient.send(`/app/message/board/${this.boardIndex}`, {}, JSON.stringify({}));
+        fetchManager({
+            url: `/api/boards/${this.boardIndex}`,
+            method: "GET",
+            headers: {"content-type": "application/json"},
+            callback: (status, result) => {
+                this.setBoard(result.tasks);
+                this.setBoardInfo(result);
+            }
+        });
     }
 
     addTask(obj) {

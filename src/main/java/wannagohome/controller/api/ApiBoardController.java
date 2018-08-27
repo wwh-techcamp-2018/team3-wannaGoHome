@@ -43,4 +43,9 @@ public class ApiBoardController {
     public List<Card> getCardsByDueDate(@PathVariable Long boardId) {
         return boardService.findCardsByDueDate(boardId);
     }
+
+    @GetMapping("/{boardId}")
+    public BoardDto getBoardState(@PathVariable Long boardId) {
+        return boardService.findById(boardId).getBoardDto();
+    }
 }

@@ -32,12 +32,61 @@ class MyPage {
         });
     }
 
+    addEditProfileClickEvent() {
+        this.profileHolder.querySelector(".profile-edit-button").addEventListener("click", (evt) => {
+            evt.stopPropagation();
+            this.profileHolder.querySelector(".content-update-input").value
+                = this.profileHolder.querySelector(".profile-name").innerHTML;
+            this.showProfileContentUpdateHolder();
+        })
+    }
+
+    addContentUpdateSubmitClickEvent() {
+        this.profileHolder.querySelector(".content-update-submit").addEventListener("click", (evt) => {
+            evt.stopPropagation();
+            const name = this.profileHolder.querySelector(".content-update-input").value;
+            const obj = {
+                "name" : name
+            }
+            fetchManager({
+                url : "/api/users/profile",
+                body : JSON.stringify(obj),
+                method : "PUT",
+                callback : this.handleProfileContentUpdate.bind(this)
+            })
+        })
+    }
+    addContentUpdateCancelClickEvent() {
+        this.profileHolder.querySelector(".content-update-cancel").addEventListener("click", (evt) => {
+            evt.stopPropagation();
+            this.hideProfileContentUpdateHolder();
+        })
+    }
+
+    showProfileContentUpdateHolder() {
+        this.profileHolder.querySelector(".profile-content-update-holder").style.display = "block";
+        this.profileHolder.querySelector(".profile-content-description").style.display = "none";
+        this.profileHolder.querySelector(".profile-edit-button").style.display = "none";
+    }
+
+    hideProfileContentUpdateHolder() {
+        this.profileHolder.querySelector(".profile-content-update-holder").style.display = "none";
+        this.profileHolder.querySelector(".profile-content-description").style.display = "block";
+        this.profileHolder.querySelector(".profile-edit-button").style.display = "block";
+        this.profileHolder.querySelector(".content-update-input").placeholder = "";
+
+    }
+
 
     drawMyPage(status, response) {
         this.drawProfile(response.user);
         this.drawTeam(response.teams);
         this.drawActivity(response.activities);
         this.addProfileImgClickEvent();
+        this.addEditProfileClickEvent();
+        this.addContentUpdateSubmitClickEvent();
+        this.addContentUpdateCancelClickEvent();
+
     }
 
     drawProfile(user) {
@@ -76,6 +125,18 @@ class MyPage {
 
     handleLoadMoreActivity(status, response) {
         this.drawActivity(response);
+    }
+
+    handleProfileContentUpdate(status, response) {
+        if(status === 200) {
+            this.profileHolder.querySelector(".profile-name").innerHTML = response.name;
+            this.hideProfileContentUpdateHolder();
+            return;
+        }
+
+        const contentUpdateInputNode = this.profileHolder.querySelector(".content-update-input");
+        contentUpdateInputNode.value = "";
+        contentUpdateInputNode.placeholder = response[0].message;
     }
 
     getActivityRegisteredDate(activity) {

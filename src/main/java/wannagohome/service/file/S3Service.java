@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.ErrorType;
 import wannagohome.exception.UnsupportedFileFormatException;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class S3Service {
 
     private final AmazonS3Client amazonS3Client;
 
+    @Transactional
     public String upload(MultipartFile multipartFile, String dirName) {
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new UnsupportedFileFormatException(ErrorType.UNSUPPORTED_FILE
@@ -57,7 +59,7 @@ public class S3Service {
 
     private String getUUIDFileName(String fileName) {
         UUID uuid = UUID.randomUUID();
-        return uuid.toString() + "_" + fileName;
+        return UUID.randomUUID().toString() + "_" + fileName;
     }
 
 

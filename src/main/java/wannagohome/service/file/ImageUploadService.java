@@ -7,6 +7,8 @@ import wannagohome.domain.ErrorType;
 import wannagohome.exception.EmptyFileUploadedException;
 import wannagohome.exception.UnsupportedFileFormatException;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ImageUploadService {
     @Autowired
@@ -15,6 +17,8 @@ public class ImageUploadService {
     public static final String PROFILE_PATH = "profile" ;
     public static final String IMAGE_FILE_PREFIX = "image";
 
+
+    @Transactional
     public String fileUpload(MultipartFile multipartFile){
         assertEmptyFile(multipartFile);
         assertFileFormat(multipartFile);

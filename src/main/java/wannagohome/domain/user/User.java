@@ -45,7 +45,6 @@ public class User {
 
     private String profile;
 
-
     public String getProfile() {
         if(profile == null || profile.isEmpty())
             return DEFAULT_PROFILE;
@@ -89,6 +88,7 @@ public class User {
         UserDto userDto = new UserDto();
         userDto.setId(id);
         userDto.setName(name);
+        userDto.setProfile(getProfile());
         return userDto;
     }
 }

@@ -79,4 +79,11 @@ public class TaskService {
         task.setTitle(taskDto.getTitle());
         return taskRepository.save(task);
     }
+
+    @Transactional
+    public Task deleteTask(TaskDto taskDto) {
+        Task task = taskRepository.findById(taskDto.getId()).get();
+        task.setDeleted(true);
+        return taskRepository.save(task);
+    }
 }

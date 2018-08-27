@@ -69,8 +69,7 @@ CREATE TABLE comment (
 ) ENGINE=InnoDB ;
 CREATE TABLE label (
  id bigint(20) NOT NULL AUTO_INCREMENT,
- color varchar(255) DEFAULT NULL,
- title varchar(20) DEFAULT NULL,
+ color varchar(255) DEFAULT NULL
  PRIMARY KEY (id)
 ) ENGINE=InnoDB ;
 CREATE TABLE abstract_activity (

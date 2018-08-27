@@ -1,6 +1,5 @@
 package wannagohome.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;

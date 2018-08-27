@@ -13,6 +13,8 @@ import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthenticationException;
 import wannagohome.repository.UserRepository;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UserService {
 
@@ -38,5 +40,15 @@ public class UserService {
         }
 
         return userRepository.save(User.valueOf(dto, passwordEncoder));
+    }
+
+    @Transactional
+    public User initializeProfile(User user) {
+        user.initializeProfile();
+        return userRepository.save(user);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

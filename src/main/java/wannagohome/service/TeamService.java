@@ -1,6 +1,5 @@
 package wannagohome.service;
 
-import org.apache.catalina.core.ApplicationPushBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -8,8 +7,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.*;
-import wannagohome.event.BoardEvent;
-import wannagohome.event.TeamEvent;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.TeamRepository;
@@ -18,6 +15,7 @@ import wannagohome.repository.UserIncludedInTeamRepository;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeamService {
@@ -70,5 +68,11 @@ public class TeamService {
 
     public List<Team> findAll() {
         return teamRepository.findAll();
+    }
+
+
+    public List<Team> findByUser(User user) {
+        return userIncludedInTeamRepository.findAllByUser(user)
+                .stream().map(UserIncludedInTeam::getTeam).collect(Collectors.toList());
     }
 }

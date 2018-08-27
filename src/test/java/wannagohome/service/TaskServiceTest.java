@@ -14,15 +14,12 @@ import wannagohome.domain.User;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.TaskRepository;
 
-
 import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class TaskServiceTest {

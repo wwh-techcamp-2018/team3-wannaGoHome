@@ -38,7 +38,8 @@ dependencies {
 	compile("org.springframework:spring-websocket")
 	compile("org.webjars:stomp-websocket:2.3.3")
 	compile("org.webjars:sockjs-client:1.0.2")
-	compile "org.springframework.security:spring-security-messaging"
+	compile("org.springframework.security:spring-security-messaging")
+	compile('org.springframework.cloud:spring-cloud-starter-aws')
 
 	compile('io.springfox:springfox-swagger2:2.9.2')
 	compile('io.springfox:springfox-swagger-ui:2.9.2')
@@ -48,4 +49,10 @@ dependencies {
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-aws:2.0.0.RELEASE'
+	}
 }

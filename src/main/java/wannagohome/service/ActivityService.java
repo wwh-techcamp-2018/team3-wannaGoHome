@@ -1,6 +1,5 @@
 package wannagohome.service;
 
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,9 +10,6 @@ import wannagohome.repository.ActivityRepository;
 import wannagohome.util.DateUtil;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,6 +47,14 @@ public class ActivityService {
         return new ActivityInitDto(
                 biDirectionDecoder.encode(user.getEmail()),
                 findUserActivities(user)
+        );
+    }
+
+    public List<ActivityDto> fetchActivity(User user, String registeredDate) {
+        return generateActivityDto(
+                activityRepository.findFirst10ByReceiverAndRegisteredDateLessThanOrderByRegisteredDateDesc(
+                        user, DateUtil.getDate(registeredDate)
+                )
         );
     }
 

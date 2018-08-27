@@ -91,7 +91,7 @@ public class TeamAcceptanceTest extends AcceptanceTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Team> responseTeams = Arrays.asList(responseEntity.getBody());
-        assertThat(responseTeams.stream().map(Team::getName)).contains("test", "JunsuLime");
+        assertThat(responseTeams.stream().map(Team::getName)).contains("WannaGoHome", "test", "test2");
     }
 
 
@@ -109,7 +109,7 @@ public class TeamAcceptanceTest extends AcceptanceTest {
         Team responseTeam = readResponseEntity.getBody();
         log.debug("description: {}", responseTeam.getDescription());
         log.debug("name: {}", responseTeam.getName());
-        assertThat(responseTeam.getName()).isEqualTo("JunsuLime");
+        assertThat(responseTeam.getName()).isEqualTo("WannaGoHome");
     }
 
 }

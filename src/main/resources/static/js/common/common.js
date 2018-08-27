@@ -29,6 +29,15 @@ function fetchManager({url, method, body, callback}) {
     });
 }
 
+function fileFetchManager({url, body, callback}) {
+    fetch(url, {method : "POST", body, credentials: "same-origin"})
+        .then((response) => {
+            res = response;
+            return response.json();
+        }).then((result) => {
+        callback(res.status, result);
+    });
+}
 function rgbToHex(rgb) {
     rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     return ("#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])).toUpperCase();

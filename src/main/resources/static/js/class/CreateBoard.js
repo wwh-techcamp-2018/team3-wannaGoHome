@@ -46,6 +46,7 @@ class CreateBoard {
         this.initializeFormValue();
         this.node.parentElement.classList.toggle("scroll-overflow");
         this.node.style.display = "";
+        this.titleNode.focus();
     }
 
     initializeFormPosition() {
@@ -163,6 +164,7 @@ class CreateBoard {
     handleCreateBoardError(response) {
         this.clearTitleNode();
         this.titleNode.placeholder = response[0].message;
+        this.titleNode.focus();
     }
 
     clearTitleNode() {

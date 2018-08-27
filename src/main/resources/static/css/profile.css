@@ -436,7 +436,14 @@ a:hover {
     font-style: normal;
     text-align: center;
     text-decoration: none;
-    position: absolute;
-    top: 114px;
-    left: 27px;
+    position: relative;
+    top: 3px;
+    left: 0px;
+}
+
+.profile-upload-error {
+    color: #eb5a46;
+    margin: 0 0 0 0;
+    display: none;
+    font-size: 15px;
 }

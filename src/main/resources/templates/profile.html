@@ -1,5 +1,5 @@
 {{#partial "head"}}
-<link rel="stylesheet" type="text/css" href="/css/mypage.css"/>
+<link rel="stylesheet" type="text/css" href="/css/profile.css"/>
 <script src="/js/class/MyPage.js"></script>
 <script src="/js/class/Profile.js"></script>
 <script src="/js/users/profile.js"></script>
@@ -48,10 +48,13 @@
                     <span class="avatar-option-text">Initials (no avatar)</span>
                 </a>
                 <hr class="avatar-option-border">
+                <p class="profile-upload-error"></p>
                 <form class="profile-upload" action="/api/users/profile" method="POST" enctype="multipart/form-data">
-                    <i class="fas fa-paperclip profile-upload-icon"></i>
                     <input type="file" class="profile-upload-button" tabindex="-1" name="file">
-                    <a class="profile-upload-text">Upload a new picture</a>
+                    <a class="profile-upload-text">
+                        <i class="fas fa-paperclip profile-upload-icon"></i>
+                        Upload a new picture
+                    </a>
                 </form>
             </div>
         </div>

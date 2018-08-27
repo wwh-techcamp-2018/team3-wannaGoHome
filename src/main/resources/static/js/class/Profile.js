@@ -73,6 +73,14 @@ class Profile {
         this.profileAvatorHolder.style.display = "none";
     }
 
+    showProfileImageErrorMessage() {
+        this.profileAvatorHolder.querySelector(".profile-upload-error").style.display = "block";
+    }
+
+    hideProfileImageErrorMessage() {
+        this.profileAvatorHolder.querySelector(".profile-upload-error").style.display = "none";
+    }
+
     handleInitProfile(status, response) {
         this.changeProfileImange(response.profile);
         this.hideProfileImageHolder();
@@ -82,8 +90,13 @@ class Profile {
         if(status === 200) {
             this.profileAvatorHolder.querySelector(".profile-upload").reset();
             this.changeProfileImange(response.profile);
+            this.hideProfileImageErrorMessage();
             this.hideProfileImageHolder();
+            return;
         }
+        this.profileAvatorHolder.querySelector(".profile-upload-error").innerText = response[0].message;
+        this.showProfileImageErrorMessage();
+
     }
 
     changeProfileImange(imgUrl) {

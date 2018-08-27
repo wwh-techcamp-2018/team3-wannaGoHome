@@ -47,9 +47,9 @@ public class ApiBoardAcceptanceTest extends AcceptanceTest {
 
         ResponseEntity<BoardSummaryDto> responseEntity = basicAuthRequest(requestEntity, signInDto);
         assertThat(responseEntity.getStatusCode()).isEqualTo((HttpStatus.OK));
-        assertThat(responseEntity.getBody().getRecentlyViewBoards().size()).isEqualTo(1);
+        assertThat(responseEntity.getBody().getRecentlyViewBoards().size()).isEqualTo(0);
         assertThat(responseEntity.getBody().getBoardOfTeamDtos().get(0).getTeam().getId()).isEqualTo(1L);
-        assertThat(responseEntity.getBody().getBoardOfTeamDtos().get(0).getBoards().size()).isEqualTo(4);
+        assertThat(responseEntity.getBody().getBoardOfTeamDtos().get(0).getBoards().size()).isEqualTo(1);
     }
 
 
@@ -64,7 +64,7 @@ public class ApiBoardAcceptanceTest extends AcceptanceTest {
         ResponseEntity<CreateBoardInfoDto> responseEntity = basicAuthRequest(requestEntity, signInDto);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody().getColors().size()).isEqualTo(9);
-        assertThat(responseEntity.getBody().getTeams().size()).isEqualTo(2);
+        assertThat(responseEntity.getBody().getTeams().size()).isEqualTo(1);
     }
 
     @Test

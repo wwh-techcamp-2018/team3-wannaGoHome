@@ -26,6 +26,11 @@ public class ApiCardController {
         return cardService.findCardsByUser(user);
     }
 
+    @DeleteMapping("/{cardId}")
+    public Card deleteCard(@PathVariable Long cardId) {
+        return cardService.deleteCard(cardId);
+    }
+
     @GetMapping("/calendar")
     @ResponseStatus(HttpStatus.OK)
     public List<Card> readDueCards(@LoginUser User user) {

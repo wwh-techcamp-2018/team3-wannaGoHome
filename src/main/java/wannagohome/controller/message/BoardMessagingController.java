@@ -1,5 +1,7 @@
 package wannagohome.controller.message;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class BoardMessagingController {
+    private static final Logger log = LoggerFactory.getLogger(BoardMessagingController.class);
 
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;

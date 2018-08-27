@@ -3,8 +3,11 @@ class Board {
         this.calendar;
         this.taskList = [];
         this.stompClient = null;
+
+        this.boardIndex = window.location.href.trim().split("/").pop();
+
         this.smallCalendar = new SmallCalendar();
-        this.cardDetailForm = new CardDetail();
+        this.cardDetailForm = new CardDetail(this.boardIndex);
         this.cardDetailForm.smallCalendar = this.smallCalendar;
         this.smallCalendar.cardDetail = this.cardDetailForm;
 
@@ -28,7 +31,6 @@ class Board {
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
-        this.boardIndex = window.location.href.trim().split("/").pop();
         this.connectSocket();
     }
 
@@ -162,6 +164,7 @@ class Board {
 
             }.bind(this));
 
+            this.cardDetailForm.setClient(this.stompClient);
             this.fetchBoardState();
 
         }.bind(this))

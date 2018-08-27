@@ -1,8 +1,10 @@
 class CardDetail {
-    constructor() {
+    constructor(boardId) {
         this.smallCalendar;
 
+        this.boardId = boardId;
         this.cardId = null;
+        this.stompClient = null;
 
         this.form = $_("#card-detail");
         this.commentText = this.form.querySelector(".card-detail-comment");
@@ -21,10 +23,16 @@ class CardDetail {
         this.labelListContainer = this.form.querySelector(".card-detail-label-list");
         this.labelContainer = this.form.querySelector(".card-detail-label-container");
 
+        this.deleteButton = this.form.querySelector(".card-detail-side-button.delete");
         this.commentTemplate = Handlebars.templates["precompile/board/card_list_comment_template"];
         this.labelTemplate = Handlebars.templates["precompile/board/card_label_template"];
         this.assigneeTemplate = Handlebars.templates["precompile/board/card_assignee_item_template"];
 
+        this.deleteButton.addEventListener("click", (evt)=>{
+            evt.stopPropagation();
+            this.handleDeleteButton();
+
+        });
         this.form.querySelector(".card-comment-save-button").addEventListener("click", this.addComment.bind(this));
 
         this.form.querySelector(".card-detail-side-button.label").addEventListener("click", (evt) =>{
@@ -55,6 +63,10 @@ class CardDetail {
         this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeListContainer.addEventListener("click", this.handleUserAssign.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.handleAssigneeSearch.bind(this));
+    }
+
+    setClient(client) {
+        this.stompClient = client;
     }
 
     setDueDate(date) {
@@ -298,6 +310,7 @@ class CardDetail {
         this.descriptionText.value = "";
         this.commentListContainer.innerHTML = "";
         $_("#smallCalendar").style.display = 'none';
+        this.deleteButton.classList.remove("card-delete-button-danger");
     }
 
     handleCalendar() {
@@ -308,5 +321,29 @@ class CardDetail {
             // this.form.querySelector("#smallCalendar").style.display = 'none';
         }
 
+    }
+
+    handleDeleteButton() {
+        if(this.deleteButton.classList.contains("card-delete-button-danger")) {
+            fetchManager({
+                url: `/api/cards/${this.cardId}`,
+                method: "DELETE",
+                callback: this.onDeleteCard.bind(this)
+            })
+        } else {
+            this.deleteButton.classList.add("card-delete-button-danger");
+        }
+    }
+
+    onDeleteCard(status, card) {
+        if (status !== 200) {
+            return;
+        }
+        this.hide();
+        this.refreshBoard();
+    }
+
+    refreshBoard() {
+        this.stompClient.send(`/app/message/board/${this.boardId}`);
     }
 }

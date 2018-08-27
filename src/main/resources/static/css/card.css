@@ -213,3 +213,9 @@
     color: #888888;
 
 }
+
+
+.card-delete-button-danger {
+    background-color: #e25b52;
+    color: #fff;
+}

@@ -146,4 +146,8 @@ public class Card {
         }
         labels.remove(getLabel);
     }
+
+    public void delete() {
+        deleted = true;
+    }
 }

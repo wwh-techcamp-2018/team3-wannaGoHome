@@ -157,4 +157,11 @@ public class CardService {
         card.setEndDate(cardDetailDto.getEndDate());
         return cardRepository.save(card);
     }
+
+    @Transactional
+    public Card deleteCard(Long cardId) {
+        Card card = findCardById(cardId);
+        card.delete();
+        return card;
+    }
 }

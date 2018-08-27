@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import wannagohome.domain.ErrorType;
+import wannagohome.domain.error.ErrorType;
 import wannagohome.exception.UnsupportedFileFormatException;
 
 import javax.transaction.Transactional;

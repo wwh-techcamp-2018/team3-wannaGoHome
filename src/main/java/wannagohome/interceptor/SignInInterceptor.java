@@ -3,7 +3,7 @@ package wannagohome.interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import wannagohome.domain.User;
+import wannagohome.domain.user.User;
 import wannagohome.util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;

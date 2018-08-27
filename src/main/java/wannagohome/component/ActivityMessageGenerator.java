@@ -2,9 +2,9 @@ package wannagohome.component;
 
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
-import wannagohome.domain.AbstractActivity;
-import wannagohome.domain.Activity;
-import wannagohome.domain.ActivityDto;
+import wannagohome.domain.activity.AbstractActivity;
+import wannagohome.domain.activity.Activity;
+import wannagohome.domain.activity.ActivityDto;
 
 import javax.annotation.Resource;
 import java.util.List;

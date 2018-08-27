@@ -3,7 +3,7 @@ package wannagohome.service.file;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import wannagohome.domain.ErrorType;
+import wannagohome.domain.error.ErrorType;
 import wannagohome.exception.EmptyFileUploadedException;
 import wannagohome.exception.UnsupportedFileFormatException;
 

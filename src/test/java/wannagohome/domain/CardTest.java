@@ -2,6 +2,10 @@ package wannagohome.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import wannagohome.domain.card.Card;
+import wannagohome.domain.card.Label;
+import wannagohome.domain.card.LabelColor;
+import wannagohome.domain.user.User;
 import wannagohome.exception.BadRequestException;
 
 import java.util.ArrayList;

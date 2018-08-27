@@ -8,23 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import wannagohome.domain.*;
-import wannagohome.exception.BadRequestException;
-import wannagohome.exception.NotFoundException;
+import wannagohome.domain.card.*;
+import wannagohome.domain.user.SignInDto;
+import wannagohome.domain.user.User;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.CommentRepository;
 import wannagohome.repository.UserRepository;
 import wannagohome.support.AcceptanceTest;
 import wannagohome.support.RequestEntity;
 
-import javax.xml.ws.Response;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;

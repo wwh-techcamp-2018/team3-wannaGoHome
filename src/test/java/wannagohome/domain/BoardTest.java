@@ -2,6 +2,10 @@ package wannagohome.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import wannagohome.domain.board.Board;
+import wannagohome.domain.task.Task;
+import wannagohome.domain.task.TaskOrderDto;
+import wannagohome.domain.user.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;

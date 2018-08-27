@@ -3,7 +3,7 @@ package wannagohome.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import wannagohome.domain.RecentlyViewBoard;
+import wannagohome.domain.board.RecentlyViewBoard;
 
 import java.util.List;
 

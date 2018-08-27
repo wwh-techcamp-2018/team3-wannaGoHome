@@ -3,10 +3,10 @@ package wannagohome.util;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
-import wannagohome.domain.Board;
-import wannagohome.domain.Card;
-import wannagohome.domain.Task;
-import wannagohome.domain.User;
+import wannagohome.domain.board.Board;
+import wannagohome.domain.card.Card;
+import wannagohome.domain.task.Task;
+import wannagohome.domain.user.User;
 import wannagohome.interceptor.HttpHandshakeInterceptor;
 
 import javax.servlet.http.HttpSession;

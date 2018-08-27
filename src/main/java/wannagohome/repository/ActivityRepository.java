@@ -1,8 +1,8 @@
 package wannagohome.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import wannagohome.domain.AbstractActivity;
-import wannagohome.domain.User;
+import wannagohome.domain.activity.AbstractActivity;
+import wannagohome.domain.user.User;
 
 import java.util.Date;
 import java.util.List;

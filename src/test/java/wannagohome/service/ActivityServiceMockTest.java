@@ -6,7 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import wannagohome.domain.*;
+import wannagohome.domain.activity.ActivityType;
+import wannagohome.domain.board.Board;
+import wannagohome.domain.activity.BoardActivity;
+import wannagohome.domain.team.Team;
+import wannagohome.domain.user.User;
 import wannagohome.repository.ActivityRepository;
 
 import java.util.Arrays;

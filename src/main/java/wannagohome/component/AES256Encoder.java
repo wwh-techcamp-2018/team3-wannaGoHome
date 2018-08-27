@@ -3,14 +3,13 @@ package wannagohome.component;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 
 public class AES256Encoder implements PasswordEncoder {

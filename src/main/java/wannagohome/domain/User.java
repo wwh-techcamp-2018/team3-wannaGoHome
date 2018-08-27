@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 public class User {
     public static User GUEST_USER = new GuestUser();
+    public static final String DEFAULT_PROFILE = "https://s3.ap-northeast-2.amazonaws.com/wannagohome/default_image.png";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +41,19 @@ public class User {
 
     @Column(nullable = false)
     private boolean deleted;
+
+    private String profile;
+
+
+    public String getProfile() {
+        if(profile == null || profile.isEmpty())
+            return DEFAULT_PROFILE;
+        return this.profile;
+    }
+
+    public void initializeProfile() {
+        this.profile = "";
+    }
 
     public static User valueOf(SignUpDto dto, PasswordEncoder passwordEncoder) {
         return User.builder()

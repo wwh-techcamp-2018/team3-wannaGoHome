@@ -2,7 +2,6 @@ package wannagohome.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -14,7 +13,7 @@ import java.util.Date;
 public class ActivityDto {
     private String message;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date registeredDate;
 
     private ActivityDto(String message, Date registeredDate) {

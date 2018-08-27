@@ -10,9 +10,7 @@ import wannagohome.domain.ChatMessage;
 import wannagohome.domain.ChatMessageDto;
 import wannagohome.domain.User;
 import wannagohome.repository.ChatMessageRepository;
-import wannagohome.util.SessionUtil;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
 

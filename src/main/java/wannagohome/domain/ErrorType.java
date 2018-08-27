@@ -15,7 +15,10 @@ public enum ErrorType {
     TEAM_DESC("description"),
     BOARD_ID("boardId"),
     BOARD_TITLE("title"),
-    CARD_ID("cardId");
+    CARD_ID("cardId"),
+    EMPTY_FILE("emptyFile"),
+    UNSUPPORTED_FILE("unsupportedFile"),
+    EXCEED_FILE("exceedFile");
     private static final Logger log = LoggerFactory.getLogger(ErrorType.class);
 
     private String errorType;

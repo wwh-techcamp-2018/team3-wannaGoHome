@@ -39,4 +39,13 @@ public class UserService {
 
         return userRepository.save(User.valueOf(dto, passwordEncoder));
     }
+
+    public User initializeProfile(User user) {
+        user.initializeProfile();
+        return userRepository.save(user);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 }

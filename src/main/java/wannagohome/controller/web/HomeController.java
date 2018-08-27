@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import wannagohome.domain.User;
 import wannagohome.interceptor.LoginUser;
@@ -20,8 +19,7 @@ public class HomeController {
     BoardService boardService;
 
     @GetMapping("/")
-    public String home(@LoginUser User user, Model model) {
-        model.addAttribute("boardSummary", boardService.getBoardSummary(user));
+    public String home() {
         return "index";
     }
 

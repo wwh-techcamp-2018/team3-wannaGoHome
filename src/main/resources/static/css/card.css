@@ -178,7 +178,7 @@
     height: 30px;
 }
 
-.card-detail-assignee-container-hide {
+.card-detail-assignee-container-hide, .card-detail-description-hide {
     display: none;
 }
 
@@ -194,4 +194,18 @@
 .card-detail-assignee-list-container .assignee-img {
     width: 20px;
     border-radius: 50%;
+}
+
+.card-detail-description-show-box {
+    padding: 5px;
+    margin: 10px 0px;
+    font-size: 14px;
+}
+
+.card-detail-description-edit-button {
+    font-weight: lighter;
+    font-size: 13px;
+    margin-left: 3px;
+    color: #888888;
+
 }

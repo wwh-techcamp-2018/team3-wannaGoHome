@@ -119,6 +119,9 @@ public class Card {
         assignees.remove(assignee);
     }
 
+    public void updateDescription(CardDetailDto dto) {
+        this.description = dto.getDescription();
+    }
 
     public boolean containsAssignee(User assignee) {
         return assignees.contains(assignee);

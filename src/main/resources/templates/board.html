@@ -65,9 +65,14 @@
         </div>
         <div class="card-detail-main-container">
             <div class="card-detail-desc-wrapper">
-                <p class="card-detail-title"><i class="fas fa-align-left"></i> Description</p>
-                <textarea class="card-detail-desc" rows="4" placeholder="카드 상세 설명을 입력해주세요."></textarea>
-                <button class="card-detail-save-button">SAVE</button>
+                <p class="card-detail-title">
+                    <i class="fas fa-align-left"></i> Description <span class="card-detail-description-edit-button">edit</span>
+                </p>
+                <p class="card-detail-description-show-box"></p>
+                <div class="card-detail-description-edit-box card-detail-description-hide">
+                    <textarea class="card-detail-desc" rows="4" placeholder="카드 상세 설명을 입력해주세요."></textarea>
+                    <button class="card-detail-save-button">SAVE</button>
+                </div>
             </div>
             <div class="card-detail-comment-wrapper">
                 <p class="card-detail-title"><i class="far fa-comments"></i> Add Comment</p>

@@ -51,6 +51,11 @@ public class ApiCardController {
         return cardService.setCardLabel(id, cardDetailDto);
     }
 
+    @PostMapping("/{cardId}/description")
+    public Card updateCardDescription(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetailDto) {
+        return cardService.updateCardDescription(user, cardId, cardDetailDto);
+    }
+
     @PostMapping("/{cardId}/assign")
     public List<AssigneeDto> assignCardToUser(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetail) {
         return cardService.assignCardToUser(user, cardId, cardDetail);

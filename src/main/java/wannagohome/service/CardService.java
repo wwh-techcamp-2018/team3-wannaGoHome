@@ -113,7 +113,13 @@ public class CardService {
     @Transactional
     public List<CardLabelDto> deleteLabel(Long cardId, Long labelId) {
         Card card = findCardById(cardId);
-        card.getLabels().remove(labelRepository.findById(labelId).orElseThrow(()->new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다.")));
+        Label getLabel = labelRepository.findById(labelId).orElseThrow(()->new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다."));
+//        if(card.getLabels().contains(getLabel)) {
+//            card.getLabels().remove(getLabel);
+//        } else {
+//            throw new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다.");
+//        }
+        card.removeLabel(getLabel);
         return labelRepository.findAll().stream()
                 .map(label -> CardLabelDto.valueOf(label, card))
                 .collect(Collectors.toList());

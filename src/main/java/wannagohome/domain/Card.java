@@ -131,4 +131,11 @@ public class Card {
     public boolean containsLabel(Label label) {
         return labels.contains(label);
     }
+
+    public void removeLabel(Label getLabel) {
+        if(!containsLabel(getLabel)) {
+            throw new BadRequestException(ErrorType.CARD_LABEL_NOT_EXIST, "해당 라벨은 카드에 존재하지 않습니다.");
+        }
+        labels.remove(getLabel);
+    }
 }

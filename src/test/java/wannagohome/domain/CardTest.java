@@ -5,6 +5,7 @@ import org.junit.Test;
 import wannagohome.exception.BadRequestException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,6 +17,10 @@ public class CardTest {
     private User assignee;
 
     private User newAssignee;
+
+    private Label label;
+
+    private Label existLabel;
 
     @Before
     public void setUp() throws Exception {
@@ -37,8 +42,21 @@ public class CardTest {
                 .id(1L)
                 .assignees(new ArrayList<>())
                 .description("hello")
+                .labels(new ArrayList<>())
                 .build();
 
+        label = Label.builder()
+                .id(1L)
+                .color(LabelColor.RED)
+                .build();
+
+        existLabel = Label.builder()
+                .id(2L)
+                .color(LabelColor.ORANGE)
+                .build();
+        List<Label> labelList = new ArrayList<>();
+        labelList.add(existLabel);
+        card.setLabels(labelList);
         card.addAssignee(assignee);
     }
 
@@ -63,4 +81,16 @@ public class CardTest {
     public void dischargeAssignee_지울_assignee가_없음() {
         card.dischargeAssignee(newAssignee);
     }
+
+    @Test(expected = BadRequestException.class)
+    public void removeLabel_지울라벨없을때() {
+        card.removeLabel(label);
+    }
+
+    @Test
+    public void removeLabel() {
+        card.removeLabel(existLabel);
+        assertThat(card.getLabels()).doesNotContain(existLabel);
+    }
+
 }

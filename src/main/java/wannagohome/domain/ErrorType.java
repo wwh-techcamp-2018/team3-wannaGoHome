@@ -20,6 +20,7 @@ public enum ErrorType {
     CARD_ID("cardId"),
     CARD_ASSIGN_ALREADY_EXIST("cardAssigneeAlreadyExist"),
     CARD_ASSIGN_NOT_EXIST("cardAssigneeNotExist"),
+    CARD_LABEL_NOT_EXIST("cardLabelNotExist"),
     COMMENT_ID("commendId"),
     LABEL_ID("labelId");
 

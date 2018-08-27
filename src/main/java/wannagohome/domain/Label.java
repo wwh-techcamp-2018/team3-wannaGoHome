@@ -1,14 +1,17 @@
 package wannagohome.domain;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Getter
+@Setter
 @Entity
 @EqualsAndHashCode
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Label {
 
     @Id

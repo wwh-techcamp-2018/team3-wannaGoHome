@@ -7,6 +7,7 @@ import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorEntity;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
+import wannagohome.domain.user.UserDto;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.ErrorEntityException;
 import wannagohome.interceptor.LoginUser;
@@ -37,7 +38,7 @@ public class ApiTeamController {
 
     @GetMapping("/{id}/members")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> teamMembers(@PathVariable Long id) {
+    public List<UserDto> teamMembers(@PathVariable Long id) {
         return teamService.findByTeam(teamService.findTeamById(id));
     }
 

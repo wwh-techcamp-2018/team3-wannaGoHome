@@ -1,18 +1,18 @@
 <div class="team-user-container">
     <div class="profile-image-holder">
-        <img class="profile-image" src="https://s3.ap-northeast-2.amazonaws.com/wannagohome/default_image.png" />
+        <img class="profile-image" src="{{profile}}" />
     </div>
     <div class="details">
                     <span class="profile-name">
-                        송인태
+                        {{name}}
                     </span>
         <span class="profile-email">
-                        email
+                        {{email}}
                     </span>
     </div>
     <div class="profile-options-holder">
         <button class="rights-button">
-            <span>Admin</span>
+            <span>{{userPermission}}</span>
             <i class="fas fa-chevron-circle-down"></i>
         </button>
         <button class="remove-button">

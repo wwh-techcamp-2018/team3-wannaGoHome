@@ -11,6 +11,7 @@ import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
+import wannagohome.domain.user.UserDto;
 import wannagohome.domain.user.UserIncludedInTeam;
 import wannagohome.domain.user.UserPermission;
 import wannagohome.exception.DuplicationException;
@@ -84,9 +85,10 @@ public class TeamService {
         return team;
     }
 
-    public List<User> findByTeam(Team team) {
+    public List<UserDto> findByTeam(Team team) {
         return userIncludedInTeamRepository.findAllByTeam(team)
-                .stream().map(UserIncludedInTeam::getUser).collect(Collectors.toList());
+                .stream().map(userIncludedInTeam -> UserDto.userDtoWithPermission(userIncludedInTeam))
+                .collect(Collectors.toList());
     }
 
     public List<Team> findByUser(User user) {

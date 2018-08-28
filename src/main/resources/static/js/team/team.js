@@ -8,10 +8,17 @@ document.addEventListener("DOMContentLoaded", function(evt) {
         callback: drawTeam
     });
 
+    fetchManager({
+        url: `/api/teams/${teamIndex}/members`,
+        method: "GET",
+        headers: {"content-type": "application/json"},
+        callback: drawMembers
+    });
+
     $_(".invite-team-button").addEventListener("click", function(evt) {
         evt.stopPropagation();
-        const left = evt.clientX - 150;
-        const top = evt.clientY + 5;
+        const left = evt.pageX - 150;
+        const top = evt.pageY + 5;
         $_(".user-search-box").style.display = "block";
         $_(".user-search-box").style.left = left + "px";
         $_(".user-search-box").style.top = top + "px";
@@ -30,4 +37,11 @@ document.addEventListener("DOMContentLoaded", function(evt) {
 function drawTeam(status, result) {
     const teamHeaderTemplate = Handlebars.templates["precompile/team/team_page_header"];
     $_(".team-page-header").insertBefore(createElementFromHTML(teamHeaderTemplate(result)), $_(".team-options-holder"));
+}
+
+function drawMembers(status, result) {
+    const teamMemberTemplate = Handlebars.templates["precompile/team/team_page_member"];
+    for(const member of result) {
+        $_(".team-users-holder").appendChild(createElementFromHTML(teamMemberTemplate(member)));
+    }
 }

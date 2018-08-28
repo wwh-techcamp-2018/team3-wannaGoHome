@@ -41,6 +41,8 @@ class CardDetail {
             }
         }.bind(this));
 
+        limitInputSize(this.cardTitleEditText, 20);
+
         this.selector(".card-comment-save-button").addEventListener("click", this.onClickAddCommentButton.bind(this));
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
         this.selector(".card-detail-save-button").addEventListener("click", this.onClickUpdateDescription.bind(this));

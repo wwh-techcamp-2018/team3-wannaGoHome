@@ -112,6 +112,8 @@ class Task {
 
         });
 
+        limitInputSize(this.cardWrapper.querySelector(".new-card-title"), 20);
+
         this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function (evt) {
             if (detectShiftEnter(evt)) {
                 evt.preventDefault();

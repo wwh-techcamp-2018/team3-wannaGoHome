@@ -107,6 +107,7 @@ public class CardService {
                 .labels(card.getLabels())
                 .allLabels(labelRepository.findAll())
                 .assignees(card.getAssignees())
+                .endDate(card.getEndDate())
                 .build();
     }
 
@@ -154,5 +155,11 @@ public class CardService {
         Card card = findCardById(cardId);
         card.delete();
         return card;
+    }
+
+    public Card deleteCardDate(Long id) {
+        Card card = findCardById(id);
+        card.removeDueDate();
+        return cardRepository.save(card);
     }
 }

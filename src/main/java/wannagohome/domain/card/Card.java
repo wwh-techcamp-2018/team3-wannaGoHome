@@ -149,6 +149,13 @@ public class Card {
         labels.remove(getLabel);
     }
 
+    public void removeDueDate() {
+        if(this.endDate == null) {
+            throw new BadRequestException(ErrorType.CARD_DUE_DATE_NOT_EXIST, "카드에 Due Date가 존재하지 않습니다.");
+        }
+        this.endDate = null;
+    }
+
     public void delete() {
         deleted = true;
     }

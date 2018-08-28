@@ -48,6 +48,11 @@ public class ApiCardController {
         return cardService.updateCardDate(id, cardDetailDto);
     }
 
+    @DeleteMapping("/{id}/date")
+    public Card deleteCardDate(@PathVariable Long id) {
+        return cardService.deleteCardDate(id);
+    }
+
     @PostMapping("/details/label/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Card setCardLabel(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {

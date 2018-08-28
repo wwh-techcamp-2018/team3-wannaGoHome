@@ -3,7 +3,6 @@ class CardDetail {
         this.boardId = boardId;
         this.cardId = null;
         this.stompClient = null;
-        this.smallCalendar = null;
 
         this.form = $_("#card-detail");
 
@@ -48,6 +47,8 @@ class CardDetail {
         this.labelListContainer = this.selector(".card-detail-label-list");
         this.labelContainer = this.selector(".card-detail-label-container");
 
+        this.dueDateContainer = this.selector(".card-detail-date-container");
+
         this.selector(".card-detail-side-button.card-assignee").addEventListener("click", (evt) => {
             evt.stopPropagation();
             this.onClickAssigneeButton();
@@ -61,10 +62,12 @@ class CardDetail {
             this.onClickLabelButton();
         });
 
+
         this.labelContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeListContainer.addEventListener("click", this.onClickAssignee.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.onChangeAssigneeSearch.bind(this));
+        this.dueDateContainer.addEventListener("click", (evt)=>evt.stopPropagation());
     }
 
     initHandlebarTemplates() {
@@ -144,11 +147,13 @@ class CardDetail {
     }
 
     onClickDueDateButton() {
-        if (this.selector("#smallCalendar").style.display === 'none') {
-            this.selector("#smallCalendar").style.display = 'block';
-            this.smallCalendar.createSchedule();
+        if (this.dueDateContainer.style.display === 'none') {
+            this.dueDateContainer.style.display = 'block';
+            this.dueDateContainer.querySelector("input").addEventListener("input", (evt)=>{
+                this.setDueDate(evt.target.value);
+            })
         } else {
-            // this.selector("#smallCalendar").style.display = 'none';
+            this.dueDateContainer.style.display = 'none';
         }
 
     }
@@ -165,6 +170,13 @@ class CardDetail {
         }
     }
 
+    onClickDeleteDueDateButton() {
+        fetchManager({
+            url: `/api/cards/${this.cardId}/date`,
+            method: "DELETE",
+            callback: this.handleDeleteDueDate.bind(this)
+        })
+    }
     onChangeAssigneeSearch() {
         fetchManager({
             url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
@@ -178,7 +190,15 @@ class CardDetail {
             return;
         }
         console.log(card.createDate, card.endDate);
-        this.smallCalendar.drawDueDate(card);
+        this.drawSummaryDueDate(card.endDate);
+    }
+
+    handleDeleteDueDate(status, card) {
+        if(status!==200) {
+            return;
+        }
+        this.dueDateSummary.innerHTML = "";
+        this.dueDateContainer.querySelector("input").value = "";
     }
 
     handleAddComment(status, comment) {
@@ -244,6 +264,15 @@ class CardDetail {
         this.assigneeContainer.classList.add("card-detail-assignee-container-hide")
     }
 
+    drawSummaryDueDate(endDate) {
+        this.dueDateSummary.innerHTML = "";
+        this.dueDateSummary.appendChild(createElementFromHTML(`<span><i class="far fa-calendar-alt"></i> ${endDate} <i class="fas fa-times-circle date-delete-button"></i></span>`));
+        this.dueDateSummary.querySelector(".date-delete-button").addEventListener("click", (evt)=>{
+            console.log(evt.target);
+            this.onClickDeleteDueDateButton();
+        })
+    }
+
     drawComments(comments) {
         this.commentListContainer.innerHTML = "";
         comments.forEach(this.drawComment.bind(this));
@@ -300,6 +329,15 @@ class CardDetail {
         this.drawSummaryLabels(body.labels);
         this.drawSummaryAssignees(body.assignees);
         this.drawComments(body.comments);
+        if(body.endDate) {
+            const endDate = body.endDate.slice(0,10);
+            this.dueDateContainer.querySelector("input").value = endDate;
+            this.drawSummaryDueDate(endDate);
+        }
+        else {
+            this.dueDateSummary.innerHTML = "";
+            this.dueDateContainer.querySelector("input").value = "";
+        }
     }
 
     drawSummaryAssignees(assignees) {
@@ -343,13 +381,13 @@ class CardDetail {
     }
 
     hide() {
+        this.dueDateContainer.style.display = 'none';
         this.labelContainer.style.display = 'none';
         this.form.style.display = "none";
         this.cardId = null;
         this.commentText.value = "";
         this.descriptionText.value = "";
         this.commentListContainer.innerHTML = "";
-        $_("#smallCalendar").style.display = 'none';
         this.deleteButton.classList.remove("card-delete-button-danger");
     }
 
@@ -371,11 +409,11 @@ class CardDetail {
 
     setDueDate(date) {
         console.log(date);
-        let mm = (date.getMonth() + 1 > 9 ? '' : '0') + (date.getMonth() + 1);
-        let dd = (date.getDate() > 9 ? '' : '0') + date.getDate();
-        const endDate = date.getFullYear() + "-" + mm + "-" + dd;
+        // let mm = (date.getMonth() + 1 > 9 ? '' : '0') + (date.getMonth() + 1);
+        // let dd = (date.getDate() > 9 ? '' : '0') + date.getDate();
+        // const endDate = date.getFullYear() + "-" + mm + "-" + dd;
         const cardDetailDto = {
-            endDate: endDate
+            endDate: date
         };
         fetchManager({
             url: `/api/cards/${this.cardId}/date`,

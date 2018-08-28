@@ -116,15 +116,7 @@ public class CardService {
 
     public CardDetailDto getCardDetail(Long id) {
         Card card = findCardById(id);
-        return CardDetailDto.builder()
-                .cardTitle(card.getTitle())
-                .taskTitle(card.getTask().getTitle())
-                .description(card.getDescription())
-                .comments(card.getComments())
-                .labels(card.getLabels())
-                .allLabels(labelRepository.findAll())
-                .assignees(card.getAssignees())
-                .build();
+        return CardDetailDto.valueOf(card, labelRepository.findAll());
     }
 
     public Card findCardById(Long id) {
@@ -177,5 +169,12 @@ public class CardService {
         Card card = findCardById(cardId);
         card.delete();
         return card;
+    }
+
+    public CardDetailDto updateCardTitle(User user, Long cardId, CardDetailDto dto) {
+        Card card = findCardById(cardId);
+        card.setTitle(dto.getCardTitle());
+        cardRepository.save(card);
+        return dto;
     }
 }

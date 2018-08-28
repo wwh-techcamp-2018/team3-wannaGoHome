@@ -182,7 +182,7 @@
     height: 30px;
 }
 
-.card-detail-assignee-container-hide, .card-detail-description-hide {
+.card-detail-assignee-container-hide, .card-detail-description-hide, .card-detail-title-hide {
     display: none;
 }
 
@@ -225,4 +225,16 @@
 .card-delete-button-danger {
     background-color: #e25b52;
     color: #fff;
+}
+
+.card-detail-title-edit-text {
+    border-radius: 3px;
+    height: 26px;
+    width: 120px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 3px;
+    border-color: #888;
+    border-style: solid;
+    border-width: 1px
 }

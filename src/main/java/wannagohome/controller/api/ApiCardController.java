@@ -39,19 +39,19 @@ public class ApiCardController {
 
     @PostMapping("/{id}/date")
     @ResponseStatus(HttpStatus.CREATED)
-    public Card setCardDueDate(@PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
-        return cardService.setCardDueDate(id, cardDetailDto);
+    public Card setCardDueDate(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
+        return cardService.setCardDueDate(user, id, cardDetailDto);
     }
 
     @PutMapping("/{id}/date")
-    public Card updateCardDate(@PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
-        return cardService.updateCardDate(id, cardDetailDto);
+    public Card updateCardDate(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
+        return cardService.updateCardDate(user, id, cardDetailDto);
     }
 
     @PostMapping("/details/label/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Card setCardLabel(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
-        return cardService.setCardLabel(id, cardDetailDto);
+        return cardService.setCardLabel(user, id, cardDetailDto);
     }
 
     @PostMapping("/{cardId}/description")
@@ -98,8 +98,8 @@ public class ApiCardController {
 
     @PostMapping("/{cardId}/label")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Label> addLabel(@PathVariable Long cardId, @RequestBody Label label) {
-        return cardService.addLabel(cardId, label);
+    public List<Label> addLabel(@LoginUser User user, @PathVariable Long cardId, @RequestBody Label label) {
+        return cardService.addLabel(user, cardId, label);
     }
 
     @DeleteMapping("/{cardId}/label")

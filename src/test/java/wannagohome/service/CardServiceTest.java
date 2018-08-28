@@ -6,7 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import wannagohome.domain.card.*;
+import wannagohome.domain.user.User;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.LabelRepository;
 
@@ -25,13 +27,16 @@ import static org.mockito.Mockito.when;
 public class CardServiceTest {
 
     @Mock
-    CardRepository cardRepository;
+    private CardRepository cardRepository;
 
     @Mock
-    LabelRepository labelRepository;
+    private LabelRepository labelRepository;
+
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @InjectMocks
-    CardService cardService;
+    private CardService cardService;
 
     private CardDetailDto cardDetailDto;
 
@@ -41,8 +46,16 @@ public class CardServiceTest {
 
     private Label label;
 
+    private User source;
+
     @Before
     public void setUp() throws Exception {
+        source = User.builder()
+                .email("yeon@woowahan.com")
+                .name("jhyang")
+                .password("kookoointae")
+                .build();
+
         label = Label.builder()
                 .id(1L)
                 .color(LabelColor.RED)
@@ -84,7 +97,7 @@ public class CardServiceTest {
 
     @Test
     public void setCardDueDate() {
-        cardService.setCardDueDate(card.getId(), cardDetailDto);
+        cardService.setCardDueDate(source, card.getId(), cardDetailDto);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(1)).findById((any()));
         assertThat(card.getEndDate()).isEqualTo(cardDetailDto.getEndDate());
@@ -92,7 +105,7 @@ public class CardServiceTest {
 
     @Test
     public void setCardLabel() {
-        cardService.setCardLabel(card.getId(), cardDetailDto);
+        cardService.setCardLabel(source, card.getId(), cardDetailDto);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(1)).findById((any()));
         assertThat(card.getLabels()).contains(label);
@@ -122,7 +135,7 @@ public class CardServiceTest {
                         .color(LabelColor.BLUE)
                         .build()
         );
-        cardService.addLabel(card.getId(), label);
+        cardService.addLabel(source, card.getId(), label);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(1)).findById((any()));
         assertThat(card.getLabels()).contains(label);
@@ -152,7 +165,7 @@ public class CardServiceTest {
                         .color(LabelColor.BLUE)
                         .build()
         );
-        cardService.addLabel(card.getId(), label);
+        cardService.addLabel(source, card.getId(), label);
         List<Label> labels = cardService.getLabels(card.getId());
         assertThat(labels.size()).isEqualTo(1);
         verify(cardRepository, times(1)).save(any());
@@ -162,7 +175,7 @@ public class CardServiceTest {
     @Test
     public void add_deleteLabel() {
         when(labelRepository.findById(label.getId())).thenReturn(Optional.ofNullable(label));
-        cardService.addLabel(card.getId(), label);
+        cardService.addLabel(source, card.getId(), label);
         cardService.deleteLabel(card.getId(), label.getId());
         List<Label> labels = cardService.getLabels(card.getId());
         assertThat(labels.size()).isEqualTo(0);
@@ -171,10 +184,10 @@ public class CardServiceTest {
 
     @Test
     public void updateDate() {
-        cardService.setCardDueDate(card.getId(), cardDetailDto);
+        cardService.setCardDueDate(source, card.getId(), cardDetailDto);
         assertThat(card.getEndDate()).isEqualTo(cardDetailDto.getEndDate());
 
-        cardService.updateCardDate(card.getId(), updateCardDetailDto);
+        cardService.updateCardDate(source, card.getId(), updateCardDetailDto);
         assertThat(card.getEndDate()).isEqualTo(updateCardDetailDto.getEndDate());
         assertThat(card.getCreateDate()).isEqualTo(updateCardDetailDto.getCreateDate());
 

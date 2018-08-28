@@ -472,7 +472,7 @@ class CardDetail {
     }
 
     refreshBoard() {
-        this.stompClient.send(`/app/message/board/${this.boardId}`);
+        // this.stompClient.send(`/app/message/board/${this.boardId}`);
     }
 
     selector(selector) {

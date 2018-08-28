@@ -29,6 +29,7 @@ class Card {
 
         this.card.addEventListener("click", (evt) => {
             evt.stopPropagation();
+            this.board.dragObject = null;
             this.cardDetailForm.show(this.id);
         });
 
@@ -196,7 +197,7 @@ class Card {
 
 
     unsetDraggable() {
-        if (!this.moving) return;
+        if (this === null || !this.moving) return;
 
         this.cardHolder.appendChild(this.card);
 

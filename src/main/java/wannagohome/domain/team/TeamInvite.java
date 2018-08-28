@@ -25,4 +25,9 @@ public class TeamInvite {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    public TeamInvite(User member, Team team) {
+        this.member = member;
+        this.team = team;
+    }
+
 }

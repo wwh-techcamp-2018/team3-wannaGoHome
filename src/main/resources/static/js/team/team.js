@@ -1,5 +1,7 @@
+let teamIndex;
+
 document.addEventListener("DOMContentLoaded", function(evt) {
-    const teamIndex = window.location.href.trim().split("/").pop();
+    teamIndex = window.location.href.trim().split("/").pop();
 
     fetchManager({
         url: `/api/teams/${teamIndex}`,
@@ -71,9 +73,17 @@ function drawSearchResults(status, result) {
         for(const user of result) {
             const userElem = createElementFromHTML(searchResultTemplate(user))
             $_(".user-search-bar-results").appendChild(userElem);
+            user.teamId = teamIndex;
             userElem.addEventListener("click", function(evt) {
-
-            });
+                fetchManager({
+                    url: `/api/teams/${this.teamId}/invite/${this.id}`,
+                    method: "POST",
+                    body: {},
+                    headers: {"content-type": "application/json"},
+                    callback: (status, result) => {console.log(result)}
+                });
+                document.querySelector("body").click();
+            }.bind(user));
         }
     }
 }

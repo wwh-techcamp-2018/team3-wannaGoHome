@@ -188,6 +188,7 @@
 }
 
 .user-search-box {
+    display: none;
     position: absolute;
     z-index: 10;
     width: 300px;

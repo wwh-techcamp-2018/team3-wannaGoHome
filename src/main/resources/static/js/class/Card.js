@@ -27,17 +27,21 @@ class Card {
         this.cardHolder = newCard;
         this.cardListContainer = this.task.taskWrapper.querySelector(".card-list-wrapper");
 
-        this.card.addEventListener("mousedown", function (evt) {
-            this.showflag = true;
-            this.originX = evt.clientX;
-            this.originY = evt.clientY;
-            this.moving = true;
+        this.card.addEventListener("click", (evt) => {
+            evt.stopPropagation();
+            this.board.unsetDraggable();
+            this.cardDetailForm.show(this.id);
+        });
+
+        this.card.addEventListener("mousedown", (evt) => {
 
             this.board.startDrag.x = evt.clientX;
             this.board.startDrag.y = evt.clientY;
 
-            this.setDraggable.call(this, evt);
-        }.bind(this));
+            this.board.dragObject = this;
+            this.board.dragCallBack = this.moveCardPosition;
+            this.board.dragEndCallBack = this.unsetDraggable;
+        });
     }
 
     setDraggable(evt) {
@@ -62,7 +66,7 @@ class Card {
         this.card.style.boxShadow = "2px 2px 2px 2px rgba(51,51,51,0.3)";
 
         this.board.dragObject = this;
-        this.board.dragCallBack = this.moveTaskPosition;
+        this.board.dragCallBack = this.moveCardPosition;
         this.board.dragEndCallBack = this.unsetDraggable;
 
         this.card.classList.toggle("card-list-dragging");
@@ -88,12 +92,10 @@ class Card {
         this.card.style.top = coords.y + "px";
     }
 
-    moveTaskPosition(evt) {
-        if (!this.moving) return;
-
-        if(this.getDistance(this.originX, this.originY, evt.clientX, evt.clientY) > 5) {
-            console.log("showflag");
-            this.showflag = false;
+    moveCardPosition(evt) {
+        if (!this.moving) {
+            this.moving = true;
+            this.setDraggable.call(this, evt);
         }
 
         const rect = getBoundingRect(this.card);
@@ -173,10 +175,6 @@ class Card {
 
     }
 
-    getDistance(originX, originY, currentX, currentY) {
-        return Math.sqrt(Math.pow((originX-currentX),2) + Math.pow((originY-currentY),2));
-    }
-
     getCurrentCoords(evt) {
         const coordObj = {x: evt.clientX - this.board.startDrag.x, y: evt.clientY - this.board.startDrag.y};
         return coordObj;
@@ -199,7 +197,7 @@ class Card {
 
 
     unsetDraggable() {
-        if (!this.moving) return;
+        if (this === null || !this.moving) return;
 
         this.cardHolder.appendChild(this.card);
 
@@ -218,17 +216,8 @@ class Card {
 
         this.moving = false;
 
-        if(this.showflag === true) {
-            //단순 클릭 이벤트
-            this.cardDetailForm.showCardDetailForm(this.id);
-        } else {
-            //moving event
-            this.task.reorderCard(this.id, this.destinationIndex);
-        }
+        this.task.reorderCard(this.id, this.destinationIndex);
 
-        this.showflag = false;
-        this.originX = undefined;
-        this.originY = undefined;
         // reset drag object
         this.board.unsetDraggable();
 

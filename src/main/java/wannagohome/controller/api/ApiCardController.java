@@ -26,6 +26,11 @@ public class ApiCardController {
         return cardService.findCardsByUser(user);
     }
 
+    @DeleteMapping("/{cardId}")
+    public Card deleteCard(@PathVariable Long cardId) {
+        return cardService.deleteCard(cardId);
+    }
+
     @GetMapping("/calendar")
     @ResponseStatus(HttpStatus.OK)
     public List<Card> readDueCards(@LoginUser User user) {
@@ -34,24 +39,34 @@ public class ApiCardController {
 
     @PostMapping("/{id}/date")
     @ResponseStatus(HttpStatus.CREATED)
-    public Card setCardDueDate(@PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
-        return cardService.setCardDueDate(id, cardDetailDto);
+    public Card setCardDueDate(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
+        return cardService.setCardDueDate(user, id, cardDetailDto);
     }
 
     @PutMapping("/{id}/date")
-    public Card updateCardDate(@PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
-        return cardService.updateCardDate(id, cardDetailDto);
+    public Card updateCardDate(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
+        return cardService.updateCardDate(user, id, cardDetailDto);
+    }
+
+    @DeleteMapping("/{id}/date")
+    public Card deleteCardDate(@PathVariable Long id) {
+        return cardService.deleteCardDate(id);
     }
 
     @PostMapping("/details/label/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Card setCardLabel(@LoginUser User user, @PathVariable Long id, @RequestBody CardDetailDto cardDetailDto) {
-        return cardService.setCardLabel(id, cardDetailDto);
+        return cardService.setCardLabel(user, id, cardDetailDto);
     }
 
     @PostMapping("/{cardId}/description")
     public Card updateCardDescription(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetailDto) {
         return cardService.updateCardDescription(user, cardId, cardDetailDto);
+    }
+
+    @PutMapping("/{cardId}/title")
+    public CardDetailDto updateCardTitle(@LoginUser User user, @PathVariable Long cardId, @RequestBody CardDetailDto cardDetailDto) {
+        return cardService.updateCardTitle(user, cardId, cardDetailDto);
     }
 
     @PostMapping("/{cardId}/assign")
@@ -87,18 +102,18 @@ public class ApiCardController {
 
     @GetMapping("/{cardId}/label")
     @ResponseStatus(HttpStatus.OK)
-    public List<CardLabelDto> getLabels(@PathVariable Long cardId) {
+    public List<Label> getLabels(@PathVariable Long cardId) {
         return cardService.getLabels(cardId);
     }
 
     @PostMapping("/{cardId}/label")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<CardLabelDto> addLabel(@PathVariable Long cardId, @RequestBody Label label) {
-        return cardService.addLabel(cardId, label);
+    public List<Label> addLabel(@LoginUser User user, @PathVariable Long cardId, @RequestBody Label label) {
+        return cardService.addLabel(user, cardId, label);
     }
 
     @DeleteMapping("/{cardId}/label")
-    public List<CardLabelDto> deleteLabel(@PathVariable Long cardId, @RequestBody Label label) {
+    public List<Label> deleteLabel(@PathVariable Long cardId, @RequestBody Label label) {
         return cardService.deleteLabel(cardId, label.getId());
     }
 

@@ -75,7 +75,7 @@ class Calendar {
         this.calendar.on({
             'clickSchedule': function (e) {
                 console.log(e.schedule);
-                this.board.cardDetailForm.showCardDetailForm(e.schedule.id);
+                this.board.cardDetailForm.show(e.schedule.id);
             }.bind(this)
         })
     }

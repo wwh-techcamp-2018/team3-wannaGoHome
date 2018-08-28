@@ -1,6 +1,7 @@
 package wannagohome.domain.card;
 
 import lombok.*;
+import wannagohome.domain.user.User;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ public class CardDetailDto {
     private Date endDate;
     private Date createDate;
     private List<Label> labels;
+    private List<Label> allLabels;
+    private List<User> assignees;
 
     private Long userId;
 
@@ -27,10 +30,16 @@ public class CardDetailDto {
 
     private String description;
 
-    public CardDetailDto(String cardTitle, String taskTitle, String description, List<Comment> comments) {
-        this.cardTitle = cardTitle;
-        this.taskTitle = taskTitle;
-        this.description = description;
-        this.comments = comments;
+    public static CardDetailDto valueOf(Card card, List<Label> allLabels) {
+        return CardDetailDto.builder()
+                .cardTitle(card.getTitle())
+                .taskTitle(card.getTask().getTitle())
+                .description(card.getDescription())
+                .comments(card.getComments())
+                .labels(card.getLabels())
+                .allLabels(allLabels)
+                .assignees(card.getAssignees())
+                .endDate(card.getEndDate())
+                .build();
     }
 }

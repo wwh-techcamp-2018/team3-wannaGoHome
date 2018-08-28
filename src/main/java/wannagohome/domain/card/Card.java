@@ -8,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import wannagohome.domain.board.Board;
 import wannagohome.domain.error.ErrorType;
+import wannagohome.domain.file.Attachment;
 import wannagohome.domain.task.Task;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
@@ -81,6 +82,10 @@ public class Card {
 
     private Integer orderId;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "card")
+    private List<Attachment> attachments;
+
     @JsonIgnore
     public Board getBoard() {
         return task.getBoard();
@@ -98,12 +103,14 @@ public class Card {
     }
 
     public CardDto getCardDto() {
-        CardDto cardDto = new CardDto();
-        cardDto.setId(id);
-        cardDto.setAuthor(author);
-        cardDto.setCreateDate(createDate);
-        cardDto.setTitle(title);
-        return  cardDto;
+        return CardDto.builder()
+                .id(id)
+                .author(author)
+                .createDate(createDate)
+                .title(title)
+                .labels(labels)
+                .dueDate(endDate)
+                .build();
     }
 
     public boolean equalsId(Long id) {
@@ -115,6 +122,10 @@ public class Card {
             throw new BadRequestException(ErrorType.CARD_ASSIGN_ALREADY_EXIST, "이미 존재하는 유저입니다.");
         }
         assignees.add(assignee);
+    }
+
+    public void addAttachment(Attachment attachment) {
+        this.attachments.add(attachment);
     }
 
     public void dischargeAssignee(User assignee) {
@@ -145,5 +156,16 @@ public class Card {
             throw new BadRequestException(ErrorType.CARD_LABEL_NOT_EXIST, "해당 라벨은 카드에 존재하지 않습니다.");
         }
         labels.remove(getLabel);
+    }
+
+    public void removeDueDate() {
+        if(this.endDate == null) {
+            throw new BadRequestException(ErrorType.CARD_DUE_DATE_NOT_EXIST, "카드에 Due Date가 존재하지 않습니다.");
+        }
+        this.endDate = null;
+    }
+
+    public void delete() {
+        deleted = true;
     }
 }

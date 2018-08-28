@@ -3,11 +3,9 @@ class Board {
         this.calendar;
         this.taskList = [];
         this.stompClient = null;
-        this.smallCalendar = new SmallCalendar();
-        this.cardDetailForm = new CardDetail();
-        this.cardDetailForm.smallCalendar = this.smallCalendar;
-        this.smallCalendar.cardDetail = this.cardDetailForm;
+        this.boardIndex = window.location.href.trim().split("/").pop();
 
+        this.cardDetailForm = new CardDetail(this.boardIndex);
         // placeholder to hold mousedown coords
         this.startDrag = {x: 0, y: 0};
 
@@ -28,7 +26,6 @@ class Board {
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
-        this.boardIndex = window.location.href.trim().split("/").pop();
         this.connectSocket();
     }
 
@@ -162,6 +159,7 @@ class Board {
 
             }.bind(this));
 
+            this.cardDetailForm.setClient(this.stompClient);
             this.fetchBoardState();
 
         }.bind(this))

@@ -2,6 +2,7 @@ package wannagohome.service.file;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,8 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -70,6 +73,20 @@ public class S3Service {
 
     private boolean removeNewFile(File targetFile) {
         return targetFile.delete();
+    }
+
+    public void delete(String link, String dirName) {
+        amazonS3Client.deleteObject(new DeleteObjectRequest(BUCKET_NAME, getKey(link, dirName)));
+    }
+
+    private String getKey(String link, String dirName) {
+        try {
+            String decodeLink = URLDecoder.decode(link, "UTF-8");
+            return decodeLink.substring(decodeLink.indexOf(dirName), decodeLink.length());
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new UnsupportedFileFormatException(ErrorType.UNSUPPORTED_FILE, "파일 링크 잘못됐습니다.");
+        }
     }
 
 }

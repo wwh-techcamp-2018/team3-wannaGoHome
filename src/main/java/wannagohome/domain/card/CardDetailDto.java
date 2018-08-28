@@ -29,4 +29,16 @@ public class CardDetailDto {
     private List<Comment> comments;
 
     private String description;
+
+    public static CardDetailDto valueOf(Card card, List<Label> allLabels) {
+        return CardDetailDto.builder()
+                .cardTitle(card.getTitle())
+                .taskTitle(card.getTask().getTitle())
+                .description(card.getDescription())
+                .comments(card.getComments())
+                .labels(card.getLabels())
+                .allLabels(allLabels)
+                .assignees(card.getAssignees())
+                .build();
+    }
 }

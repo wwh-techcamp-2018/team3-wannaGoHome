@@ -46,6 +46,7 @@ class CreateBoard {
         this.initializeFormValue();
         this.node.parentElement.classList.toggle("scroll-overflow");
         this.node.style.display = "";
+        limitInputSize(this.titleNode,20);
         this.titleNode.focus();
     }
 

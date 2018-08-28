@@ -43,15 +43,36 @@ a:hover {
     display: block;
     text-decoration: underline;
 }
-.profile-image-section {
-    background-size: 85px 85px;
-    border-radius: 3px;
-    display: block;
+/*.profile-image-section {*/
+    /*background-size: 85px 85px;*/
+    /*border-radius: 3px;*/
+    /*display: block;*/
+    /*height: 85px;*/
+    /*left: 0;*/
+    /*top: 0;*/
+    /*width: 85px;*/
+    /*z-index: 2;*/
+/*}*/
+
+.profile-image-section-holder .profile-image-section {
+    display: none;
+    position: absolute;
     height: 85px;
-    left: 0;
-    top: 0;
+    left: 0px;
+    top: 0px;
     width: 85px;
     z-index: 2;
+    background-size: 85px 85px;
+}
+.profile-image-section-holder .profile-image-long {
+    max-width: 85px;
+    transform: translateY(-50%);
+    margin-top: 50%;
+}
+.profile-image-section-holder .profile-image-wide {
+    max-height: 85px;
+    transform: translateX(-50%);
+    margin-left: 50%;
 }
 
 .profile-image-change-text {
@@ -115,7 +136,7 @@ a:hover {
     padding: 32px;
     position: relative;
     max-height: 470px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .maypage-team-holder, .maypage-activity-holder, .mypage-invitation-holder {
@@ -205,6 +226,8 @@ a:hover {
     padding-left: 0px;
     padding-bottom: 32px;
     position: relative;
+    max-height: 470px;
+    overflow: auto;
 }
 
 .invitation-title-holder {
@@ -446,4 +469,67 @@ a:hover {
     margin: 0 0 0 0;
     display: none;
     font-size: 15px;
+}
+
+.profile-content-update-holder {
+    display: block;
+    margin-top: 0px;
+    display: none;
+}
+
+.content-update-label {
+    color: #8c8c8c;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    text-align: left;
+
+}
+
+.content-update-input {
+    transition: background 85ms ease-in,border-color 85ms ease-in;
+    width: 250px;
+    box-sizing: border-box;
+    background-color: #e2e4e6;
+    border: 1px solid #cdd2d4;
+    border-radius: 3px;
+    display: block;
+    margin-bottom: 12px;
+    padding: 6px 8px;
+}
+
+.content-update-input::placeholder{
+    color: #e25b52;
+}
+
+
+.content-update-submit {
+    background: #5aac44;
+    box-shadow: 0 1px 0 #519839;
+    color: #fff;
+    transition: background .3s ease;
+    padding: 6px 18px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+}
+
+.content-update-cancel {
+    background: #959da1;
+    box-shadow: 0 1px 0 0 #959da1;
+    color: #fff;
+    transition: background .3s ease;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
 }

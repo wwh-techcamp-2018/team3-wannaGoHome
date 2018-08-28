@@ -21,7 +21,6 @@ import javax.validation.Valid;
 @RequestMapping("/api/users")
 public class ApiUserController {
 
-    private static final Logger log = LoggerFactory.getLogger(ApiUserController.class);
     @Autowired
     private UserService userService;
 
@@ -73,8 +72,13 @@ public class ApiUserController {
 
     @PostMapping("/profile")
     public UserDto changeProfile(@LoginUser User user, @RequestPart MultipartFile file){
-        log.debug("contentType : {}" ,file.getContentType());
         user.setProfile(imageUploadService.fileUpload(file));
+        return UserDto.valueOf(userService.save(user));
+    }
+
+    @PutMapping("/profile")
+    public UserDto changeName(@LoginUser User user, @Valid @RequestBody UserDto userDto){
+        user.setName(userDto.getName());
         return UserDto.valueOf(userService.save(user));
     }
 

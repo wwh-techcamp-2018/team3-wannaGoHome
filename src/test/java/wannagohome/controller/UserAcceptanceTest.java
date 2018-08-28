@@ -4,15 +4,16 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import wannagohome.domain.error.ErrorEntity;
 import wannagohome.domain.error.ErrorType;
-import wannagohome.domain.user.SignInDto;
-import wannagohome.domain.user.SignUpDto;
-import wannagohome.domain.user.User;
+import wannagohome.domain.user.*;
+import wannagohome.repository.ActivityRepository;
 import wannagohome.support.AcceptanceTest;
+import wannagohome.support.RequestEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,9 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Test
     public void signUp() {
@@ -91,5 +95,58 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(signInDto.getEmail()).isEqualTo(user.getEmail());
         assertThat(passwordEncoder.matches(signInDto.getPassword(), user.getPassword())).isTrue();
     }
+
+    @Test
+    public void profile() {
+        activityRepository.deleteAll();
+        SignInDto signInDto = new SignInDto("songintae@woowahan.com", "password1");
+        RequestEntity requestEntity= new RequestEntity.Builder()
+                .withUrl("/api/users/profile")
+                .withMethod(HttpMethod.GET)
+                .withReturnType(MyPageDto.class)
+                .build();
+
+        ResponseEntity<MyPageDto> responseEntity = basicAuthRequest(requestEntity, signInDto);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().getTeams().size()).isEqualTo(1);
+        assertThat(responseEntity.getBody().getActivities().size()).isEqualTo(0);
+        assertThat(responseEntity.getBody().getUser().getEmail()).isEqualTo(signInDto.getEmail());
+    }
+
+    @Test
+    public void initializeProfile() {
+        SignInDto signInDto = new SignInDto("songintae@woowahan.com", "password1");
+        RequestEntity requestEntity= new RequestEntity.Builder()
+                .withUrl("/api/users/profile/init")
+                .withMethod(HttpMethod.POST)
+                .withReturnType(UserDto.class)
+                .build();
+
+        ResponseEntity<UserDto> responseEntity = basicAuthRequest(requestEntity, signInDto);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().getProfile()).isEqualTo(User.DEFAULT_PROFILE);
+    }
+
+    @Test
+    public void changeName() {
+        SignInDto signInDto = new SignInDto("songintae@woowahan.com", "password1");
+        UserDto userDto = UserDto.valueOf(
+                User.builder()
+                        .name("kookooku")
+                        .build()
+        );
+
+        RequestEntity requestEntity= new RequestEntity.Builder()
+                .withUrl("/api/users/profile")
+                .withMethod(HttpMethod.PUT)
+                .withBody(userDto)
+                .withReturnType(UserDto.class)
+                .build();
+
+        ResponseEntity<UserDto> responseEntity = basicAuthRequest(requestEntity, signInDto);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().getName()).isEqualTo("kookooku");
+    }
+
 
 }

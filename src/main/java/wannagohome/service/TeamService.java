@@ -1,5 +1,7 @@
 package wannagohome.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,7 +24,9 @@ import wannagohome.repository.UserIncludedInTeamRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +40,8 @@ public class TeamService {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+    
+    private static final Logger log = LoggerFactory.getLogger(TeamService.class);
 
     @Transactional
     @Caching(
@@ -94,6 +100,17 @@ public class TeamService {
     public List<Team> findByUser(User user) {
         return userIncludedInTeamRepository.findAllByUser(user)
                 .stream().map(UserIncludedInTeam::getTeam).collect(Collectors.toList());
+    }
+
+    public List<UserDto> findUsersByKeyword(Long teamId, String keyword) {
+        Team team = teamRepository.findById(teamId).get();
+        Set<UserIncludedInTeam> userIncludedInTeams =
+                new HashSet(userIncludedInTeamRepository.findAllByTeamNotAndUserNameContainingIgnoreCase(team, keyword));
+        Set<UserIncludedInTeam> userIncludedInTeams1 =
+                new HashSet(userIncludedInTeamRepository.findAllByTeamNotAndUserEmailContainingIgnoreCase(team, keyword));
+        userIncludedInTeams.addAll(userIncludedInTeams1);
+        return new ArrayList<UserIncludedInTeam>(userIncludedInTeams).stream()
+                .map(user -> UserDto.userDtoWithPermission(user)).collect(Collectors.toList());
     }
 
     private UserIncludedInTeam confirmAuthorityOfUser(User user, Team team) {

@@ -42,6 +42,12 @@ public class ApiTeamController {
         return teamService.findByTeam(teamService.findTeamById(id));
     }
 
+    @GetMapping("/{id}/search/{queryString}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDto> searchResults(@PathVariable Long id, @PathVariable String queryString) {
+        return teamService.findUsersByKeyword(id, queryString);
+    }
+
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     public List<Team> readTeams(@LoginUser User user) {

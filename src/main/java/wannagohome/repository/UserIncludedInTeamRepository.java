@@ -12,5 +12,7 @@ public interface UserIncludedInTeamRepository extends CrudRepository<UserInclude
     List<UserIncludedInTeam> findAllByUser(User user);
     Optional<UserIncludedInTeam> findByUserAndTeam(User user, Team team);
 
+    List<UserIncludedInTeam> findAllByTeamNotAndUserNameContainingIgnoreCase(Team ignoreTeam, String keyword);
+    List<UserIncludedInTeam> findAllByTeamNotAndUserEmailContainingIgnoreCase(Team ignoreTeam, String keyword);
     List<UserIncludedInTeam> findAllByTeam(Team team);
 }

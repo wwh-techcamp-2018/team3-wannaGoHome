@@ -78,6 +78,10 @@
         <div class="card-detail-summary-wrapper">
             <div class="card-detail-summary-members"></div>
             <div class="card-detail-summary-due-date"></div>
+            <div class="card-detail-summary-attachment-wrapper">
+                <div class="card-detail-summary-attachment-title"></div>
+                <div class="card-detail-summary-attachment-list" style="display: none"></div>
+            </div>
             <div class="card-detail-summary-labels" style="display: block"></div>
         </div>
 
@@ -128,7 +132,11 @@
                 </div>
 
             </div>
-            <div class="card-detail-side-button"><i class="fas fa-file-upload"></i> Attachment</div>
+            <div class="filebox card-detail-side-button">
+                <label for="card-detail-file-upload"><i class="fas fa-file-upload"></i> Attachment</label>
+                <input type="file" id="card-detail-file-upload">
+            </div>
+
             <div class="card-detail-side-button delete"><i class="far fa-trash-alt"></i> Delete</div>
         </div>
     </div>
@@ -169,6 +177,7 @@
         {{precompile "precompile/board/card_assignee_item_template"}}
         {{precompile "precompile/board/task_options_template"}}
         {{precompile "precompile/board/card_detail_label_summary_template"}}
+        {{precompile "precompile/board/card_detail_file_list_template"}}
     </script>
 {{/partial}}
 {{#partial "contents"}}

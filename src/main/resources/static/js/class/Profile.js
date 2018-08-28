@@ -51,17 +51,11 @@ class Profile {
             if(uploadFiles.length !== 0) {
                 fileFetchManager({
                     url: "/api/users/profile",
-                    body: this.getProfileFormData(uploadFiles),
+                    body: getFileFormData(uploadFiles),
                     callback: this.handleUploadProfileImage.bind(this)
                 })
             }
         }.bind(this);
-    }
-
-    getProfileFormData(uploadFiles) {
-        const body = new FormData();
-        body.append("file", uploadFiles[0]);
-        return body;
     }
 
     showProfileImageHolder() {

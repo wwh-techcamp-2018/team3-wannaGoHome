@@ -7,5 +7,6 @@ public interface Activity {
 
     String getCode();
     Date getRegisteredDate();
+    String getLink();
 }
 

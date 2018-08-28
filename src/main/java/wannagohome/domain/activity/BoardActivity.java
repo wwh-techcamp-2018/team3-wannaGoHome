@@ -42,6 +42,11 @@ public class BoardActivity extends AbstractActivity {
     }
 
     @Override
+    public String getLink() {
+        return "/board/" + getBoard().getId();
+    }
+
+    @Override
     public Board getBoard() {
         return board;
     }

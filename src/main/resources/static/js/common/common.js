@@ -117,9 +117,12 @@ function imageDimensions(img) {
     }
 }
 
-function setOverlayClickFunctions(elem, clickCallBack, backgroundCallBack) {
+function setOverlayClickFunctions(elem, stopPropagateElem, clickCallBack, backgroundCallBack) {
+    stopPropagateElem.addEventListener("click", function(evt) {
+        evt.stopPropagation();
+    });
     elem.addEventListener("click", function(evt) {
-        elem.stopPropagation();
+        evt.stopPropagation();
         document.querySelector("body").click();
         clickCallBack(evt);
     });

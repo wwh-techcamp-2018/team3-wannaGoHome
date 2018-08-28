@@ -20,18 +20,18 @@ class Notification {
                 const {topic, messages} = JSON.parse(frame.body);
                 this.initSubscription(topic);
                 this.handleNotification(messages);
+                this.bell.classList.remove("notification-swing");
 
             });
 
             this.stompClient.send("/app/activity/init");
         });
 
-        this.notificationButton.addEventListener("click", (evt) => {
-            this.onClickNotificationButton();
-        });
         this.showMoreButton.addEventListener("click", (evt) => {
             this.onClickShowMoreButton();
         });
+
+        setOverlayClickFunctions(this.notificationButton, this.holder, this.showNotification.bind(this), this.hideNotification.bind(this));
     }
 
     initSubscription(topic) {
@@ -70,10 +70,16 @@ class Notification {
         this.scrollable.scrollTop = this.scrollable.scrollHeight;
     }
 
-    onClickNotificationButton() {
+    showNotification(evt) {
+        evt.stopPropagation();
         this.holder.classList.toggle("header-notification-hide");
-        if (!this.holder.classList.contains("header-notification-hide")) {
-            this.bell.classList.remove("notification-swing");
+        this.bell.classList.remove("notification-swing");
+    }
+
+    hideNotification(evt) {
+        evt.stopPropagation();
+        if(!this.holder.classList.contains("header-notification-hide")) {
+            this.holder.classList.toggle("header-notification-hide");
         }
     }
 

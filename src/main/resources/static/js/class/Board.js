@@ -28,8 +28,8 @@ class Board {
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
-        this.boardIndex = window.location.href.trim().split("/").pop();
         this.connectSocket();
+        this.boardIndex = window.location.href.trim().split("/").pop();
     }
 
     addListeners() {

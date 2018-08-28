@@ -35,6 +35,12 @@ public class ApiTeamController {
         return teamService.findTeamById(id);
     }
 
+    @GetMapping("/{id}/members")
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> teamMembers(@PathVariable Long id) {
+        return teamService.findByTeam(teamService.findTeamById(id));
+    }
+
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     public List<Team> readTeams(@LoginUser User user) {

@@ -1,0 +1,239 @@
+.team-page-header {
+    background-color: #edeff0;
+}
+
+.team-profile-holder {
+    display: block;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 650px;
+    height: 150px;
+    padding: 32px;
+    position: relative;
+}
+
+.team-profile-content {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-content {
+    display: inline-block;
+    width: 490px;
+    padding-left: 14px;
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+.team-profile-image {
+    display: inline-block;
+    width: 85px;
+    height: 85px;
+    overflow: hidden;
+    border-radius: 100px;
+    position: relative;
+}
+
+.team-profile-image img {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.team-profile-content-description {
+
+}
+
+.team-profile-name {
+    display: inline;
+    font-size: 1.5em;
+}
+
+.team-profile-email {
+    display: inline-block;
+    font-size: 0.8em;
+    color: #8c8c8c;
+    margin: 0 2px;
+}
+
+.team-profile-edit-button {
+    margin-top: 10px;
+    background: #e2e4e6;
+    box-shadow: 0 1px 0 0 #c4c9cc;
+    cursor: pointer;
+    height: 32px;
+    border-radius: 3px;
+    font-weight: 700;
+    width: 130px;
+}
+
+.team-page-content {
+    width: 600px;
+    padding-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.team-page-title {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.team-page-subtitle {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.invite-team-button-holder {
+    margin-top: 8px;
+    text-align: right;
+}
+
+.invite-team-button {
+
+    display: inline-block;
+    background-color: #61bd4f;
+    padding: 6px 8px 6px 11px;
+    color: #FFF;
+    font-size: 0.9em;
+    border-radius: 3px;
+}
+
+.invite-team-button i {
+    margin-right: 6px;
+}
+
+.team-users-holder {
+    margin-top: 32px;
+    border-top: 1px solid #d6dadc;
+}
+
+.team-user-container {
+    height: 68px;
+    position: relative;
+    border-bottom: 1px solid #d6dadc;
+    padding: 12px 0 12px 38px;
+}
+
+.team-user-container .profile-image-holder {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    top: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.team-user-container .profile-image-holder > img.profile-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    max-height: 32px;
+}
+
+.team-user-container {
+
+}
+
+.details {
+    display: inline-block;
+    margin-left: 4px;
+    width: 230px;
+}
+
+.details .profile-name {
+    display: block;
+    font-weight: bold;
+}
+
+.details .profile-email {
+    display: block;
+    font-size: 0.9em;
+    color: #8c8c8c;
+}
+
+.profile-options-holder {
+    vertical-align: top;
+    display: inline-block;
+    padding-top: 4px;
+    float: right;
+}
+
+.profile-options-holder button {
+    background-color: #e2e4e6;
+    font-weight: bold;
+    font-size: 0.95em;
+    padding: 6px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 0 #c4c9cc;
+    margin-right: 2px;
+}
+
+.profile-options-holder button:last-child {
+    margin-right: 0px;
+}
+
+.rights-button i {
+    margin-left: 12px;
+}
+
+.remove-button i {
+    margin-left: 6px;
+    margin-right: 4px;
+}
+
+.user-search-box {
+    display: none;
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    z-index: 10;
+    width: 300px;
+    padding: 0 10px;
+    background-color: #FFF;
+    border: 1px solid #d6dadc;
+    border-radius: 3px;
+}
+
+.user-search-box-title {
+    color: #8c8c8c;
+    padding: 8px 0;
+    text-align: center;
+    border-bottom: 1px solid #d6dadc;
+}
+
+.user-search-content {
+    padding-top: 20px;
+}
+
+.user-search-title {
+    font-weight: bold;
+}
+
+.user-search-title i {
+    color: #8c8c8c;
+    font-size: 0.9em;
+    margin-left: 4px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.user-search-bar-holder {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.user-search-bar-holder input {
+    display: inline-block;
+    padding: 4px 6px;
+    width: 100%;
+    border: 1px #acacac solid;
+    background-color: #dddddd;
+    border-radius: 3px;
+}
+

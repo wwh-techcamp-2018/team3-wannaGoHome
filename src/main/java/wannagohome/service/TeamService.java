@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import wannagohome.domain.board.Board;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.Team;
@@ -14,6 +15,7 @@ import wannagohome.domain.user.UserIncludedInTeam;
 import wannagohome.domain.user.UserPermission;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
+import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
@@ -75,9 +77,25 @@ public class TeamService {
         return teamRepository.findAll();
     }
 
+    public Team viewTeam(Long id, User user) {
+        Team team = teamRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new NotFoundException(ErrorType.TEAM_NAME, "Team이 존재하지 않습니다."));
+        confirmAuthorityOfUser(user, team);
+        return team;
+    }
+
+    public List<User> findByTeam(Team team) {
+        return userIncludedInTeamRepository.findAllByTeam(team)
+                .stream().map(UserIncludedInTeam::getUser).collect(Collectors.toList());
+    }
 
     public List<Team> findByUser(User user) {
         return userIncludedInTeamRepository.findAllByUser(user)
                 .stream().map(UserIncludedInTeam::getTeam).collect(Collectors.toList());
+    }
+
+    private UserIncludedInTeam confirmAuthorityOfUser(User user, Team team) {
+        return userIncludedInTeamRepository.findByUserAndTeam(user,team)
+                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Team에 접근할 권한이 없습니다."));
     }
 }

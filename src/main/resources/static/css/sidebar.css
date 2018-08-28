@@ -39,6 +39,10 @@
     width: 100%;
 }
 
+.sidebar-team-list a {
+    color: inherit;
+}
+
 .sidebar-team-list > li:hover {
     cursor: pointer;
     background-color: #e2e4e6;

@@ -43,7 +43,7 @@ public class ActivityServiceTest extends SpringTest {
     private User user;
     private Team team;
     private Board board;
-    List<AbstractActivity> activities;
+    private List<AbstractActivity> activities;
 
     @Before
     public void setUp() throws UnsupportedEncodingException {

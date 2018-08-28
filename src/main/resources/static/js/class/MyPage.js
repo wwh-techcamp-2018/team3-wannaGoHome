@@ -26,25 +26,25 @@ class MyPage {
     }
 
     addProfileImgClickEvent() {
-        this.profileHolder.querySelector(".profile-image").addEventListener("click", (evt) => {
+        this.profileHolderSelector(".profile-image").addEventListener("click", (evt) => {
             evt.stopPropagation();
             this.profileImegeHolder.showProfileImageHolder();
         });
     }
 
     addEditProfileClickEvent() {
-        this.profileHolder.querySelector(".profile-edit-button").addEventListener("click", (evt) => {
+        this.profileHolderSelector(".profile-edit-button").addEventListener("click", (evt) => {
             evt.stopPropagation();
-            this.profileHolder.querySelector(".content-update-input").value
-                = this.profileHolder.querySelector(".profile-name").innerHTML;
+            this.profileHolderSelector(".content-update-input").value
+                = this.profileHolderSelector(".profile-name").innerHTML;
             this.showProfileContentUpdateHolder();
         })
     }
 
     addContentUpdateSubmitClickEvent() {
-        this.profileHolder.querySelector(".content-update-submit").addEventListener("click", (evt) => {
+        this.profileHolderSelector(".content-update-submit").addEventListener("click", (evt) => {
             evt.stopPropagation();
-            const name = this.profileHolder.querySelector(".content-update-input").value;
+            const name = this.profileHolderSelector(".content-update-input").value;
             const obj = {
                 "name" : name
             }
@@ -57,23 +57,34 @@ class MyPage {
         })
     }
     addContentUpdateCancelClickEvent() {
-        this.profileHolder.querySelector(".content-update-cancel").addEventListener("click", (evt) => {
+        this.profileHolderSelector(".content-update-cancel").addEventListener("click", (evt) => {
             evt.stopPropagation();
             this.hideProfileContentUpdateHolder();
         })
     }
 
+    addProfileImageLoadedEvent() {
+        this.profileHolderSelector(".profile-image-section").addEventListener("load", (evt) => {
+            if(imageDimensions(evt.currentTarget)) {
+                evt.currentTarget.classList.toggle("profile-image-wide")
+            } else {
+                evt.currentTarget.classList.toggle("profile-image-long")
+            }
+            evt.currentTarget.style.display = "inline-block";
+        });
+    }
+
     showProfileContentUpdateHolder() {
-        this.profileHolder.querySelector(".profile-content-update-holder").style.display = "block";
-        this.profileHolder.querySelector(".profile-content-description").style.display = "none";
-        this.profileHolder.querySelector(".profile-edit-button").style.display = "none";
+        this.profileHolderSelector(".profile-content-update-holder").style.display = "block";
+        this.profileHolderSelector(".profile-content-description").style.display = "none";
+        this.profileHolderSelector(".profile-edit-button").style.display = "none";
     }
 
     hideProfileContentUpdateHolder() {
-        this.profileHolder.querySelector(".profile-content-update-holder").style.display = "none";
-        this.profileHolder.querySelector(".profile-content-description").style.display = "block";
-        this.profileHolder.querySelector(".profile-edit-button").style.display = "block";
-        this.profileHolder.querySelector(".content-update-input").placeholder = "";
+        this.profileHolderSelector(".profile-content-update-holder").style.display = "none";
+        this.profileHolderSelector(".profile-content-description").style.display = "block";
+        this.profileHolderSelector(".profile-edit-button").style.display = "block";
+        this.profileHolderSelector(".content-update-input").placeholder = "";
 
     }
 
@@ -92,7 +103,10 @@ class MyPage {
     drawProfile(user) {
         const template = Handlebars.templates["precompile/mypage/mypage_profile_template"];
         this.profileHolder.appendChild(createElementFromHTML(template(user)));
+        this.addProfileImageLoadedEvent();
+        limitInputSize(this.profileHolderSelector(".content-update-input"), 10);
     }
+
 
     drawTeam(teams) {
         const template = Handlebars.templates["precompile/mypage/mypage_team_template"];
@@ -129,18 +143,22 @@ class MyPage {
 
     handleProfileContentUpdate(status, response) {
         if(status === 200) {
-            this.profileHolder.querySelector(".profile-name").innerHTML = response.name;
+            this.profileHolderSelector(".profile-name").innerHTML = response.name;
             this.hideProfileContentUpdateHolder();
             return;
         }
 
-        const contentUpdateInputNode = this.profileHolder.querySelector(".content-update-input");
+        const contentUpdateInputNode = this.profileHolderSelector(".content-update-input");
         contentUpdateInputNode.value = "";
         contentUpdateInputNode.placeholder = response[0].message;
     }
 
     getActivityRegisteredDate(activity) {
         return activity.querySelector(".activity-time").innerText;
+    }
+
+    profileHolderSelector(selector) {
+        return this.profileHolder.querySelector(selector);
     }
 
 }

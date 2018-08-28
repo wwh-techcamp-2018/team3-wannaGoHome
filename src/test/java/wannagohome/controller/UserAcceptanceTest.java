@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import wannagohome.domain.error.ErrorEntity;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.user.*;
+import wannagohome.repository.ActivityRepository;
 import wannagohome.support.AcceptanceTest;
 import wannagohome.support.RequestEntity;
 
@@ -27,6 +28,9 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Test
     public void signUp() {
@@ -94,6 +98,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void profile() {
+        activityRepository.deleteAll();
         SignInDto signInDto = new SignInDto("songintae@woowahan.com", "password1");
         RequestEntity requestEntity= new RequestEntity.Builder()
                 .withUrl("/api/users/profile")

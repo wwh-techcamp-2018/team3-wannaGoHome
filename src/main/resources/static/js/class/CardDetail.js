@@ -40,6 +40,7 @@ class CardDetail {
 
             }
         }.bind(this));
+        limitInputSize(this.cardTitleEditText, 20);
 
         this.selector(".card-comment-save-button").addEventListener("click", this.onClickAddCommentButton.bind(this));
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
@@ -189,14 +190,14 @@ class CardDetail {
             url: `/api/cards/${this.cardId}/date`,
             method: "DELETE",
             callback: this.handleDeleteDueDate.bind(this)
-        })
+        });
     }
     onChangeAssigneeSearch() {
         fetchManager({
             url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
             method: "GET",
             callback: this.handleUpdateAssignee.bind(this)
-        })
+        });
     }
 
     onEnterKeyPress(evt) {
@@ -272,7 +273,6 @@ class CardDetail {
         if (status !== 200) {
             return;
         }
-
         this.drawCardForm(body)
     }
 

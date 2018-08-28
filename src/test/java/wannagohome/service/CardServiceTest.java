@@ -7,7 +7,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import wannagohome.domain.board.Board;
 import wannagohome.domain.card.*;
+import wannagohome.domain.task.Task;
 import wannagohome.domain.user.User;
 import wannagohome.repository.CardRepository;
 import wannagohome.repository.LabelRepository;
@@ -15,7 +18,6 @@ import wannagohome.repository.LabelRepository;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +37,9 @@ public class CardServiceTest {
     @Mock
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Mock
+    private SimpMessageSendingOperations simpMessageSendingOperations;
+
     @InjectMocks
     private CardService cardService;
 
@@ -42,15 +47,19 @@ public class CardServiceTest {
 
     private CardDetailDto updateCardDetailDto;
 
+    private Board board;
+
+    private Task task;
+
     private Card card;
 
     private Label label;
 
-    private User source;
+    private User user;
 
     @Before
     public void setUp() throws Exception {
-        source = User.builder()
+        user = User.builder()
                 .email("yeon@woowahan.com")
                 .name("jhyang")
                 .password("kookoointae")
@@ -90,6 +99,18 @@ public class CardServiceTest {
                 .labels(new ArrayList<>())
                 .build();
 
+        board = Board.builder()
+                .tasks(new ArrayList<>())
+                .build();
+
+        task = Task.builder()
+                .cards(Arrays.asList(card))
+                .board(board)
+                .build();
+
+        board.addTask(task);
+        card.setTask(task);
+
         when(cardRepository.findById(card.getId())).thenReturn(Optional.ofNullable(card));
         when(cardRepository.save(card)).thenReturn(card);
         when(labelRepository.findById(label.getId())).thenReturn(Optional.ofNullable(label));
@@ -97,7 +118,7 @@ public class CardServiceTest {
 
     @Test
     public void setCardDueDate() {
-        cardService.setCardDueDate(source, card.getId(), cardDetailDto);
+        cardService.setCardDueDate(user, card.getId(), cardDetailDto);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(1)).findById((any()));
         assertThat(card.getEndDate()).isEqualTo(cardDetailDto.getEndDate());
@@ -105,7 +126,7 @@ public class CardServiceTest {
 
     @Test
     public void setCardLabel() {
-        cardService.setCardLabel(source, card.getId(), cardDetailDto);
+        cardService.setCardLabel(user, card.getId(), cardDetailDto);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(1)).findById((any()));
         assertThat(card.getLabels()).contains(label);
@@ -135,7 +156,7 @@ public class CardServiceTest {
                         .color(LabelColor.BLUE)
                         .build()
         );
-        cardService.addLabel(source, card.getId(), label);
+        cardService.addLabel(user, card.getId(), label);
         verify(cardRepository, times(1)).save(any());
         verify(cardRepository, times(1)).findById((any()));
         assertThat(card.getLabels()).contains(label);
@@ -165,7 +186,7 @@ public class CardServiceTest {
                         .color(LabelColor.BLUE)
                         .build()
         );
-        cardService.addLabel(source, card.getId(), label);
+        cardService.addLabel(user, card.getId(), label);
         List<Label> labels = cardService.getLabels(card.getId());
         assertThat(labels.size()).isEqualTo(1);
         verify(cardRepository, times(1)).save(any());
@@ -175,7 +196,7 @@ public class CardServiceTest {
     @Test
     public void add_deleteLabel() {
         when(labelRepository.findById(label.getId())).thenReturn(Optional.ofNullable(label));
-        cardService.addLabel(source, card.getId(), label);
+        cardService.addLabel(user, card.getId(), label);
         cardService.deleteLabel(card.getId(), label.getId());
         List<Label> labels = cardService.getLabels(card.getId());
         assertThat(labels.size()).isEqualTo(0);
@@ -184,10 +205,10 @@ public class CardServiceTest {
 
     @Test
     public void updateDate() {
-        cardService.setCardDueDate(source, card.getId(), cardDetailDto);
+        cardService.setCardDueDate(user, card.getId(), cardDetailDto);
         assertThat(card.getEndDate()).isEqualTo(cardDetailDto.getEndDate());
 
-        cardService.updateCardDate(source, card.getId(), updateCardDetailDto);
+        cardService.updateCardDate(user, card.getId(), updateCardDetailDto);
         assertThat(card.getEndDate()).isEqualTo(updateCardDetailDto.getEndDate());
         assertThat(card.getCreateDate()).isEqualTo(updateCardDetailDto.getCreateDate());
 

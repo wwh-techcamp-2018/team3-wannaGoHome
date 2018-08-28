@@ -245,12 +245,10 @@ class CardDetail {
             return;
         }
         this.hide();
-        this.refreshBoard();
     }
 
     handleUpdateLabel(status, labels) {
         this.drawLabels(labels);
-        this.refreshBoard();
     }
 
     handleLabels() {
@@ -333,7 +331,6 @@ class CardDetail {
         }.bind(this));
         this.labelList = this.labelListContainer.querySelectorAll("li");
         this.handleLabels();
-        this.refreshBoard();
     }
 
     drawLabels(labels) {
@@ -471,10 +468,6 @@ class CardDetail {
 
     get assigneeSearchKeyword() {
         return this.assigneeSearchBox.value;
-    }
-
-    refreshBoard() {
-        this.stompClient.send(`/app/message/board/${this.boardId}`);
     }
 
     selector(selector) {

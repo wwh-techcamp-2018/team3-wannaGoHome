@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Where;
 import wannagohome.domain.board.Board;
 import wannagohome.domain.card.Card;
@@ -82,7 +81,12 @@ public class Task {
         TaskDto taskDto = new TaskDto();
         taskDto.setId(id);
         taskDto.setTitle(title);
-        taskDto.setCards(cards.stream().map(card -> card.getCardDto()).collect(Collectors.toList()));
+        taskDto.setCards(
+                cards.stream()
+                        .filter(card -> !card.isDeleted())
+                        .map(Card::getCardDto)
+                        .collect(Collectors.toList())
+        );
         taskDto.setOrderId(orderId);
         return taskDto;
     }

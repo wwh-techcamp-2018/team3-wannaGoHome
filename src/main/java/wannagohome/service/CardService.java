@@ -54,38 +54,43 @@ public class CardService {
         return cardRepository.findAllByAuthorAndDeletedFalseAndEndDateIsNotNull(user);
     }
 
-    @Transactional
     public Card setCardDueDate(User user, Long id, CardDetailDto cardDetailDto) {
         Card card = findCardById(id);
         card.setEndDate(cardDetailDto.getEndDate());
+        card = cardRepository.save(card);
+
         CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_DUE_DATE);
         applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         notifyBoardRefresh(card.getBoard());
-        return cardRepository.save(card);
+        return card;
     }
 
     public Card setCardLabel(User user, Long id, CardDetailDto cardDetailDto) {
         Card card = findCardById(id);
         card.setLabels(cardDetailDto.getLabels());
+        card = cardRepository.save(card);
+
         CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_LABEL);
         applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         notifyBoardRefresh(card.getBoard());
-        return cardRepository.save(card);
+        return card;
     }
 
     public Card updateCardDescription(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         card.updateDescription(dto);
+        card = cardRepository.save(card);
+
         CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_DESCRIPTION);
         applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
-        return cardRepository.save(card);
+        return card;
     }
 
-    @Transactional
     public List<AssigneeDto> assignCardToUser(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
         card.addAssignee(assignee);
+        cardRepository.save(card);
 
         CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_ASSIGN, assignee);
         applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
@@ -93,27 +98,26 @@ public class CardService {
                 .map(userInBoard -> AssigneeDto.valueOf(userInBoard.getUser(), card)).collect(Collectors.toList());
     }
 
-    @Transactional
     public List<AssigneeDto> dischargeCardFromUser(Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
-
         card.dischargeAssignee(assignee);
+        cardRepository.save(card);
+
         return userIncludedInBoardRepository.findAllByBoard(card.getBoard()).stream()
                 .map(userInBoard -> AssigneeDto.valueOf(userInBoard.getUser(), card)).collect(Collectors.toList());
     }
 
-    @Transactional
     public Comment addComment(User user, Long cardId, CommentDto dto) {
         Card card = findCardById(cardId);
         Comment comment = Comment.valueOf(dto, user, card);
+        comment = commentRepository.save(comment);
 
         CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_COMMENT);
         applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
-        return commentRepository.save(comment);
+        return comment;
     }
 
-    @Transactional
     public Comment removeComment(User user, Long cardId, Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(ErrorType.COMMENT_ID, "없는 댓글 아이디 입니다."));
         comment.delete(user);
@@ -170,11 +174,12 @@ public class CardService {
         Card card = findCardById(id);
         card.setCreateDate(cardDetailDto.getCreateDate());
         card.setEndDate(cardDetailDto.getEndDate());
+        card = cardRepository.save(card);
 
         CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_DUE_DATE);
         applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         notifyBoardRefresh(card.getBoard());
-        return cardRepository.save(card);
+        return card;
     }
 
     @Transactional
@@ -185,23 +190,25 @@ public class CardService {
         return card;
     }
 
+    @Transactional
     public Card deleteCardDate(Long id) {
         Card card = findCardById(id);
         card.removeDueDate();
+        card = cardRepository.save(card);
         notifyBoardRefresh(card.getBoard());
-        return cardRepository.save(card);
+        return card;
     }
 
     public CardDetailDto updateCardTitle(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         card.setTitle(dto.getCardTitle());
         cardRepository.save(card);
+
         notifyBoardRefresh(card.getBoard());
         return dto;
     }
 
     private void notifyBoardRefresh(Board board) {
-        log.debug("notifyBoardRefresh is called: {}", board.getId());
         simpMessageSendingOperations.convertAndSend("/topic/board/" + board.getId(), board.getBoardDto());
     }
 }

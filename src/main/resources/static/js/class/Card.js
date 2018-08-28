@@ -29,7 +29,7 @@ class Card {
 
         this.card.addEventListener("click", (evt) => {
             evt.stopPropagation();
-            this.board.dragObject = null;
+            this.board.unsetDraggable();
             this.cardDetailForm.show(this.id);
         });
 

@@ -52,6 +52,10 @@ public class User {
         return this.profile;
     }
 
+    public boolean isDefaultProfile() {
+        return getProfile().equals(DEFAULT_PROFILE);
+    }
+
     public void initializeProfile() {
         this.profile = "";
     }

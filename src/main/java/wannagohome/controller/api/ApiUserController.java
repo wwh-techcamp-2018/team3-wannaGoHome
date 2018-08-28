@@ -32,9 +32,6 @@ public class ApiUserController {
     @Autowired
     private ActivityService activityService;
 
-    @Resource(name = "imageUploadService")
-    private UploadService uploadService;
-
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public User signUp(@RequestBody @Valid SignUpDto dto) {
@@ -74,8 +71,7 @@ public class ApiUserController {
 
     @PostMapping("/profile")
     public UserDto changeProfile(@LoginUser User user, @RequestPart MultipartFile file){
-        user.setProfile(uploadService.fileUpload(file));
-        return UserDto.valueOf(userService.save(user));
+        return UserDto.valueOf(userService.changeProfile(user,file));
     }
 
     @PutMapping("/profile")

@@ -1,15 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(evt) {
     initHeader();
     new Notification($_("header"));
-
-    // future update
-    // $_(".logout-button").addEventListener("click", function(evt) {
-    //     fetchManager({
-    //         url: "/users/logout",
-    //         method: "POST",
-    //         callback: () => {}
-    //     });
-    // });
 });
 
 function initHeader() {

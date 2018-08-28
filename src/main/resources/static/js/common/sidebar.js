@@ -115,6 +115,7 @@ function selectTeam() {
     for(let i = 0; i < lists.length ; i ++) {
         lists[i].addEventListener("click", (evt)=>{
             //TODO 팀 페이지 생겼을때 할 것
+            window.location.href = `/team/${evt.target.getAttribute("data-id")}`;
         })
     }
 

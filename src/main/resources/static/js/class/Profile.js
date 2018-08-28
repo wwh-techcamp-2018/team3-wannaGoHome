@@ -21,7 +21,6 @@ class Profile {
             window.location.href = "/";
         });
         document.addEventListener("click", (evt) => {
-            evt.preventDefault();
             if (this.profileAvatorHolder.style.display === "block") {
                 this.hideProfileImageHolder();
             }

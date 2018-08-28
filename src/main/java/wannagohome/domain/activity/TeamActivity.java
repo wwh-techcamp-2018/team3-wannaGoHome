@@ -61,4 +61,9 @@ public class TeamActivity extends AbstractActivity {
     public Team getTeam() {
         return team;
     }
+
+    public String getLink() {
+        return "/team/" + getTeam().getId();
+    }
 }
+

@@ -130,6 +130,7 @@ a.header-logo {
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
+    color: inherit;
 }
 
 .header-notification-content:hover {

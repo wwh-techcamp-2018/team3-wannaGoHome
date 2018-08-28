@@ -41,6 +41,8 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
 
     abstract public Team getTeam();
 
+    abstract public String getLink();
+
     @Column(nullable = false, insertable = false, updatable = false)
     private String activityType;
 
@@ -66,6 +68,7 @@ public abstract class AbstractActivity implements Activity, Comparable<AbstractA
     public String getTopic(PasswordEncoder encoder) {
         return "/topic/user/" + receiver.encodedCode(encoder);
     }
+
 
     public void clearId() {
         id = null;

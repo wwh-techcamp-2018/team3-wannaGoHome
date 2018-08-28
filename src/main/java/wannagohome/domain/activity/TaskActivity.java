@@ -47,4 +47,8 @@ public class TaskActivity extends AbstractActivity {
     public Team getTeam() {
         return task.getBoard().getTeam();
     }
+
+    public String getLink() {
+        return "/board/" + getBoard().getId();
+    }
 }

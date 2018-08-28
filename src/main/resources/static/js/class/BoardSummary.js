@@ -37,13 +37,20 @@ class BoardSummary {
         this.teamBoardList.appendChild(teamBoardNode);
         const createBoardCard = teamBoardNode.querySelector(".create-board-card");
         this.addCreateNewBoardEvent(createBoardCard);
+        this.addMembersClickEvent(teamBoardNode);
         for (const board of teamBoard.boards) {
             createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).boardNode);
         }
 
 
     }
-
+    addMembersClickEvent(teamBoardNode) {
+        const membersButton = teamBoardNode.querySelector(".board-setting-button");
+        membersButton.addEventListener("click", (evt) => {
+            evt.stopPropagation();
+            window.location.href = `/team/${teamBoardNode.getAttribute("data-id")}`;
+        });
+    }
     addCreateNewBoardEvent(createBoardCard) {
         createBoardCard.addEventListener("click", (evt) => {
             evt.preventDefault();

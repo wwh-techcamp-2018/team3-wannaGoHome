@@ -139,6 +139,12 @@ class Board {
     }
 
     setBoardInfo(boardObj) {
+        if (boardObj.deleted) {
+            showDialog("Alert", "Board is deleted by someone", () => {
+                window.location.href = "/";
+            });
+        }
+
         this.permission = boardObj.permission;
 
         addEscapedText(this.boardTitle, boardObj.boardTitle);
@@ -170,11 +176,16 @@ class Board {
     }
 
     onClickBoardRemoveButton() {
-
+        fetchManager({
+            url: `/api/boards/${this.boardIndex}`,
+            method: "DELETE",
+            callback: this.handleBoardRemove.bind(this)
+        });
     }
 
-    handleBoardRemove() {
-
+    handleBoardRemove(status) {
+        if (status === 200)
+            window.location.href = "/";
     }
 
     updateBoardState() {

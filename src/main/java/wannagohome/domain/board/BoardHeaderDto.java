@@ -18,11 +18,29 @@ public class BoardHeaderDto {
 
     private String teamTitle;
 
+    private boolean deleted;
+
     private List<User> members;
 
     private UserPermission permission;
 
     public static BoardHeaderDto valueOf(Board board, UserIncludedInBoard userIncludedInBoard) {
-        return new BoardHeaderDto(board.getTitle(), board.getTeam().getName(), null, userIncludedInBoard.getPermission());
+        return new BoardHeaderDto(
+                board.getTitle(),
+                board.getTeam().getName(),
+                board.isDeleted(),
+                null,
+                userIncludedInBoard.getPermission()
+        );
+    }
+
+    public static BoardHeaderDto valueOf(Board board, List<User> members, UserIncludedInBoard userIncludedInBoard) {
+        return new BoardHeaderDto(
+                board.getTitle(),
+                board.getTeam().getName(),
+                board.isDeleted(),
+                members,
+                userIncludedInBoard.getPermission()
+        );
     }
 }

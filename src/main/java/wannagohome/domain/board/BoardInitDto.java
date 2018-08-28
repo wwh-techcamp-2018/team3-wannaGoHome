@@ -22,6 +22,8 @@ public class BoardInitDto {
     private String boardTitle;
     private String teamTitle;
 
+    private boolean deleted;
+
     private List<User> members;
     private List<TaskDto> tasks;
 
@@ -34,6 +36,7 @@ public class BoardInitDto {
                 board.getId(),
                 board.getTitle(),
                 board.getTeam().getName(),
+                board.isDeleted(),
                 members,
                 board.getTasks().stream().map(Task::getTaskDto).collect(Collectors.toList()),
                 board.getColor(),

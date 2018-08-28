@@ -139,6 +139,25 @@ function limitInputSize(inputElem, size) {
     });
 }
 
+function showDialog(title, description, callback) {
+    const popupElement = createElementFromHTML(`
+        <div class="popup-wrapper">
+            <div class="popup-background"></div>
+            <div class="popup">
+                <div class="popup-title">${title}</div>
+                <p class="popup-description">${description}</p>
+                <button class="popup-button">OK</button>
+            </div>
+        </div>
+    `);
+    document.body.appendChild(popupElement);
+
+    popupElement.querySelector("button").addEventListener("click", (evt) => {
+        popupElement.remove();
+        callback();
+    });
+}
+
 class PageObject {
     constructor() {
         this.init();

@@ -42,9 +42,29 @@ a.header-logo {
 .board-header-title {
     display: inline-block;
     font-size: 0.9em;
-    line-height: 32px;
     vertical-align: bottom;
     font-weight: bold;
+}
+
+.board-header-team-title {
+    font-size: 0.6em;
+    vertical-align: bottom;
+}
+
+.board-header-team-member {
+    display: inline-block;
+    width: 120px;
+    line-height: 25px;
+
+}
+
+.board-header-team-member-img {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #e25b52;
+    vertical-align: bottom;
 }
 
 .board-header-right-menu {

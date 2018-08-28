@@ -164,7 +164,7 @@ public class CardService {
 
     public List<AssigneeDto> getMembers(Long cardId, String keyword) {
         Card card = findCardById(cardId);
-        List<UserIncludedInBoard> users = userIncludedInBoardRepository.findAllByBoardAndUserNameContains(card.getBoard(), keyword);
+        List<UserIncludedInBoard> users = userIncludedInBoardRepository.findAllByBoardAndUserNameContainsIgnoreCase(card.getBoard(), keyword);
         return users.stream()
                 .map(userIncludedInBoard -> AssigneeDto.valueOf(userIncludedInBoard.getUser(), card))
                 .collect(Collectors.toList());

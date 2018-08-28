@@ -36,26 +36,29 @@ a.header-logo {
     padding-top: 4px;
     padding-bottom: 4px;
     display: inline-block;
-    float: left;
 }
 
 .board-header-title {
     display: inline-block;
     font-size: 0.9em;
-    vertical-align: bottom;
+    vertical-align: middle;
     font-weight: bold;
 }
 
 .board-header-team-title {
+    display: inline-block;
     font-size: 0.6em;
-    vertical-align: bottom;
+    vertical-align: middle;
+}
+
+.board-header-team-title-wrapper {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .board-header-team-member {
-    display: inline-block;
-    width: 120px;
-    line-height: 25px;
-
+    display: inline-block;;
+    height: 30px;
 }
 
 .board-header-team-member-img {
@@ -64,7 +67,6 @@ a.header-logo {
     height: 25px;
     border-radius: 50%;
     background-color: #e25b52;
-    vertical-align: bottom;
 }
 
 .board-header-right-menu {
@@ -747,4 +749,22 @@ a.header-logo {
 
 .chatting-bar-closer:hover {
     cursor: pointer;
+}
+
+.board-header-remove-button {
+    display: inline-block;
+    border-radius: 3px;
+    background-color: #e25b52;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    width: 70px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.board-header-remove-button-hide, .board-header-title-hide {
+    display: none;
 }

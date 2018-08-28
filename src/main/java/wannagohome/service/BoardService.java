@@ -129,6 +129,34 @@ public class BoardService {
                 .orElseThrow(()-> new BadRequestException(ErrorType.BOARD_ID, "ID에 해당하는 Board가 존재하지 않습니다."));
     }
 
+    public BoardInitDto getBoardInitInfo(User user, Long boardId) {
+        Board board = findById(boardId);
+        List<User> members = userIncludedInBoardRepository.findAllByBoard(board).stream()
+                .map(UserIncludedInBoard::getUser).collect(Collectors.toList());
+        UserPermission permission = userIncludedInBoardRepository.findByUserAndBoard(user, board)
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "보드에 속해있지 않습니다."))
+                .getPermission();
+        return BoardInitDto.valueOf(board, members, permission);
+    }
+
+    public BoardHeaderDto deleteBoard(User user, Long boardId) {
+        Board board = findById(boardId);
+        UserIncludedInBoard userIncludedInBoard = userIncludedInBoardRepository.findByUserAndBoard(user, board)
+                .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
+        board.delete(userIncludedInBoard);
+        boardRepository.save(board);
+        return BoardHeaderDto.valueOf(board);
+    }
+
+    public BoardHeaderDto renameBoard(User user, Long boardId, BoardHeaderDto dto) {
+        Board board = findById(boardId);
+        UserIncludedInBoard userIncludedInBoard = userIncludedInBoardRepository.findByUserAndBoard(user, board)
+                .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
+        board.rename(userIncludedInBoard, dto);
+        boardRepository.save(board);
+        return BoardHeaderDto.valueOf(board);
+    }
+
     @Cacheable(value = "boardByTeam",key= "#team.id")
     public List<Board> getBoardByTeam(Team team) {
         return boardRepository.findAllByTeamAndDeletedFalse(team);

@@ -26,7 +26,16 @@ class Board {
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
+        this.initBoardHeader();
+
         this.connectSocket();
+    }
+
+    initBoardHeader() {
+        const boardHeader = $_(".board-header");
+        this.boardTitle = boardHeader.querySelector(".board-header-title");
+        this.teamTitle = boardHeader.querySelector(".board-header-team-title");
+        this.boardHeaderMemberContainer = boardHeader.querySelector(".board-header-team-member");
     }
 
     addListeners() {
@@ -126,8 +135,19 @@ class Board {
     }
 
     setBoardInfo(boardObj) {
-        addEscapedText($_(".board-header-title"), boardObj.title);
+        addEscapedText(this.boardTitle, boardObj.boardTitle);
+        addEscapedText(this.teamTitle, boardObj.teamTitle);
+        this.drawBoardHeaderMembers(boardObj.members);
+
         $_("body").style.backgroundColor = boardObj.color;
+    }
+
+    drawBoardHeaderMembers(members) {
+        this.boardHeaderMemberContainer.innerHTML = "";
+        members.forEach((member) => {
+            const html = `<img src="${member.profile}" class="board-header-team-member-img" alt="${member.name}">`;
+            this.boardHeaderMemberContainer.appendChild(createElementFromHTML(html));
+        });
     }
 
     updateBoardState() {
@@ -149,19 +169,21 @@ class Board {
         this.stompClient = Stomp.over(socket);
         this.stompClient.debug = null;
         this.stompClient.connect({}, function (frame) {
-            this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (board) {
+            this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (frame) {
                 // return if in the middle of a drag event
                 if (this.dragObject) {
                     return;
                 }
-                this.setBoard(JSON.parse(board.body).tasks);
-                this.setBoardInfo(JSON.parse(board.body));
-
+                const body = JSON.parse(frame.body);
+                this.setBoard(body.tasks);
+            }.bind(this));
+            this.stompClient.subscribe(`/topic/board/${this.boardIndex}/header`, function (frame) {
+                const body = JSON.parse(frame.body());
+                this.setBoardInfo(body);
             }.bind(this));
 
             this.cardDetailForm.setClient(this.stompClient);
             this.fetchBoardState();
-
         }.bind(this))
     }
 
@@ -173,7 +195,6 @@ class Board {
         fetchManager({
             url: `/api/boards/${this.boardIndex}`,
             method: "GET",
-            headers: {"content-type": "application/json"},
             callback: (status, result) => {
                 this.setBoard(result.tasks);
                 this.setBoardInfo(result);

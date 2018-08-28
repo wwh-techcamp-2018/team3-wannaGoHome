@@ -29,4 +29,8 @@ public class UserIncludedInBoard {
 
     @Enumerated(EnumType.STRING)
     private UserPermission permission;
+
+    public boolean isAdmin() {
+        return permission == UserPermission.ADMIN;
+    }
 }

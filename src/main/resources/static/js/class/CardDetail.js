@@ -32,6 +32,7 @@ class CardDetail {
             this.setCardTitleEditMode();
         });
 
+
         this.cardTitleEditText.addEventListener("keypress", function(evt) {
             if(detectEnter(evt)) {
                 evt.preventDefault();
@@ -83,7 +84,9 @@ class CardDetail {
         this.selector("#card-detail-file-upload").addEventListener("input", (evt)=>{
             this.onClickAttachmentButton(evt.target.files);
         })
-
+        this.attachmentSummaryTitle.addEventListener("click", (evt)=>{
+            this.onClickLoadAttachments();
+        });
 
         this.labelContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
@@ -244,20 +247,19 @@ class CardDetail {
         })
     }
 
-    handleDeleteAttachment(status, attachment) {
+    handleDeleteAttachment(status, attachments) {
         if(status !== 200) {
             return;
         }
-        console.log(attachment.id);
-        this.attachmentSummaryList.querySelector(`.detail-attachment-${attachment.id}`).remove();
+        this.drawAttachmentTitle(attachments);
     }
 
-    handleAttachment(status, attachment) {
+    handleAttachment(status, attachments) {
         if(status !== 201){
             return;
         }
-        console.log(attachment);
-        this.drawAttachment(attachment);
+        console.log(attachments);
+        this.drawAttachmentTitle(attachments);
 
     }
 
@@ -399,10 +401,10 @@ class CardDetail {
     drawAttachmentTitle(attachments) {
         this.attachmentSummaryTitle.innerHTML = "";
         if(attachments.length !==0) {
-            this.attachmentSummaryTitle.appendChild(
-                createElementFromHTML(`<span><i class="fas fa-file-upload"></i> ${attachments.length}개의 첨부 파일</span>`));
-            this.attachmentSummaryTitle.addEventListener("click", this.onClickLoadAttachments.bind(this));
+            this.attachmentSummaryTitle.appendChild(createElementFromHTML(`<span><i class="fas fa-file-upload"></i> ${attachments.length}개의 첨부 파일</span>`));
+            this.attachmentSummaryList.innerHTML = "";
             this.drawAttachmentList(attachments);
+
         }
         const fileList = this.attachmentSummaryList.querySelectorAll(".file-delete-button");
         for (let i = 0; i < fileList.length; i++) {
@@ -432,6 +434,7 @@ class CardDetail {
         this.drawSummaryLabels(body.labels);
         this.drawSummaryAssignees(body.assignees);
         this.drawComments(body.comments);
+        this.attachmentSummary.style.display = 'block';
         this.drawAttachmentTitle(body.attachments);
         if(body.endDate) {
             const endDate = body.endDate.slice(0,10);
@@ -468,7 +471,6 @@ class CardDetail {
             else {
                 assigneeCheck.classList.add("assignee-check-hide");
             }
-
             this.assigneeListContainer.appendChild(assigneeItem);
         });
     }
@@ -494,6 +496,7 @@ class CardDetail {
         this.commentListContainer.innerHTML = "";
         this.attachmentSummaryList.innerHTML = "";
         this.attachmentSummary.style.display = 'none';
+        this.attachmentSummaryList.style.display = 'none';
         this.deleteButton.classList.remove("card-delete-button-danger");
         this.setCardTitleNormalMode();
         this.setDescriptionNormalMode();

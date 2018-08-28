@@ -223,18 +223,18 @@ public class CardService {
     }
 
     @Transactional
-    public Attachment addFile(Long cardId, MultipartFile file) {
+    public List<Attachment> addFile(Long cardId, MultipartFile file) {
         Card card = findCardById(cardId);
         Attachment attachment = new Attachment(card,file.getOriginalFilename(), uploadService.fileUpload(file));
         attachmentRepository.save(attachment);
-        return attachment;
+        return card.getAttachments();
     }
 
-    public Attachment deleteFile(Long fileId) {
+    public List<Attachment> deleteFile(Long cardId, Long fileId) {
         Attachment attachment = findAttachmentById(fileId);
         uploadService.fileDelete(attachment.getLink());
         attachmentRepository.delete(attachment);
-        return attachment;
+        return findCardById(cardId).getAttachments();
     }
 
     public Attachment findAttachmentById(Long fileId) {

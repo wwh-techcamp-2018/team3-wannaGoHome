@@ -145,7 +145,7 @@ public class BoardService {
                 .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
         board.delete(userIncludedInBoard);
         boardRepository.save(board);
-        return BoardHeaderDto.valueOf(board);
+        return BoardHeaderDto.valueOf(board, userIncludedInBoard);
     }
 
     public BoardHeaderDto renameBoard(User user, Long boardId, BoardHeaderDto dto) {
@@ -154,7 +154,7 @@ public class BoardService {
                 .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
         board.rename(userIncludedInBoard, dto);
         boardRepository.save(board);
-        return BoardHeaderDto.valueOf(board);
+        return BoardHeaderDto.valueOf(board, userIncludedInBoard);
     }
 
     @Cacheable(value = "boardByTeam",key= "#team.id")

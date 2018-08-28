@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wannagohome.domain.user.User;
+import wannagohome.domain.user.UserIncludedInBoard;
+import wannagohome.domain.user.UserPermission;
 
 import java.util.List;
 
@@ -18,7 +20,9 @@ public class BoardHeaderDto {
 
     private List<User> members;
 
-    public static BoardHeaderDto valueOf(Board board) {
-        return new BoardHeaderDto(board.getTitle(), board.getTeam().getName(), null);
+    private UserPermission permission;
+
+    public static BoardHeaderDto valueOf(Board board, UserIncludedInBoard userIncludedInBoard) {
+        return new BoardHeaderDto(board.getTitle(), board.getTeam().getName(), null, userIncludedInBoard.getPermission());
     }
 }

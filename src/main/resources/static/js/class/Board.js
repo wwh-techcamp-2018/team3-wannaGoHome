@@ -4,6 +4,7 @@ class Board {
         this.taskList = [];
         this.stompClient = null;
         this.boardIndex = window.location.href.trim().split("/").pop();
+        this.permission = null;
 
         this.cardDetailForm = new CardDetail(this.boardIndex);
         // placeholder to hold mousedown coords
@@ -36,6 +37,9 @@ class Board {
         this.boardTitle = boardHeader.querySelector(".board-header-title");
         this.teamTitle = boardHeader.querySelector(".board-header-team-title");
         this.boardHeaderMemberContainer = boardHeader.querySelector(".board-header-team-member");
+        this.boardRemoveButton = boardHeader.querySelector(".board-header-remove-button");
+
+        this.boardRemoveButton.addEventListener("click", this.onClickBoardRemoveButton.bind(this));
     }
 
     addListeners() {
@@ -135,19 +139,42 @@ class Board {
     }
 
     setBoardInfo(boardObj) {
+        this.permission = boardObj.permission;
+
         addEscapedText(this.boardTitle, boardObj.boardTitle);
         addEscapedText(this.teamTitle, boardObj.teamTitle);
         this.drawBoardHeaderMembers(boardObj.members);
+        if (this.isAdminPermission()) {
+            this.boardRemoveButton.classList.remove("board-header-remove-button-hide");
+        }
+        else {
+            this.boardRemoveButton.classList.add("board-header-remove-button-hide");
+        }
 
         $_("body").style.backgroundColor = boardObj.color;
     }
 
+    isAdminPermission() {
+        return this.permission === "Admin";
+    }
+
     drawBoardHeaderMembers(members) {
+        if (members === null) {
+            return;
+        }
         this.boardHeaderMemberContainer.innerHTML = "";
         members.forEach((member) => {
             const html = `<img src="${member.profile}" class="board-header-team-member-img" alt="${member.name}">`;
             this.boardHeaderMemberContainer.appendChild(createElementFromHTML(html));
         });
+    }
+
+    onClickBoardRemoveButton() {
+
+    }
+
+    handleBoardRemove() {
+
     }
 
     updateBoardState() {

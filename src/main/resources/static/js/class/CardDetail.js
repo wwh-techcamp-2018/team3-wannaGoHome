@@ -14,6 +14,7 @@ class CardDetail {
 
     initCardDetailView() {
         this.cardTitleText = this.selector(".card-detail-title-text");
+        this.cardTitleEditText = this.selector(".card-detail-title-edit-text");
         this.taskTitleText = this.selector(".card-detail-task-title");
         this.descriptionText = this.selector(".card-detail-desc");
         this.descriptionShowBox = this.selector(".card-detail-description-show-box");
@@ -26,6 +27,19 @@ class CardDetail {
             evt.stopPropagation();
             this.onClickDeleteButton();
         });
+
+        this.cardTitleText.addEventListener("click", (evt) => {
+            this.setCardTitleEditMode();
+        });
+
+        this.cardTitleEditText.addEventListener("keypress", function(evt) {
+            if(detectEnter(evt)) {
+                evt.preventDefault();
+                evt.currentTarget.blur();
+                this.onEnterKeyPress(evt);
+
+            }
+        }.bind(this));
 
         this.selector(".card-comment-save-button").addEventListener("click", this.onClickAddCommentButton.bind(this));
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
@@ -185,6 +199,16 @@ class CardDetail {
         })
     }
 
+    onEnterKeyPress(evt) {
+        const cardTitle = evt.currentTarget.value;
+        fetchManager({
+            url: `/api/cards/${this.cardId}/title`,
+            method: "PUT",
+            body: JSON.stringify({cardTitle: cardTitle}),
+            callback: this.handleCardTitleChange.bind(this)
+        });
+    }
+
     handleDueDate(status, card) {
         if (status !== 201) {
             return;
@@ -199,6 +223,12 @@ class CardDetail {
         }
         this.dueDateSummary.innerHTML = "";
         this.dueDateContainer.querySelector("input").value = "";
+    }
+
+    handleCardTitleChange(status, card) {
+        this.cardTitleEditText.value = "";
+        this.cardTitleText.innerText = card.cardTitle;
+        this.setCardTitleNormalMode();
     }
 
     handleAddComment(status, comment) {
@@ -393,6 +423,17 @@ class CardDetail {
 
     setClient(client) {
         this.stompClient = client;
+    }
+
+    setCardTitleEditMode() {
+        this.cardTitleEditText.focus();
+        this.cardTitleText.classList.add("card-detail-title-hide");
+        this.cardTitleEditText.classList.remove("card-detail-title-hide");
+    }
+
+    setCardTitleNormalMode() {
+        this.cardTitleText.classList.remove("card-detail-title-hide");
+        this.cardTitleEditText.classList.add("card-detail-title-hide");
     }
 
     setDescriptionEditMode() {

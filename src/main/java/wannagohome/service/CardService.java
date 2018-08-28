@@ -1,11 +1,16 @@
 package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import wannagohome.domain.activity.ActivityType;
+import wannagohome.domain.activity.CardActivity;
+import wannagohome.domain.board.Board;
 import wannagohome.domain.card.*;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserIncludedInBoard;
+import wannagohome.event.BoardEvent;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.*;
 
@@ -31,6 +36,9 @@ public class CardService {
     @Autowired
     private LabelRepository labelRepository;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
     public List<Card> findCardsByUser(User user) {
         return cardRepository.findAllByAuthorAndDeletedFalse(user);
     }
@@ -39,22 +47,28 @@ public class CardService {
         return cardRepository.findAllByAuthorAndDeletedFalseAndEndDateIsNotNull(user);
     }
 
-    public Card setCardDueDate(Long id, CardDetailDto cardDetailDto) {
+    @Transactional
+    public Card setCardDueDate(User user, Long id, CardDetailDto cardDetailDto) {
         Card card = findCardById(id);
         card.setEndDate(cardDetailDto.getEndDate());
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_DUE_DATE);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         return cardRepository.save(card);
     }
 
-    public Card setCardLabel(Long id, CardDetailDto cardDetailDto) {
+    public Card setCardLabel(User user, Long id, CardDetailDto cardDetailDto) {
         Card card = findCardById(id);
         card.setLabels(cardDetailDto.getLabels());
-
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_LABEL);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         return cardRepository.save(card);
     }
 
     public Card updateCardDescription(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         card.updateDescription(dto);
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_DESCRIPTION);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         return cardRepository.save(card);
     }
 
@@ -62,8 +76,10 @@ public class CardService {
     public List<AssigneeDto> assignCardToUser(User user, Long cardId, CardDetailDto dto) {
         Card card = findCardById(cardId);
         User assignee = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "없는 유저 아이디 입니다."));
-
         card.addAssignee(assignee);
+
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_ASSIGN, assignee);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         return userIncludedInBoardRepository.findAllByBoard(card.getBoard()).stream()
                 .map(userInBoard -> AssigneeDto.valueOf(userInBoard.getUser(), card)).collect(Collectors.toList());
     }
@@ -83,6 +99,8 @@ public class CardService {
         Card card = findCardById(cardId);
         Comment comment = Comment.valueOf(dto, user, card);
 
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_COMMENT);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         return commentRepository.save(comment);
     }
 
@@ -99,26 +117,20 @@ public class CardService {
 
     public CardDetailDto getCardDetail(Long id) {
         Card card = findCardById(id);
-        return CardDetailDto.builder()
-                .cardTitle(card.getTitle())
-                .taskTitle(card.getTask().getTitle())
-                .description(card.getDescription())
-                .comments(card.getComments())
-                .labels(card.getLabels())
-                .allLabels(labelRepository.findAll())
-                .assignees(card.getAssignees())
-                .endDate(card.getEndDate())
-                .build();
+        return CardDetailDto.valueOf(card, labelRepository.findAll());
     }
 
     public Card findCardById(Long id) {
         return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
     }
 
-    public List<Label> addLabel(Long cardId, Label label) {
+    public List<Label> addLabel(User user, Long cardId, Label label) {
         Card card = findCardById(cardId);
         card.getLabels().add(label);
         card = cardRepository.save(card);
+
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_LABEL);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         return card.getLabels();
     }
 
@@ -143,10 +155,13 @@ public class CardService {
                 .collect(Collectors.toList());
     }
 
-    public Card updateCardDate(Long id, CardDetailDto cardDetailDto) {
+    public Card updateCardDate(User user, Long id, CardDetailDto cardDetailDto) {
         Card card = findCardById(id);
         card.setCreateDate(cardDetailDto.getCreateDate());
         card.setEndDate(cardDetailDto.getEndDate());
+
+        CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_UPDATE_DUE_DATE);
+        applicationEventPublisher.publishEvent(new BoardEvent(this, activity));
         return cardRepository.save(card);
     }
 
@@ -161,5 +176,12 @@ public class CardService {
         Card card = findCardById(id);
         card.removeDueDate();
         return cardRepository.save(card);
+    }
+
+    public CardDetailDto updateCardTitle(User user, Long cardId, CardDetailDto dto) {
+        Card card = findCardById(cardId);
+        card.setTitle(dto.getCardTitle());
+        cardRepository.save(card);
+        return dto;
     }
 }

@@ -214,7 +214,7 @@ class CardDetail {
             return;
         }
         console.log(card.createDate, card.endDate);
-        this.drawSummaryDueDate(card.endDate);
+        this.drawSummaryDueDate(card.endDate.slice(0,10));
     }
 
     handleDeleteDueDate(status, card) {
@@ -419,6 +419,8 @@ class CardDetail {
         this.descriptionText.value = "";
         this.commentListContainer.innerHTML = "";
         this.deleteButton.classList.remove("card-delete-button-danger");
+        this.setCardTitleNormalMode();
+        this.setDescriptionNormalMode();
     }
 
     setClient(client) {
@@ -429,6 +431,7 @@ class CardDetail {
         this.cardTitleEditText.focus();
         this.cardTitleText.classList.add("card-detail-title-hide");
         this.cardTitleEditText.classList.remove("card-detail-title-hide");
+        this.cardTitleEditText.value = this.cardTitleText.innerText;
     }
 
     setCardTitleNormalMode() {

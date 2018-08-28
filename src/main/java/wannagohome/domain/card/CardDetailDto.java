@@ -39,6 +39,7 @@ public class CardDetailDto {
                 .labels(card.getLabels())
                 .allLabels(allLabels)
                 .assignees(card.getAssignees())
+                .endDate(card.getEndDate())
                 .build();
     }
 }

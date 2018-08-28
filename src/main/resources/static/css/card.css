@@ -258,6 +258,7 @@ input[type="date"] {
 }
 
 input[type="date"]:focus {
+    outline: none; !important;
     color: #95a5a6;
     box-shadow: none;
     -webkit-box-shadow: none;
@@ -312,7 +313,13 @@ input[type="date"]:focus {
     padding-left: 4px;
     padding-right: 4px;
     border-radius: 3px;
-    border-color: #888;
-    border-style: solid;
-    border-width: 1px
+    background-color: #f8f9f9;
+    border-style: none;
+    color: #888888;
+    font-size: 15px;
+}
+
+.card-detail-title-edit-text:focus {
+    outline: none;
+    border-style: none; !important;
 }

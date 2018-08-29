@@ -4,6 +4,7 @@ class Board {
         this.taskList = [];
         this.stompClient = null;
         this.boardIndex = window.location.href.trim().split("/").pop();
+        this.permission = null;
 
         this.cardDetailForm = new CardDetail(this.boardIndex);
         // placeholder to hold mousedown coords
@@ -26,6 +27,8 @@ class Board {
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
+        this.boardHeader = new BoardHeader($_(".board-header"), this.boardIndex);
+
         this.connectSocket();
         this.boardIndex = window.location.href.trim().split("/").pop();
     }
@@ -68,6 +71,8 @@ class Board {
 
         document.addEventListener("click", function (evt) {
             this.selector(".hidden-list-title-form").style.display = "none";
+            this.boardHeader.hideOption();
+            this.boardHeader.hideBoardRenameOption();
         }.bind(this));
 
         this.addMouseDragListeners();
@@ -126,21 +131,6 @@ class Board {
 
     }
 
-    setBoardInfo(boardObj) {
-        addEscapedText($_(".board-header-title"), boardObj.title);
-        $_("body").style.backgroundColor = boardObj.color;
-    }
-
-    updateBoardState() {
-        const obj = {};
-        obj.title = "Any title";
-        obj.tasks = [];
-        for (const task of this.taskList) {
-            obj.tasks.push(task.getSocketObject());
-        }
-        this.sendBoard(obj);
-    }
-
     selector(nodeSelector) {
         return this.container.querySelector(nodeSelector);
     }
@@ -150,19 +140,20 @@ class Board {
         this.stompClient = Stomp.over(socket);
         this.stompClient.debug = null;
         this.stompClient.connect({}, function (frame) {
-            this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (board) {
+            this.stompClient.subscribe('/topic/board/' + this.boardIndex, function (frame) {
                 // return if in the middle of a drag event
                 if (this.dragObject) {
                     return;
                 }
-                this.setBoard(JSON.parse(board.body).tasks);
-                this.setBoardInfo(JSON.parse(board.body));
-
+                const body = JSON.parse(frame.body);
+                this.setBoard(body.tasks);
+            }.bind(this));
+            this.stompClient.subscribe(`/topic/board/${this.boardIndex}/header`, function (frame) {
+                this.boardHeader.setBoardHeader(JSON.parse(frame.body));
             }.bind(this));
 
             this.cardDetailForm.setClient(this.stompClient);
             this.fetchBoardState();
-
         }.bind(this))
     }
 
@@ -174,10 +165,9 @@ class Board {
         fetchManager({
             url: `/api/boards/${this.boardIndex}`,
             method: "GET",
-            headers: {"content-type": "application/json"},
             callback: (status, result) => {
                 this.setBoard(result.tasks);
-                this.setBoardInfo(result);
+                this.boardHeader.setBoardHeader(result);
             }
         });
     }

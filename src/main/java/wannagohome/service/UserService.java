@@ -46,7 +46,7 @@ public class UserService {
     private TeamService teamService;
 
     @Autowired
-    ApplicationEventPublisher publisher;
+    private ApplicationEventPublisher publisher;
 
 
     public User signIn(SignInDto dto) {
@@ -105,5 +105,4 @@ public class UserService {
         userEmailSet.addAll(userNameSet);
         return new ArrayList<User>(userEmailSet);
     }
-
 }

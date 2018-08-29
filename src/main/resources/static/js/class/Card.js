@@ -19,6 +19,9 @@ class Card {
 
     init() {
         this.cardListTemplate = Handlebars.templates["precompile/board/card_list_template"];
+        if(this.card.dueDate) {
+            this.card.dueDate = this.card.dueDate.slice(0,10);
+        }
         const newCard = createElementFromHTML(this.cardListTemplate(this.card));
         // replacing innerHTML susceptible to html injection
         // newCard.querySelector(".card-list-title").innerHTML = this.card.title.replaceAll("\n", "<br />");
@@ -245,19 +248,6 @@ class Card {
         const rect = getBoundingRect(this.cardHolder);
         return (rect.top < y && rect.bottom > y); // && (this != card));
     }
-
-    // setDueDate(date) {
-    //     const cardDetailDto = {
-    //         id: this.id,
-    //         endDate: date
-    //     };
-    //     fetchManager({
-    //         url: "/api/cards/details/date/" + this.id,
-    //         method: "POST",
-    //         body: JSON.stringify(cardDetailDto),
-    //         callback: this.board.calendar.constructCardCallBack.bind(this.board.calendar)
-    //     });
-    // }
 
     setLabels(labels) {
         const cardDetailDto = {

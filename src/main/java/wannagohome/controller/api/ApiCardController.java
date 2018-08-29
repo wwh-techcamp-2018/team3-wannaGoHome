@@ -126,12 +126,12 @@ public class ApiCardController {
 
     @PostMapping("/{cardId}/file")
     @ResponseStatus(HttpStatus.CREATED)
-    public Attachment addFile(@PathVariable Long cardId, @RequestPart MultipartFile file) {
+    public List<Attachment> addFile(@PathVariable Long cardId, @RequestPart MultipartFile file) {
         return cardService.addFile(cardId, file);
     }
 
     @DeleteMapping("/{cardId}/file/{fileId}")
-    public Attachment deleteFile(@PathVariable Long cardId, @PathVariable Long fileId) {
-        return cardService.deleteFile(fileId);
+    public List<Attachment> deleteFile(@PathVariable Long cardId, @PathVariable Long fileId) {
+        return cardService.deleteFile(cardId, fileId);
     }
 }

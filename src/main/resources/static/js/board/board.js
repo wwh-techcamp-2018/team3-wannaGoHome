@@ -68,6 +68,7 @@ function initEvent(calendar, board) {
         $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
         $_(".card-detail-label-container").style.display = 'none';
         $_(".card-detail-date-container").style.display = 'none';
+        $_(".card-detail-summary-attachment-list").style.display = 'none';
     })
 
 }

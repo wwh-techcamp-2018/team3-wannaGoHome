@@ -6,7 +6,7 @@ CREATE TABLE attachment (
   PRIMARY KEY (id),
   KEY FKpyjq6uiperx43dbsny1gjvxne (card_id),
   CONSTRAINT FKpyjq6uiperx43dbsny1gjvxne FOREIGN KEY (card_id) REFERENCES card (id)
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 CREATE TABLE team_invite (
   id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -17,7 +17,7 @@ CREATE TABLE team_invite (
   KEY FKp9wtc66edyxm3i0mshq108h77 (team_id),
   CONSTRAINT FKi7icaouabbmwn2irtp6sur3vb FOREIGN KEY (user_id) REFERENCES user (id),
   CONSTRAINT FKp9wtc66edyxm3i0mshq108h77 FOREIGN KEY (team_id) REFERENCES team (id)
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 
 alter table user CHANGE profile profile longtext;

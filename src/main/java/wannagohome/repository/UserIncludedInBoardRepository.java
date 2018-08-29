@@ -15,5 +15,5 @@ public interface UserIncludedInBoardRepository extends CrudRepository<UserInclud
 
     List<UserIncludedInBoard> findAllByBoard(Board board);
 
-    List<UserIncludedInBoard> findAllByBoardAndUserNameContains(Board board, String keyword);
+    List<UserIncludedInBoard> findAllByBoardAndUserNameContainsIgnoreCase(Board board, String keyword);
 }

@@ -47,7 +47,17 @@ public class ApiBoardController {
     }
 
     @GetMapping("/{boardId}")
-    public BoardDto getBoardState(@PathVariable Long boardId) {
-        return boardService.findById(boardId).getBoardDto();
+    public BoardInitDto getBoardState(@LoginUser User user, @PathVariable Long boardId) {
+        return boardService.getBoardInitInfo(user, boardId);
+    }
+
+    @DeleteMapping("/{boardId}")
+    public BoardHeaderDto deleteBoard(@LoginUser User user, @PathVariable Long boardId) {
+        return boardService.deleteBoard(user, boardId);
+    }
+
+    @PutMapping("/{boardId}/name")
+    public BoardHeaderDto renameBoard(@LoginUser User user, @PathVariable Long boardId, @RequestBody BoardHeaderDto dto) {
+        return boardService.renameBoard(user, boardId, dto);
     }
 }

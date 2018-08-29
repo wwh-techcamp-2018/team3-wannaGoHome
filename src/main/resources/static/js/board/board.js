@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function (evt) {
         }
     });
 
+    $_("#calendar").addEventListener("click", (evt)=>{evt.stopPropagation()});
+
 });
 
 function initEvent(calendar, board) {

@@ -54,8 +54,9 @@ class BoardHeader {
     }
 
     handleBoardRemove(status) {
-        if (status === 200)
+        if (status === 200) {
             window.location.href = "/";
+        }
     }
 
     handleBoardRename(status) {
@@ -118,7 +119,6 @@ class BoardHeader {
     }
 
     hideBoardRenameOption() {
-        console.log("hide is called");
         this.boardTitleEditor.classList.add("board-header-title-hide");
         this.boardTitle.classList.remove("board-header-title-hide");
 

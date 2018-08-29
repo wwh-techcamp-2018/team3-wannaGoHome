@@ -49,13 +49,13 @@ public class TeamServiceMockTest {
         team = Team.builder()
                 .name("teamname")
                 .description("teamDescription")
-                .profileImage("http://urlsurllw")
+                .profile("http://urlsurllw")
                 .build();
 
         team2 = Team.builder()
                 .name("teamname2")
                 .description("teamDescription2")
-                .profileImage("http://urlsurllw2")
+                .profile("http://urlsurllw2")
                 .build();
 
         user = User.builder()

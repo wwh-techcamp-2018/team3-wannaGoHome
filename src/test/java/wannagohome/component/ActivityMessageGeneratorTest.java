@@ -30,7 +30,7 @@ public class ActivityMessageGeneratorTest extends SpringTest {
                 .id(1L)
                 .name("wannagohome")
                 .description("wannagohome 화이팅")
-                .profileImage("default.png")
+                .profile("default.png")
                 .build();
 
         user = User.builder()

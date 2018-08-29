@@ -29,7 +29,7 @@ class MyPage {
     addProfileImgClickEvent() {
         this.profileHolderSelector(".profile-image").addEventListener("click", (evt) => {
             evt.stopPropagation();
-            this.profileImegeHolder.showProfileImageHolder();
+            this.profileImegeHolder.showProfileImageHolder(evt);
         });
     }
 

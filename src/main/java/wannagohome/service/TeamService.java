@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.Team;
@@ -20,7 +21,9 @@ import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
+import wannagohome.service.file.UploadService;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,9 @@ public class TeamService {
 
     @Autowired
     private UserService userService;
+
+    @Resource(name = "imageUploadService")
+    private UploadService uploadService;
     
     private static final Logger log = LoggerFactory.getLogger(TeamService.class);
 
@@ -117,6 +123,14 @@ public class TeamService {
                 .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Team에 접근할 권한이 없습니다."));
     }
 
+    @Transactional
+    public Team changeProfile(Team team, MultipartFile file) {
+        if(!team.isDefaultProfile()) {
+            uploadService.fileDelete(team.getProfile());
+        }
+        team.setProfile(uploadService.fileUpload(file));
+        return teamRepository.save(team);
+    }
 
     @Caching(
             evict = {

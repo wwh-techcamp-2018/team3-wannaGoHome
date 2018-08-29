@@ -3,6 +3,7 @@ package wannagohome.controller.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorEntity;
 import wannagohome.domain.team.Team;
@@ -64,6 +65,11 @@ public class ApiTeamController {
     @ResponseStatus(HttpStatus.OK)
     public List<Team> readTeams(@LoginUser User user) {
         return teamService.findTeamsByUser(user);
+    }
+
+    @PostMapping("/profile/{teamId}")
+    public Team changeProfile(@LoginUser User user, @PathVariable Long teamId, @RequestPart MultipartFile file) {
+        return teamService.changeProfile(teamService.findTeamById(teamId), file);
     }
 
     @ExceptionHandler(DuplicationException.class)

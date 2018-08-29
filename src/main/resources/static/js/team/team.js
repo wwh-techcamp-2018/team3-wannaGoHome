@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function(evt) {
                 callback: drawSearchResults
             });
         }
-
     });
 
     document.addEventListener("click", function(evt) {
@@ -55,6 +54,48 @@ document.addEventListener("DOMContentLoaded", function(evt) {
 function drawTeam(status, result) {
     const teamHeaderTemplate = Handlebars.templates["precompile/team/team_page_header"];
     $_(".team-page-header").insertBefore(createElementFromHTML(teamHeaderTemplate(result)), $_(".team-options-holder"));
+
+    $_(".team-profile-image").addEventListener("click", function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        $_(".profile-avatar-holder").style.display = "block";
+        $_(".profile-avatar-holder").style.left = evt.pageX + "px";
+        $_(".profile-avatar-holder").style.top = $_("body").scrollTop + evt.pageY + 5 + "px";
+    });
+
+    $_(".team-profile-edit-button").addEventListener("click", function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        $_(".profile-avatar-holder").style.display = "block";
+        $_(".profile-avatar-holder").style.left = evt.pageX + "px";
+        $_(".profile-avatar-holder").style.top = $_("body").scrollTop + evt.pageY + 5 + "px";
+    });
+
+    $_("body").addEventListener("click", function(evt) {
+        $_(".profile-avatar-holder").style.display = "none";
+    });
+
+    $_(".profile-avatar-holder").addEventListener("click", function(evt) {
+        evt.stopPropagation();
+    });
+
+    $_(".profile-upload").oninput = function(evt) {
+        const uploadFiles = $_(".profile-upload-button").files;
+        if(uploadFiles.length !== 0) {
+            fileFetchManager({
+                url: `/api/teams/profile/${teamIndex}`,
+                body: getFileFormData(uploadFiles),
+                callback: (status, response) => {
+                    if(status === 200) {
+                        $_(".profile-upload").reset();
+                        $_(".team-profile-image-section").src = response.profile;
+                        $_("body").click();
+                    }
+                }
+            })
+        }
+    }
+
 }
 
 function drawMembers(status, result) {

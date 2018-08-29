@@ -75,7 +75,7 @@ public class ApiUserController {
 
     @PostMapping("/profile")
     public UserDto changeProfile(@LoginUser User user, @RequestPart MultipartFile file){
-        return UserDto.valueOf(userService.changeProfile(user,file));
+        return UserDto.valueOf(userService.changeProfile(user, file));
     }
 
     @PutMapping("/profile")

@@ -74,8 +74,7 @@ public class ApiUserController {
 
     @PostMapping("/profile")
     public UserDto changeProfile(@LoginUser User user, @RequestPart MultipartFile file){
-        user.setProfile(uploadService.fileUpload(file));
-        return UserDto.valueOf(userService.save(user));
+        return UserDto.valueOf(userService.changeProfile(user,file));
     }
 
     @PutMapping("/profile")
@@ -83,5 +82,4 @@ public class ApiUserController {
         user.setName(userDto.getName());
         return UserDto.valueOf(userService.save(user));
     }
-
 }

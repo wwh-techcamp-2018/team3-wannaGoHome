@@ -356,17 +356,16 @@ input[type="date"]:focus {
     margin-bottom: 0; !important;
     font-size: 11px;
     color: #000000;
-    text-align: left;
-    font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
 }
 
 .card-detail-summary-attachment-list > p > a {
     text-decoration: none;
     color: #003d5e;
-
 }
 
 
@@ -376,8 +375,6 @@ input[type="date"]:focus {
     cursor: pointer;
     float: right;
 }
-
-
 
 .card-detail-summary-attachment-title {
     float: right;

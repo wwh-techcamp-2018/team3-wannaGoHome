@@ -21,6 +21,7 @@ public class Attachment {
     private String originFileName;
 
     @NotNull
+    @Lob
     private String link;
 
     @JsonBackReference

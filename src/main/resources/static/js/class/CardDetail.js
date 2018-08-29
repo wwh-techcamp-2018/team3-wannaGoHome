@@ -84,6 +84,7 @@ class CardDetail {
         this.selector("#card-detail-file-upload").addEventListener("input", (evt)=>{
             this.onClickAttachmentButton(evt.target.files);
         });
+
         this.attachmentSummaryTitle.addEventListener("click", (evt)=>{
             this.onClickLoadAttachments();
         });
@@ -263,8 +264,6 @@ class CardDetail {
             this.drawAttachmentTitle(attachments);
         }
         this.selector(".card-detail-file-upload-form").reset();
-
-
     }
 
     handleDueDate(status, card) {

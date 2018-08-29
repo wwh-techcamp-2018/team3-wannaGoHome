@@ -4,6 +4,10 @@
     /*text-align: center;*/
 }
 
+.card-list-title {
+    white-space: pre-wrap;
+}
+
 .card-detail-background {
     position: fixed;
     z-index: 20;

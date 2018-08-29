@@ -104,7 +104,6 @@ function displayTeam(status, result) {
 
     } else {
         result.forEach(function(result){
-            $_(".sidebar-makeTeam-name-box").value = "";
             document.getElementsByName(result.errorType)[0].placeholder = result.message;
         });
     }

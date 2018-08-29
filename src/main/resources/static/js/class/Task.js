@@ -48,7 +48,6 @@ class Task {
     }
 
     remove() {
-        console.log("Remove called");
         this.taskContainer.remove();
     }
 

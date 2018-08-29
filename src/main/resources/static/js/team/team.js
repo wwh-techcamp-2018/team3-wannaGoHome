@@ -125,7 +125,6 @@ function drawSearchResults(status, result) {
     const searchResultTemplate = Handlebars.templates["precompile/team/search_result_member"];
     $_(".user-search-bar-results").innerHTML = "";
     if(result.length > 0) {
-        console.log(result);
         $_(".user-search-bar-results").style.display = "block";
         for(const user of result) {
             const userElem = createElementFromHTML(searchResultTemplate(user))

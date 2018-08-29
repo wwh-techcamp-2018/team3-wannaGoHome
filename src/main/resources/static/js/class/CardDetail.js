@@ -276,7 +276,6 @@ class CardDetail {
     handleAttachment(status, attachments) {
         if(status !== 201){
             showDialog("파일 첨부 실패", attachments[0].message );
-            console.log(attachments[0].message);
         } else {
             this.drawAttachmentTitle(attachments);
         }
@@ -368,7 +367,6 @@ class CardDetail {
         this.dueDateSummary.innerHTML = "";
         this.dueDateSummary.appendChild(createElementFromHTML(`<span><i class="far fa-calendar-alt"></i> ${endDate} <i class="fas fa-times-circle date-delete-button"></i></span>`));
         this.dueDateSummary.querySelector(".date-delete-button").addEventListener("click", (evt)=>{
-            console.log(evt.target);
             this.onClickDeleteDueDateButton();
         })
     }

@@ -2,10 +2,10 @@ package wannagohome.domain.activity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import wannagohome.domain.board.Board;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserPermission;
-import wannagohome.domain.board.Board;
 
 import javax.persistence.*;
 import java.util.Objects;

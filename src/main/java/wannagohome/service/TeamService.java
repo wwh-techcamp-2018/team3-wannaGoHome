@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import wannagohome.domain.board.Board;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.Team;
@@ -24,9 +23,7 @@ import wannagohome.repository.UserIncludedInTeamRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +37,9 @@ public class TeamService {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
+    private UserService userService;
     
     private static final Logger log = LoggerFactory.getLogger(TeamService.class);
 
@@ -104,13 +104,12 @@ public class TeamService {
 
     public List<UserDto> findUsersByKeyword(Long teamId, String keyword) {
         Team team = findTeamById(teamId);
-        Set<UserIncludedInTeam> userIncludedInTeams =
-                new HashSet(userIncludedInTeamRepository.findAllByTeamNotAndUserNameContainingIgnoreCase(team, keyword));
-        Set<UserIncludedInTeam> userIncludedInTeams1 =
-                new HashSet(userIncludedInTeamRepository.findAllByTeamNotAndUserEmailContainingIgnoreCase(team, keyword));
-        userIncludedInTeams.addAll(userIncludedInTeams1);
-        return new ArrayList<UserIncludedInTeam>(userIncludedInTeams).stream()
-                .map(user -> UserDto.userDtoWithPermission(user)).collect(Collectors.toList());
+        List<User> users = userIncludedInTeamRepository.findAllByTeam(team)
+                .stream()
+                .map(userIncludedInTeam -> userIncludedInTeam.getUser())
+                .collect(Collectors.toList());
+        return userService.findAllByIdNotIn(users, keyword)
+                .stream().map(user -> UserDto.valueOf(user)).collect(Collectors.toList());
     }
 
     private UserIncludedInTeam confirmAuthorityOfUser(User user, Team team) {

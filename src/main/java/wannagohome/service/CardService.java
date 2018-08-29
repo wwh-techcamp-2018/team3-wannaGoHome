@@ -225,9 +225,7 @@ public class CardService {
     @Transactional
     public Attachment addFile(Long cardId, MultipartFile file) {
         Card card = findCardById(cardId);
-        Attachment attachment = new Attachment(card,file.getOriginalFilename(), uploadService.fileUpload(file));
-        attachmentRepository.save(attachment);
-        return attachment;
+        return attachmentRepository.save(new Attachment(card,file.getOriginalFilename(), uploadService.fileUpload(file)));
     }
 
     public Attachment deleteFile(Long fileId) {

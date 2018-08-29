@@ -1,7 +1,5 @@
 package wannagohome.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +13,6 @@ import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.SignInDto;
 import wannagohome.domain.user.SignUpDto;
 import wannagohome.domain.user.User;
-import wannagohome.domain.user.UserDto;
 import wannagohome.event.TeamEvent;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthenticationException;
@@ -24,7 +21,11 @@ import wannagohome.service.file.UploadService;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -95,6 +96,14 @@ public class UserService {
         }
         teamInviteService.deleteById(invitationDto.getId());
         return teamInvite;
+    }
+
+    public List<User> findAllByIdNotIn(List<User> users, String keyword) {
+        List<Long> userIds = users.stream().map(user -> user.getId()).collect(Collectors.toList());
+        Set<User> userEmailSet = new HashSet<User>(userRepository.findAllByIdNotInAndEmailContainingIgnoreCase(userIds, keyword));
+        Set<User> userNameSet = new HashSet<User>(userRepository.findAllByIdNotInAndNameContainingIgnoreCase(userIds, keyword));
+        userEmailSet.addAll(userNameSet);
+        return new ArrayList<User>(userEmailSet);
     }
 
 }

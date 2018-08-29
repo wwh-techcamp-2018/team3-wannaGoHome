@@ -9,7 +9,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import wannagohome.domain.board.Board;
-import wannagohome.domain.card.*;
+import wannagohome.domain.card.Card;
+import wannagohome.domain.card.CardDetailDto;
+import wannagohome.domain.card.Label;
+import wannagohome.domain.card.LabelColor;
 import wannagohome.domain.task.Task;
 import wannagohome.domain.user.User;
 import wannagohome.repository.CardRepository;
@@ -21,9 +24,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CardServiceTest {

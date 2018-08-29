@@ -1,19 +1,17 @@
 package wannagohome.domain.user;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class UserDto {
     private Long id;
-
     @Size(min = 1, max = 10)
     private String name;
     private String email;
@@ -38,4 +36,16 @@ public class UserDto {
         return userDto;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(id, userDto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

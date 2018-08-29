@@ -1,10 +1,10 @@
 package wannagohome.domain.activity;
 
 import lombok.NoArgsConstructor;
+import wannagohome.domain.board.Board;
 import wannagohome.domain.task.Task;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
-import wannagohome.domain.board.Board;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

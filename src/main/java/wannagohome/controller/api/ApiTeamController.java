@@ -56,7 +56,7 @@ public class ApiTeamController {
 
     @PostMapping("/{teamId}/invite/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public TeamInvite inviteMember(HttpSession session, @PathVariable Long teamId, @PathVariable Long userId) {
+    public TeamInvite inviteMember(@PathVariable Long teamId, @PathVariable Long userId) {
         return teamInviteService.createTeamInvite(userId, teamId);
     }
 

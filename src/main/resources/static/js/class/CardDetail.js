@@ -110,6 +110,7 @@ class CardDetail {
         $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
         $_(".card-detail-label-container").style.display = 'none';
         $_(".card-detail-date-container").style.display = 'none';
+        this.attachmentSummaryList.style.display = 'none';
     }
 
     onClickAttachmentButton(files) {
@@ -125,6 +126,7 @@ class CardDetail {
 
     onClickLoadAttachments() {
         if(this.attachmentSummaryList.style.display === 'none') {
+            this.hideAllSidePopup();
             this.attachmentSummaryList.style.display = 'block';
         } else {
             this.attachmentSummaryList.style.display = 'none';

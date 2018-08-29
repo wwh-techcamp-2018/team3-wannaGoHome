@@ -74,15 +74,14 @@ class Task {
 
         this.addCardButton.addEventListener("click", (evt) => {
             evt.stopPropagation();
-            // click body to reset any opened up boxes
             document.querySelector("body").click();
-            // set dragObject to true in order to prevent reloading
             this.board.dragObject = true;
 
             this.addCardButton.style.display = 'none';
             this.cardWrapper.style.display = 'block';
             this.cardWrapper.querySelector(".new-card-title").value = "";
             this.cardWrapper.querySelector(".new-card-title").focus();
+            checkValidInput(this.cardWrapper.querySelector(".new-card-title"), this.cardWrapper.querySelector(".new-card-button"));
             this.cardListContainer.scrollTop = this.cardListContainer.scrollHeight;
 
             // dispatch event to resize screen objects
@@ -101,20 +100,21 @@ class Task {
 
 
         this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt) => {
-            const obj = {};
-            obj.title = this.cardWrapper.querySelector(".new-card-title").value;
-            obj.createDate = new Date();
-            this.cardWrapper.style.display = 'none';
-            this.addCardButton.style.display = 'block';
-            this.cardWrapper.querySelector(".new-card-title").value = "";
-
-            this.board.unsetDraggable();
-
-            this.addCard(obj);
-
+            if(checkNullInput(this.cardWrapper.querySelector(".new-card-title"))) {
+                const obj = {};
+                obj.title = this.cardWrapper.querySelector(".new-card-title").value;
+                obj.createDate = new Date();
+                this.cardWrapper.style.display = 'none';
+                this.addCardButton.style.display = 'block';
+                this.cardWrapper.querySelector(".new-card-title").value = "";
+                checkValidInput(this.cardWrapper.querySelector(".new-card-title"), this.cardWrapper.querySelector(".new-card-button"));
+                this.board.unsetDraggable();
+                this.addCard(obj);
+            }
         });
 
         this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function (evt) {
+            checkValidInput(this.cardWrapper.querySelector(".new-card-title"), this.cardWrapper.querySelector(".new-card-button"));
             if (detectShiftEnter(evt)) {
                 evt.preventDefault();
                 pasteIntoInput(evt.currentTarget, "\n");

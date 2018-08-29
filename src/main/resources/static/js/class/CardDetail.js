@@ -106,13 +106,14 @@ class CardDetail {
     }
 
     onClickAttachmentButton(files) {
-        if(files.length !== 0) {
-            fileFetchManager({
-                url: `/api/cards/${this.cardId}/file`,
-                body: getFileFormData(files),
-                callback: this.handleAttachment.bind(this)
-            })
+        if(files.length === 0) {
+            return;
         }
+        fileFetchManager({
+            url: `/api/cards/${this.cardId}/file`,
+            body: getFileFormData(files),
+            callback: this.handleAttachment.bind(this)
+        })
     }
 
     onClickLoadAttachments() {
@@ -411,8 +412,8 @@ class CardDetail {
             this.attachmentSummaryList.style.display = 'none';
         }
         const fileList = this.attachmentSummaryList.querySelectorAll(".file-delete-button");
-        for (let i = 0; i < fileList.length; i++) {
-            fileList[i].addEventListener("click", (evt)=>{
+        for(let file of fileList) {
+            file.addEventListener("click", (evt)=>{
                 this.onClickAttachmentDeleteButton(evt.target.closest("p").getAttribute("data-id"));
             })
         }

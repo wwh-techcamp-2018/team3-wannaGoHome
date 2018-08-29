@@ -19,7 +19,9 @@ class Card {
 
     init() {
         this.cardListTemplate = Handlebars.templates["precompile/board/card_list_template"];
-        this.card.dueDate = this.card.dueDate.slice(0,10);
+        if(this.card.dueDate) {
+            this.card.dueDate = this.card.dueDate.slice(0,10);
+        }
         const newCard = createElementFromHTML(this.cardListTemplate(this.card));
         // replacing innerHTML susceptible to html injection
         // newCard.querySelector(".card-list-title").innerHTML = this.card.title.replaceAll("\n", "<br />");

@@ -1,9 +1,14 @@
 <div class="card-holder">
     <div class="card-wrapper">
-        <div class="card-list-calendar"><i class="far fa-calendar-alt"></i> {{dueDate}}</div>
+        {{#dueDate}}
+        <div class="card-list-calendar"><i class="far fa-calendar-alt"></i> {{this}}</div>
+        {{/dueDate}}
+
+        {{#labels}}
         <div class="card-list-label">
-            {{#labels}}<span class="card-label-bar" style="background-color: {{color}}"></span>{{/labels}}
+            <span class="card-label-bar" style="background-color: {{color}}"></span>
         </div>
+        {{/labels}}
         <div class="card-list-title">{{title}}</div>
     </div>
 

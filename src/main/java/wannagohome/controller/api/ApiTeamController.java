@@ -73,7 +73,7 @@ public class ApiTeamController {
     @ResponseStatus(HttpStatus.OK)
     public UserIncludedInTeam changePermission(@LoginUser User user,
                                                @RequestBody TeamPermissionChangeDto permissionDto) {
-        return teamService.changePermission(permissionDto);
+        return teamService.changePermission(user, permissionDto);
     }
 
     @GetMapping("")

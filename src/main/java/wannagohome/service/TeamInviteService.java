@@ -1,6 +1,7 @@
 package wannagohome.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.activity.ActivityType;
 import wannagohome.domain.activity.TeamActivity;
@@ -9,6 +10,7 @@ import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.User;
 import wannagohome.event.ActivityEventHandler;
+import wannagohome.event.PersonalEvent;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.TeamInviteRepository;
@@ -34,10 +36,9 @@ public class TeamInviteService {
     private UserRepository userRepository;
 
     @Autowired
-    private ActivityRepository activityRepository;
+    private ApplicationEventPublisher applicationEventPublisher;
 
-    @Autowired
-    private ActivityEventHandler activityEventHandler;
+
 
     @Transactional
     public TeamInvite createTeamInvite(User invitor, Long userId, Long teamId) {
@@ -68,7 +69,6 @@ public class TeamInviteService {
     private void notifyInvitation(User invitor, User receiver, Team team) {
         TeamActivity activity = TeamActivity.valueOf(invitor, team, ActivityType.TEAM_MEMBER_INVITE);
         activity.setReceiver(receiver);
-        activityRepository.save(activity);
-        activityEventHandler.sendPersonalMessage(receiver, Arrays.asList(activity));
+        applicationEventPublisher.publishEvent(new PersonalEvent(this, activity));
     }
 }

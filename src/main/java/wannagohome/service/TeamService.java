@@ -11,15 +11,20 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import wannagohome.domain.activity.ActivityType;
+import wannagohome.domain.activity.TeamActivity;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.RemoveUserFromTeamDto;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamPermissionChangeDto;
 import wannagohome.domain.user.*;
+import wannagohome.event.ActivityEventHandler;
+import wannagohome.event.PersonalEvent;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
+import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInBoardRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
@@ -28,6 +33,7 @@ import wannagohome.service.file.UploadService;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -162,12 +168,17 @@ public class TeamService {
 
 
     @CacheEvict(value = "teamById", key = "#permissionDto.teamId")
-    public UserIncludedInTeam changePermission(TeamPermissionChangeDto permissionDto) {
+    public UserIncludedInTeam changePermission(User source, TeamPermissionChangeDto permissionDto) {
         User user = userService.findByUserId(permissionDto.getUserId());
         Team team = findTeamById(permissionDto.getTeamId());
         UserIncludedInTeam userIncludedInTeam = userIncludedInTeamRepository.findByUserAndTeam(user,team).get();
         userIncludedInTeam.changePermission(UserPermission.of(permissionDto.getPermission()));
-        return userIncludedInTeamRepository.save(userIncludedInTeam);
+        userIncludedInTeam = userIncludedInTeamRepository.save(userIncludedInTeam);
+
+        TeamActivity activity = TeamActivity.valueOf(source, team, ActivityType.TEAM_AUTHORITY, user, UserPermission.of(permissionDto.getPermission()));
+        activity.setReceiver(user);
+        applicationEventPublisher.publishEvent(new PersonalEvent(this, activity));
+        return userIncludedInTeam;
     }
 
     @Transactional
@@ -202,7 +213,9 @@ public class TeamService {
             );
         }));
         userIncludedInBoardRepository.deleteAll(userIncludedInBoards);
-
+        TeamActivity teamActivity = TeamActivity.valueOf(user,team,ActivityType.TEAM_MEMBER_REMOVE, target);
+        teamActivity.setReceiver(target);
+        applicationEventPublisher.publishEvent(new PersonalEvent(this, teamActivity));
         return UserDto.valueOf(targetIncludeInTeam.getUser());
     }
 }

@@ -42,6 +42,10 @@ public class TeamActivity extends AbstractActivity {
         return new TeamActivity(source, team, activityType, null, null);
     }
 
+    public static TeamActivity valueOf(User source, Team team, ActivityType activityType, User target) {
+        return new TeamActivity(source, team, activityType, target, null);
+    }
+
     @Override
     public Object[] getArguments() {
         return new Object[]{
@@ -63,6 +67,8 @@ public class TeamActivity extends AbstractActivity {
     }
 
     public String getLink() {
+        if(ActivityType.TEAM_MEMBER_REMOVE == type)
+            return "/";
         if(ActivityType.TEAM_MEMBER_INVITE == type)
             return "/users/profile";
         return "/team/" + getTeam().getId();

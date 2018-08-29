@@ -36,7 +36,6 @@ public class Board {
     @NotBlank
     @Size(max = 20)
     @Column(length = 20, nullable = false)
-    @Getter
     private String title;
 
     @ManyToOne
@@ -48,7 +47,6 @@ public class Board {
     private List<Task> tasks;
 
     @Enumerated(EnumType.STRING)
-    @Getter
     private Color color;
 
     @Column(nullable = false)

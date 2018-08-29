@@ -303,7 +303,7 @@ a.header-logo {
 #calendar {
     height: 600px;
     width: 800px;
-    z-index: 10;
+    z-index: 2;
     position: absolute;
     top: 50%;
     left: 50%;

@@ -8,8 +8,10 @@ import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorEntity;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
+import wannagohome.domain.team.TeamPermissionChangeDto;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserDto;
+import wannagohome.domain.user.UserIncludedInTeam;
 import wannagohome.event.ActivityEventHandler;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.ErrorEntityException;
@@ -67,6 +69,13 @@ public class ApiTeamController {
     @ResponseStatus(HttpStatus.OK)
     public TeamInvite inviteMember(@LoginUser User user, @PathVariable Long teamId, @PathVariable Long userId) {
         return teamInviteService.createTeamInvite(user,userId, teamId);
+    }
+
+    @PutMapping("/{teamId}/permission")
+    @ResponseStatus(HttpStatus.OK)
+    public UserIncludedInTeam changePermission(@LoginUser User user,
+                                               @RequestBody TeamPermissionChangeDto permissionDto) {
+        return teamService.changePermission(permissionDto);
     }
 
     @GetMapping("")

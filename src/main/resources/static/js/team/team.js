@@ -1,5 +1,6 @@
 let teamIndex;
 let currentUser;
+let changeRightsFunction = () => {};
 document.addEventListener("DOMContentLoaded", function(evt) {
     teamIndex = window.location.href.trim().split("/").pop();
 
@@ -112,12 +113,65 @@ function drawTeam(status, result) {
         }
     }
 
+    $_(".user-rights-content").addEventListener("click", function(evt) {
+        evt.stopPropagation();
+        changeRightsFunction(evt);
+    });
+
 }
 
 function drawMembers(status, result) {
     const teamMemberTemplate = Handlebars.templates["precompile/team/team_page_member"];
     for(const member of result) {
-        $_(".team-users-holder").appendChild(createElementFromHTML(teamMemberTemplate(member)));
+        const memberElem = createElementFromHTML(teamMemberTemplate(member));
+        $_(".team-users-holder").appendChild(memberElem);
+        if(currentUser.userPermission == "Admin") {
+            memberElem.querySelector(".rights-button").addEventListener("click", function(evt) {
+                evt.stopPropagation();
+
+                $_(".user-rights-box").style.display = "block";
+                $_(".user-rights-box").style.left = evt.pageX + "px";
+                $_(".user-rights-box").style.top = $_("body").scrollTop + evt.pageY + "px";
+
+                changeRightsFunction = function(evt) {
+                    console.log({teamId: teamIndex,
+                        userId: this.id,
+                        permission: evt.target.id.trim()});
+
+                    fetchManager({
+                        url: `/api/teams/${teamIndex}/permission`,
+                        method: "PUT",
+                        headers: {"content-type" : "application/json"},
+                        body: JSON.stringify({"teamId": teamIndex,
+                                "userId": this.id,
+                                "permission": evt.target.id.trim()}),
+                        callback: (status, response) => {
+                            console.log(response);
+                            location.reload();
+                        }
+                    })
+                }.bind(this);
+            }.bind(member));
+
+            document.addEventListener("click", function(evt) {
+
+                $_(".user-rights-box").style.display = "none";
+            });
+
+        }
+
+        if(currentUser.userPermission == "Manager") {
+            memberElem.querySelector(".rights-button").style.display = "none";
+            memberElem.querySelector(".remove-button").style.display = "none";
+
+        }
+        if(currentUser.userPermission == "Member" || currentUser.id == member.id) {
+            memberElem.querySelector(".rights-button").style.display = "none";
+            memberElem.querySelector(".remove-button").style.display = "none";
+        }
+        if(currentUser.userPermission == "Member") {
+            $_(".invite-team-button-holder").style.display = "none";
+        }
     }
 }
 

@@ -61,11 +61,17 @@ public class BoardMessagingController {
         return boardService.findById(boardId).getBoardDto();
     }
 
+    @MessageMapping("/message/delete/{boardId}/{taskId}")
+    @SendTo("/topic/board/{boardId}")
+    public BoardDto deleteTask(@DestinationVariable Long boardId, TaskDto taskDto) throws Exception {
+        taskService.deleteTask(taskDto);
+        return boardService.findById(boardId).getBoardDto();
+    }
+
     @MessageMapping("/message/reorder/{boardId}/task")
     @SendTo("/topic/board/{boardId}")
     public BoardDto reorderTasks(@DestinationVariable Long boardId,
                                  SimpMessageHeaderAccessor headerAccessor, TaskOrderDto taskOrderDto) throws Exception {
-
 
         return boardService.reorderBoardTasks(boardId, taskOrderDto).getBoardDto();
     }

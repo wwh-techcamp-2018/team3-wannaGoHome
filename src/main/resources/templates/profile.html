@@ -7,6 +7,7 @@
     {{precompile "precompile/mypage/mypage_profile_template"}}
     {{precompile "precompile/mypage/mypage_team_template"}}
     {{precompile "precompile/mypage/mypage_activity_template"}}
+    {{precompile "precompile/mypage/mypage_invitation_template"}}
 </script>
 {{/partial}}
 
@@ -20,13 +21,6 @@
             <h3>Team Invitation</h3>
         </div>
         <ul class="invitation-list">
-            <li>
-                <div class="invitation-box">
-                    <span class="invitation-team-name">팀 초대</span>
-                    <button class="invitation-agree-button">수락</button>
-                    <button class="invitation-refuse-button">거절</button>
-                </div>
-            </li>
         </ul>
     </div>
 </div>
@@ -50,7 +44,7 @@
                 <hr class="avatar-option-border">
                 <p class="profile-upload-error"></p>
                 <form class="profile-upload" action="/api/users/profile" method="POST" enctype="multipart/form-data">
-                    <input type="file" class="profile-upload-button" tabindex="-1" name="file">
+                    <input type="file" class="profile-upload-button" tabindex="-1" name="file" accept="image/*">
                     <a class="profile-upload-text">
                         <i class="fas fa-paperclip profile-upload-icon"></i>
                         Upload a new picture

@@ -9,8 +9,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import wannagohome.domain.board.BoardOfTeamDto;
-import wannagohome.domain.user.SignInDto;
 import wannagohome.domain.team.Team;
+import wannagohome.domain.user.SignInDto;
 import wannagohome.repository.TeamRepository;
 import wannagohome.support.AcceptanceTest;
 import wannagohome.support.RequestEntity;
@@ -37,12 +37,12 @@ public class TeamAcceptanceTest extends AcceptanceTest {
         team = Team.builder()
                 .name("test")
                 .description("testDescription")
-                .profileImage("http://urlsurllw")
+                .profile("http://urlsurllw")
                 .build();
         team2 = Team.builder()
                 .name("test2")
                 .description("testDescription2")
-                .profileImage("http://urlsurllw2")
+                .profile("http://urlsurllw2")
                 .build();
     }
 

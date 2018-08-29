@@ -66,6 +66,7 @@ a.header-logo {
 .board-scroll-container::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: rgba(242, 242, 242, 0.12);
+
 }
 
 .board-container {
@@ -329,7 +330,7 @@ a.header-logo {
 
 .new-card-wrapper {
     width: 100%;
-    padding: 10px;
+    padding: 8px 6px 8px 6px;
     padding-top: 0px;
 }
 
@@ -506,13 +507,19 @@ a.header-logo {
     text-align: center;
 }
 
+.profile-image-holder .profile-image {
+    display: none;
+    position: absolute;
+    top: 0px;
+}
+
 .profile-image-holder .profile-image-long {
     max-width: 36px;
     transform: translateY(-50%);
     margin-top: 50%;
 }
 
-.profile-image-holder .profile-image-widt {
+.profile-image-holder .profile-image-wide {
     max-height: 36px;
     transform: translateX(-50%);
     margin-left: 50%;

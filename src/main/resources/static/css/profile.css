@@ -43,26 +43,16 @@ a:hover {
     display: block;
     text-decoration: underline;
 }
-/*.profile-image-section {*/
-    /*background-size: 85px 85px;*/
-    /*border-radius: 3px;*/
-    /*display: block;*/
-    /*height: 85px;*/
-    /*left: 0;*/
-    /*top: 0;*/
-    /*width: 85px;*/
-    /*z-index: 2;*/
-/*}*/
-
-.profile-image-section-holder .profile-image-section {
-    display: none;
-    position: absolute;
+.profile-image-section-holder {
     height: 85px;
-    left: 0px;
-    top: 0px;
     width: 85px;
     z-index: 2;
     background-size: 85px 85px;
+}
+
+.profile-image-section-holder .profile-image-section {
+    display: none;
+    z-index: 2;
 }
 .profile-image-section-holder .profile-image-long {
     max-width: 85px;

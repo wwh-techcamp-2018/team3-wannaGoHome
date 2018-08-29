@@ -9,6 +9,7 @@ public enum ActivityType {
 
     TEAM_AUTHORITY("Team.Authority"),
     TEAM_MEMBER_ADD("Team.Member.Add"),
+    TEAM_MEMBER_INVITE("Team.Member.Invite"),
 
     TASK_CREATE("Task.Create"),
     TASK_UPDATE("Task.Update"),

@@ -30,6 +30,7 @@ class Board {
         this.boardHeader = new BoardHeader($_(".board-header"), this.boardIndex);
 
         this.connectSocket();
+        this.boardIndex = window.location.href.trim().split("/").pop();
     }
 
     addListeners() {

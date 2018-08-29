@@ -58,8 +58,10 @@ class Profile {
         }.bind(this);
     }
 
-    showProfileImageHolder() {
+    showProfileImageHolder(evt) {
         this.profileAvatorHolder.style.display = "block";
+        this.profileAvatorHolder.style.left = evt.pageX + "px";
+        this.profileAvatorHolder.style.top = document.querySelector("body").scrollTop + evt.pageY + "px";
     }
 
     hideProfileImageHolder() {

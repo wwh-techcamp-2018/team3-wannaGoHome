@@ -184,9 +184,6 @@ class Task {
 
         }.bind(this));
 
-<<<<<<< HEAD
-        this.taskListOptionHolder.querySelector(".delete-options").addEventListener("click", function(evt) {
-=======
         this.taskListDeleteButton.addEventListener("click", function(evt) {
             evt.preventDefault();
             evt.stopPropagation();
@@ -198,7 +195,6 @@ class Task {
             }
 
             this.deleteTask(this.taskObject);
->>>>>>> ad0d5a0c96435a1912dd0f52432fb93be1cee837
         }.bind(this));
 
         window.addEventListener("resize", function (evt) {

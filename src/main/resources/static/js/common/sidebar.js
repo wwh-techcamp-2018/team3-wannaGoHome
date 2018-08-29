@@ -11,19 +11,25 @@ function init() {
     initClickEvent();
     createTeam();
 
-    document.addEventListener("click", (evt)=>{
-        $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
-    });
+    document.addEventListener("click", (evt)=>{hideMakeTeamBox();});
     $_(".sidebar-makeTeam-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();
     });
 
     const inputfield = [$_(".sidebar-makeTeam-name-box"), $_(".sidebar-makeTeam-description-box")];
     const button = $_(".sidebar-makeTeam-submit-button");
+
+    limitInputSize($_(".sidebar-makeTeam-name-box"), 20);
+    limitInputSize($_(".sidebar-makeTeam-description-box"), 255);
+
     checkValidInput(inputfield, button);
 
 }
-
+function hideMakeTeamBox() {
+    $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+    $_(".sidebar-makeTeam-name-box").placeholder = "";
+    $_(".sidebar-makeTeam-description-box").placeholder="";
+}
 function addPageShowEvent() {
     window.addEventListener( "pageshow", function ( event ) {
         const historyTraversal = event.persisted ||
@@ -37,14 +43,13 @@ function addPageShowEvent() {
 }
 
 function initClickEvent() {
-
     $_(".sidebar-makeTeam-button").addEventListener("click", (evt) => {
         evt.preventDefault();
         if($_(".sidebar-makeTeam-box").style.display === 'none') {
             $_(".sidebar-makeTeam-box").style.display = 'block';
             $_(".sidebar-makeTeam-name-box").focus();
         } else {
-            $_(".sidebar-makeTeam-box").style.display = 'none';
+            hideMakeTeamBox();
         }
     })
 
@@ -102,7 +107,6 @@ function displayTeam(status, result) {
 
     } else {
         result.forEach(function(result){
-            $_(".sidebar-makeTeam-name-box").value = "";
             document.getElementsByName(result.errorType)[0].placeholder = result.message;
         });
     }

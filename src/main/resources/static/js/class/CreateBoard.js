@@ -12,6 +12,8 @@ class CreateBoard {
         this.TR_COUNT = 3;
         this.TOP_MARGIN = 64;
 
+        limitInputSize(this.titleNode, 20);
+
         this.addBackgroundClickEvent();
         this.addTitleInputEvent();
         this.addSubmitButtonClickEvent();

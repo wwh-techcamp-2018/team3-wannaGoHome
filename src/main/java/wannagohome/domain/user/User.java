@@ -9,6 +9,7 @@ import wannagohome.exception.UnAuthenticationException;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Setter
@@ -27,7 +28,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
+    @Pattern(regexp = "^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[0-9a-zA-Z-]+)$")
     @NotBlank
     @Column(length = 40, unique = true, nullable = false, updatable = false)
     private String email;

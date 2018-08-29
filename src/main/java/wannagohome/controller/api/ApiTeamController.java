@@ -12,15 +12,12 @@ import wannagohome.domain.team.TeamPermissionChangeDto;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserDto;
 import wannagohome.domain.user.UserIncludedInTeam;
-import wannagohome.event.ActivityEventHandler;
+
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.ErrorEntityException;
 import wannagohome.interceptor.LoginUser;
-import wannagohome.repository.ActivityRepository;
 import wannagohome.service.TeamInviteService;
 import wannagohome.service.TeamService;
-
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;

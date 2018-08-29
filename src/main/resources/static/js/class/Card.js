@@ -14,7 +14,6 @@ class Card {
         this.showflag = false;
         this.cardDetailForm = cardDetailForm;
         this.init();
-
     }
 
     init() {
@@ -37,6 +36,8 @@ class Card {
         });
 
         this.card.addEventListener("mousedown", (evt) => {
+            this.originX = evt.clientX;
+            this.originY = evt.clientY;
 
             this.board.startDrag.x = evt.clientX;
             this.board.startDrag.y = evt.clientY;
@@ -95,7 +96,15 @@ class Card {
         this.card.style.top = coords.y + "px";
     }
 
+    isNotClick(originX, originY, curX, curY) {
+        return distance(originX, originY, curX, curY) < 5;
+    }
+
     moveCardPosition(evt) {
+        if (this.isNotClick(this.originX, this.originY, evt.clientX, evt.clientY)) {
+            return;
+        }
+
         if (!this.moving) {
             this.moving = true;
             this.setDraggable.call(this, evt);

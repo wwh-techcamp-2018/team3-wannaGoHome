@@ -110,5 +110,4 @@ public class UserService {
     public User findByUserId(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new NotFoundException(ErrorType.USER_ID, "해당하는 유저가 없습니다."));
     }
-
 }

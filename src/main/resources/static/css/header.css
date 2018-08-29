@@ -1,9 +1,7 @@
 header {
     background-color: #026aa7;
     height: 40px;
-    width: 100%;
-    /*z-index: 10;*/
-    /*position: absolute;*/
+    min-width: 600px;
 }
 
 ul {

@@ -59,9 +59,17 @@ function initEvent(calendar, board) {
 
     });
 
-    $_("#calendar").addEventListener("click", (evt) => {
-        evt.stopPropagation();
+    document.addEventListener("keyup", (evt)=>{
+        if(evt.key === "Escape") {
+            document.querySelector("body").click();
+        }
+
     })
+
+    $_(".fa-calendar").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        $_(".header-button-boardlist").style.display = 'none';
+    });
 
     $_(".card-detail-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();

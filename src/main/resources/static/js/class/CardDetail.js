@@ -34,14 +34,17 @@ class CardDetail {
 
 
         this.cardTitleEditText.addEventListener("keypress", function(evt) {
-            if(detectEnter(evt)) {
-                evt.preventDefault();
-                evt.currentTarget.blur();
-                this.onEnterKeyPress(evt);
-
+            if(!detectEnter(evt)) {
+                return;
             }
+            evt.preventDefault();
+            evt.currentTarget.blur();
+            this.onEnterKeyPress(evt);
         }.bind(this));
+
         limitInputSize(this.cardTitleEditText, 20);
+        limitInputSize(this.descriptionText, 255);
+        limitInputSize(this.commentText, 255);
 
         this.selector(".card-comment-save-button").addEventListener("click", this.onClickAddCommentButton.bind(this));
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
@@ -71,6 +74,7 @@ class CardDetail {
         this.selector(".card-detail-side-button.card-assignee").addEventListener("click", (evt) => {
             evt.stopPropagation();
             this.onClickAssigneeButton();
+
         });
         this.selector(".card-detail-side-button.due-date").addEventListener("click", (evt) => {
             evt.stopPropagation();
@@ -90,7 +94,7 @@ class CardDetail {
         });
 
         this.labelContainer.addEventListener("click", (evt) => evt.stopPropagation());
-        this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
+        this.assigneeContainer.addEventListener("click", (evt) =>  evt.stopPropagation());
         this.assigneeListContainer.addEventListener("click", this.onClickAssignee.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.onChangeAssigneeSearch.bind(this));
         this.dueDateContainer.addEventListener("click", (evt)=>evt.stopPropagation());
@@ -103,6 +107,13 @@ class CardDetail {
         this.assigneeTemplate = Handlebars.templates["precompile/board/card_assignee_item_template"];
         this.labelSummaryTemplate = Handlebars.templates["precompile/board/card_detail_label_summary_template"];
         this.attachmentListTemplate = Handlebars.templates["precompile/board/card_detail_file_list_template"];
+    }
+
+    hideAllSidePopup() {
+        $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
+        $_(".card-detail-label-container").style.display = 'none';
+        $_(".card-detail-date-container").style.display = 'none';
+        this.attachmentSummaryList.style.display = 'none';
     }
 
     onClickAttachmentButton(files) {
@@ -118,6 +129,7 @@ class CardDetail {
 
     onClickLoadAttachments() {
         if(this.attachmentSummaryList.style.display === 'none') {
+            this.hideAllSidePopup();
             this.attachmentSummaryList.style.display = 'block';
         } else {
             this.attachmentSummaryList.style.display = 'none';
@@ -145,6 +157,7 @@ class CardDetail {
 
     onClickLabelButton() {
         if (this.labelContainer.style.display === 'none') {
+            this.hideAllSidePopup();
             this.labelContainer.style.display = 'block';
         } else {
             this.labelContainer.style.display = 'none';
@@ -153,15 +166,17 @@ class CardDetail {
 
     onClickAssigneeButton() {
         if (this.assigneeContainer.classList.contains("card-detail-assignee-container-hide")) {
+            this.hideAllSidePopup();
             fetchManager({
                 url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
                 method: "GET",
                 callback: this.handleUpdateAssignee.bind(this)
             })
-        }
-        else {
+        } else {
             this.hideBoardMembers();
         }
+
+
     }
 
     onClickUpdateDescription() {
@@ -195,6 +210,7 @@ class CardDetail {
 
     onClickDueDateButton() {
         if (this.dueDateContainer.style.display === 'none') {
+            this.hideAllSidePopup();
             this.dueDateContainer.style.display = 'block';
             this.dueDateContainer.querySelector("input").addEventListener("input", (evt)=>{
                 this.setDueDate(evt.target.value);
@@ -260,7 +276,6 @@ class CardDetail {
     handleAttachment(status, attachments) {
         if(status !== 201){
             showDialog("파일 첨부 실패", attachments[0].message );
-            console.log(attachments[0].message);
         } else {
             this.drawAttachmentTitle(attachments);
         }
@@ -352,7 +367,6 @@ class CardDetail {
         this.dueDateSummary.innerHTML = "";
         this.dueDateSummary.appendChild(createElementFromHTML(`<span><i class="far fa-calendar-alt"></i> ${endDate} <i class="fas fa-times-circle date-delete-button"></i></span>`));
         this.dueDateSummary.querySelector(".date-delete-button").addEventListener("click", (evt)=>{
-            console.log(evt.target);
             this.onClickDeleteDueDateButton();
         })
     }
@@ -492,6 +506,7 @@ class CardDetail {
     }
 
     hide() {
+        this.assigneeContainer.classList.add("card-detail-assignee-container-hide");
         this.dueDateContainer.style.display = 'none';
         this.labelContainer.style.display = 'none';
         this.form.style.display = "none";

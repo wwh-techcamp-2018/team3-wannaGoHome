@@ -40,6 +40,7 @@ class Notification {
             evt.stopPropagation();
             this.showNotification();
             $_(".header-button-boardlist").style.display = 'none';
+            $_("#calendar").style.display = 'none';
         });
 
         this.holder.addEventListener("click", (evt) => {

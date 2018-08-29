@@ -157,4 +157,5 @@ public class TeamService {
         userIncludedInTeam.changePermission(UserPermission.of(permissionDto.getPermission()));
         return userIncludedInTeamRepository.save(userIncludedInTeam);
     }
+
 }

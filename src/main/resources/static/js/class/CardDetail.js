@@ -505,6 +505,7 @@ class CardDetail {
     }
 
     hide() {
+        this.assigneeContainer.classList.add("card-detail-assignee-container-hide");
         this.dueDateContainer.style.display = 'none';
         this.labelContainer.style.display = 'none';
         this.form.style.display = "none";

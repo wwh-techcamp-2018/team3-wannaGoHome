@@ -8,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import wannagohome.domain.board.Board;
 import wannagohome.domain.error.ErrorType;
+import wannagohome.domain.file.Attachment;
 import wannagohome.domain.task.Task;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
@@ -81,6 +82,10 @@ public class Card {
 
     private Integer orderId;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "card")
+    private List<Attachment> attachments;
+
     @JsonIgnore
     public Board getBoard() {
         return task.getBoard();
@@ -117,6 +122,10 @@ public class Card {
             throw new BadRequestException(ErrorType.CARD_ASSIGN_ALREADY_EXIST, "이미 존재하는 유저입니다.");
         }
         assignees.add(assignee);
+    }
+
+    public void addAttachment(Attachment attachment) {
+        this.attachments.add(attachment);
     }
 
     public void dischargeAssignee(User assignee) {

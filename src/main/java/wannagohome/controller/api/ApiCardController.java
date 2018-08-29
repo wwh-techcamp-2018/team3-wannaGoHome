@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.card.*;
+import wannagohome.domain.file.Attachment;
 import wannagohome.domain.user.User;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.CardService;
@@ -120,5 +122,16 @@ public class ApiCardController {
     @GetMapping("/{cardId}/members")
     public List<AssigneeDto> getMembers(@PathVariable Long cardId, @RequestParam String keyword) {
         return cardService.getMembers(cardId, keyword);
+    }
+
+    @PostMapping("/{cardId}/file")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<Attachment> addFile(@PathVariable Long cardId, @RequestPart MultipartFile file) {
+        return cardService.addFile(cardId, file);
+    }
+
+    @DeleteMapping("/{cardId}/file/{fileId}")
+    public List<Attachment> deleteFile(@PathVariable Long cardId, @PathVariable Long fileId) {
+        return cardService.deleteFile(cardId, fileId);
     }
 }

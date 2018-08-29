@@ -32,6 +32,7 @@ class CardDetail {
             this.setCardTitleEditMode();
         });
 
+
         this.cardTitleEditText.addEventListener("keypress", function(evt) {
             if(detectEnter(evt)) {
                 evt.preventDefault();
@@ -40,6 +41,7 @@ class CardDetail {
 
             }
         }.bind(this));
+        limitInputSize(this.cardTitleEditText, 20);
 
         this.selector(".card-comment-save-button").addEventListener("click", this.onClickAddCommentButton.bind(this));
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
@@ -51,6 +53,9 @@ class CardDetail {
         this.memberSummary = this.summaryWrapper.querySelector(".card-detail-summary-members");
         this.labelSummary = this.summaryWrapper.querySelector(".card-detail-summary-labels");
         this.dueDateSummary = this.summaryWrapper.querySelector(".card-detail-summary-due-date");
+        this.attachmentSummary = this.summaryWrapper.querySelector(".card-detail-summary-attachment-wrapper");
+        this.attachmentSummaryTitle = this.attachmentSummary.querySelector(".card-detail-summary-attachment-title");
+        this.attachmentSummaryList = this.attachmentSummary.querySelector(".card-detail-summary-attachment-list");
     }
 
     initSideMenuView() {
@@ -76,12 +81,20 @@ class CardDetail {
             this.onClickLabelButton();
         });
 
+        this.selector("#card-detail-file-upload").addEventListener("input", (evt)=>{
+            this.onClickAttachmentButton(evt.target.files);
+        });
+
+        this.attachmentSummaryTitle.addEventListener("click", (evt)=>{
+            this.onClickLoadAttachments();
+        });
 
         this.labelContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeListContainer.addEventListener("click", this.onClickAssignee.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.onChangeAssigneeSearch.bind(this));
         this.dueDateContainer.addEventListener("click", (evt)=>evt.stopPropagation());
+        this.attachmentSummary.addEventListener("click", (evt)=>evt.stopPropagation());
     }
 
     initHandlebarTemplates() {
@@ -89,6 +102,26 @@ class CardDetail {
         this.labelTemplate = Handlebars.templates["precompile/board/card_label_template"];
         this.assigneeTemplate = Handlebars.templates["precompile/board/card_assignee_item_template"];
         this.labelSummaryTemplate = Handlebars.templates["precompile/board/card_detail_label_summary_template"];
+        this.attachmentListTemplate = Handlebars.templates["precompile/board/card_detail_file_list_template"];
+    }
+
+    onClickAttachmentButton(files) {
+        if(files.length === 0) {
+            return;
+        }
+        fileFetchManager({
+            url: `/api/cards/${this.cardId}/file`,
+            body: getFileFormData(files),
+            callback: this.handleAttachment.bind(this)
+        })
+    }
+
+    onClickLoadAttachments() {
+        if(this.attachmentSummaryList.style.display === 'none') {
+            this.attachmentSummaryList.style.display = 'block';
+        } else {
+            this.attachmentSummaryList.style.display = 'none';
+        }
     }
 
     onClickDescriptionModeButton() {
@@ -189,14 +222,14 @@ class CardDetail {
             url: `/api/cards/${this.cardId}/date`,
             method: "DELETE",
             callback: this.handleDeleteDueDate.bind(this)
-        })
+        });
     }
     onChangeAssigneeSearch() {
         fetchManager({
             url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
             method: "GET",
             callback: this.handleUpdateAssignee.bind(this)
-        })
+        });
     }
 
     onEnterKeyPress(evt) {
@@ -209,11 +242,35 @@ class CardDetail {
         });
     }
 
+    onClickAttachmentDeleteButton(fileId) {
+        fetchManager({
+            url: `/api/cards/${this.cardId}/file/${fileId}`,
+            method: "DELETE",
+            callback: this.handleDeleteAttachment.bind(this)
+        })
+    }
+
+    handleDeleteAttachment(status, attachments) {
+        if(status !== 200) {
+            return;
+        }
+        this.drawAttachmentTitle(attachments);
+    }
+
+    handleAttachment(status, attachments) {
+        if(status !== 201){
+            showDialog("파일 첨부 실패", attachments[0].message );
+            console.log(attachments[0].message);
+        } else {
+            this.drawAttachmentTitle(attachments);
+        }
+        this.selector(".card-detail-file-upload-form").reset();
+    }
+
     handleDueDate(status, card) {
         if (status !== 201) {
             return;
         }
-        console.log(card.createDate, card.endDate);
         this.drawSummaryDueDate(card.endDate.slice(0,10));
     }
 
@@ -272,7 +329,6 @@ class CardDetail {
         if (status !== 200) {
             return;
         }
-
         this.drawCardForm(body)
     }
 
@@ -345,6 +401,33 @@ class CardDetail {
         this.drawSummaryLabels(labels);
     }
 
+    drawAttachmentTitle(attachments) {
+        this.attachmentSummaryTitle.innerHTML = "";
+        if(attachments.length !==0) {
+            this.attachmentSummaryTitle.appendChild(createElementFromHTML(`<span><i class="fas fa-file-upload"></i> ${attachments.length}개의 첨부 파일</span>`));
+            this.attachmentSummaryList.innerHTML = "";
+            this.drawAttachmentList(attachments);
+
+        } else {
+            this.attachmentSummaryList.style.display = 'none';
+        }
+        const fileList = this.attachmentSummaryList.querySelectorAll(".file-delete-button");
+        for(let file of fileList) {
+            file.addEventListener("click", (evt)=>{
+                this.onClickAttachmentDeleteButton(evt.target.closest("p").getAttribute("data-id"));
+            })
+        }
+    }
+
+    drawAttachmentList(attachments) {
+        attachments.forEach(this.drawAttachment.bind(this));
+    }
+
+    drawAttachment(attachment) {
+        this.attachmentSummaryList.appendChild(createElementFromHTML(this.attachmentListTemplate(attachment)));
+
+    }
+
     drawCardForm(body) {
         this.cardTitleText.innerText = body.cardTitle;
         this.taskTitleText.innerText = body.taskTitle;
@@ -356,6 +439,8 @@ class CardDetail {
         this.drawSummaryLabels(body.labels);
         this.drawSummaryAssignees(body.assignees);
         this.drawComments(body.comments);
+        this.attachmentSummary.style.display = 'block';
+        this.drawAttachmentTitle(body.attachments);
         if(body.endDate) {
             const endDate = body.endDate.slice(0,10);
             this.dueDateContainer.querySelector("input").value = endDate;
@@ -391,7 +476,6 @@ class CardDetail {
             else {
                 assigneeCheck.classList.add("assignee-check-hide");
             }
-
             this.assigneeListContainer.appendChild(assigneeItem);
         });
     }
@@ -415,6 +499,8 @@ class CardDetail {
         this.commentText.value = "";
         this.descriptionText.value = "";
         this.commentListContainer.innerHTML = "";
+        this.attachmentSummaryList.innerHTML = "";
+        this.attachmentSummaryList.style.display = 'none';
         this.deleteButton.classList.remove("card-delete-button-danger");
         this.setCardTitleNormalMode();
         this.setDescriptionNormalMode();

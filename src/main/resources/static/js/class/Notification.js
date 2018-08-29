@@ -27,11 +27,25 @@ class Notification {
             this.stompClient.send("/app/activity/init");
         });
 
+        document.addEventListener("click", (evt) => {
+            this.hideNotification();
+        });
+
         this.showMoreButton.addEventListener("click", (evt) => {
+            evt.stopPropagation();
             this.onClickShowMoreButton();
         });
 
-        setOverlayClickFunctions(this.notificationButton, this.holder, this.showNotification.bind(this), this.hideNotification.bind(this));
+        this.notificationButton.addEventListener("click", (evt) => {
+            evt.stopPropagation();
+            this.showNotification();
+            $_(".header-button-boardlist").style.display = 'none';
+        });
+
+        this.holder.addEventListener("click", (evt) => {
+            evt.stopPropagation();
+        });
+
     }
 
     initSubscription(topic) {
@@ -70,14 +84,12 @@ class Notification {
         this.scrollable.scrollTop = this.scrollable.scrollHeight;
     }
 
-    showNotification(evt) {
-        evt.stopPropagation();
+    showNotification() {
         this.holder.classList.toggle("header-notification-hide");
         this.bell.classList.remove("notification-swing");
     }
 
-    hideNotification(evt) {
-        evt.stopPropagation();
+    hideNotification() {
         if(!this.holder.classList.contains("header-notification-hide")) {
             this.holder.classList.toggle("header-notification-hide");
         }

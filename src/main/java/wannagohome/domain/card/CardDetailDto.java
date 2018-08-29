@@ -1,6 +1,7 @@
 package wannagohome.domain.card;
 
 import lombok.*;
+import wannagohome.domain.file.Attachment;
 import wannagohome.domain.user.User;
 
 import java.util.Date;
@@ -28,6 +29,7 @@ public class CardDetailDto {
 
     private List<Comment> comments;
 
+    private List<Attachment> attachments;
     private String description;
 
     public static CardDetailDto valueOf(Card card, List<Label> allLabels) {
@@ -40,6 +42,7 @@ public class CardDetailDto {
                 .allLabels(allLabels)
                 .assignees(card.getAssignees())
                 .endDate(card.getEndDate())
+                .attachments(card.getAttachments())
                 .build();
     }
 }

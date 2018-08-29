@@ -175,6 +175,12 @@ function showDialog(title, description, okCallback, cancelCallback) {
     }
 }
 
+function getFileFormData(uploadFiles) {
+    const body = new FormData();
+    body.append("file", uploadFiles[0]);
+    return body;
+}
+
 class PageObject {
     constructor() {
         this.init();

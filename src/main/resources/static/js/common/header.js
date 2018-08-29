@@ -46,7 +46,9 @@ function drawRecentlyBoard(recentlyViewBoards) {
     const title = '<li class="header-button-boardlist-title"><i class="fa fa-clock-o"></i> RECENT BOARD</li>'
     recentlyBoardsNode.appendChild(createElementFromHTML(title));
     for(const board of recentlyViewBoards) {
-        recentlyBoardsNode.appendChild(createElementFromHTML(template(board)));
+        const boardNode = createElementFromHTML(template(board));
+        recentlyBoardsNode.appendChild(boardNode);
+        addBoardClickEvent(boardNode);
     }
 }
 
@@ -59,9 +61,19 @@ function drawTeamBoard(teamBoards) {
         const teamBoardNode = createElementFromHTML(template(teamBoard.team));
         if (teamBoard.boards.length != 0) {
             for (const board of teamBoard.boards) {
-                teamBoardNode.appendChild(createElementFromHTML(boardtemplate(board)));
+                const boardNode = createElementFromHTML(boardtemplate(board));
+                teamBoardNode.appendChild(boardNode);
+                addBoardClickEvent(boardNode);
+
             }
             headerTeamBoards.appendChild(teamBoardNode);
         }
     }
+}
+
+function addBoardClickEvent(board) {
+    board.addEventListener("click", (evt)=>{
+       evt.stopPropagation();
+       window.location.href = `/board/${board.getAttribute("data-id")}`;
+    });
 }

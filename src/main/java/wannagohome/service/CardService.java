@@ -6,17 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.activity.ActivityType;
 import wannagohome.domain.activity.CardActivity;
 import wannagohome.domain.board.Board;
 import wannagohome.domain.card.*;
 import wannagohome.domain.error.ErrorType;
+import wannagohome.domain.file.Attachment;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserIncludedInBoard;
 import wannagohome.event.BoardEvent;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.*;
+import wannagohome.service.file.UploadService;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +39,9 @@ public class CardService {
     private CardRepository cardRepository;
 
     @Autowired
+    private AttachmentRepository attachmentRepository;
+
+    @Autowired
     private CommentRepository commentRepository;
 
     @Autowired
@@ -45,6 +52,9 @@ public class CardService {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+
+    @Resource(name = "fileUploadService")
+    private UploadService uploadService;
 
     public List<Card> findCardsByUser(User user) {
         return cardRepository.findAllByAuthorAndDeletedFalse(user);
@@ -211,4 +221,24 @@ public class CardService {
     private void notifyBoardRefresh(Board board) {
         simpMessageSendingOperations.convertAndSend("/topic/board/" + board.getId(), board.getBoardDto());
     }
+
+    @Transactional
+    public List<Attachment> addFile(Long cardId, MultipartFile file) {
+        Card card = findCardById(cardId);
+        Attachment attachment = new Attachment(card,file.getOriginalFilename(), uploadService.fileUpload(file));
+        attachmentRepository.save(attachment);
+        return card.getAttachments();
+    }
+
+    public List<Attachment> deleteFile(Long cardId, Long fileId) {
+        Attachment attachment = findAttachmentById(fileId);
+        uploadService.fileDelete(attachment.getLink());
+        attachmentRepository.delete(attachment);
+        return findCardById(cardId).getAttachments();
+    }
+
+    public Attachment findAttachmentById(Long fileId) {
+        return attachmentRepository.findById(fileId).orElseThrow(()->new NotFoundException(ErrorType.FILE_ID, "일치하는 파일이 없습니다."));
+    }
+
 }

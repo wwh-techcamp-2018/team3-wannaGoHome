@@ -59,6 +59,13 @@ function initEvent(calendar, board) {
 
     });
 
+    document.addEventListener("keyup", (evt)=>{
+        if(evt.key === "Escape") {
+            document.querySelector("body").click();
+        }
+
+    })
+
     $_(".fa-calendar").addEventListener("click", (evt) => {
         evt.stopPropagation();
         $_(".header-button-boardlist").style.display = 'none';

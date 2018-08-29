@@ -22,6 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/users")
 public class ApiUserController {
+    private static final Logger log = LoggerFactory.getLogger(ApiUserController.class);
 
     @Autowired
     private UserService userService;
@@ -38,6 +39,7 @@ public class ApiUserController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public User signUp(@RequestBody @Valid SignUpDto dto) {
+        log.debug("singupdto:{}", dto);
         return userService.signUp(dto);
     }
 

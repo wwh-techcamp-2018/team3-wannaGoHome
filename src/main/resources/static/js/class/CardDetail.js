@@ -34,14 +34,17 @@ class CardDetail {
 
 
         this.cardTitleEditText.addEventListener("keypress", function(evt) {
-            if(detectEnter(evt)) {
-                evt.preventDefault();
-                evt.currentTarget.blur();
-                this.onEnterKeyPress(evt);
-
+            if(!detectEnter(evt)) {
+                return;
             }
+            evt.preventDefault();
+            evt.currentTarget.blur();
+            this.onEnterKeyPress(evt);
         }.bind(this));
+
         limitInputSize(this.cardTitleEditText, 20);
+        limitInputSize(this.descriptionText, 255);
+        limitInputSize(this.commentText, 255);
 
         this.selector(".card-comment-save-button").addEventListener("click", this.onClickAddCommentButton.bind(this));
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));

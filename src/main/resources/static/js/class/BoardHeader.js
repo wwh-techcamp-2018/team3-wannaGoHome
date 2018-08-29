@@ -18,6 +18,8 @@ class BoardHeader {
         this.boardTitle.addEventListener("click", this.onClickBoardTitle.bind(this));
         this.boardTitleEditor.addEventListener("keypress", this.onChangeBoardTitle.bind(this));
         this.boardOptionHolder.addEventListener("click", (evt) => evt.stopPropagation());
+
+        limitInputSize(this.boardTitleEditor, 20);
     }
 
     onClickBoardTitle(evt) {

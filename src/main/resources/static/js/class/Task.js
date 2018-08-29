@@ -52,6 +52,8 @@ class Task {
     }
 
     addListeners() {
+        limitInputSize(this.cardWrapper.querySelector(".new-card-title"), 20);
+
         document.addEventListener("click", (evt) => {
             this.addCardButton.style.display = 'block';
             this.cardWrapper.style.display = 'none';
@@ -111,8 +113,6 @@ class Task {
             this.addCard(obj);
 
         });
-
-        limitInputSize(this.cardWrapper.querySelector(".new-card-title"), 20);
 
         this.cardWrapper.querySelector(".new-card-title").addEventListener("keypress", function (evt) {
             if (detectShiftEnter(evt)) {

@@ -20,6 +20,10 @@ function init() {
 
     const inputfield = [$_(".sidebar-makeTeam-name-box"), $_(".sidebar-makeTeam-description-box")];
     const button = $_(".sidebar-makeTeam-submit-button");
+
+    limitInputSize($_(".sidebar-makeTeam-name-box"), 20);
+    limitInputSize($_(".sidebar-makeTeam-description-box"), 255);
+
     checkValidInput(inputfield, button);
 
 }

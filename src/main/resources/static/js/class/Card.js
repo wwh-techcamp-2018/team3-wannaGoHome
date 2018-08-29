@@ -14,7 +14,6 @@ class Card {
         this.showflag = false;
         this.cardDetailForm = cardDetailForm;
         this.init();
-
     }
 
     init() {
@@ -39,7 +38,6 @@ class Card {
         this.card.addEventListener("mousedown", (evt) => {
             this.originX = evt.clientX;
             this.originY = evt.clientY;
-            this.clicked = true;
 
             this.board.startDrag.x = evt.clientX;
             this.board.startDrag.y = evt.clientY;

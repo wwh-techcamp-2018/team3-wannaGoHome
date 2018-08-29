@@ -47,7 +47,7 @@ class CardDetail {
         limitInputSize(this.commentText, 255);
 
         this.selector(".card-comment-save-button").addEventListener("click", (evt)=>{
-            if(checkNullInput([this.commentText])) {
+            if(checkNullInput(this.commentText)) {
                 this.onClickAddCommentButton();
             }
         });
@@ -310,8 +310,7 @@ class CardDetail {
     handleAddComment(status, comment) {
         if (status === 201) {
             this.commentText.value = "";
-            this.selector(".card-comment-save-button").style.backgroundColor = '#f8f9f9';
-            this.selector(".card-comment-save-button").style.color = '#aaaaaa';
+            checkValidInput(this.commentText, this.selector(".card-comment-save-button"));
             this.drawComment(comment);
         } else {
             this.drawErrorComment(comment);
@@ -467,7 +466,7 @@ class CardDetail {
         this.drawComments(body.comments);
         this.attachmentSummary.style.display = 'block';
         this.drawAttachmentTitle(body.attachments);
-        checkValidInput([this.commentText], this.selector(".card-comment-save-button"));
+        checkValidInput(this.commentText, this.selector(".card-comment-save-button"));
         if(body.endDate) {
             const endDate = body.endDate.slice(0,10);
             this.dueDateContainer.querySelector("input").value = endDate;

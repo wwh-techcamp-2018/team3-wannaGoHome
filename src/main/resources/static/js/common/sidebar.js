@@ -21,9 +21,9 @@ function init() {
 
     limitInputSize($_(".sidebar-makeTeam-name-box"), 20);
     limitInputSize($_(".sidebar-makeTeam-description-box"), 255);
-
-    checkValidInput(inputfield, button);
-
+    for(let input of inputfield) {
+        checkValidInput(input, button);
+    }
 }
 function hideMakeTeamBox() {
     $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';

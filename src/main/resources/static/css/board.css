@@ -751,6 +751,14 @@ a.header-logo {
     cursor: pointer;
 }
 
+.board-header-menu-button {
+    display: inline-block;
+    line-height: 25px;
+    vertical-align: middle;
+    margin-left: 20px;
+    font-size: 20px;
+}
+
 .board-header-remove-button {
     display: inline-block;
     border-radius: 3px;

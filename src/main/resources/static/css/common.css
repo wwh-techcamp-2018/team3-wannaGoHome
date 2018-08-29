@@ -85,8 +85,15 @@ button:focus {
     overflow-wrap: break-word;
 }
 
-.popup-button {
+.popup-button-wrapper {
+    bottom: 10px;
+    right: 10px;
+    position: absolute;
 
+    float: right;
+}
+
+.popup-cancel-button {
     border-radius: 3px;
     background-color: #e25b52;
     color: #fff;
@@ -96,13 +103,22 @@ button:focus {
     height: 30px;
     line-height: 30px;
     vertical-align: middle;
+}
 
-    bottom: 10px;
-    right: 10px;
-    position: absolute;
+.popup-ok-button {
+    border-radius: 3px;
+    background-color: #e25b52;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+}
 
-    float: right;
-    font-weight: bold;
+.popup-button-hide {
+    display: none;
 }
 
 .popup-background {

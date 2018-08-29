@@ -139,23 +139,40 @@ function limitInputSize(inputElem, size) {
     });
 }
 
-function showDialog(title, description, callback) {
+function showDialog(title, description, okCallback, cancelCallback) {
     const popupElement = createElementFromHTML(`
         <div class="popup-wrapper">
             <div class="popup-background"></div>
             <div class="popup">
                 <div class="popup-title">${title}</div>
                 <p class="popup-description">${description}</p>
-                <button class="popup-button">OK</button>
+                <div class="popup-button-wrapper">
+                    <button class="popup-ok-button">OK</button>
+                    <button class="popup-cancel-button">Cancel</button>
+                </div>
             </div>
         </div>
     `);
     document.body.appendChild(popupElement);
 
-    popupElement.querySelector("button").addEventListener("click", (evt) => {
+    popupElement.querySelector(".popup-ok-button").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
         popupElement.remove();
-        callback();
+        if (okCallback)
+            okCallback();
     });
+
+    const cancelButton = popupElement.querySelector(".popup-cancel-button");
+    if (cancelCallback) {
+        cancelButton.addEventListener("click", (evt) => {
+            popupElement.remove();
+            cancelCallback();
+        });
+    }
+    else {
+        cancelButton.classList.add("popup-button-hide");
+    }
 }
 
 class PageObject {

@@ -216,7 +216,7 @@ class Board {
                 this.setBoard(body.tasks);
             }.bind(this));
             this.stompClient.subscribe(`/topic/board/${this.boardIndex}/header`, function (frame) {
-                const body = JSON.parse(frame.body());
+                const body = JSON.parse(frame.body);
                 this.setBoardInfo(body);
             }.bind(this));
 

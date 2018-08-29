@@ -11,9 +11,7 @@ function init() {
     initClickEvent();
     createTeam();
 
-    document.addEventListener("click", (evt)=>{
-        $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
-    });
+    document.addEventListener("click", (evt)=>{hideMakeTeamBox();});
     $_(".sidebar-makeTeam-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();
     });
@@ -23,7 +21,11 @@ function init() {
     checkValidInput(inputfield, button);
 
 }
-
+function hideMakeTeamBox() {
+    $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
+    $_(".sidebar-makeTeam-name-box").placeholder = "";
+    $_(".sidebar-makeTeam-description-box").placeholder="";
+}
 function addPageShowEvent() {
     window.addEventListener( "pageshow", function ( event ) {
         const historyTraversal = event.persisted ||
@@ -37,14 +39,13 @@ function addPageShowEvent() {
 }
 
 function initClickEvent() {
-
     $_(".sidebar-makeTeam-button").addEventListener("click", (evt) => {
         evt.preventDefault();
         if($_(".sidebar-makeTeam-box").style.display === 'none') {
             $_(".sidebar-makeTeam-box").style.display = 'block';
             $_(".sidebar-makeTeam-name-box").focus();
         } else {
-            $_(".sidebar-makeTeam-box").style.display = 'none';
+            hideMakeTeamBox();
         }
     })
 

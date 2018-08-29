@@ -95,6 +95,7 @@
     border-radius: 5px;
     border: 1px solid #aaaaaa;
     background-color: #ffffff;
+    padding: 2px 5px;
 }
 
 .sidebar-makeTeam-description-box {
@@ -105,6 +106,7 @@
     border-radius: 5px;
     border: 1px solid #aaaaaa;
     background-color: #ffffff;
+    padding: 2px 5px;
 }
 
 .sidebar-makeTeam-name-box::placeholder, .sidebar-makeTeam-description-box::placeholder {

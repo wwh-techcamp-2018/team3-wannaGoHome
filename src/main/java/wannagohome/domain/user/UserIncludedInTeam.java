@@ -38,6 +38,10 @@ public class UserIncludedInTeam {
         this.permission = userPermission;
     }
 
+    public void changePermission(UserPermission permission) {
+        this.permission = permission;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

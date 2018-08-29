@@ -71,6 +71,7 @@ class CardDetail {
         this.selector(".card-detail-side-button.card-assignee").addEventListener("click", (evt) => {
             evt.stopPropagation();
             this.onClickAssigneeButton();
+
         });
         this.selector(".card-detail-side-button.due-date").addEventListener("click", (evt) => {
             evt.stopPropagation();
@@ -90,7 +91,7 @@ class CardDetail {
         });
 
         this.labelContainer.addEventListener("click", (evt) => evt.stopPropagation());
-        this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
+        this.assigneeContainer.addEventListener("click", (evt) =>  evt.stopPropagation());
         this.assigneeListContainer.addEventListener("click", this.onClickAssignee.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.onChangeAssigneeSearch.bind(this));
         this.dueDateContainer.addEventListener("click", (evt)=>evt.stopPropagation());
@@ -103,6 +104,12 @@ class CardDetail {
         this.assigneeTemplate = Handlebars.templates["precompile/board/card_assignee_item_template"];
         this.labelSummaryTemplate = Handlebars.templates["precompile/board/card_detail_label_summary_template"];
         this.attachmentListTemplate = Handlebars.templates["precompile/board/card_detail_file_list_template"];
+    }
+
+    hideAllSidePopup() {
+        $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
+        $_(".card-detail-label-container").style.display = 'none';
+        $_(".card-detail-date-container").style.display = 'none';
     }
 
     onClickAttachmentButton(files) {
@@ -145,6 +152,7 @@ class CardDetail {
 
     onClickLabelButton() {
         if (this.labelContainer.style.display === 'none') {
+            this.hideAllSidePopup();
             this.labelContainer.style.display = 'block';
         } else {
             this.labelContainer.style.display = 'none';
@@ -153,15 +161,17 @@ class CardDetail {
 
     onClickAssigneeButton() {
         if (this.assigneeContainer.classList.contains("card-detail-assignee-container-hide")) {
+            this.hideAllSidePopup();
             fetchManager({
                 url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
                 method: "GET",
                 callback: this.handleUpdateAssignee.bind(this)
             })
-        }
-        else {
+        } else {
             this.hideBoardMembers();
         }
+
+
     }
 
     onClickUpdateDescription() {
@@ -195,6 +205,7 @@ class CardDetail {
 
     onClickDueDateButton() {
         if (this.dueDateContainer.style.display === 'none') {
+            this.hideAllSidePopup();
             this.dueDateContainer.style.display = 'block';
             this.dueDateContainer.querySelector("input").addEventListener("input", (evt)=>{
                 this.setDueDate(evt.target.value);

@@ -262,6 +262,9 @@ a.header-logo {
     top: 0px;
     left: 0px;
     z-index: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .task-list-option {

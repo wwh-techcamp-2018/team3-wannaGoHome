@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.Team;
+import wannagohome.domain.team.TeamPermissionChangeDto;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserDto;
 import wannagohome.domain.user.UserIncludedInTeam;
@@ -148,4 +149,13 @@ public class TeamService {
         UserIncludedInTeam userIncludedInTeam = createRelation(user, team, UserPermission.MEMBER);
         return userIncludedInTeamRepository.save(userIncludedInTeam);
     }
+
+    public UserIncludedInTeam changePermission(TeamPermissionChangeDto permissionDto) {
+        User user = userService.findByUserId(permissionDto.getUserId());
+        Team team = findTeamById(permissionDto.getTeamId());
+        UserIncludedInTeam userIncludedInTeam = userIncludedInTeamRepository.findByUserAndTeam(user,team).get();
+        userIncludedInTeam.changePermission(UserPermission.of(permissionDto.getPermission()));
+        return userIncludedInTeamRepository.save(userIncludedInTeam);
+    }
+
 }

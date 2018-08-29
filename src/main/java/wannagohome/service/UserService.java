@@ -15,6 +15,7 @@ import wannagohome.domain.user.SignUpDto;
 import wannagohome.domain.user.User;
 import wannagohome.event.TeamEvent;
 import wannagohome.exception.BadRequestException;
+import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthenticationException;
 import wannagohome.repository.UserRepository;
 import wannagohome.service.file.UploadService;
@@ -104,5 +105,9 @@ public class UserService {
         Set<User> userNameSet = new HashSet<User>(userRepository.findAllByIdNotInAndNameContainingIgnoreCase(userIds, keyword));
         userEmailSet.addAll(userNameSet);
         return new ArrayList<User>(userEmailSet);
+    }
+
+    public User findByUserId(Long userId) {
+        return userRepository.findById(userId).orElseThrow(()-> new NotFoundException(ErrorType.USER_ID, "해당하는 유저가 없습니다."));
     }
 }

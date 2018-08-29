@@ -449,3 +449,34 @@
     display: none;
     font-size: 15px;
 }
+
+.user-rights-box {
+    position: absolute;
+    display: none;
+    width: 240px;
+    background-color: #FFF;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+
+.user-rights-content .user-rights-item {
+    padding: 4px 4px;
+    font-weight: bold;
+
+    border-bottom: 1px solid #d6dadc;
+}
+
+.user-rights-content .user-rights-item:hover {
+    cursor: pointer;
+}
+
+.user-rights-content .user-rights-item:last-child {
+    border-bottom: none;
+}
+
+.user-rights-box-title {
+    text-align: center;
+    color: #8c8c8c;
+    padding: 8px 0;
+    border-bottom: 1px solid #d6dadc;
+}

@@ -12,10 +12,8 @@ import wannagohome.service.ActivityService;
 import wannagohome.service.TeamInviteService;
 import wannagohome.service.TeamService;
 import wannagohome.service.UserService;
-import wannagohome.service.file.UploadService;
 import wannagohome.util.SessionUtil;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 

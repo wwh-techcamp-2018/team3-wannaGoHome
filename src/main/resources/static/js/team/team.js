@@ -92,6 +92,12 @@ function drawTeam(status, result) {
         $_(".profile-avatar-holder").style.top = $_("body").scrollTop + evt.pageY + 5 + "px";
     });
 
+    $_(".team-profile-delete-button").addEventListener("click", function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        onClickDeleteTeamButton();
+    });
+
     $_("body").addEventListener("click", function(evt) {
         $_(".profile-avatar-holder").style.display = "none";
     });
@@ -115,13 +121,34 @@ function drawTeam(status, result) {
                 }
             })
         }
-    }
+    };
 
     $_(".user-rights-content").addEventListener("click", function(evt) {
         evt.stopPropagation();
         changeRightsFunction(evt);
     });
 
+}
+
+function onClickDeleteTeamButton() {
+    showDialog("Delete Team", "Really Delete it? Careful", onClickOkDelete, ()=>{});
+}
+
+function onClickOkDelete() {
+    fetchManager({
+        url: "/api/teams/" + teamIndex,
+        method: "DELETE",
+        callback: handleDeleteTeam
+    });
+}
+
+function handleDeleteTeam(status) {
+    if (status === 200) {
+        window.location.href = "/";
+        return;
+    }
+
+    showDialog("Fail to delete team", "You cannot delete it haha !!!!");
 }
 
 function drawMembers(status, result) {

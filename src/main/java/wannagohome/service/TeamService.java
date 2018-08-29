@@ -19,7 +19,6 @@ import wannagohome.domain.team.RemoveUserFromTeamDto;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamPermissionChangeDto;
 import wannagohome.domain.user.*;
-import wannagohome.event.ActivityEventHandler;
 import wannagohome.event.PersonalEvent;
 import wannagohome.event.TeamEvent;
 import wannagohome.exception.DuplicationException;
@@ -31,7 +30,6 @@ import wannagohome.service.file.UploadService;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,7 +96,7 @@ public class TeamService {
     @Cacheable(value = "teamsByUser", key = "#user.id")
     public List<Team> findTeamsByUser(User user) {
         List<Team> teams = new ArrayList<>();
-        userIncludedInTeamRepository.findAllByUser(user)
+        userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)
                 .stream()
                 .forEach(userIncludedInTeam -> teams.add(userIncludedInTeam.getTeam()));
         return teams;
@@ -126,7 +124,7 @@ public class TeamService {
     }
 
     public List<Team> findByUser(User user) {
-        return userIncludedInTeamRepository.findAllByUser(user)
+        return userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)
                 .stream().map(UserIncludedInTeam::getTeam).collect(Collectors.toList());
     }
 
@@ -221,6 +219,14 @@ public class TeamService {
     }
 
     @Transactional
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "boardSummary", allEntries = true),
+                    @CacheEvict(value = "recentlyViewBoard", allEntries = true),
+                    @CacheEvict(value = "teamsByUser", allEntries = true),
+                    @CacheEvict(value = "createBoardInfo", allEntries = true)
+            }
+    )
     public Team deleteTeam(User user, Long teamId) {
         Team team = findTeamById(teamId);
         userIncludedInTeamRepository.findByUserAndTeam(user, team)

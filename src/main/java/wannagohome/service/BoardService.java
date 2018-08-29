@@ -68,7 +68,7 @@ public class BoardService {
         BoardSummaryDto boardSummaryDTO = new BoardSummaryDto();
         boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user).stream()
                 .map(board -> BoardCardDto.valueOf(board)).collect(Collectors.toList()));
-        userIncludedInTeamRepository.findAllByUser(user)
+        userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)
                 .forEach(userIncludedInTeam ->
                     boardSummaryDTO.addBoardOfTeamsDTO(
                                 new BoardOfTeamDto(userIncludedInTeam.getTeam(),

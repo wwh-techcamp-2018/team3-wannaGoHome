@@ -12,6 +12,7 @@ import wannagohome.domain.user.User;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.CardService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -83,7 +84,7 @@ public class ApiCardController {
 
     @PostMapping("/{cardId}/comments")
     @ResponseStatus(HttpStatus.CREATED)
-    public Comment addComment(@LoginUser User user, @PathVariable Long cardId, @RequestBody CommentDto dto) {
+    public Comment addComment(@LoginUser User user, @PathVariable Long cardId, @Valid @RequestBody CommentDto dto) {
         return cardService.addComment(user, cardId, dto);
     }
 

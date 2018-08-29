@@ -58,6 +58,10 @@ document.addEventListener("DOMContentLoaded", function(evt) {
         }
     });
 
+    $_(".profile-avatar-holder-icon").addEventListener("click", function (evt) {
+        $_("body").click();
+    });
+
     document.addEventListener("click", function(evt) {
         $_(".user-search-box").style.display = "none";
     });
@@ -147,6 +151,20 @@ function drawMembers(status, result) {
                         }
                     })
                 }.bind(this);
+            }.bind(member));
+
+            memberElem.querySelector(".remove-button").addEventListener("click", function(evt) {
+                fetchManager({
+                    url: `/api/teams/${teamIndex}/users`,
+                    method: "DELETE",
+                    body: JSON.stringify({"teamId": teamIndex,
+                        "userId": this.id}),
+                    callback: (status, response) => {
+                        if(status == 200) {
+                            location.reload();
+                        }
+                    }
+                })
             }.bind(member));
 
             document.addEventListener("click", function(evt) {

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorEntity;
+import wannagohome.domain.team.RemoveUserFromTeamDto;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.team.TeamPermissionChangeDto;
@@ -86,9 +87,16 @@ public class ApiTeamController {
         return teamService.changeProfile(teamService.findTeamById(teamId), file);
     }
 
+    @DeleteMapping("{teamId}/users")
+    public UserDto removeUserFromTeam(@LoginUser User user, @Valid @RequestBody RemoveUserFromTeamDto removeUserFromTeamDto) {
+        return teamService.removeUserFromTeam(user, removeUserFromTeamDto);
+    }
+
     @ExceptionHandler(DuplicationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public List<ErrorEntity> handleDuplicationException(ErrorEntityException exception) {
         return Arrays.asList(exception.entity());
     }
+
+
 }

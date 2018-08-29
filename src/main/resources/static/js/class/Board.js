@@ -154,6 +154,15 @@ class Board {
                 this.boardHeader.setBoardHeader(JSON.parse(frame.body));
             }.bind(this));
 
+            this.expelSubscribe = this.stompClient.subscribe("/topic/boards/expel/init", function (frame) {
+                this.expelSubscribe.unsubscribe();
+                const topic = frame.body;
+                this.stompClient.subscribe(topic, (evt) => {
+                    showDialog("쫒겨났습니다", "홈으로 돌아갑니다.", () => {window.location.href = "/"})
+                });
+            }.bind(this));
+            this.stompClient.send(`/app/boards/${this.boardIndex}/expel/init`);
+
             this.cardDetailForm.setClient(this.stompClient);
             this.fetchBoardState();
         }.bind(this))

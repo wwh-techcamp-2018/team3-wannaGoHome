@@ -5,6 +5,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import wannagohome.domain.activity.ActivityType;
 import wannagohome.domain.activity.BoardActivity;
@@ -33,6 +34,8 @@ import java.util.stream.Collectors;
 @Service
 public class BoardService {
 
+    private static final String BOARD_HEADER_TOPIC_URL = "/topic/board/%d/header";
+
     @Autowired
     private BoardRepository boardRepository;
 
@@ -50,6 +53,9 @@ public class BoardService {
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private SimpMessageSendingOperations simpMessageSendingOperations;
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
@@ -129,6 +135,40 @@ public class BoardService {
                 .orElseThrow(()-> new BadRequestException(ErrorType.BOARD_ID, "ID에 해당하는 Board가 존재하지 않습니다."));
     }
 
+    public BoardInitDto getBoardInitInfo(User user, Long boardId) {
+        Board board = findById(boardId);
+        List<User> members = userIncludedInBoardRepository.findAllByBoard(board).stream()
+                .map(UserIncludedInBoard::getUser).collect(Collectors.toList());
+        UserPermission permission = userIncludedInBoardRepository.findByUserAndBoard(user, board)
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "보드에 속해있지 않습니다."))
+                .getPermission();
+        return BoardInitDto.valueOf(board, members, permission);
+    }
+
+    public BoardHeaderDto deleteBoard(User user, Long boardId) {
+        Board board = findById(boardId);
+        UserIncludedInBoard userIncludedInBoard = userIncludedInBoardRepository.findByUserAndBoard(user, board)
+                .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
+        board.delete(userIncludedInBoard);
+        boardRepository.save(board);
+
+        BoardHeaderDto boardHeaderDto = BoardHeaderDto.valueOf(board, userIncludedInBoard);
+        simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
+        return boardHeaderDto;
+    }
+
+    public BoardHeaderDto renameBoard(User user, Long boardId, BoardHeaderDto dto) {
+        Board board = findById(boardId);
+        UserIncludedInBoard userIncludedInBoard = userIncludedInBoardRepository.findByUserAndBoard(user, board)
+                .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
+        board.rename(userIncludedInBoard, dto);
+        boardRepository.save(board);
+
+        BoardHeaderDto boardHeaderDto = BoardHeaderDto.valueOf(board, userIncludedInBoard);
+        simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
+        return boardHeaderDto;
+    }
+
     @Cacheable(value = "boardByTeam",key= "#team.id")
     public List<Board> getBoardByTeam(Team team) {
         return boardRepository.findAllByTeamAndDeletedFalse(team);
@@ -163,15 +203,24 @@ public class BoardService {
             return maybeUserIncludedInBoard.get();
         }
 
+        UserIncludedInBoard userIncludedInBoard = userIncludedInBoardRepository.save(
+                UserIncludedInBoard.builder()
+                        .user(user)
+                        .board(board)
+                        .permission(permission)
+                        .build()
+        );
+
         BoardActivity boardActivity = BoardActivity.valueOf(user, board, ActivityType.BOARD_MEMBER_ADD);
         applicationEventPublisher.publishEvent(new BoardEvent(this, boardActivity));
-        return userIncludedInBoardRepository.save(
-                UserIncludedInBoard.builder()
-                .user(user)
-                .board(board)
-                .permission(permission)
-                .build()
+        BoardHeaderDto boardHeaderDto = BoardHeaderDto.valueOf(
+                board,
+                userIncludedInBoardRepository.findAllByBoard(board).stream().map(UserIncludedInBoard::getUser).collect(Collectors.toList()),
+                userIncludedInBoard
         );
+        simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
+
+        return userIncludedInBoard;
     }
 
     @Cacheable(value = "createBoardInfo")
@@ -187,7 +236,7 @@ public class BoardService {
                 .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "일치하는 보드가 없습니다."));
         List<Card> cardList = new ArrayList<>();
         board.getTasks().forEach(task -> {
-            cardList.addAll(task.getCards().stream().filter(card -> card.existDueDate()).collect(Collectors.toList()));
+            cardList.addAll(task.getCards().stream().filter(Card::existDueDate).collect(Collectors.toList()));
         });
         return cardList;
 

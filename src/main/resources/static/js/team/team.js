@@ -1,21 +1,33 @@
 let teamIndex;
-
+let currentUser;
 document.addEventListener("DOMContentLoaded", function(evt) {
     teamIndex = window.location.href.trim().split("/").pop();
 
     fetchManager({
-        url: `/api/teams/${teamIndex}`,
+        url: `/api/teams/${teamIndex}/member`,
         method: "GET",
         headers: {"content-type": "application/json"},
-        callback: drawTeam
+        callback: (status, result) => {
+            currentUser = result;
+            fetchManager({
+                url: `/api/teams/${teamIndex}`,
+                method: "GET",
+                headers: {"content-type": "application/json"},
+                callback: drawTeam
+            });
+
+            fetchManager({
+                url: `/api/teams/${teamIndex}/members`,
+                method: "GET",
+                headers: {"content-type": "application/json"},
+                callback: drawMembers
+            });
+        }
     });
 
-    fetchManager({
-        url: `/api/teams/${teamIndex}/members`,
-        method: "GET",
-        headers: {"content-type": "application/json"},
-        callback: drawMembers
-    });
+
+
+
 
     $_(".invite-team-button").addEventListener("click", function(evt) {
         evt.stopPropagation();
@@ -55,6 +67,10 @@ function drawTeam(status, result) {
     const teamHeaderTemplate = Handlebars.templates["precompile/team/team_page_header"];
     $_(".team-page-header").insertBefore(createElementFromHTML(teamHeaderTemplate(result)), $_(".team-options-holder"));
 
+    if(currentUser.userPermission != "Admin") {
+        $_(".team-profile-edit-button").style.display = "none";
+        return;
+    }
     $_(".team-profile-image").addEventListener("click", function(evt) {
         evt.preventDefault();
         evt.stopPropagation();

@@ -5,6 +5,7 @@ class MyPage {
         this.activitiyHolder = activitiesNode;
         this.profileImegeHolder = new Profile(this.profileHolder, profileAvatarNode);
         this.invitationHolder = invitationNode;
+        this.invitationResult = "";
         this.init();
     }
 
@@ -77,12 +78,14 @@ class MyPage {
 
     addInvitationButtonClickEvent(invitationNode) {
         invitationNode.querySelector(".invitation-agree-button").addEventListener("click", (evt) => {
+            this.invitationResult = true;
             this.requestTeamInvitation(
                 evt.target.parentElement.getAttribute("data-id"), true
             );
         });
 
         invitationNode.querySelector(".invitation-refuse-button").addEventListener("click", (evt) => {
+            this.invitationResult = false;
             this.requestTeamInvitation(
                 evt.target.parentElement.getAttribute("data-id"), false
             );
@@ -197,6 +200,11 @@ class MyPage {
 
     handleTeamInvitation(status, response) {
         const invitationNode = this.invitationHolder.querySelector(`#invitation-${response.id}`);
+        if(this.invitationResult) {
+            const template = Handlebars.templates["precompile/mypage/mypage_team_template"];
+            const teamListNode = this.teamHolder.querySelector(".team-list");
+            teamListNode.appendChild(createElementFromHTML(template(response.team)));
+        }
         invitationNode.remove();
     }
 

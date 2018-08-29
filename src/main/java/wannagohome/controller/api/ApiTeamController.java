@@ -9,9 +9,11 @@ import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserDto;
+import wannagohome.event.ActivityEventHandler;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.ErrorEntityException;
 import wannagohome.interceptor.LoginUser;
+import wannagohome.repository.ActivityRepository;
 import wannagohome.service.TeamInviteService;
 import wannagohome.service.TeamService;
 
@@ -56,8 +58,8 @@ public class ApiTeamController {
 
     @PostMapping("/{teamId}/invite/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public TeamInvite inviteMember(@PathVariable Long teamId, @PathVariable Long userId) {
-        return teamInviteService.createTeamInvite(userId, teamId);
+    public TeamInvite inviteMember(@LoginUser User user, @PathVariable Long teamId, @PathVariable Long userId) {
+        return teamInviteService.createTeamInvite(user,userId, teamId);
     }
 
     @GetMapping("")

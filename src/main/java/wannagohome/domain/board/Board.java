@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.task.Task;
 import wannagohome.domain.task.TaskDto;
@@ -44,6 +45,7 @@ public class Board {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
     @OrderBy("order_id ASC")
+    @Where(clause = "deleted = false")
     private List<Task> tasks;
 
     @Enumerated(EnumType.STRING)

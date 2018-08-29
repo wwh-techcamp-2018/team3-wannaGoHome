@@ -42,7 +42,7 @@ public class Task {
 
     @NotBlank
     @Size(min=1, max = 30)
-    @Column(length = 20, nullable = false)
+    @Column(length = 30, nullable = false)
     private String title;
 
     @JsonManagedReference

@@ -10,9 +10,11 @@ import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserDto;
+import wannagohome.event.ActivityEventHandler;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.ErrorEntityException;
 import wannagohome.interceptor.LoginUser;
+import wannagohome.repository.ActivityRepository;
 import wannagohome.service.TeamInviteService;
 import wannagohome.service.TeamService;
 
@@ -49,6 +51,12 @@ public class ApiTeamController {
         return teamService.findByTeam(teamService.findTeamById(id));
     }
 
+    @GetMapping("/{id}/member")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto teamMember(@LoginUser User user, @PathVariable Long id) {
+        return teamService.findByUserOfTeam(user,teamService.findTeamById(id));
+    }
+
     @GetMapping("/{id}/search/{queryString}")
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> searchResults(@PathVariable Long id, @PathVariable String queryString) {
@@ -57,8 +65,8 @@ public class ApiTeamController {
 
     @PostMapping("/{teamId}/invite/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public TeamInvite inviteMember(@PathVariable Long teamId, @PathVariable Long userId) {
-        return teamInviteService.createTeamInvite(userId, teamId);
+    public TeamInvite inviteMember(@LoginUser User user, @PathVariable Long teamId, @PathVariable Long userId) {
+        return teamInviteService.createTeamInvite(user,userId, teamId);
     }
 
     @GetMapping("")

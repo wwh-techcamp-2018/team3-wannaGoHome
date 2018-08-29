@@ -43,6 +43,7 @@ public class User {
     @Column(nullable = false)
     private boolean deleted;
 
+    @Lob
     private String profile;
 
     public String getProfile() {

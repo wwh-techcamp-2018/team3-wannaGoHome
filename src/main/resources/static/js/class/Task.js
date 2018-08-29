@@ -173,13 +173,12 @@ class Task {
             evt.preventDefault();
             evt.stopPropagation();
             this.taskListOptionHolder.style.display = "block";
-            this.taskListOptionHolder.style.left = evt.clientX + "px";
+
+            this.taskListOptionHolder.style.left = evt.clientX + this.board.scrollContainer.scrollLeft + "px";
             this.taskListOptionHolder.style.top = evt.clientY - 80 + "px";
         }.bind(this));
 
         this.taskListOptionHolder.querySelector(".delete-options").addEventListener("click", function(evt) {
-
-            console.log(this.taskObject.title);
         }.bind(this));
 
         window.addEventListener("resize", function (evt) {

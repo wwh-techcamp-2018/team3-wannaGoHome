@@ -117,4 +117,18 @@ public class TeamService {
         return userIncludedInTeamRepository.findByUserAndTeam(user,team)
                 .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Team에 접근할 권한이 없습니다."));
     }
+
+
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "boardSummary", key = "#user.id"),
+                    @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
+                    @CacheEvict(value = "teamsByUser", key = "#user.id"),
+                    @CacheEvict(value = "createBoardInfo", allEntries = true)
+            }
+    )
+    public UserIncludedInTeam includeInTeam(User user, Team team) {
+        UserIncludedInTeam userIncludedInTeam = createRelation(user, team, UserPermission.MEMBER);
+        return userIncludedInTeamRepository.save(userIncludedInTeam);
+    }
 }

@@ -3,5 +3,6 @@ document.addEventListener("DOMContentLoaded", function(evt) {
     const teamNode = $_(".maypage-team-holder");
     const activitiesNode = $_(".maypage-activity-holder");
     const profileAvatarNode = $_(".profile-avatar-holder");
-    new MyPage(profileNode, profileAvatarNode, teamNode, activitiesNode);
+    const invitationHolder = $_(".mypage-invitation-holder");
+    new MyPage(profileNode, profileAvatarNode, teamNode, activitiesNode, invitationHolder);
 });

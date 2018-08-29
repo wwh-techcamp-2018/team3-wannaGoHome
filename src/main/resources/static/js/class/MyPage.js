@@ -1,9 +1,10 @@
 class MyPage {
-    constructor(profileNode, profileAvatarNode, teamNode, activitiesNode) {
+    constructor(profileNode, profileAvatarNode, teamNode, activitiesNode, invitationNode) {
         this.profileHolder = profileNode;
         this.teamHolder = teamNode;
         this.activitiyHolder = activitiesNode;
         this.profileImegeHolder = new Profile(this.profileHolder, profileAvatarNode);
+        this.invitationHolder = invitationNode;
         this.init();
     }
 
@@ -74,6 +75,21 @@ class MyPage {
         });
     }
 
+    addInvitationButtonClickEvent(invitationNode) {
+        invitationNode.querySelector(".invitation-agree-button").addEventListener("click", (evt) => {
+            this.requestTeamInvitation(
+                evt.target.parentElement.getAttribute("data-id"), true
+            );
+        });
+
+        invitationNode.querySelector(".invitation-refuse-button").addEventListener("click", (evt) => {
+            this.requestTeamInvitation(
+                evt.target.parentElement.getAttribute("data-id"), false
+            );
+        });
+    }
+
+
     showProfileContentUpdateHolder() {
         this.profileHolderSelector(".profile-content-update-holder").style.display = "block";
         this.profileHolderSelector(".profile-content-description").style.display = "none";
@@ -93,6 +109,7 @@ class MyPage {
         this.drawProfile(response.user);
         this.drawTeam(response.teams);
         this.drawActivity(response.activities);
+        this.drawTeamInvitation(response.teamInvites);
         this.addProfileImgClickEvent();
         this.addEditProfileClickEvent();
         this.addContentUpdateSubmitClickEvent();
@@ -124,6 +141,17 @@ class MyPage {
         });
     }
 
+    drawTeamInvitation(teamInvites) {
+        const template = Handlebars.templates["precompile/mypage/mypage_invitation_template"];
+        const invitationListNode = this.invitationHolder.querySelector(".invitation-list");
+        for(const invitation of teamInvites) {
+            const invitationNode = createElementFromHTML(template(invitation));
+            invitationListNode.appendChild(invitationNode);
+            this.addInvitationButtonClickEvent(invitationNode);
+        }
+
+    }
+
     loadMoreActivity() {
         const body = {
             registeredDate:
@@ -134,6 +162,20 @@ class MyPage {
             method: "POST",
             body: JSON.stringify(body),
             callback: this.handleLoadMoreActivity.bind(this)
+        })
+    }
+
+    requestTeamInvitation(id, isAgree) {
+        const obj = {
+            "id" : id,
+            "isAgree" : isAgree
+        }
+
+        fetchManager({
+            url : "/api/users/invitation",
+            method : "POST",
+            body : JSON.stringify(obj),
+            callback : this.handleTeamInvitation.bind(this)
         })
     }
 
@@ -152,6 +194,12 @@ class MyPage {
         contentUpdateInputNode.value = "";
         contentUpdateInputNode.placeholder = response[0].message;
     }
+
+    handleTeamInvitation(status, response) {
+        const invitationNode = this.invitationHolder.querySelector(`#invitation-${response.id}`);
+        invitationNode.remove();
+    }
+
 
     getActivityRegisteredDate(activity) {
         return activity.querySelector(".activity-time").innerText;

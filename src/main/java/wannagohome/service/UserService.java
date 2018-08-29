@@ -3,14 +3,20 @@ package wannagohome.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import wannagohome.domain.activity.ActivityType;
+import wannagohome.domain.activity.TeamActivity;
 import wannagohome.domain.error.ErrorType;
+import wannagohome.domain.team.TeamInvitationDto;
+import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.SignInDto;
 import wannagohome.domain.user.SignUpDto;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserDto;
+import wannagohome.event.TeamEvent;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthenticationException;
 import wannagohome.repository.UserRepository;
@@ -23,8 +29,6 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
-
     @Autowired
     private UserRepository userRepository;
 
@@ -33,6 +37,15 @@ public class UserService {
 
     @Resource(name = "imageUploadService")
     private UploadService uploadService;
+
+    @Autowired
+    private TeamInviteService teamInviteService;
+
+    @Autowired
+    private TeamService teamService;
+
+    @Autowired
+    ApplicationEventPublisher publisher;
 
 
     public User signIn(SignInDto dto) {
@@ -72,4 +85,16 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
+
+    public TeamInvite processTeamInvitation(User user, TeamInvitationDto invitationDto) {
+        TeamInvite teamInvite = teamInviteService.findById(invitationDto.getId());
+        if(invitationDto.getIsAgree()) {
+            teamService.includeInTeam(teamInvite.getMember(), teamInvite.getTeam());
+            TeamActivity teamActivity  = TeamActivity.valueOf(user, teamInvite.getTeam(), ActivityType.TEAM_MEMBER_ADD);
+            publisher.publishEvent(new TeamEvent(this, teamActivity));
+        }
+        teamInviteService.deleteById(invitationDto.getId());
+        return teamInvite;
+    }
+
 }

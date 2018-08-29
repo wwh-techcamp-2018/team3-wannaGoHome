@@ -98,6 +98,7 @@ function displayTeam(status, result) {
         const template = Handlebars.templates["precompile/sidebar_template"];
         $_(".sidebar-team-list").innerHTML += template(result.team);
         boardSummary.drawTeamBoards(result);
+        selectTeam();
 
     } else {
         result.forEach(function(result){

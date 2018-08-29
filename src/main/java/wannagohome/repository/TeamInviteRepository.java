@@ -5,10 +5,13 @@ import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TeamInviteRepository extends JpaRepository<TeamInvite, Long> {
 
     Optional<TeamInvite> findByMemberEqualsAndTeamEquals(User member, Team team);
+    List<TeamInvite> findAllByMember(User member);
+
 
 }

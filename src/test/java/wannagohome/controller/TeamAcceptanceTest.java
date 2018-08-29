@@ -37,12 +37,12 @@ public class TeamAcceptanceTest extends AcceptanceTest {
         team = Team.builder()
                 .name("test")
                 .description("testDescription")
-                .profileImage("http://urlsurllw")
+                .profile("http://urlsurllw")
                 .build();
         team2 = Team.builder()
                 .name("test2")
                 .description("testDescription2")
-                .profileImage("http://urlsurllw2")
+                .profile("http://urlsurllw2")
                 .build();
     }
 

@@ -21,8 +21,8 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 255)
-    private String profileImage;
+    @Lob
+    private String profile;
 
     @NotBlank
     @Size(min = 1, max = 20)

@@ -22,7 +22,7 @@ public class TeamTest {
         team = Team.builder()
                 .name("teamname")
                 .description("teamDescription")
-                .profileImage("http://urlsurllw")
+                .profile("http://urlsurllw")
                 .build();
 
         user = User.builder()

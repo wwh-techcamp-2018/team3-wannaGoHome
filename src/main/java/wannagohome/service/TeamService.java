@@ -97,6 +97,10 @@ public class TeamService {
                 .collect(Collectors.toList());
     }
 
+    public UserDto findByUserOfTeam(User user, Team team) {
+        return UserDto.userDtoWithPermission(userIncludedInTeamRepository.findByUserAndTeam(user,team).get());
+    }
+
     public List<Team> findByUser(User user) {
         return userIncludedInTeamRepository.findAllByUser(user)
                 .stream().map(UserIncludedInTeam::getTeam).collect(Collectors.toList());

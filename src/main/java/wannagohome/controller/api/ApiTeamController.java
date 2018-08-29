@@ -50,6 +50,12 @@ public class ApiTeamController {
         return teamService.findByTeam(teamService.findTeamById(id));
     }
 
+    @GetMapping("/{id}/member")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto teamMember(@LoginUser User user, @PathVariable Long id) {
+        return teamService.findByUserOfTeam(user,teamService.findTeamById(id));
+    }
+
     @GetMapping("/{id}/search/{queryString}")
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> searchResults(@PathVariable Long id, @PathVariable String queryString) {

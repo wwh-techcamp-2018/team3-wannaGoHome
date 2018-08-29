@@ -356,12 +356,16 @@ input[type="date"]:focus {
     margin-bottom: 0; !important;
     font-size: 11px;
     color: #000000;
-    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
     font-weight: bold;
 }
 
 .card-detail-summary-attachment-list > p > a {
     text-decoration: none;
+    color: #003d5e;
 }
 
 
@@ -369,9 +373,8 @@ input[type="date"]:focus {
     color: #e25b52;
     padding-left: 3px;
     cursor: pointer;
+    float: right;
 }
-
-
 
 .card-detail-summary-attachment-title {
     float: right;
@@ -382,8 +385,14 @@ input[type="date"]:focus {
     background-color: #f8f9f9;
     border-radius: 3px;
     z-index: 200;
-    position: relative;
+    position: absolute;
     width: 150px;
     margin-top: 23px;
     box-shadow: 1px 1px 1px #b4b6b8;
+}
+
+.card-list-calendar, .card-list-label {
+    display: inline-block;
+    color: #888888;
+    font-size: 11px;
 }

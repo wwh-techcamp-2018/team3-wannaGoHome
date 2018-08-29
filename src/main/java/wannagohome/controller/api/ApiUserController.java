@@ -32,6 +32,9 @@ public class ApiUserController {
     @Autowired
     private ActivityService activityService;
 
+    @Resource(name = "imageUploadService")
+    private UploadService uploadService;
+
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public User signUp(@RequestBody @Valid SignUpDto dto) {

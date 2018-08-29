@@ -21,13 +21,11 @@ import wannagohome.domain.team.TeamPermissionChangeDto;
 import wannagohome.domain.user.*;
 import wannagohome.event.ActivityEventHandler;
 import wannagohome.event.PersonalEvent;
+import wannagohome.event.TeamEvent;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
-import wannagohome.repository.ActivityRepository;
-import wannagohome.repository.TeamRepository;
-import wannagohome.repository.UserIncludedInBoardRepository;
-import wannagohome.repository.UserIncludedInTeamRepository;
+import wannagohome.repository.*;
 import wannagohome.service.file.UploadService;
 
 import javax.annotation.Resource;
@@ -42,6 +40,9 @@ public class TeamService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
 
     @Autowired
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
@@ -217,5 +218,24 @@ public class TeamService {
         teamActivity.setReceiver(target);
         applicationEventPublisher.publishEvent(new PersonalEvent(this, teamActivity));
         return UserDto.valueOf(targetIncludeInTeam.getUser());
+    }
+
+    @Transactional
+    public Team deleteTeam(User user, Long teamId) {
+        Team team = findTeamById(teamId);
+        userIncludedInTeamRepository.findByUserAndTeam(user, team)
+                .filter(UserIncludedInTeam::isAdmin)
+                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "팀을 지울 권한일 없습니다."));
+
+        team.delete();
+        boardRepository.findAllByTeamAndDeletedFalse(team).forEach(board -> {
+            board.delete();
+            boardRepository.save(board);
+        });
+        teamRepository.save(team);
+
+        TeamActivity activity = TeamActivity.valueOf(user, team, ActivityType.TEAM_DELETE);
+        applicationEventPublisher.publishEvent(new TeamEvent(this, activity));
+        return team;
     }
 }

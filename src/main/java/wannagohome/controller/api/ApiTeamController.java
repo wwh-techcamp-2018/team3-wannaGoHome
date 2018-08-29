@@ -45,6 +45,11 @@ public class ApiTeamController {
         return teamService.findTeamById(id);
     }
 
+    @DeleteMapping("/{id}")
+    public Team deleteTeam(@LoginUser User user, @PathVariable Long id) {
+        return teamService.deleteTeam(user, id);
+    }
+
     @GetMapping("/{id}/members")
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> teamMembers(@PathVariable Long id) {

@@ -163,7 +163,10 @@ public class BoardService {
                 .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
         board.rename(userIncludedInBoard, dto);
         boardRepository.save(board);
-        return BoardHeaderDto.valueOf(board, userIncludedInBoard);
+
+        BoardHeaderDto boardHeaderDto = BoardHeaderDto.valueOf(board, userIncludedInBoard);
+        simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
+        return boardHeaderDto;
     }
 
     @Cacheable(value = "boardByTeam",key= "#team.id")

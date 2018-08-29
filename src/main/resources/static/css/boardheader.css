@@ -40,10 +40,10 @@
 
 .board-header-team-member-img {
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
+    margin-left: -5px;
     border-radius: 50%;
-    background-color: #e25b52;
 }
 
 .board-header-right-menu {
@@ -93,11 +93,12 @@
 .board-header-options-holder {
     font-size: 0.85em;
     position: absolute;
-    padding: 4px;
+    padding: 6px;
     z-index: 5;
     background-color: #FFF;
     border-radius: 5px;
-    width: 250px;
+    width: 200px;
+    height: 70px;
     display: none;
 }
 
@@ -105,22 +106,31 @@
     color: #777;
     text-align: center;
     border-bottom: 1px #ccc solid;
-    padding: 2px 0px 4px 0px;
     height: 20px;
     line-height: 20px;
-}
-
-.board-options-container {
+    font-size: 12px;
 
 }
 
 .board-options-item {
-    color: #333333;
+    color: #e25b52;
     text-align: left;
-    padding: 6px 0px;
     font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+
 }
 
 .board-header-options-item:hover {
     cursor: pointer;
+}
+
+.board-header-title-input {
+    height: 35px;
+    border-radius: 5px;
+    border-style: none;
+    opacity: 0.7;
+    padding: 3px 6px;
+    font-size: 0.8em;
+    width: 180px;
 }

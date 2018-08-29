@@ -71,6 +71,7 @@ class Board {
         document.addEventListener("click", function (evt) {
             this.selector(".hidden-list-title-form").style.display = "none";
             this.boardHeader.hideOption();
+            this.boardHeader.hideBoardRenameOption();
         }.bind(this));
 
         this.addMouseDragListeners();

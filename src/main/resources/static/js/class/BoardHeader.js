@@ -5,6 +5,7 @@ class BoardHeader {
         const optionTemplate = Handlebars.templates["precompile/board/header/option_container_template"];
 
         this.boardTitle = header.querySelector(".board-header-title");
+        this.boardTitleEditor = header.querySelector(".board-header-title-input");
         this.teamTitle = header.querySelector(".board-header-team-title");
         this.boardHeaderMemberContainer = header.querySelector(".board-header-team-member");
         this.boardHeaderMenuButton = header.querySelector(".board-header-menu-button");
@@ -14,11 +15,16 @@ class BoardHeader {
         header.appendChild(this.boardOptionHolder);
 
         this.boardHeaderMenuButton.addEventListener("click", this.onClickBoardOptionButton.bind(this));
-        this.teamTitle.addEventListener("click", this.onClickBoardTitle.bind(this));
+        this.boardTitle.addEventListener("click", this.onClickBoardTitle.bind(this));
+        this.boardTitleEditor.addEventListener("keypress", this.onChangeBoardTitle.bind(this));
+        this.boardOptionHolder.addEventListener("click", (evt) => evt.stopPropagation());
     }
 
     onClickBoardTitle(evt) {
-        this.showBoardRenameOption(evt);
+        evt.stopPropagation();
+        if (this.isAdminPermission()) {
+            this.showBoardRenameOption(evt);
+        }
     }
 
     onClickBoardRemoveButton() {
@@ -34,9 +40,31 @@ class BoardHeader {
         this.showMenuOptions(evt)
     }
 
+    onChangeBoardTitle(evt) {
+        if (!detectEnter(evt)) {
+            return;
+        }
+
+        fetchManager({
+            url: `/api/boards/${this.boardId}/name`,
+            method: "PUT",
+            body: JSON.stringify({boardTitle: this.boardTitleEditor.value}),
+            callback: this.handleBoardRename.bind(this)
+        });
+    }
+
     handleBoardRemove(status) {
         if (status === 200)
             window.location.href = "/";
+    }
+
+    handleBoardRename(status) {
+        if (status === 200) {
+            this.hideBoardRenameOption();
+            return;
+        }
+
+        // TODO: 실패시 처리
     }
 
     setBoardHeader(boardHeader) {
@@ -51,11 +79,9 @@ class BoardHeader {
         addEscapedText(this.boardTitle, boardHeader.boardTitle);
         addEscapedText(this.teamTitle, boardHeader.teamTitle);
         this.drawBoardHeaderMembers(boardHeader.members);
-        if (this.isAdminPermission()) {
-            this.boardRemoveButton.classList.remove("board-header-remove-button-hide");
-        }
-        else {
-            this.boardRemoveButton.classList.add("board-header-remove-button-hide");
+
+        if (!this.isAdminPermission()) {
+            this.boardHeaderMenuButton.remove();
         }
 
         $_("body").style.backgroundColor = boardHeader.color;
@@ -83,28 +109,28 @@ class BoardHeader {
         this.boardOptionHolder.style.top = evt.clientY + "px";
     }
 
-    showBoardRenameOption(evt) {
-        this.showOption(evt);
+    showBoardRenameOption() {
+        this.boardTitleEditor.classList.remove("board-header-title-hide");
+        this.boardTitle.classList.add("board-header-title-hide");
 
-        const optionContainer = this.boardOptionHolder.querySelector(".board-options-container");
-        const inputField = createElementFromHTML("<input>");
+        this.boardTitleEditor.value = this.boardTitle.innerText;
+        this.boardTitleEditor.focus();
+    }
 
-        optionContainer.innerHTML = "";
-        optionContainer.appendChild(inputField);
+    hideBoardRenameOption() {
+        console.log("hide is called");
+        this.boardTitleEditor.classList.add("board-header-title-hide");
+        this.boardTitle.classList.remove("board-header-title-hide");
 
-        inputField.addEventListener("input", (evt) => {
-            if (detectEnter(evt)) {
-                // TODO: request rename;
-            }
-        })
+        this.boardTitleEditor.value = "";
     }
 
     showMenuOptions(evt) {
         this.showOption(evt);
-        this.boardOptionHolder.querySelector(".board-options-title").innerText = "Board Menu";
+        this.boardOptionHolder.querySelector(".board-options-title").innerText = "Delete Board";
 
         const optionContainer = this.boardOptionHolder.querySelector(".board-options-container");
-        const deleteButton = createElementFromHTML("<li class='board-options-item'>Delete Board</li>");
+        const deleteButton = createElementFromHTML("<li class='board-options-item'>Delete this Board!</li>");
         optionContainer.innerHTML = "";
         optionContainer.appendChild(deleteButton);
 

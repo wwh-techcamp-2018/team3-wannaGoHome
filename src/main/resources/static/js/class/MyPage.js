@@ -4,6 +4,7 @@ class MyPage {
         this.teamHolder = teamNode;
         this.activitiyHolder = activitiesNode;
         this.profileImegeHolder = new Profile(this.profileHolder, profileAvatarNode);
+        limitInputSize(this.profileHolderSelector(".content-update-input"), 10);
         this.init();
     }
 

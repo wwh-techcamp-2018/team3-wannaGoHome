@@ -135,7 +135,7 @@ function setOverlayClickFunctions(elem, stopPropagateElem, clickCallBack, backgr
 
 function limitInputSize(inputElem, size) {
     inputElem.addEventListener("input", (evt) => {
-        const currentValue = evt.currentTarget.value.trim();
+        const currentValue = evt.currentTarget.value;
         evt.currentTarget.value = currentValue.substring(0, Math.min(currentValue.length, size));
     });
 }

@@ -62,7 +62,9 @@ class Board {
 
         }.bind(this));
 
-        this.selector(".hidden-list-title-form input").addEventListener("keyup", function (evt) {
+        const taskTitleInput = this.selector(".hidden-list-title-form input");
+        limitInputSize(taskTitleInput, 30);
+        taskTitleInput.addEventListener("keyup", function (evt) {
             evt.preventDefault();
             if (event.keyCode === 13) {
                 this.selector(".add-list-inner-button").click();

@@ -19,6 +19,11 @@ class SignForm {
             }
         });
         this.inputForms["email"].focus();
+        limitInputSize(this.inputForms["email"], 40);
+        limitInputSize(this.inputForms["password"], 16);
+        if (this.inputForms["name"]) {
+            limitInputSize(this.inputForms["name"], 10);
+        }
 
         this.signButton = this.form.querySelector(".sign-button");
         this.signButton.addEventListener("click", (evt) => {

@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @ToString
 public class SignUpDto {
 
-    @Email
+    @Pattern(regexp = "^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[0-9a-zA-Z-]+)$")
     @NotBlank
     private String email;
 

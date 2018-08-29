@@ -103,7 +103,7 @@ public class TeamService {
     }
 
     public List<UserDto> findUsersByKeyword(Long teamId, String keyword) {
-        Team team = teamRepository.findById(teamId).get();
+        Team team = findTeamById(teamId);
         Set<UserIncludedInTeam> userIncludedInTeams =
                 new HashSet(userIncludedInTeamRepository.findAllByTeamNotAndUserNameContainingIgnoreCase(team, keyword));
         Set<UserIncludedInTeam> userIncludedInTeams1 =

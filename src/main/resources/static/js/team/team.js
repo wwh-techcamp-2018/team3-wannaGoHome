@@ -31,19 +31,19 @@ document.addEventListener("DOMContentLoaded", function(evt) {
         evt.stopPropagation();
     });
 
-    $_(".user-search-bar-holder input").addEventListener("keypress", function(evt) {
-        if(detectEnter(evt)) {
-            console.log();
-            const queryText = evt.currentTarget.value.trim();
-            if(queryText.length > 1) {
-                fetchManager({
-                    url: `/api/teams/${teamIndex}/search/${queryText}`,
-                    method: "GET",
-                    headers: {"content-type" : "application/json"},
-                    callback: drawSearchResults
-                });
-            }
+    $_(".user-search-bar-holder input").addEventListener("keyup", function(evt) {
+        $_(".user-search-bar-results").innerHTML = "";
+
+        const queryText = evt.currentTarget.value.trim();
+        if(queryText.length > 1) {
+            fetchManager({
+                url: `/api/teams/${teamIndex}/search/${queryText}`,
+                method: "GET",
+                headers: {"content-type" : "application/json"},
+                callback: drawSearchResults
+            });
         }
+
     });
 
     document.addEventListener("click", function(evt) {

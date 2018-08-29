@@ -82,7 +82,7 @@ class Profile {
 
     handleUploadProfileImage(status, response) {
         if(status === 200) {
-            this.profileAvatorHolder.querySelector(".profile-upload").reset();
+            // this.profileAvatorHolder.querySelector(".profile-upload").reset();
             this.changeProfileImage(response.profile);
             this.hideProfileImageHolder();
             return;

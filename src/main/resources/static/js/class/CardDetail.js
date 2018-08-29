@@ -83,7 +83,7 @@ class CardDetail {
 
         this.selector("#card-detail-file-upload").addEventListener("input", (evt)=>{
             this.onClickAttachmentButton(evt.target.files);
-        })
+        });
         this.attachmentSummaryTitle.addEventListener("click", (evt)=>{
             this.onClickLoadAttachments();
         });
@@ -257,9 +257,11 @@ class CardDetail {
 
     handleAttachment(status, attachments) {
         if(status !== 201){
+            showDialog("파일 첨부 실패", attachments[0].message );
+            console.log(attachments[0].message);
             return;
         }
-        console.log(attachments);
+        this.selector("#card-detail-file-upload").reset();
         this.drawAttachmentTitle(attachments);
 
     }

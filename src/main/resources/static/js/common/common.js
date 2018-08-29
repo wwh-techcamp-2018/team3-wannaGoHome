@@ -165,3 +165,39 @@ class PageObject {
         }.bind(this))
     }
 }
+
+function showDialog(title, description, okCallback, cancelCallback) {
+    const popupElement = createElementFromHTML(`
+        <div class="popup-wrapper">
+            <div class="popup-background"></div>
+            <div class="popup">
+                <div class="popup-title">${title}</div>
+                <p class="popup-description">${description}</p>
+                <div class="popup-button-wrapper">
+                    <button class="popup-ok-button">OK</button>
+                    <button class="popup-cancel-button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    `);
+    document.body.appendChild(popupElement);
+
+    popupElement.querySelector(".popup-ok-button").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        popupElement.remove();
+        if (okCallback)
+            okCallback();
+    });
+
+    const cancelButton = popupElement.querySelector(".popup-cancel-button");
+    if (cancelCallback) {
+        cancelButton.addEventListener("click", (evt) => {
+            popupElement.remove();
+            cancelCallback();
+        });
+    }
+    else {
+        cancelButton.classList.add("popup-button-hide");
+    }
+}

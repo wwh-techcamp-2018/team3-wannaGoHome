@@ -148,12 +148,15 @@ public class BoardService {
         return BoardInitDto.valueOf(board, members, permission);
     }
 
+    @Transactional
     public BoardHeaderDto deleteBoard(User user, Long boardId) {
         Board board = findById(boardId);
         UserIncludedInBoard userIncludedInBoard = userIncludedInBoardRepository.findByUserAndBoard(user, board)
                 .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "유저가 해당 보드에 속해있지 않습니다."));
         board.delete(userIncludedInBoard);
-        boardRepository.save(board);
+        board = boardRepository.save(board);
+
+        recentlyViewBoardRepository.deleteByBoard(board);
 
         BoardHeaderDto boardHeaderDto = BoardHeaderDto.valueOf(board, userIncludedInBoard);
         simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);

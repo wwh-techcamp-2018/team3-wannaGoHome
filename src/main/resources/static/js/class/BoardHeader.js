@@ -14,7 +14,11 @@ class BoardHeader {
         header.appendChild(this.boardOptionHolder);
 
         this.boardHeaderMenuButton.addEventListener("click", this.onClickBoardOptionButton.bind(this));
-        this.boardRemoveButton.addEventListener("click", this.onClickBoardRemoveButton.bind(this));
+        this.teamTitle.addEventListener("click", this.onClickBoardTitle.bind(this));
+    }
+
+    onClickBoardTitle(evt) {
+        this.showBoardRenameOption(evt);
     }
 
     onClickBoardRemoveButton() {

@@ -1,3 +1,67 @@
+.board-header {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: transparent;
+    font-size: 25px;
+    color: #fff;
+}
+
+.board-header-left-menu {
+    height: 100%;
+    padding-left: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+}
+
+.board-header-title {
+    display: inline-block;
+    font-size: 0.9em;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.board-header-team-title {
+    display: inline-block;
+    font-size: 0.6em;
+    vertical-align: middle;
+}
+
+.board-header-team-title-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.board-header-team-member {
+    display: inline-block;;
+    height: 30px;
+}
+
+.board-header-team-member-img {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #e25b52;
+}
+
+.board-header-right-menu {
+    display: inline-block;
+    float: right;
+    padding-right: 8px;
+}
+
+.board-header-right-menu span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 30px;
+    text-align: center;
+    padding: 3px 5px 3px 5px;
+    cursor: pointer;
+    width: 40px;
+    border-radius: 4px;
+}
 
 .board-header-menu-button {
     display: inline-block;

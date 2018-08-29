@@ -174,7 +174,7 @@ public class CardService {
 
     public List<AssigneeDto> getMembers(Long cardId, String keyword) {
         Card card = findCardById(cardId);
-        List<UserIncludedInBoard> users = userIncludedInBoardRepository.findAllByBoardAndUserNameContains(card.getBoard(), keyword);
+        List<UserIncludedInBoard> users = userIncludedInBoardRepository.findAllByBoardAndUserNameContainsIgnoreCase(card.getBoard(), keyword);
         return users.stream()
                 .map(userIncludedInBoard -> AssigneeDto.valueOf(userIncludedInBoard.getUser(), card))
                 .collect(Collectors.toList());
@@ -223,16 +223,18 @@ public class CardService {
     }
 
     @Transactional
-    public Attachment addFile(Long cardId, MultipartFile file) {
+    public List<Attachment> addFile(Long cardId, MultipartFile file) {
         Card card = findCardById(cardId);
-        return attachmentRepository.save(new Attachment(card,file.getOriginalFilename(), uploadService.fileUpload(file)));
+        Attachment attachment = new Attachment(card,file.getOriginalFilename(), uploadService.fileUpload(file));
+        attachmentRepository.save(attachment);
+        return card.getAttachments();
     }
 
-    public Attachment deleteFile(Long fileId) {
+    public List<Attachment> deleteFile(Long cardId, Long fileId) {
         Attachment attachment = findAttachmentById(fileId);
         uploadService.fileDelete(attachment.getLink());
         attachmentRepository.delete(attachment);
-        return attachment;
+        return findCardById(cardId).getAttachments();
     }
 
     public Attachment findAttachmentById(Long fileId) {

@@ -67,6 +67,13 @@ class MyPage {
 
     addProfileImageLoadedEvent() {
         this.profileHolderSelector(".profile-image-section").addEventListener("load", (evt) => {
+            if(evt.currentTarget.classList.contains("profile-image-wide")) {
+                evt.currentTarget.classList.toggle("profile-image-wide")
+            }
+            if(evt.currentTarget.classList.contains("profile-image-long")) {
+                evt.currentTarget.classList.toggle("profile-image-long")
+            }
+
             if(imageDimensions(evt.currentTarget)) {
                 evt.currentTarget.classList.toggle("profile-image-wide")
             } else {

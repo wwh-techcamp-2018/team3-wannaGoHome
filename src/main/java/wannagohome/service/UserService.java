@@ -47,7 +47,7 @@ public class UserService {
     private TeamService teamService;
 
     @Autowired
-    ApplicationEventPublisher publisher;
+    private ApplicationEventPublisher publisher;
 
 
     public User signIn(SignInDto dto) {

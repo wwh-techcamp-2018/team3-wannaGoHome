@@ -14,8 +14,10 @@ import wannagohome.service.ActivityService;
 import wannagohome.service.TeamInviteService;
 import wannagohome.service.TeamService;
 import wannagohome.service.UserService;
+import wannagohome.service.file.UploadService;
 import wannagohome.util.SessionUtil;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -34,6 +36,9 @@ public class ApiUserController {
 
     @Autowired
     private TeamInviteService teamInviteService;
+
+    @Resource(name = "imageUploadService")
+    private UploadService uploadService;
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
@@ -75,7 +80,7 @@ public class ApiUserController {
 
     @PostMapping("/profile")
     public UserDto changeProfile(@LoginUser User user, @RequestPart MultipartFile file){
-        return UserDto.valueOf(userService.changeProfile(user, file));
+        return UserDto.valueOf(userService.changeProfile(user,file));
     }
 
     @PutMapping("/profile")

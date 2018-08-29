@@ -134,9 +134,6 @@ function drawMembers(status, result) {
                 $_(".user-rights-box").style.top = $_("body").scrollTop + evt.pageY + "px";
 
                 changeRightsFunction = function(evt) {
-                    console.log({teamId: teamIndex,
-                        userId: this.id,
-                        permission: evt.target.id.trim()});
 
                     fetchManager({
                         url: `/api/teams/${teamIndex}/permission`,
@@ -146,7 +143,6 @@ function drawMembers(status, result) {
                                 "userId": this.id,
                                 "permission": evt.target.id.trim()}),
                         callback: (status, response) => {
-                            console.log(response);
                             location.reload();
                         }
                     })
@@ -190,7 +186,7 @@ function drawSearchResults(status, result) {
                     method: "POST",
                     body: {},
                     headers: {"content-type": "application/json"},
-                    callback: (status, result) => {console.log(result)}
+                    callback: (status, result) => {}
                 });
                 document.querySelector("body").click();
             }.bind(user));

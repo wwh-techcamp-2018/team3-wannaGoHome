@@ -27,19 +27,9 @@ class Board {
         this.container = $_(".board-container");
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
-        this.initBoardHeader();
+        this.boardHeader = new BoardHeader($_(".board-header"), this.boardIndex);
 
         this.connectSocket();
-    }
-
-    initBoardHeader() {
-        const boardHeader = $_(".board-header");
-        this.boardTitle = boardHeader.querySelector(".board-header-title");
-        this.teamTitle = boardHeader.querySelector(".board-header-team-title");
-        this.boardHeaderMemberContainer = boardHeader.querySelector(".board-header-team-member");
-        this.boardRemoveButton = boardHeader.querySelector(".board-header-remove-button");
-
-        this.boardRemoveButton.addEventListener("click", this.onClickBoardRemoveButton.bind(this));
     }
 
     addListeners() {
@@ -80,6 +70,7 @@ class Board {
 
         document.addEventListener("click", function (evt) {
             this.selector(".hidden-list-title-form").style.display = "none";
+            this.boardHeader.hideOption();
         }.bind(this));
 
         this.addMouseDragListeners();
@@ -138,66 +129,6 @@ class Board {
 
     }
 
-    setBoardInfo(boardObj) {
-        if (boardObj.deleted) {
-            showDialog("Alert", "Board is deleted by someone", () => {
-                window.location.href = "/";
-            });
-        }
-
-        this.permission = boardObj.permission;
-
-        addEscapedText(this.boardTitle, boardObj.boardTitle);
-        addEscapedText(this.teamTitle, boardObj.teamTitle);
-        this.drawBoardHeaderMembers(boardObj.members);
-        if (this.isAdminPermission()) {
-            this.boardRemoveButton.classList.remove("board-header-remove-button-hide");
-        }
-        else {
-            this.boardRemoveButton.classList.add("board-header-remove-button-hide");
-        }
-
-        $_("body").style.backgroundColor = boardObj.color;
-    }
-
-    isAdminPermission() {
-        return this.permission === "Admin";
-    }
-
-    drawBoardHeaderMembers(members) {
-        if (members === null) {
-            return;
-        }
-        this.boardHeaderMemberContainer.innerHTML = "";
-        members.forEach((member) => {
-            const html = `<img src="${member.profile}" class="board-header-team-member-img" alt="${member.name}">`;
-            this.boardHeaderMemberContainer.appendChild(createElementFromHTML(html));
-        });
-    }
-
-    onClickBoardRemoveButton() {
-        fetchManager({
-            url: `/api/boards/${this.boardIndex}`,
-            method: "DELETE",
-            callback: this.handleBoardRemove.bind(this)
-        });
-    }
-
-    handleBoardRemove(status) {
-        if (status === 200)
-            window.location.href = "/";
-    }
-
-    updateBoardState() {
-        const obj = {};
-        obj.title = "Any title";
-        obj.tasks = [];
-        for (const task of this.taskList) {
-            obj.tasks.push(task.getSocketObject());
-        }
-        this.sendBoard(obj);
-    }
-
     selector(nodeSelector) {
         return this.container.querySelector(nodeSelector);
     }
@@ -216,8 +147,7 @@ class Board {
                 this.setBoard(body.tasks);
             }.bind(this));
             this.stompClient.subscribe(`/topic/board/${this.boardIndex}/header`, function (frame) {
-                const body = JSON.parse(frame.body);
-                this.setBoardInfo(body);
+                this.boardHeader.setBoardHeader(JSON.parse(frame.body));
             }.bind(this));
 
             this.cardDetailForm.setClient(this.stompClient);
@@ -235,7 +165,7 @@ class Board {
             method: "GET",
             callback: (status, result) => {
                 this.setBoard(result.tasks);
-                this.setBoardInfo(result);
+                this.boardHeader.setBoardHeader(result);
             }
         });
     }

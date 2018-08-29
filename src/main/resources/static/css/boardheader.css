@@ -1,0 +1,62 @@
+
+.board-header-menu-button {
+    display: inline-block;
+    line-height: 25px;
+    vertical-align: middle;
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.board-header-remove-button {
+    display: inline-block;
+    border-radius: 3px;
+    background-color: #e25b52;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    width: 70px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.board-header-remove-button-hide, .board-header-title-hide {
+    display: none;
+}
+
+
+.board-header-options-holder {
+    font-size: 0.85em;
+    position: absolute;
+    padding: 4px;
+    z-index: 5;
+    background-color: #FFF;
+    border-radius: 5px;
+    width: 250px;
+    display: none;
+}
+
+.board-options-title {
+    color: #777;
+    text-align: center;
+    border-bottom: 1px #ccc solid;
+    padding: 2px 0px 4px 0px;
+    height: 20px;
+    line-height: 20px;
+}
+
+.board-options-container {
+
+}
+
+.board-options-item {
+    color: #333333;
+    text-align: left;
+    padding: 6px 0px;
+    font-weight: bold;
+}
+
+.board-header-options-item:hover {
+    cursor: pointer;
+}

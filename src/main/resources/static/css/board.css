@@ -750,29 +750,3 @@ a.header-logo {
 .chatting-bar-closer:hover {
     cursor: pointer;
 }
-
-.board-header-menu-button {
-    display: inline-block;
-    line-height: 25px;
-    vertical-align: middle;
-    margin-left: 20px;
-    font-size: 20px;
-}
-
-.board-header-remove-button {
-    display: inline-block;
-    border-radius: 3px;
-    background-color: #e25b52;
-    color: #fff;
-    font-size: 13px;
-    text-align: center;
-    width: 70px;
-    height: 25px;
-    line-height: 25px;
-    vertical-align: middle;
-    margin-left: 20px;
-}
-
-.board-header-remove-button-hide, .board-header-title-hide {
-    display: none;
-}

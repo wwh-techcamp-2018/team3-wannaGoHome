@@ -123,10 +123,14 @@ class Card {
                     }
                     j++;
                 }
-                if(task.cardList == 0) {
-                    destCardIndex = 0;
+                if(destCardIndex == -1) {
+                    const cardRect = getBoundingRect(task.cardListContainer);
+                    if(centerY > cardRect.bottom) {
+                        destCardIndex = task.cardList.length;
+                    } else if(centerY < cardRect.top) {
+                        destCardIndex = 0;
+                    }
                 }
-
             }
             if(this.task == task) {
                 thisTaskIndex = i;
@@ -142,22 +146,29 @@ class Card {
         }
 
         if(destTaskIndex != -1 && destCardIndex != -1) {
+            const destinationTask = this.board.taskList[destTaskIndex];
+
             // same Task Index
             if(destTaskIndex == thisTaskIndex) {
                 if (thisCardIndex > destCardIndex) {
                     this.task.cardList[destCardIndex].handleInsideBound.call(this.task.cardList[destCardIndex], centerX, centerY, this, true);
                     this.task.cardList.splice(thisCardIndex, 1);
                     this.task.cardList.splice(destCardIndex, 0, this);
-                } else {
+                }
+                else if (destinationTask.cardList.length == destCardIndex) {
+                    destCardIndex -= 1;
+                    destinationTask.insertCardNode.call(destinationTask, this);
+                    this.task.cardList.splice(thisCardIndex, 1);
+                    destinationTask.cardList.splice(destCardIndex, 0, this);
+                }
+                else {
                     this.task.cardList[destCardIndex].handleInsideBound.call(this.task.cardList[destCardIndex], centerX, centerY, this, false);
                     this.task.cardList.splice(thisCardIndex, 1);
                     this.task.cardList.splice(destCardIndex, 0, this);
                 }
             }
             else { // different task Index
-
-                const destinationTask = this.board.taskList[destTaskIndex];
-                if(destinationTask.cardList.length == 0) { // empty list
+                if(destinationTask.cardList.length == destCardIndex) { // empty list
                     destinationTask.insertCardNode.call(destinationTask, this);
                     this.task.cardList.splice(thisCardIndex, 1);
                     destinationTask.cardList.splice(destCardIndex, 0, this);
@@ -185,9 +196,9 @@ class Card {
 
     handleInsideBound(x, y, card, prev) {
         const rect = getBoundingRect(this.cardHolder);
-
+        const container = this.cardHolder.parentNode;
         if (rect.top < y && rect.bottom > y && (this !== card)) {
-            const container = this.cardHolder.parentNode;
+
             if (prev) {
                 container.insertBefore(card.cardHolder, this.cardHolder);
             } else if(!this.cardHolder.nextSibling) {
@@ -195,6 +206,8 @@ class Card {
             } else {
                 container.insertBefore(card.cardHolder, this.cardHolder.nextSibling);
             }
+        } else if(rect.top > y) {
+            container.insertBefore(card.cardHolder, this.cardHolder);
         }
     }
 

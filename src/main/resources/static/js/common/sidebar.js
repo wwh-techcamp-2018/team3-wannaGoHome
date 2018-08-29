@@ -1,4 +1,4 @@
-var boardSummary;
+let boardSummary;
 document.addEventListener("DOMContentLoaded", function(evt) {
     boardSummary = new BoardSummary($_(".board-summary"));
     boardSummary.requestBoardSummary();
@@ -63,12 +63,10 @@ function drawinitTeams() {
 }
 
 function drawTeams(status, result) {
-    let html = "";
     const template = Handlebars.templates["precompile/sidebar_template"];
-    for(team of result) {
-        html  += template(team);
+    for(const team of result) {
+        $_(".sidebar-team-list").appendChild(createElementFromHTML(template(team)));
     }
-    $_(".sidebar-team-list").innerHTML += html;
     selectTeam();
 }
 
@@ -100,6 +98,7 @@ function displayTeam(status, result) {
         const template = Handlebars.templates["precompile/sidebar_template"];
         $_(".sidebar-team-list").innerHTML += template(result.team);
         boardSummary.drawTeamBoards(result);
+        selectTeam();
 
     } else {
         result.forEach(function(result){

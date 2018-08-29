@@ -41,6 +41,7 @@ class Task {
         this.cardListContainer = this.task.querySelector(".card-list-container");
 
         this.taskListOptionHolder = createElementFromHTML(this.optionsTemplate({}));
+        this.taskListDeleteButton = this.taskListOptionHolder.querySelector(".delete-options");
         $_(".board-scroll-container").appendChild(this.taskListOptionHolder);
 
         limitInputSize(this.taskTitleInput, 30);
@@ -136,7 +137,6 @@ class Task {
         }.bind(this));
 
         this.task.querySelector(".task-list-title").addEventListener("click", function(evt) {
-            console.log("Clicked!");
             this.taskTitleInput.value = this.taskListTitle.innerHTML.trim();
             this.taskTitleInput.style.display = "block";
             this.taskTitleInput.focus();
@@ -164,21 +164,37 @@ class Task {
                 evt.currentTarget.blur();
 
                 // make the board updatable again
-                this.board.unsetDraggable();
+                if(this.board.dragObject === true) {
+                    this.board.unsetDraggable();
+                }
             }
         }.bind(this));
 
         this.taskListOptionButton.addEventListener("click", function(evt) {
-            document.querySelector("body").click();
             evt.preventDefault();
             evt.stopPropagation();
+            document.querySelector("body").click();
             this.taskListOptionHolder.style.display = "block";
 
             this.taskListOptionHolder.style.left = evt.clientX + this.board.scrollContainer.scrollLeft + "px";
             this.taskListOptionHolder.style.top = evt.clientY - 80 + "px";
+
+            // set dragObject to true in order to prevent reloading
+            this.board.dragObject = true;
+
         }.bind(this));
 
-        this.taskListOptionHolder.querySelector(".delete-options").addEventListener("click", function(evt) {
+        this.taskListDeleteButton.addEventListener("click", function(evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+            document.querySelector("body").click();
+
+            // make the board updatable again
+            if(this.board.dragObject === true) {
+                this.board.unsetDraggable();
+            }
+
+            this.deleteTask(this.taskObject);
         }.bind(this));
 
         window.addEventListener("resize", function (evt) {
@@ -354,6 +370,10 @@ class Task {
 
     renameTask(obj) {
         this.board.stompClient.send(`/app/message/rename/${this.boardIndex}/${this.taskObject.id}`, {}, JSON.stringify(obj));
+    }
+
+    deleteTask(obj) {
+        this.board.stompClient.send(`/app/message/delete/${this.boardIndex}/${this.taskObject.id}`, {}, JSON.stringify(obj));
     }
 
     addCard(obj) {

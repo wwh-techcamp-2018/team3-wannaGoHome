@@ -535,10 +535,6 @@ class CardDetail {
     }
 
     setDueDate(date) {
-        console.log(date);
-        // let mm = (date.getMonth() + 1 > 9 ? '' : '0') + (date.getMonth() + 1);
-        // let dd = (date.getDate() > 9 ? '' : '0') + date.getDate();
-        // const endDate = date.getFullYear() + "-" + mm + "-" + dd;
         const cardDetailDto = {
             endDate: date
         };

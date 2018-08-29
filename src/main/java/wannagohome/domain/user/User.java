@@ -43,8 +43,8 @@ public class User {
     @Column(nullable = false)
     private boolean deleted;
 
+    @Lob
     private String profile;
-
 
     public String getProfile() {
         if(profile == null || profile.isEmpty())
@@ -93,6 +93,7 @@ public class User {
         UserDto userDto = new UserDto();
         userDto.setId(id);
         userDto.setName(name);
+        userDto.setProfile(getProfile());
         return userDto;
     }
 }

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import wannagohome.domain.team.TeamInvitationDto;
+import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.*;
 import wannagohome.interceptor.LoginUser;
 import wannagohome.service.ActivityService;
+import wannagohome.service.TeamInviteService;
 import wannagohome.service.TeamService;
 import wannagohome.service.UserService;
-import wannagohome.service.file.ImageUploadService;
 import wannagohome.service.file.UploadService;
 import wannagohome.util.SessionUtil;
 
@@ -31,6 +33,9 @@ public class ApiUserController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private TeamInviteService teamInviteService;
 
     @Resource(name = "imageUploadService")
     private UploadService uploadService;
@@ -64,6 +69,7 @@ public class ApiUserController {
                 UserDto.valueOf(user)
                 , teamService.findTeamsByUser(user)
                 , activityService.findUserActivities(user)
+                , teamInviteService.findAllByMember(user)
         );
     }
 
@@ -81,5 +87,10 @@ public class ApiUserController {
     public UserDto changeName(@LoginUser User user, @Valid @RequestBody UserDto userDto){
         user.setName(userDto.getName());
         return UserDto.valueOf(userService.save(user));
+    }
+
+    @PostMapping("/invitation")
+    public TeamInvite processTeamInvitation(@LoginUser User user, @RequestBody TeamInvitationDto invitationDto) {
+        return userService.processTeamInvitation(user, invitationDto);
     }
 }

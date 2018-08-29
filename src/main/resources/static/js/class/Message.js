@@ -19,7 +19,14 @@ class Message {
 
         if(this.selector(".profile-image")) {
             this.profileImage = this.selector(".profile-image");
-
+            this.profileImage.addEventListener("load", function(evt) {
+                if(imageDimensions(evt.currentTarget)) {
+                    evt.currentTarget.classList.toggle("profile-image-wide")
+                } else {
+                    evt.currentTarget.classList.toggle("profile-image-long")
+                }
+                evt.currentTarget.style.display = "inline-block";
+            }.bind(this));
         }
     }
 

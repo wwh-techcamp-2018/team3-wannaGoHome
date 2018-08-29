@@ -390,3 +390,9 @@ input[type="date"]:focus {
     margin-top: 23px;
     box-shadow: 1px 1px 1px #b4b6b8;
 }
+
+.card-list-calendar, .card-list-label {
+    display: inline-block;
+    color: #888888;
+    font-size: 11px;
+}

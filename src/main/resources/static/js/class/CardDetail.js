@@ -270,7 +270,6 @@ class CardDetail {
         if (status !== 201) {
             return;
         }
-        console.log(card.createDate, card.endDate);
         this.drawSummaryDueDate(card.endDate.slice(0,10));
     }
 

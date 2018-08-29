@@ -38,6 +38,7 @@ class BoardHeader {
     }
 
     onClickBoardOptionButton(evt) {
+        $_("body").click();
         evt.stopPropagation();
         this.showMenuOptions(evt)
     }

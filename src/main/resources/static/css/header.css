@@ -40,12 +40,15 @@ a.header-logo {
     outline: none;
 }
 
+.header-button:hover {
+    color: #333;
+}
+
 .header-button-boardlist{
     width: 300px;
     background-color: #fff;
     margin: 3px 0px;
-    padding-left: 5px;
-    padding-bottom: 10px;
+    padding: 0 5px 5px 5px;
     box-shadow: 1px 1px 1px #aaaaaa;
     z-index: 3;
     position: absolute;
@@ -58,6 +61,10 @@ a.header-logo {
     margin: 10px;
     font-weight: bold;
 
+}
+
+.header-button-boardlist-title i {
+    margin-right: 4px;
 }
 
 .header-button-boardlist-content {
@@ -95,8 +102,7 @@ a.header-logo {
     width: 300px;
     background-color: #fff;
     margin: 3px 0px;
-    padding-left: 5px;
-    padding-bottom: 10px;
+    padding: 0 5px 5px 5px;
     box-shadow: 1px 1px 1px 1px #aaaaaa;
     z-index: 3;
     position: absolute;
@@ -109,7 +115,7 @@ a.header-logo {
 .header-notification-content {
     font-size: 14px;
     font-weight: bold;
-    padding: 3px 20px 0px 20px;
+    padding: 3px 10px 0px 10px;
     height: 40px;
     margin: 3px 5px;
     background-color: #f1f1f1;
@@ -131,6 +137,10 @@ a.header-logo {
     color: inherit;
 }
 
+.header-notification-content a:hover {
+    color: #555;
+}
+
 .header-notification-content:hover {
     cursor: pointer;
 }
@@ -144,20 +154,18 @@ a.header-logo {
 .header-notification-content .notification-tooltoptext {
     display: none;
     /*width: 120px;*/
-    background: #bed4ef;
     color: #fff;
     text-align: center;
     border-radius: .4em;
-    padding: 5px 0;
+    padding: 5px 8px;
     font-weight: lighter;
     font-size: 8px;
     height: 30px;
     line-height: 24px;
-    padding: 3px;
     position: absolute;
     z-index: 3;
-    /*left: -100px;*/
-    right: 280px;
+    right: 290px;
+    background-color: rgb(0, 121, 191);
 
 }
 .notification-tooltoptext:after {
@@ -168,7 +176,7 @@ a.header-logo {
     width: 0;
     height: 0;
     border: 10px solid transparent;
-    border-left-color: #bed4ef;
+    border-left-color: rgb(0, 121, 191);
     border-right: 0;
     border-bottom: 0;
     margin-top: -4px;
@@ -179,7 +187,7 @@ a.header-logo {
     display: inline-block;
 }
 
-.header-notification-content>div>p {
+.header-notification-content > div > p {
     display: block;
     font-size: 5px;
     font-weight: lighter;
@@ -202,10 +210,30 @@ a.header-logo {
 }
 
 .header-notification-more:hover {
-    background-color: #dddddd;
+    text-decoration: underline;
 }
 
 .header-notification-scrollable {
     max-height: 462px;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.header-notification-scrollable::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: rgba(100,100,100,.12);
+    opacity: 0.7;
+}
+
+.header-notification-scrollable::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 10px;
+    opacity: 0.7;
+    background-color: rgba(100,100,100,.12);
+}
+
+.header-notification-scrollable::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(80, 80, 80, 0.5);
 }

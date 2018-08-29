@@ -11,6 +11,7 @@ div,span {
 
 header {
     background-color: rgba(0,0,0,.15) !important;
+    padding: 0 6px;
 }
 
 header .header-button {
@@ -18,7 +19,7 @@ header .header-button {
 }
 
 a.header-logo {
-    color: rgba(255,255,255,.3);
+    color: rgba(255,255,255,.5);
 }
 
 .board-header-right-menu span:hover {
@@ -541,6 +542,7 @@ a.header-logo {
     display: inline-block;
 }
 
+
 .time-holder {
     font-weight: lighter;
     position: absolute;
@@ -557,7 +559,13 @@ a.header-logo {
 .speech-bubble-text {
     text-align: left;
     white-space: pre-wrap;
+    user-select: text;
 }
+
+.speech-bubble-text::selection {
+    background: #ccfff1; /* WebKit/Blink Browsers */
+}
+
 
 .message-holder-left .speech-bubble-holder {
     margin-left: 40px;
@@ -690,8 +698,10 @@ a.header-logo {
     top: 4px;
     font-size: 30px;
     color: #777;
+    border-radius: 4px;
 }
 
 .chatting-bar-closer:hover {
     cursor: pointer;
+    background-color: rgba(150,150,150,.3);
 }

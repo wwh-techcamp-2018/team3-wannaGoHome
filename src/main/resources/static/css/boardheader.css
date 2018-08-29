@@ -104,21 +104,20 @@
 
 .board-options-title {
     color: #777;
+    line-height: normal;
+    padding: 6px 0;
     text-align: center;
     border-bottom: 1px #ccc solid;
-    height: 20px;
-    line-height: 20px;
-    font-size: 12px;
-
+    font-size: 0.6em;
 }
 
 .board-options-item {
     color: #e25b52;
     text-align: left;
     font-weight: bold;
-    font-size: 15px;
     cursor: pointer;
-
+    padding-left: 6px;
+    font-size: 0.6em;
 }
 
 .board-header-options-item:hover {
@@ -131,6 +130,5 @@
     border-style: none;
     opacity: 0.7;
     padding: 3px 6px;
-    font-size: 0.8em;
     width: 180px;
 }

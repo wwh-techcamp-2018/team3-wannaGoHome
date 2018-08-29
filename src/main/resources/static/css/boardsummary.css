@@ -50,6 +50,10 @@
     background-color: #C8C8C8;
 }
 
+.board-setting-button i {
+    margin-right: 6px;
+}
+
 .board-setting-button:hover {
     cursor: pointer;
     background-color: #C8C8C8;

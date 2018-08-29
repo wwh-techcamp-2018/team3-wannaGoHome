@@ -175,8 +175,8 @@ a:hover {
     position: relative;
 }
 .team-link:hover, .activity-link:hover {
-    background: #a6c7dc;
-    color: #fff;
+    background: #f6f9fe;
+    color: #333;
 }
 .team-list > li , .activity-list > li, .invitation-list > li{
     border-bottom: 1px solid #d6dadc;

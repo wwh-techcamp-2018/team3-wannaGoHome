@@ -1,0 +1,67 @@
+{{#partial "head"}}
+    <link rel="stylesheet" href="/css/team.css"/>
+
+    <script src="/js/team/team.js"></script>
+{{/partial}}
+
+{{#partial "createboard"}}
+{{/partial}}
+
+{{#partial "sidebar"}}
+{{/partial}}
+
+{{#partial "page_body"}}
+    <div class="team-page-header">
+
+        <div class="team-options-holder">
+
+        </div>
+    </div>
+
+    <div class="team-page-content">
+        <div class="team-page-title">
+            Team Members
+        </div>
+        <div class="team-page-subtitle">
+            Team members can view and join all Team Visible boards and create new boards in the team.
+        </div>
+        <div class="invite-team-button-holder">
+            <button class="invite-team-button">
+                <i class="fas fa-user-plus"></i>Invite Team Members
+            </button>
+        </div>
+
+        <div class="team-users-holder">
+
+        </div>
+    </div>
+
+    <div class="user-search-box overlay-box-shadow">
+        <div class="user-search-box-title">
+            Add Members
+        </div>
+        <div class="user-search-content">
+            <div class="user-search-title">
+                <i class="far fa-user"></i>Enter Email Address or Name
+            </div>
+            <div class="user-search-bar-holder">
+                <input type="text" placeholder="e.g. Junsulime"/>
+            </div>
+            <div class="user-search-bar-results">
+
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    {{precompile "precompile/team/team_page_header"}}
+    {{precompile "precompile/team/team_page_member"}}
+    {{precompile "precompile/team/search_result_member"}}
+</script>
+
+{{/partial}}
+
+{{#partial "contents"}}
+{{/partial}}
+
+{{>base}}

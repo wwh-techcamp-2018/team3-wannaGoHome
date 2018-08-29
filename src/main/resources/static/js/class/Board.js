@@ -27,6 +27,7 @@ class Board {
         this.addButton = $_(".add-button");
         this.addListButton = $_(".add-list-button");
         this.connectSocket();
+        this.boardIndex = window.location.href.trim().split("/").pop();
     }
 
     addListeners() {

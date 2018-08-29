@@ -10,6 +10,7 @@ import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.user.SignInDto;
 import wannagohome.domain.user.SignUpDto;
 import wannagohome.domain.user.User;
+import wannagohome.domain.user.UserDto;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.UnAuthenticationException;
 import wannagohome.repository.UserRepository;
@@ -17,6 +18,7 @@ import wannagohome.service.file.UploadService;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -70,6 +72,4 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
-
-
 }

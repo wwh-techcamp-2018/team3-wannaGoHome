@@ -62,7 +62,8 @@ public class Board {
         boardDto.setId(id);
         boardDto.setTitle(title);
         boardDto.setColor(color);
-        List<TaskDto> taskDtoList =  tasks.stream().map(task -> task.getTaskDto()).collect(Collectors.toList());
+        List<TaskDto> taskDtoList =  tasks.stream().filter(task -> !task.isDeleted())
+                .map(task -> task.getTaskDto()).collect(Collectors.toList());
         boardDto.setTasks(taskDtoList);
         return boardDto;
     }

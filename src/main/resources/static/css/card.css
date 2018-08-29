@@ -365,6 +365,7 @@ input[type="date"]:focus {
 
 .card-detail-summary-attachment-list > p > a {
     text-decoration: none;
+    color: #003d5e;
 
 }
 

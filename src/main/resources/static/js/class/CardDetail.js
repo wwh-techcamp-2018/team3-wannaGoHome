@@ -93,6 +93,7 @@ class CardDetail {
         this.assigneeListContainer.addEventListener("click", this.onClickAssignee.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.onChangeAssigneeSearch.bind(this));
         this.dueDateContainer.addEventListener("click", (evt)=>evt.stopPropagation());
+        this.attachmentSummary.addEventListener("click", (evt)=>evt.stopPropagation());
     }
 
     initHandlebarTemplates() {

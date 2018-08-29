@@ -405,6 +405,8 @@ class CardDetail {
             this.attachmentSummaryList.innerHTML = "";
             this.drawAttachmentList(attachments);
 
+        } else {
+            this.attachmentSummaryList.style.display = 'none';
         }
         const fileList = this.attachmentSummaryList.querySelectorAll(".file-delete-button");
         for (let i = 0; i < fileList.length; i++) {
@@ -495,7 +497,6 @@ class CardDetail {
         this.descriptionText.value = "";
         this.commentListContainer.innerHTML = "";
         this.attachmentSummaryList.innerHTML = "";
-        this.attachmentSummary.style.display = 'none';
         this.attachmentSummaryList.style.display = 'none';
         this.deleteButton.classList.remove("card-delete-button-danger");
         this.setCardTitleNormalMode();

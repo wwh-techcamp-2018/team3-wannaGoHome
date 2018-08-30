@@ -1,6 +1,8 @@
 package wannagohome.exception;
 
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -18,9 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@RestControllerAdvice(annotations = {RestController.class})
+@RestControllerAdvice(annotations = RestController.class)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class RestExceptionAdvisor {
-
     @Resource(name = "messageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
 

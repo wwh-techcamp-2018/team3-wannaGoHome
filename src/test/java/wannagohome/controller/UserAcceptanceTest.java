@@ -53,7 +53,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .name("kimyeon")
                 .password("password1")
                 .build();
-        ResponseEntity<List> responseEntity = template().postForEntity(SIGNUP_URL, signUpDto, List.class);
+//        ResponseEntity<List> responseEntity = template().postForEntity(SIGNUP_URL, signUpDto, List.class);
+        RequestEntity requestEntity = new RequestEntity.Builder()
+                .withReturnType(List.class)
+                .withMethod(HttpMethod.POST)
+                .withBody(signUpDto)
+                .withUrl(SIGNUP_URL)
+                .build();
+        ResponseEntity<List> responseEntity = request(template(), requestEntity);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }

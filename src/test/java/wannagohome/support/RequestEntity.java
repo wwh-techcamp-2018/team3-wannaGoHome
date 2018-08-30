@@ -44,7 +44,7 @@ public class RequestEntity {
         }
 
         public Builder withBody(Object body) {
-            requestEntity.body = creaetHttpEntity(body);
+            requestEntity.body = createHttpEntity(body);
             return this;
         }
 
@@ -58,7 +58,7 @@ public class RequestEntity {
             return this;
         }
 
-        private HttpEntity creaetHttpEntity(Object body) {
+        private HttpEntity createHttpEntity(Object body) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             return new HttpEntity(body, headers);

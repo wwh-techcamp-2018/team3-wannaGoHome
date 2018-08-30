@@ -11,6 +11,7 @@ import wannagohome.interceptor.HttpHandshakeInterceptor;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 public class SessionUtil {
@@ -32,6 +33,10 @@ public class SessionUtil {
     public static User getUserSession(HttpSession session) {
         return Optional.ofNullable((User) session.getAttribute(SESSION_KEY))
                 .orElse(User.GUEST_USER);
+    }
+
+    public static boolean isLogined(HttpSession session) {
+        return !Objects.isNull(session.getAttribute(SESSION_KEY));
     }
 
     public static User getUserSession(SimpMessageHeaderAccessor headerAccessor) {

@@ -51,4 +51,7 @@ public class Team {
         return getProfile().equals(DEFAULT_PROFILE);
     }
 
+    public void delete() {
+        deleted = true;
+    }
 }

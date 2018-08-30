@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserIncludedInTeamRepository extends CrudRepository<UserIncludedInTeam, Long> {
-    List<UserIncludedInTeam> findAllByUser(User user);
+    List<UserIncludedInTeam> findAllByUserAndTeamDeletedFalse(User user);
     Optional<UserIncludedInTeam> findByUserAndTeam(User user, Team team);
 
     List<UserIncludedInTeam> findAllByTeamNotAndUserNameContainingIgnoreCase(Team ignoreTeam, String keyword);

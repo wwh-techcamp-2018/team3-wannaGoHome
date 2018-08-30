@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorEntity;
+import wannagohome.domain.team.RemoveUserFromTeamDto;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.team.TeamPermissionChangeDto;
@@ -52,6 +53,13 @@ public class ApiTeamController {
         return teamService.findTeamById(id);
     }
 
+    @ApiOperation(value = "team 삭제하기")
+    @ApiImplicitParam(name = "deleteTeam", value = "삭제된 팀", required = true,  paramType = "json")
+    @DeleteMapping("/{id}")
+    public Team deleteTeam(@LoginUser User user, @PathVariable Long id) {
+        return teamService.deleteTeam(user, id);
+    }
+
     @ApiOperation(value = "team 멤버 가져오기")
     @ApiImplicitParam(name = "teamMembers", value = "UserDto 리스트", required = true,  paramType = "json")
     @GetMapping("/{id}/members")
@@ -90,7 +98,7 @@ public class ApiTeamController {
     @ResponseStatus(HttpStatus.OK)
     public UserIncludedInTeam changePermission(@LoginUser User user,
                                                @RequestBody TeamPermissionChangeDto permissionDto) {
-        return teamService.changePermission(permissionDto);
+        return teamService.changePermission(user, permissionDto);
     }
 
     @ApiOperation(value = "유저가 속한 팀 가져오기")
@@ -108,6 +116,13 @@ public class ApiTeamController {
         return teamService.changeProfile(teamService.findTeamById(teamId), file);
     }
 
+    @ApiOperation(value = "Team 에서 멤버 추방하기")
+    @ApiImplicitParam(name = "removeUserFromTeam", value = "삭제된 user Dto", required = true,  paramType = "json")
+    @DeleteMapping("{teamId}/users")
+    public UserDto removeUserFromTeam(@LoginUser User user, @Valid @RequestBody RemoveUserFromTeamDto removeUserFromTeamDto) {
+        return teamService.removeUserFromTeam(user, removeUserFromTeamDto);
+    }
+
     @ApiOperation(value = "에러 exception 처리하기")
     @ApiImplicitParam(name = "handleDuplicationException", value = "ErrorEntity 리스트", required = true,  paramType = "json")
     @ExceptionHandler(DuplicationException.class)
@@ -115,4 +130,6 @@ public class ApiTeamController {
     public List<ErrorEntity> handleDuplicationException(ErrorEntityException exception) {
         return Arrays.asList(exception.entity());
     }
+
+
 }

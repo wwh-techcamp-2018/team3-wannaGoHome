@@ -111,7 +111,6 @@ class MyPage {
         this.profileHolderSelector(".profile-content-description").style.display = "block";
         this.profileHolderSelector(".profile-edit-button").style.display = "block";
         this.profileHolderSelector(".content-update-input").placeholder = "";
-
     }
 
 
@@ -214,7 +213,6 @@ class MyPage {
         }
         invitationNode.remove();
     }
-
 
     getActivityRegisteredDate(activity) {
         return activity.querySelector(".activity-time").innerText;

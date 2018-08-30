@@ -12,7 +12,7 @@ public class DateUtil {
         try {
             return dateFormat.parse(date);
         } catch (ParseException e) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("날짜 포맷이 잘못 되었습니다.");
         }
     }
 }

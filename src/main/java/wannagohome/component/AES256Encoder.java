@@ -46,8 +46,8 @@ public class AES256Encoder implements PasswordEncoder {
     public String encode(CharSequence rawPassword) {
         try {
             return encrypt(rawPassword.toString());
-        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
-            throw new RuntimeException();
+        } catch (GeneralSecurityException | UnsupportedEncodingException | NullPointerException e) {
+            throw new IllegalArgumentException("빈 문자열을 인코딩 하였습니다.");
         }
     }
 

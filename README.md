@@ -45,17 +45,17 @@
 ### 여섯,
 팀원들의 활동 내역을 알림으로 받아 볼 수 있습니다. 실시간으로 팀원들의 활동을 확인 할 수 있습니다.
 
-<img src= "https://user-images.githubusercontent.com/19780879/44855671-91796200-aca6-11e8-8d45-8410d90e1e2f.png" width= 400px>
+<img src= "https://user-images.githubusercontent.com/17852124/44858103-3a768b80-acac-11e8-919f-2d122b8ad364.gif" width= 400px>
 
 <br>
 
 ### 일곱,
 마이페이지에서 자신의 활동을 볼 수 있으며, 프로필 사진도 바꿀 수 있습니다.
 
-<img src= "https://user-images.githubusercontent.com/19780879/44855672-91796200-aca6-11e8-94be-e4fecf739257.png" width = 700px>
+<img src= "https://user-images.githubusercontent.com/17852124/44858134-46fae400-acac-11e8-8dff-d2f26dd20f5d.gif" width = 700px>
 
 <br>
 
 ### 여덟,
 마감일이 정해진 할일들을 달력에서 한번에 모아볼 수 있습니다. 또한 달력에서 카드 관리를 동시에 진행할 수 있습니다.
-
+<img src= "https://user-images.githubusercontent.com/17852124/44858155-4febb580-acac-11e8-9834-e306a23e32d4.gif" width = 700px>

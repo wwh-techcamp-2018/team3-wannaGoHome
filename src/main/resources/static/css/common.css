@@ -122,7 +122,7 @@ button:focus {
 }
 
 .popup-normal-ok-button {
-    background-color: #61bd4f;
+    background-color: #ecba24;
 }
 
 
@@ -148,7 +148,7 @@ button:focus {
 }
 
 .active-button {
-    background-color: #61bd4f;
+    background-color: #ecba24;
     color: #ffffff;
 }
 

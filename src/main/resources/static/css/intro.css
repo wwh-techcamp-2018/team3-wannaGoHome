@@ -113,6 +113,7 @@ body {
 
 .full-vh-explain {
     height: 100vh;
+    overflow: hidden;
 }
 
 .board-page-explain {
@@ -168,4 +169,31 @@ body {
     width: 900px;
     height: 450px;
     margin: 0 auto;
+}
+
+.calendar-page-explain {
+    padding-top: 100px;
+    height: 100vh;
+    background-color: #fbefdf;
+
+}
+
+.calendar-page-explain .explain-title, .calendar-page-explain .explain-emoticon{
+    color: #000000;
+}
+
+.calendar-page-explain .explain-img-center-container {
+    background-image: url("calendar.png");
+    background-size: cover;
+    width: 100%;
+    height: 400px;
+}
+
+.calendar-page-explain .container .start-now-container > a {
+    width: 200px;
+}
+
+.calendar-page-explain .container .start-now-container {
+    margin: 100px;
+    text-align: center;
 }

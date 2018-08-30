@@ -17,7 +17,7 @@ public class SignInInterceptor extends HandlerInterceptorAdapter {
         log.debug("request url: {}", request.getRequestURL().toString());
         User user = SessionUtil.getUserSession(request.getSession());
         if (user.isGuestUser()) {
-            response.sendRedirect("/users/signin");
+            response.sendRedirect("/intro");
             return false;
         }
         return true;

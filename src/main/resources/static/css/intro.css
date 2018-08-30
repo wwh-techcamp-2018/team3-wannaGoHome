@@ -55,7 +55,7 @@ body {
     display: inline-block;
     text-align: center;
     line-height: 50px;
-    width: 150px;
+    width: 170px;
     border-radius: 5px;
     color: #fff;
     background-color: #FFC125;
@@ -100,7 +100,7 @@ body {
 
 .explain-title {
     /*color: #000;*/
-    font-size: 30px;
+    font-size: 25px;
 
 }
 .make-team-explain .explain-img-center-container {

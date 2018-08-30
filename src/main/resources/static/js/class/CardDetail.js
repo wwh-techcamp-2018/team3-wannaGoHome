@@ -46,7 +46,11 @@ class CardDetail {
         limitInputSize(this.descriptionText, 255);
         limitInputSize(this.commentText, 255);
 
-        this.selector(".card-comment-save-button").addEventListener("click", this.onClickAddCommentButton.bind(this));
+        this.selector(".card-comment-save-button").addEventListener("click", (evt)=>{
+            if(checkNullInput(this.commentText)) {
+                this.onClickAddCommentButton();
+            }
+        });
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
         this.selector(".card-detail-save-button").addEventListener("click", this.onClickUpdateDescription.bind(this));
     }
@@ -306,7 +310,10 @@ class CardDetail {
     handleAddComment(status, comment) {
         if (status === 201) {
             this.commentText.value = "";
+            checkValidInput(this.commentText, this.selector(".card-comment-save-button"));
             this.drawComment(comment);
+        } else {
+            this.drawErrorComment(comment);
         }
     }
 
@@ -379,6 +386,10 @@ class CardDetail {
     drawComment(comment) {
         this.commentListContainer.prepend(createElementFromHTML(this.commentTemplate(comment)));
         this.commentListContainer.scrollTop = 0;
+    }
+
+    drawErrorComment(error) {
+        console.log(error.errors[0].defaultMessage);
     }
 
     drawSummaryLabels(labels) {
@@ -455,6 +466,7 @@ class CardDetail {
         this.drawComments(body.comments);
         this.attachmentSummary.style.display = 'block';
         this.drawAttachmentTitle(body.attachments);
+        checkValidInput(this.commentText, this.selector(".card-comment-save-button"));
         if(body.endDate) {
             const endDate = body.endDate.slice(0,10);
             this.dueDateContainer.querySelector("input").value = endDate;

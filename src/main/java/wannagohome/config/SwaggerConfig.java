@@ -29,8 +29,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("WannaGoHome")
-                .description("WannaGoHome Description Api")
+                .title("Team3 WannaGoHome")
+                .description("WannaGoHome Api Description Swagger")
                 .version("1.0")
                 .build();
     }

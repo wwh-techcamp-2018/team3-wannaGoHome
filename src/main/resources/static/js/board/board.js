@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function (evt) {
 
     window.dispatchEvent(new Event("resize"));
 
-    $_(".board-header .fa-calendar").addEventListener("click", (evt) => {
+    $_(".board-header .fa-calendar").parentNode.addEventListener("click", (evt) => {
         evt.stopPropagation();
         if ($_("#calendar").style.display == 'block') {
             $_("#calendar").style.display = 'none';
@@ -68,7 +68,7 @@ function initEvent(calendar, board) {
 
     })
 
-    $_(".fa-calendar").addEventListener("click", (evt) => {
+    $_(".fa-calendar").parentNode.addEventListener("click", (evt) => {
         evt.stopPropagation();
         $_(".header-button-boardlist").style.display = 'none';
     });

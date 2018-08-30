@@ -57,7 +57,6 @@ a.header-logo {
     background-color: #fff;
     margin: 3px 0px;
     padding: 0 5px 5px 5px;
-    box-shadow: 1px 1px 1px #aaaaaa;
     z-index: 3;
     position: absolute;
     left: 5px;
@@ -114,7 +113,6 @@ a.header-logo {
     background-color: #fff;
     margin: 3px 0px;
     padding: 0 5px 5px 5px;
-    box-shadow: 1px 1px 1px 1px #aaaaaa;
     z-index: 3;
     position: absolute;
     border-radius: 5px;
@@ -139,6 +137,7 @@ a.header-logo {
     text-overflow: ellipsis;
     white-space: nowrap;
     list-style: none;
+    /*position: relative;*/
 }
 
 .header-notification-content div {

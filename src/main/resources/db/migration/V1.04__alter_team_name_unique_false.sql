@@ -1,0 +1,1 @@
+alter table team drop index UK_g2l9qqsoeuynt4r5ofdt1x2td;

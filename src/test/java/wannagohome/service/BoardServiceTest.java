@@ -102,12 +102,12 @@ public class BoardServiceTest {
     @Test
     public void viewBoard_요청시_RecentlyViewBoard_등록(){
         when(recentlyViewBoardRepository.save(any())).thenReturn(null);
-        when(boardRepository.findById(boards.get(0).getId())).thenReturn(Optional.ofNullable(boards.get(0)));
+        when(boardRepository.findByIdAndDeletedFalse(boards.get(0).getId())).thenReturn(Optional.ofNullable(boards.get(0)));
         when(userIncludedInTeamRepository.findByUserAndTeam(user,boards.get(0).getTeam()))
                 .thenReturn(Optional.ofNullable(UserIncludedInTeam.builder().id(1L).team(team).user(user).build()));
         when(userIncludedInBoardRepository.save(any())).thenReturn(new UserIncludedInBoard());
         assertThat(boardService.viewBoard(boards.get(0).getId(), user)).isEqualTo(boards.get(0));
-        verify(boardRepository,times(1)).findById(boards.get(0).getId());
+        verify(boardRepository,times(1)).findByIdAndDeletedFalse(boards.get(0).getId());
         verify(recentlyViewBoardRepository,times(1)).save(any());
     }
 

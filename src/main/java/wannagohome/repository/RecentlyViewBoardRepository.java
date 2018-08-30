@@ -22,6 +22,5 @@ public interface RecentlyViewBoardRepository extends CrudRepository<RecentlyView
             "order by id desc limit 4", nativeQuery = true)
     List<RecentlyViewBoard> findFirst4ByUserOrderByIdDesc(@Param("user_id") Long userId);
 
-
     void deleteByBoard(Board board);
 }

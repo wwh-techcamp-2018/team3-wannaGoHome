@@ -32,18 +32,17 @@ public class TaskService {
 
     @Transactional
     public Task addCard(User user, Long taskId, Card card) {
-        Task task = taskRepository.findById(taskId).get();
+        Task task = findTaskById(taskId);
         task.addCard(card);
         CardActivity activity = CardActivity.valueOf(user, card, ActivityType.CARD_CREATE);
         BoardEvent boardEvent = new BoardEvent(this, activity);
         applicationEventPublisher.publishEvent(boardEvent);
-        task = taskRepository.save(task);
-        return task;
+        return taskRepository.save(task);
     }
 
     @Transactional
     public Task reorderTaskCard(Long taskId, CardOrderDto cardOrderDto) {
-        Task task = taskRepository.findById(taskId).get();
+        Task task = findTaskById(taskId);
 
         //다른 테스크로 이동할 때
         if(task.getCards().stream().noneMatch(card -> card.equalsId(cardOrderDto.getOriginId()))) {
@@ -75,15 +74,20 @@ public class TaskService {
 
     @Transactional
     public Task renameTask(TaskDto taskDto) {
-        Task task = taskRepository.findById(taskDto.getId()).get();
+        Task task = findTaskById(taskDto.getId());
         task.setTitle(taskDto.getTitle());
         return taskRepository.save(task);
     }
 
     @Transactional
     public Task deleteTask(TaskDto taskDto) {
-        Task task = taskRepository.findById(taskDto.getId()).get();
-        task.setDeleted(true);
+        Task task = findTaskById(taskDto.getId());
+        task.delete();
         return taskRepository.save(task);
+    }
+
+    Task findTaskById(Long taskId) {
+        return taskRepository.findByIdAndDeletedFalse(taskId)
+                .orElseThrow(() -> new NotFoundException(ErrorType.TASK_ID, "카드를 넣을 테스크가 존재하지않습니다."));
     }
 }

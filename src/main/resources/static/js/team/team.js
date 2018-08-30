@@ -220,6 +220,7 @@ function drawMembers(status, result) {
             memberElem.querySelector(".remove-button").style.display = "none";
 
         }
+
         if(currentUser.userPermission === "Member") {
             memberElem.querySelector(".rights-button").style.display = "none";
             memberElem.querySelector(".remove-button").style.display = "none";

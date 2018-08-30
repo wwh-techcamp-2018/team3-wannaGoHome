@@ -46,6 +46,10 @@ class Message {
 
         // creating and assigning messageElem
         this.messageElem = newMessage;
+        this.messageElem.querySelector(".speech-bubble-text").addEventListener("mouseup", function(evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+        });
     }
 
     handleMessage(message) {

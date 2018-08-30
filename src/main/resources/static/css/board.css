@@ -661,7 +661,7 @@ a.header-logo {
 }
 
 .chatting-input-holder textarea {
-    vertical-align: top;
+    vertical-align: bottom;
     padding: 0px 6px 0px 6px;
     width: 240px;
     border-radius: 3px;
@@ -677,7 +677,7 @@ a.header-logo {
 .chatting-input-holder button {
     vertical-align: top;
     display: inline-block;
-    background-color: #61bd4f;
+    background-color: #4ebecf;
     color: #fff;
     padding-left: 10px;
     padding-right: 10px;

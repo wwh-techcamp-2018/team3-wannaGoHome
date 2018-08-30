@@ -82,8 +82,7 @@
     color: #aaaaaa;
     font-size: 13px;
     text-align: center;
-    padding: 5px;
-    width: 70px;
+    padding: 5px 8px;
     margin-bottom: 10px;
 }
 
@@ -117,7 +116,7 @@
 
 .card-detail-comment-list-container {
     max-height: 200px;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .card-detail-label-container {

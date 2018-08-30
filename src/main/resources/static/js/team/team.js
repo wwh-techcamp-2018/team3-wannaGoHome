@@ -131,7 +131,7 @@ function drawTeam(status, result) {
 }
 
 function onClickDeleteTeamButton() {
-    showDialog("Delete Team", "Really Delete it? Careful", onClickOkDelete, ()=>{});
+    showDialog("Delete Team", "Are you sure? This can not be undone.", onClickOkDelete, ()=>{});
 }
 
 function onClickOkDelete() {

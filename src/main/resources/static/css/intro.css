@@ -51,22 +51,22 @@ body {
     color: #fff;
 }
 
-/*.main-content-signup-button {*/
-    /*display: inline-block;*/
-    /*text-align: center;*/
-    /*line-height: 50px;*/
-    /*width: 300px;*/
-    /*border-radius: 5px;*/
-    /*color: #fff;*/
-    /*background-color: #FFC125;*/
-    /*height: 70px;*/
-    /*margin: 100px 0px 0px 400px;*/
-    /*font-size: 30px;*/
-/*}*/
-/*.main-content-signup-button:hover {*/
-    /*text-decoration: none;*/
-    /*color: #fff;*/
-/*}*/
+.main-content-signup-button {
+    display: inline-block;
+    text-align: center;
+    line-height: 50px;
+    width: 150px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #FFC125;
+    height: 50px;
+    font-size: 20px;
+    font-weight: normal;
+}
+.main-content-signup-button:hover {
+    text-decoration: none;
+    color: #fff;
+}
 
 .main-content-wrapper {
     margin-top: 50px;

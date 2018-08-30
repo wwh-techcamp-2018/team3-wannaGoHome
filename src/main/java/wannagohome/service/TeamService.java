@@ -24,10 +24,7 @@ import wannagohome.event.TeamEvent;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
-import wannagohome.repository.BoardRepository;
-import wannagohome.repository.TeamRepository;
-import wannagohome.repository.UserIncludedInBoardRepository;
-import wannagohome.repository.UserIncludedInTeamRepository;
+import wannagohome.repository.*;
 import wannagohome.service.file.UploadService;
 
 import javax.annotation.Resource;
@@ -50,6 +47,9 @@ public class TeamService {
 
     @Autowired
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
+
+    @Autowired
+    private RecentlyViewBoardRepository recentlyViewBoardRepository;
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
@@ -185,7 +185,7 @@ public class TeamService {
     @Caching(
             evict = {
                     @CacheEvict(value = "boardSummary", key = "#removeUserFromTeamDto.userId"),
-                    @CacheEvict(value = "recentlyViewBoard", key = "#removeUserFromTeamDto.userId"),
+                    @CacheEvict(value = "recentlyViewBoard", allEntries = true),
                     @CacheEvict(value = "teamsByUser", key = "#removeUserFromTeamDto.userId"),
                     @CacheEvict(value = "createBoardInfo", allEntries = true)
             }
@@ -195,12 +195,12 @@ public class TeamService {
         User target = userService.findByUserId(removeUserFromTeamDto.getUserId());
         userIncludedInTeamRepository
                 .findByUserAndTeam(user, team)
-                .filter(userIncludedInTeam -> userIncludedInTeam.isAdmin())
+                .filter(UserIncludedInTeam::isAdmin)
                 .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "유저에 권한이 없습니다."));
 
         UserIncludedInTeam targetIncludeInTeam
                 = userIncludedInTeamRepository.findByUserAndTeam(target, team)
-                .orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "팀에 해당하는 유저기 없습니다."));
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "팀에 해당하는 유저가 없습니다."));
         userIncludedInTeamRepository.delete(targetIncludeInTeam);
         List<UserIncludedInBoard> userIncludedInBoards = userIncludedInBoardRepository
                 .findByBoardTeamAndUser(targetIncludeInTeam.getTeam(), targetIncludeInTeam.getUser());
@@ -209,8 +209,10 @@ public class TeamService {
         userIncludedInBoardRepository.deleteAll(userIncludedInBoards);
 
         userIncludedInBoards.forEach((userIncludedInBoard -> {
+            Board board = userIncludedInBoard.getBoard();
+            recentlyViewBoardRepository.deleteByUserAndBoard(target, board);
             simpMessageSendingOperations.convertAndSend(
-                    String.format("/topic/boards/%d/%s", userIncludedInBoard.getBoard().getId(), userCode),
+                    String.format("/topic/boards/%d/%s", board.getId(), userCode),
                     ""
             );
         }));
@@ -240,6 +242,7 @@ public class TeamService {
         boardRepository.findAllByTeamAndDeletedFalse(team).forEach(board -> {
             board.delete();
             board = boardRepository.save(board);
+            recentlyViewBoardRepository.deleteByBoard(board);
             simpMessageSendingOperations.convertAndSend(
                     String.format(Board.BOARD_HEADER_TOPIC_URL, board.getId()),
                     BoardHeaderDto.valueOf(board)

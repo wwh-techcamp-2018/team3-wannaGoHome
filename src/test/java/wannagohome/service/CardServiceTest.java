@@ -112,7 +112,7 @@ public class CardServiceTest {
         board.addTask(task);
         card.setTask(task);
 
-        when(cardRepository.findById(card.getId())).thenReturn(Optional.ofNullable(card));
+        when(cardRepository.findByIdAndDeletedFalse(card.getId())).thenReturn(Optional.ofNullable(card));
         when(cardRepository.save(card)).thenReturn(card);
         when(labelRepository.findById(label.getId())).thenReturn(Optional.ofNullable(label));
     }
@@ -121,7 +121,7 @@ public class CardServiceTest {
     public void setCardDueDate() {
         cardService.setCardDueDate(user, card.getId(), cardDetailDto);
         verify(cardRepository, times(1)).save(any());
-        verify(cardRepository, times(1)).findById((any()));
+        verify(cardRepository, times(1)).findByIdAndDeletedFalse((any()));
         assertThat(card.getEndDate()).isEqualTo(cardDetailDto.getEndDate());
     }
 
@@ -129,7 +129,7 @@ public class CardServiceTest {
     public void setCardLabel() {
         cardService.setCardLabel(user, card.getId(), cardDetailDto);
         verify(cardRepository, times(1)).save(any());
-        verify(cardRepository, times(1)).findById((any()));
+        verify(cardRepository, times(1)).findByIdAndDeletedFalse((any()));
         assertThat(card.getLabels()).contains(label);
     }
 
@@ -159,7 +159,7 @@ public class CardServiceTest {
         );
         cardService.addLabel(user, card.getId(), label);
         verify(cardRepository, times(1)).save(any());
-        verify(cardRepository, times(1)).findById((any()));
+        verify(cardRepository, times(1)).findByIdAndDeletedFalse((any()));
         assertThat(card.getLabels()).contains(label);
     }
 
@@ -191,7 +191,7 @@ public class CardServiceTest {
         List<Label> labels = cardService.getLabels(card.getId());
         assertThat(labels.size()).isEqualTo(1);
         verify(cardRepository, times(1)).save(any());
-        verify(cardRepository, times(2)).findById((any()));
+        verify(cardRepository, times(2)).findByIdAndDeletedFalse((any()));
     }
 
     @Test
@@ -214,7 +214,7 @@ public class CardServiceTest {
         assertThat(card.getCreateDate()).isEqualTo(updateCardDetailDto.getCreateDate());
 
         verify(cardRepository, times(2)).save(any());
-        verify(cardRepository, times(2)).findById((any()));
+        verify(cardRepository, times(2)).findByIdAndDeletedFalse((any()));
     }
 
 

@@ -40,8 +40,9 @@ class Notification {
             evt.stopPropagation();
             this.showNotification();
             $_(".header-button-boardlist").style.display = 'none';
-            if($_("#calendar")) {
-                $_("#calendar").style.display = 'none';
+            const calendar = $_("#calendar");
+            if(calendar) {
+                calendar.style.display = 'none';
             }
         });
 

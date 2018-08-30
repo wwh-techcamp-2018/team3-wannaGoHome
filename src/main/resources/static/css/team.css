@@ -72,6 +72,19 @@ body {
     width: 130px;
 }
 
+.team-profile-delete-button {
+    margin-top: 10px;
+    box-shadow: 0 1px 0 0 #c4c9cc;
+    color: white;
+    background-color: #e25b52;
+    cursor: pointer;
+    height: 32px;
+    border-radius: 3px;
+    font-weight: 700;
+    width: 130px;
+    margin-left: 20px;
+}
+
 .team-page-content {
     width: 600px;
     padding-top: 30px;

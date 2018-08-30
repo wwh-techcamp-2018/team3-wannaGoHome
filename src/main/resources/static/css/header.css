@@ -159,7 +159,8 @@ a.header-logo {
     color: #e25b52;
 }
 
-.header-notification-content .notification-tooltoptext {
+
+.notification-tooltoptext {
     display: none;
     /*width: 120px;*/
     color: #fff;

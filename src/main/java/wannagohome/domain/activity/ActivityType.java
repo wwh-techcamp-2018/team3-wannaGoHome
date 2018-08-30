@@ -7,9 +7,11 @@ public enum ActivityType {
     BOARD_DELETE("Board.Delete"),
     BOARD_MEMBER_ADD("Board.Member.Add"),
 
+    TEAM_DELETE("Team.Delete"),
     TEAM_AUTHORITY("Team.Authority"),
     TEAM_MEMBER_ADD("Team.Member.Add"),
     TEAM_MEMBER_INVITE("Team.Member.Invite"),
+    TEAM_MEMBER_REMOVE("Team.Member.Remove"),
 
     TASK_CREATE("Task.Create"),
     TASK_UPDATE("Task.Update"),

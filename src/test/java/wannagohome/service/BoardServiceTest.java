@@ -125,7 +125,7 @@ public class BoardServiceTest {
         UserIncludedInTeam userIncludedInTeam = UserIncludedInTeam.builder().team(team).build();
         when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user.getId())).thenReturn(recentlyViewBoards);
         when(boardRepository.findAllByTeamAndDeletedFalse(team)).thenReturn(boards);
-        when(userIncludedInTeamRepository.findAllByUser(user)).thenReturn(Arrays.asList(userIncludedInTeam));
+        when(userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)).thenReturn(Arrays.asList(userIncludedInTeam));
         BoardSummaryDto boardSummaryDTO = boardService.getBoardSummary(user);
         assertThat(boardSummaryDTO.getRecentlyViewBoards().size()).isEqualTo(4);
         assertThat(boardSummaryDTO.getBoardOfTeamDtos().size()).isEqualTo(1);

@@ -37,6 +37,7 @@ public class ApiUserController {
     @Autowired
     private TeamInviteService teamInviteService;
 
+
     @ApiOperation(value = "회원가입 요청")
     @ApiImplicitParam(name = "signUp", value = "User", required = true,  paramType = "json")
     @PostMapping("")

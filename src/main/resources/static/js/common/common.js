@@ -148,7 +148,7 @@ function showDialog(title, description, okCallback, cancelCallback) {
                 <div class="popup-title">${title}</div>
                 <p class="popup-description">${description}</p>
                 <div class="popup-button-wrapper">
-                    <button id="button-ok" class="popup-ok-button">OK</button>
+                    <button id="button-ok" class="ok-button popup-ok-button">OK</button>
                     <button id="button-cancel" class="popup-cancel-button">Cancel</button>
                 </div>
             </div>
@@ -166,7 +166,7 @@ function showNormalDialog(title, description, okCallback, cancelCallback) {
                 <div class="popup-title">${title}</div>
                 <p class="popup-description">${description}</p>
                 <div class="popup-button-wrapper">
-                    <button id="button-ok" class="popup-normal-ok-button">OK</button>
+                    <button id="button-ok" class="ok-button popup-normal-ok-button">OK</button>
                     <button id="button-cancel" class="popup-cancel-button">Cancel</button>
                 </div>
             </div>

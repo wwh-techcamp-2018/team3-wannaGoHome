@@ -28,7 +28,9 @@ public enum ErrorType {
     LABEL_ID("labelId"),
     CARD_DUE_DATE_NOT_EXIST("cardDueDateNotExist"),
     FILE_ID("fileId"),
-    TEAM_INVITE_ID("teamInviteId");
+    TEAM_INVITE_ID("teamInviteId"),
+    TASK_ID("taskId");
+
 
     private static final Logger log = LoggerFactory.getLogger(ErrorType.class);
 

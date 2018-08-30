@@ -12,12 +12,18 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     @GetMapping("/signin")
-    public String signIn() {
+    public String signIn(HttpSession session) {
+        if (SessionUtil.isLogined(session)) {
+            return "redirect:/";
+        }
         return "/users/signin";
     }
 
     @GetMapping("/signup")
-    public String signUp() {
+    public String signUp(HttpSession session) {
+        if (SessionUtil.isLogined(session)) {
+            return "redirect:/";
+        }
         return "/users/signup";
     }
 

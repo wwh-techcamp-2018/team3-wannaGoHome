@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import wannagohome.domain.board.Board;
 import wannagohome.domain.board.RecentlyViewBoard;
+import wannagohome.domain.user.User;
 
 import java.util.List;
 
@@ -23,4 +24,8 @@ public interface RecentlyViewBoardRepository extends CrudRepository<RecentlyView
     List<RecentlyViewBoard> findFirst4ByUserOrderByIdDesc(@Param("user_id") Long userId);
 
     void deleteByBoard(Board board);
+
+    void deleteAllByBoard(Board board);
+
+    void deleteByUserAndBoard(User user, Board board);
 }

@@ -9,6 +9,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import wannagohome.domain.error.ErrorEntity;
 import wannagohome.domain.error.ErrorType;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@RestControllerAdvice
+@RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionAdvisor {
     private static final Logger log = LoggerFactory.getLogger(ExceptionAdvisor.class);
 
@@ -38,9 +39,9 @@ public class ExceptionAdvisor {
         return Arrays.asList(exception.entity());
     }
 
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler(value = {BadRequestException.class, NotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<ErrorEntity> handleBadRequest(BadRequestException exception) {
+    public List<ErrorEntity> handleBadRequest(ErrorEntityException exception) {
         return Arrays.asList(exception.entity());
     }
 

@@ -26,6 +26,7 @@
     display: inline-block;
     font-size: 0.6em;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 .board-header-team-title-wrapper {

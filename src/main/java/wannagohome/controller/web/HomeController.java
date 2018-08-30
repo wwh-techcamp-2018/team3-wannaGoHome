@@ -18,4 +18,6 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/intro")
+    public String intro() {return "intro";}
 }

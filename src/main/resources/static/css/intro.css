@@ -1,0 +1,171 @@
+body {
+    width: 100%;
+}
+
+.body-with-img {
+    background-image: url("home-office.jpg");
+    width: 100%;
+    height: 100vh;
+}
+
+.container {
+    margin-top: 0px;
+    font-weight: lighter;
+    color: #fff;
+}
+.common-header {
+    padding: 10px;
+    /*background-color: #003d5e;*/
+}
+
+.intro-header-logo {
+    font-size: 30px;
+    font-weight: lighter;
+
+}
+
+.intro-header-logo > img {
+    width: 120px;
+    margin-top: -7px;
+}
+
+.intro-header-logo > i {
+    color: #FFC125;
+}
+
+.intro-header-button {
+    display: inline-block;
+    text-align: center;
+    line-height: 50px;
+    float: right;
+    width: 150px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #FFC125;
+    height: 100%;
+    margin-right: 20px;
+}
+
+.intro-header-button:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+.main-content-signup-button {
+    display: inline-block;
+    text-align: center;
+    line-height: 50px;
+    width: 170px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #FFC125;
+    height: 50px;
+    font-size: 20px;
+    font-weight: normal;
+}
+.main-content-signup-button:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+.main-content-wrapper {
+    margin-top: 50px;
+}
+
+.main-content-wrapper > .main-content-intro {
+    font-size: 25px;
+    color: #000000;
+}
+.main-content-wrapper > .sticky-board {
+    margin-top: 100px;
+    font-size: 50px;
+}
+
+.main-content-wrapper > .sticky-board-main {
+    font-size: 30px;
+    font-weight: normal;
+}
+.make-team-explain {
+    padding-top: 50px;
+    height: 100vh;
+    text-align: center;
+    background-image: linear-gradient(#fea949, #f06e47);
+}
+
+.explain-emoticon{
+
+    font-size: 100px;
+    /*color: #;*/
+}
+
+.explain-title {
+    /*color: #000;*/
+    font-size: 25px;
+
+}
+.make-team-explain .explain-img-center-container {
+    background-image: url("mainBoard.png");
+    background-size: cover;
+    width: 900px;
+    height: 500px;
+    margin: 0 auto;
+}
+
+.full-vh-explain {
+    height: 100vh;
+}
+
+.board-page-explain {
+    height: 450px;
+    background-color: #ebf1ef;
+    padding-top: 50px;
+}
+
+.board-page-explain .explain-img-center-container {
+    background-image: url("boardPage.png");
+    background-size: cover;
+    width: 100%;
+    height: 400px;
+    /*float: right;*/
+}
+
+.board-page-explain .explain-title, .board-page-explain .explain-emoticon{
+    color: #000000;
+}
+
+.card-page-explain {
+    font-weight: lighter;
+    color: #000;
+    /*padding-top: 50px;*/
+    height: 100%;
+    /*background-color: #088da5;*/
+
+}
+
+.card-page-explain .explain-img-center-container {
+    margin-top: 25px;
+    background-image: url("cardDetailPage.png");
+    background-size: cover;
+    width: 100%;
+    height: 350px;
+    border-radius: 5px;
+    display: inline-block;
+    box-shadow: 1px 1px 1px #aaaaaa;
+}
+
+.team-page-explain {
+    padding-top: 50px;
+    text-align: center;
+    height: 100vh;
+    background: linear-gradient(-135deg, #E4A972, #9941D8);
+
+    /*background-color: linear-gradient;*/
+}
+
+.team-page-explain .explain-img-center-container {
+    background-image: url("teamPage.png");
+    background-size: cover;
+    width: 900px;
+    height: 450px;
+    margin: 0 auto;
+}

@@ -270,7 +270,7 @@ body {
 
 .invitation-agree-button {
     display: inline-block;
-    background-color: #5aac44;
+    background-color: #ecba24;
     font-weight: 700;
     line-height: 20px;
     font-size: 12px;
@@ -509,8 +509,8 @@ body {
 }
 
 .content-update-submit {
-    background: #5aac44;
-    box-shadow: 0 1px 0 #519839;
+    background: #ecba24;
+    box-shadow: 0 1px 0 #ecba49;
     color: #fff;
     transition: background .3s ease;
     padding: 6px 18px;

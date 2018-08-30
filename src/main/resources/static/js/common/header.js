@@ -43,7 +43,7 @@ function drawRecentlyBoard(recentlyViewBoards) {
     const template = Handlebars.templates["precompile/header_board_template"];
     const recentlyBoardsNode = $_(".header-recently-boards");
     recentlyBoardsNode.innerHTML = "";
-    const title = '<li class="header-button-boardlist-title"><i class="fa fa-clock-o"></i>Recent Boards</li>'
+    const title = '<li class="header-button-boardlist-title"><i class="far fa-clock"></i>Recent Boards</li>';
     recentlyBoardsNode.appendChild(createElementFromHTML(title));
     for (const board of recentlyViewBoards) {
         const boardNode = createElementFromHTML(template(board));

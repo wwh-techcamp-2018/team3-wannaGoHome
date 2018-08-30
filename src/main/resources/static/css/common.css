@@ -48,7 +48,7 @@ button:focus {
     display: inline-block;
     vertical-align: top;
     text-align: center;
-    line-height: 45px;
+    line-height: 40px;
 }
 
 .overlay-box-shadow {
@@ -124,7 +124,7 @@ button:focus {
 }
 
 .popup-normal-ok-button {
-    background-color: #61bd4f;
+    background-color: #ecba24;
 }
 
 .popup-button-hide {
@@ -149,7 +149,7 @@ button:focus {
 }
 
 .active-button {
-    background-color: #61bd4f;
+    background-color: #ecba24;
     color: #ffffff;
 }
 

@@ -13,7 +13,7 @@ public class SignInInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = SessionUtil.getUserSession(request.getSession());
         if (user.isGuestUser()) {
-            response.sendRedirect("/users/signin");
+            response.sendRedirect("/intro");
             return false;
         }
         return true;

@@ -1,6 +1,6 @@
 .sign-container {
     padding: 80px 20px 80px 20px;
-    width: 400px;
+    width: 500px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -10,9 +10,28 @@
     display: block;
 }
 
+.sign-container fieldset > p > i {
+    color: #ecba24;
+    font-size: 70px;
+}
+
+.sign-container fieldset > p > img {
+    width: 350px;
+}
+
+.sign-container fieldset > span {
+    font-weight: lighter;
+    font-size: 25px;
+    color: #2d211a;
+}
+
+.sign-container fieldset > span > a:visited {
+    color: #026aa7;
+}
+
 .sign-container legend {
     font-size: 50px;
-    font-weight: bold;
+    font-weight: lighter;
 }
 
 .sign-container span, input, button {
@@ -44,11 +63,12 @@
 }
 
 .sign-container .sign-button {
-    background: #61bd4f;
+    background: #ecba24;
     color: #ffffff;
     border-radius: 5px;
     height: 50px;
     cursor: pointer;
+    font-size: 15px;
 }
 
 .sign-container .sign-button:focus {

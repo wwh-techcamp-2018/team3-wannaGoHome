@@ -326,6 +326,7 @@ class CardDetail {
         if (status !== 200) {
             return;
         }
+        $_("#calendar").style.display = 'none';
         this.hide();
     }
 

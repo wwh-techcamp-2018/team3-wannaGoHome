@@ -93,7 +93,8 @@ public class AppConfig implements WebMvcConfigurer {
                 "/api/users",
                 "/js/**",
                 "/css/**",
-                "/img/**"
+                "/img/**",
+                "/intro"
         ));
     }
 

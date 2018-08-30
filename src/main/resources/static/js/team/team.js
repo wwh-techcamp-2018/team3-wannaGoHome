@@ -62,6 +62,8 @@ document.addEventListener("DOMContentLoaded", function (evt) {
 
     document.addEventListener("click", function (evt) {
         $_(".user-search-box").style.display = "none";
+        $_(".user-search-bar-holder > input").value = "";
+        $_(".user-search-bar-results").innerHTML = "";
     });
 
 });

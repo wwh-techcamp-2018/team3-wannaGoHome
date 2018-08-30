@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestControllerAdvice(annotations = {RestController.class})
-public class ExceptionAdvisor {
-    private static final Logger log = LoggerFactory.getLogger(ExceptionAdvisor.class);
+public class RestExceptionAdvisor {
+    private static final Logger log = LoggerFactory.getLogger(RestExceptionAdvisor.class);
 
     @Resource(name = "messageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;

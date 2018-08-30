@@ -72,8 +72,9 @@ function drawTeam(status, result) {
     const teamHeaderTemplate = Handlebars.templates["precompile/team/team_page_header"];
     $_(".team-page-header").insertBefore(createElementFromHTML(teamHeaderTemplate(result)), $_(".team-options-holder"));
 
-    if(currentUser.userPermission != "Admin") {
+    if(currentUser.userPermission !== "Admin") {
         $_(".team-profile-edit-button").style.display = "none";
+        $_(".team-profile-delete-button").style.display = "none";
         return;
     }
     $_(".team-profile-image").addEventListener("click", function(evt) {
@@ -117,7 +118,11 @@ function drawTeam(status, result) {
                         $_(".profile-upload").reset();
                         $_(".team-profile-image-section").src = response.profile;
                         $_("body").click();
+                        return;
                     }
+                    const errorNode = $_(".profile-upload-error")
+                    errorNode.innerText = response[0].message;
+                    errorNode.style.display = "block";
                 }
             })
         }
@@ -155,8 +160,13 @@ function drawMembers(status, result) {
     const teamMemberTemplate = Handlebars.templates["precompile/team/team_page_member"];
     for(const member of result) {
         const memberElem = createElementFromHTML(teamMemberTemplate(member));
-        $_(".team-users-holder").appendChild(memberElem);
-        if(currentUser.userPermission == "Admin") {
+        if(currentUser.id === member.id) {
+            $_(".team-users-holder").insertBefore(memberElem, $_(".team-users-holder").childNodes[0]);
+        }
+        else {
+            $_(".team-users-holder").appendChild(memberElem);
+        }
+        if(currentUser.userPermission === "Admin" && currentUser.id !== member.id) {
             memberElem.querySelector(".rights-button").addEventListener("click", function(evt) {
                 evt.stopPropagation();
 
@@ -195,22 +205,25 @@ function drawMembers(status, result) {
             }.bind(member));
 
             document.addEventListener("click", function(evt) {
-
                 $_(".user-rights-box").style.display = "none";
+                $_(".profile-upload-error").style.display = "none";
             });
 
         }
 
-        if(currentUser.userPermission == "Manager") {
+        if(currentUser.id === member.id) {
+            memberElem.querySelector(".remove-button").style.visibility = "hidden";
+        }
+
+        if(currentUser.userPermission === "Manager") {
             memberElem.querySelector(".rights-button").style.display = "none";
             memberElem.querySelector(".remove-button").style.display = "none";
 
         }
-        if(currentUser.userPermission == "Member" || currentUser.id == member.id) {
+
+        if(currentUser.userPermission === "Member") {
             memberElem.querySelector(".rights-button").style.display = "none";
             memberElem.querySelector(".remove-button").style.display = "none";
-        }
-        if(currentUser.userPermission == "Member") {
             $_(".invite-team-button-holder").style.display = "none";
         }
     }
@@ -231,7 +244,13 @@ function drawSearchResults(status, result) {
                     method: "POST",
                     body: {},
                     headers: {"content-type": "application/json"},
-                    callback: (status, result) => {}
+                    callback: (status, result) => {
+                        if(status === 200) {
+                            showNormalDialog("팀 초대", "팀 초대 요청을 보냈습니다.", $_("body").click());
+                            return;
+                        }
+                        showDialog("팀 초대", result[0].message, $_("body").click());
+                    }
                 });
                 document.querySelector("body").click();
             }.bind(user));

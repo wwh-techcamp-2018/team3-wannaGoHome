@@ -103,4 +103,8 @@ public class Task {
     public boolean equalsId(Long id) {
         return this.id.equals(id);
     }
+
+    public void delete() {
+        deleted = true;
+    }
 }

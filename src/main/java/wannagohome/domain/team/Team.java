@@ -29,7 +29,7 @@ public class Team {
 
     @NotBlank
     @Size(min = 1, max = 20)
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(length = 20, nullable = false)
     private String name;
 
     @NotBlank

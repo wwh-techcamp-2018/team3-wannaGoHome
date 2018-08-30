@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class BoardInitDto {
 
     private Long id;
+    private Long teamId;
     private String boardTitle;
     private String teamTitle;
 
@@ -34,6 +35,7 @@ public class BoardInitDto {
     public static BoardInitDto valueOf(Board board, List<User> members, UserPermission permission) {
         return new BoardInitDto(
                 board.getId(),
+                board.getTeam().getId(),
                 board.getTitle(),
                 board.getTeam().getName(),
                 board.isDeleted(),

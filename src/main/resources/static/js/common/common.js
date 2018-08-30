@@ -148,15 +148,39 @@ function showDialog(title, description, okCallback, cancelCallback) {
                 <div class="popup-title">${title}</div>
                 <p class="popup-description">${description}</p>
                 <div class="popup-button-wrapper">
-                    <button class="popup-ok-button">OK</button>
-                    <button class="popup-cancel-button">Cancel</button>
+                    <button id="button-ok" class="ok-button popup-ok-button">OK</button>
+                    <button id="button-cancel" class="popup-cancel-button">Cancel</button>
                 </div>
             </div>
         </div>
     `);
+
+    drawDialog(popupElement, okCallback, cancelCallback);
+}
+
+function showNormalDialog(title, description, okCallback, cancelCallback) {
+    const popupElement = createElementFromHTML(`
+        <div class="popup-wrapper">
+            <div class="popup-background"></div>
+            <div class="popup">
+                <div class="popup-title">${title}</div>
+                <p class="popup-description">${description}</p>
+                <div class="popup-button-wrapper">
+                    <button id="button-ok" class="ok-button popup-normal-ok-button">OK</button>
+                    <button id="button-cancel" class="popup-cancel-button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    `);
+
+    drawDialog(popupElement, okCallback, cancelCallback);
+}
+
+
+function drawDialog(popupElement, okCallback, cancelCallback) {
     document.body.appendChild(popupElement);
 
-    popupElement.querySelector(".popup-ok-button").addEventListener("click", (evt) => {
+    popupElement.querySelector("#button-ok").addEventListener("click", (evt) => {
         evt.stopPropagation();
         evt.preventDefault();
         popupElement.remove();
@@ -164,7 +188,7 @@ function showDialog(title, description, okCallback, cancelCallback) {
             okCallback();
     });
 
-    const cancelButton = popupElement.querySelector(".popup-cancel-button");
+    const cancelButton = popupElement.querySelector("#button-cancel");
     if (cancelCallback) {
         cancelButton.addEventListener("click", (evt) => {
             popupElement.remove();

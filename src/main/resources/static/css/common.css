@@ -106,9 +106,8 @@ button:focus {
     vertical-align: middle;
 }
 
-.popup-ok-button {
+.ok-button {
     border-radius: 3px;
-    background-color: #e25b52;
     color: #fff;
     font-size: 13px;
     text-align: center;
@@ -117,6 +116,15 @@ button:focus {
     line-height: 30px;
     vertical-align: middle;
 }
+
+.popup-ok-button {
+    background-color: #e25b52;
+}
+
+.popup-normal-ok-button {
+    background-color: #61bd4f;
+}
+
 
 .popup-button-hide {
     display: none;

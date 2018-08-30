@@ -33,7 +33,7 @@ public class TaskDto {
 
     @JsonIgnore
     public List<Card> getRealCards() {
-        return cards.stream().map(card-> new Card(card)).collect(Collectors.toList());
+        return cards.stream().map(Card::new).collect(Collectors.toList());
     }
 
 }

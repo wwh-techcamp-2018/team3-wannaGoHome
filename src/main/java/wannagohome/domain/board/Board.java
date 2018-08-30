@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class Board {
+    public static final String BOARD_HEADER_TOPIC_URL = "/topic/board/%d/header";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,8 +66,9 @@ public class Board {
         boardDto.setId(id);
         boardDto.setTitle(title);
         boardDto.setColor(color);
-        List<TaskDto> taskDtoList =  tasks.stream().filter(task -> !task.isDeleted())
-                .map(task -> task.getTaskDto()).collect(Collectors.toList());
+        List<TaskDto> taskDtoList =  tasks.stream()
+                .map(Task::getTaskDto)
+                .collect(Collectors.toList());
         boardDto.setTasks(taskDtoList);
         return boardDto;
     }

@@ -11,6 +11,7 @@ import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.User;
 import wannagohome.event.ActivityEventHandler;
 import wannagohome.event.PersonalEvent;
+import wannagohome.exception.BadRequestException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.TeamInviteRepository;
@@ -45,8 +46,7 @@ public class TeamInviteService {
         Team team = teamService.findTeamById(teamId);
         User user = userRepository.findById(userId).get();
         if (teamInviteRepository.findByMemberEqualsAndTeamEquals(user, team).isPresent()) {
-            //client에서 처리.
-            return null;
+            throw new BadRequestException(ErrorType.TEAM_INVITE_ID, "이미 기존에 초대요청이 보내진 유저 입니다.");
         } else {
             notifyInvitation(invitor, user, team);
             TeamInvite teamInvite = new TeamInvite(user, team);

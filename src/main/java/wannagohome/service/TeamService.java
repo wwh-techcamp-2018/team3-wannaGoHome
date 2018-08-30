@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.activity.ActivityType;
 import wannagohome.domain.activity.TeamActivity;
+import wannagohome.domain.board.Board;
+import wannagohome.domain.board.BoardHeaderDto;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.RemoveUserFromTeamDto;
@@ -75,7 +77,7 @@ public class TeamService {
             }
     )
     public BoardOfTeamDto create(Team team, User user) {
-        if (teamRepository.findByName(team.getName()).isPresent()) {
+        if (teamRepository.findByNameAndDeletedFalse(team.getName()).isPresent()) {
             throw new DuplicationException(ErrorType.TEAM_NAME, "이미 같은 이름의 팀이 존재합니다.");
         }
         Team newTeam = teamRepository.save(team);
@@ -238,7 +240,11 @@ public class TeamService {
         team.delete();
         boardRepository.findAllByTeamAndDeletedFalse(team).forEach(board -> {
             board.delete();
-            boardRepository.save(board);
+            board = boardRepository.save(board);
+            simpMessageSendingOperations.convertAndSend(
+                    String.format(Board.BOARD_HEADER_TOPIC_URL, board.getId()),
+                    BoardHeaderDto.valueOf(board)
+            );
         });
         teamRepository.save(team);
 

@@ -93,14 +93,4 @@ public class TeamServiceMockTest {
     public void findTeamsById() {
         teamService.findTeamById(10L);
     }
-
-    @Test(expected = DuplicationException.class)
-    public void create_이미존재하는팀이름() {
-        when(teamRepository.findByName(any())).thenReturn(Optional.ofNullable(team));
-        teamService.create(team, user);
-        teamService.create(team, user2);
-    }
-
-
-
 }

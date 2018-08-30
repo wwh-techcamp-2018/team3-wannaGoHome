@@ -32,7 +32,7 @@
 <div class="board-header">
     <div class="board-header-left-menu">
         <span class="board-header-title"></span>
-        <input class="board-header-title board-header-title-input board-header-title-hide">
+        <input class="board-header-title board-header-title-input board-header-title-hide" spellcheck="false">
         <div class="board-header-team-title-wrapper">| <span class="board-header-team-title"></span> |</div>
         <div class="board-header-team-member"></div>
         <span class="board-header-menu-button">
@@ -42,7 +42,7 @@
     </div>
 
     <div class="board-header-right-menu">
-        <span><i class="fa fa-calendar"></i></span>
+        <span class="calendar-holder"><i class="fa fa-calendar"></i></span>
         <span class="chatting-bar-closer"><i class="fas fa-comment-dots"></i></span>
     </div>
 </div>
@@ -68,7 +68,7 @@
         <div class="card-detail-title-wrapper">
             <p class="card-detail-title">
                 <i class="fas fa-check"></i>
-                <input class="card-detail-title-edit-text card-detail-title-hide">
+                <input class="card-detail-title-edit-text card-detail-title-hide" spellcheck="false">
                 <span class="card-detail-title-text"></span>
             </p>
             <p class="card-detail-task-title"></p>
@@ -90,14 +90,15 @@
                 </p>
                 <p class="card-detail-description-show-box"></p>
                 <div class="card-detail-description-edit-box card-detail-description-hide">
-                    <textarea class="card-detail-desc" rows="4" placeholder="카드 상세 설명을 입력해주세요."></textarea>
+                    <textarea class="card-detail-desc" rows="4" placeholder="카드 상세 설명을 입력해주세요." spellcheck="false"></textarea>
                     <button class="card-detail-save-button">Save</button>
                 </div>
             </div>
             <div class="card-detail-comment-wrapper">
                 <p class="card-detail-title"><i class="far fa-comments"></i> Add Comment</p>
-                <textarea class="card-detail-comment" rows="3" placeholder="카드에 댓글을 달아주세요."></textarea>
+                <textarea class="card-detail-comment" rows="3" placeholder="카드에 댓글을 달아주세요." spellcheck="false"></textarea>
                 <button class="card-comment-save-button">Add Comment</button>
+
             </div>
             <div class="card-detail-comment-list-wrapper">
                 <p class="card-detail-title">Comments</p>
@@ -112,7 +113,7 @@
                 <i class="far fa-user"></i> Members
                 <div class="card-detail-assignee-container card-detail-assignee-container-hide">
                     <p class="card-detail-assignee-container-title">Members</p>
-                    <input class="card-detail-assignee-search" type="text">
+                    <input class="card-detail-assignee-search" type="text" spellcheck="false">
                     <p class="card-detail-assignee-list-container-tag">Board Members</p>
                     <ul class="card-detail-assignee-list-container"></ul>
                 </div>
@@ -126,7 +127,7 @@
             </div>
             <div class="card-detail-side-button due-date"><i class="far fa-calendar-alt"></i> Due Date
                 <div class="card-detail-date-container" style="display: none;">
-                    <input type="date" class="card-detail-date">
+                    <input type="date" class="card-detail-date" spellcheck="false">
                 </div>
 
             </div>
@@ -156,7 +157,7 @@
     </div>
 
     <div class="chatting-input-holder">
-        <textarea type="text" rows="1" placeholder="Type in your message..."></textarea>
+        <textarea type="text" rows="1" placeholder="Type in your message..." spellcheck="false"></textarea>
         <button>Send</button>
     </div>
 

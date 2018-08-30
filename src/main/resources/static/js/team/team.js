@@ -72,7 +72,7 @@ function drawTeam(status, result) {
     const teamHeaderTemplate = Handlebars.templates["precompile/team/team_page_header"];
     $_(".team-page-header").insertBefore(createElementFromHTML(teamHeaderTemplate(result)), $_(".team-options-holder"));
 
-    if(currentUser.userPermission != "Admin") {
+    if(currentUser.userPermission !== "Admin") {
         $_(".team-profile-edit-button").style.display = "none";
         $_(".team-profile-delete-button").style.display = "none";
         return;
@@ -160,8 +160,13 @@ function drawMembers(status, result) {
     const teamMemberTemplate = Handlebars.templates["precompile/team/team_page_member"];
     for(const member of result) {
         const memberElem = createElementFromHTML(teamMemberTemplate(member));
-        $_(".team-users-holder").appendChild(memberElem);
-        if(currentUser.userPermission == "Admin" && currentUser.id != member.id) {
+        if(currentUser.id === member.id) {
+            $_(".team-users-holder").insertBefore(memberElem, $_(".team-users-holder").childNodes[0]);
+        }
+        else {
+            $_(".team-users-holder").appendChild(memberElem);
+        }
+        if(currentUser.userPermission === "Admin" && currentUser.id !== member.id) {
             memberElem.querySelector(".rights-button").addEventListener("click", function(evt) {
                 evt.stopPropagation();
 
@@ -206,16 +211,17 @@ function drawMembers(status, result) {
 
         }
 
-        if(currentUser.id == member.id) {
+        if(currentUser.id === member.id) {
             memberElem.querySelector(".remove-button").style.visibility = "hidden";
         }
 
-        if(currentUser.userPermission == "Manager") {
+        if(currentUser.userPermission === "Manager") {
             memberElem.querySelector(".rights-button").style.display = "none";
             memberElem.querySelector(".remove-button").style.display = "none";
 
         }
-        if(currentUser.userPermission == "Member") {
+
+        if(currentUser.userPermission === "Member") {
             memberElem.querySelector(".rights-button").style.display = "none";
             memberElem.querySelector(".remove-button").style.display = "none";
             $_(".invite-team-button-holder").style.display = "none";

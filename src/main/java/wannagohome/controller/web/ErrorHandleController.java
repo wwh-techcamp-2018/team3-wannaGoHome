@@ -1,7 +1,5 @@
 package wannagohome.controller.web;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -14,8 +12,6 @@ import java.util.Objects;
 
 @Controller
 public class ErrorHandleController implements ErrorController {
-
-    private static final Logger log = LoggerFactory.getLogger(ErrorHandleController.class);
 
     @GetMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {

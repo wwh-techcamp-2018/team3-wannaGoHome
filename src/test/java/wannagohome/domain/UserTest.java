@@ -2,8 +2,6 @@ package wannagohome.domain;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wannagohome.domain.user.SignInDto;
 import wannagohome.domain.user.User;
@@ -12,7 +10,6 @@ import wannagohome.exception.UnAuthenticationException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
-    private static final Logger log = LoggerFactory.getLogger(UserTest.class);
 
     private User user;
 
@@ -25,7 +22,6 @@ public class UserTest {
                 .name("jhyang")
                 .password(passwordEncoder.encode("password1"))
                 .build();
-        log.debug("encoded password: {}", user.getPassword());
     }
 
     @Test

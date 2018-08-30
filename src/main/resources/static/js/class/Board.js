@@ -47,17 +47,17 @@ class Board {
             evt.stopPropagation();
         }.bind(this));
 
-       checkValidInput(this.selector(".hidden-list-title-form input"), this.selector(".add-list-inner-button"));
+        checkValidInput(this.selector(".hidden-list-title-form input"), this.selector(".add-list-inner-button"));
 
         this.selector(".add-list-inner-button").addEventListener("click", function (evt) {
-            if(checkNullInput(this.selector(".hidden-list-title-form input"))) {
+            if (checkNullInput(this.selector(".hidden-list-title-form input"))) {
                 evt.preventDefault();
                 const obj = {};
                 obj.title = this.selector(".hidden-list-title-form input").value.trim();
 
                 this.selector(".hidden-list-title-form").style.display = "none";
 
-                if(obj.title.length > 0) {
+                if (obj.title.length > 0) {
                     // hide addListButton temporarily
                     this.addListButton.style.display = "none";
                     this.addTask(obj);
@@ -161,7 +161,9 @@ class Board {
                 this.expelSubscribe.unsubscribe();
                 const topic = frame.body;
                 this.stompClient.subscribe(topic, (evt) => {
-                    showDialog("쫒겨났습니다", "홈으로 돌아갑니다.", () => {window.location.href = "/"})
+                    showDialog("쫒겨났습니다", "홈으로 돌아갑니다.", () => {
+                        window.location.href = "/"
+                    })
                 });
             }.bind(this));
             this.stompClient.send(`/app/boards/${this.boardIndex}/expel/init`);

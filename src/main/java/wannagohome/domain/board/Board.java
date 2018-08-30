@@ -2,7 +2,10 @@ package wannagohome.domain.board;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 import wannagohome.domain.error.ErrorType;
@@ -43,7 +46,7 @@ public class Board {
     private Team team;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "board")
     @OrderBy("order_id ASC")
     @Where(clause = "deleted = false")
     private List<Task> tasks;
@@ -65,7 +68,7 @@ public class Board {
         boardDto.setId(id);
         boardDto.setTitle(title);
         boardDto.setColor(color);
-        List<TaskDto> taskDtoList =  tasks.stream()
+        List<TaskDto> taskDtoList = tasks.stream()
                 .map(Task::getTaskDto)
                 .collect(Collectors.toList());
         boardDto.setTasks(taskDtoList);
@@ -79,18 +82,18 @@ public class Board {
     }
 
     public Board reorderTasks(TaskOrderDto taskOrderDto) {
-        if(taskOrderDto.getDestinationIndex() >= tasks.size()) {
+        if (taskOrderDto.getDestinationIndex() >= tasks.size()) {
             return this;
         }
-        for(int i = 0; i < tasks.size(); ++i) {
-            if(tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
+        for (int i = 0; i < tasks.size(); ++i) {
+            if (tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
                 Task movingTask = tasks.get(i);
                 tasks.remove(i);
                 tasks.add(taskOrderDto.getDestinationIndex(), movingTask);
                 break;
             }
         }
-        for(int i = 0; i < tasks.size(); ++i) {
+        for (int i = 0; i < tasks.size(); ++i) {
             tasks.get(i).setOrderId(i);
         }
         return this;

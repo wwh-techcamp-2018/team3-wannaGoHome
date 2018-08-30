@@ -1,7 +1,5 @@
 package wannagohome.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -27,7 +25,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class CardService {
-    private static final Logger log = LoggerFactory.getLogger(CardService.class);
 
     @Autowired
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
@@ -167,7 +164,7 @@ public class CardService {
     @Transactional
     public List<Label> deleteLabel(Long cardId, Long labelId) {
         Card card = findCardById(cardId);
-        Label getLabel = labelRepository.findById(labelId).orElseThrow(()->new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다."));
+        Label getLabel = labelRepository.findById(labelId).orElseThrow(() -> new NotFoundException(ErrorType.LABEL_ID, "일치하는 라벨이 없습니다."));
         card.removeLabel(getLabel);
         notifyBoardRefresh(card.getBoard());
         return card.getLabels();
@@ -226,7 +223,7 @@ public class CardService {
     @Transactional
     public List<Attachment> addFile(Long cardId, MultipartFile file) {
         Card card = findCardById(cardId);
-        Attachment attachment = new Attachment(card,file.getOriginalFilename(), uploadService.fileUpload(file));
+        Attachment attachment = new Attachment(card, file.getOriginalFilename(), uploadService.fileUpload(file));
         attachmentRepository.save(attachment);
         return card.getAttachments();
     }
@@ -239,6 +236,6 @@ public class CardService {
     }
 
     public Attachment findAttachmentById(Long fileId) {
-        return attachmentRepository.findById(fileId).orElseThrow(()->new NotFoundException(ErrorType.FILE_ID, "일치하는 파일이 없습니다."));
+        return attachmentRepository.findById(fileId).orElseThrow(() -> new NotFoundException(ErrorType.FILE_ID, "일치하는 파일이 없습니다."));
     }
 }

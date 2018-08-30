@@ -31,9 +31,9 @@ class CreateBoard {
 
     requestCreateBoardInfo() {
         fetchManager({
-            url : "api/boards/createBoardInfo",
-            method : "GET",
-            callback : this.drawCreateBoardInfo.bind(this)
+            url: "api/boards/createBoardInfo",
+            method: "GET",
+            callback: this.drawCreateBoardInfo.bind(this)
         })
     }
 
@@ -48,7 +48,7 @@ class CreateBoard {
         this.initializeFormValue();
         this.node.parentElement.classList.toggle("scroll-overflow");
         this.node.style.display = "";
-        limitInputSize(this.titleNode,20);
+        limitInputSize(this.titleNode, 20);
         this.titleNode.focus();
     }
 
@@ -75,7 +75,7 @@ class CreateBoard {
         colors.forEach((color, index) => {
             const colorIndex = index % this.TR_COUNT;
             trColors["color" + colorIndex] = color;
-            if((index + 1) % this.TR_COUNT === 0) {
+            if ((index + 1) % this.TR_COUNT === 0) {
                 this.colorBoxNode.appendChild(
                     this.createElementFromTrHTML(this.getTrColorTemplate(trColors))
                 );
@@ -85,7 +85,7 @@ class CreateBoard {
     }
 
     addColorClickEvent() {
-        for(const div of this.colorBoxNode.getElementsByTagName("div")) {
+        for (const div of this.colorBoxNode.getElementsByTagName("div")) {
             div.addEventListener("click", (evt) => {
                 evt.preventDefault();
                 this.selectColor(evt.target);
@@ -94,7 +94,7 @@ class CreateBoard {
     }
 
     selectColor(colorNode) {
-        if(this.selectedColorNode) {
+        if (this.selectedColorNode) {
             this.selectedColorNode.firstChild.remove();
         }
         this.selectedColorNode = colorNode;
@@ -108,7 +108,7 @@ class CreateBoard {
         this.titleNode.addEventListener("input", (evt) => {
             evt.preventDefault();
             this.titleNode.placeholder = this.titleDefaultPlaceHolder;
-            if(this.titleNode.value === "") {
+            if (this.titleNode.value === "") {
                 this.submitButtonNode.classList.add("disable");
                 this.submitButtonNode.disabled = true;
                 return;
@@ -130,26 +130,26 @@ class CreateBoard {
         this.submitButtonNode.addEventListener("click", (evt) => {
             evt.preventDefault();
             fetchManager({
-                url : "/api/boards",
-                method : "POST",
-                body : JSON.stringify(this.getCreateBoardRequestData()),
-                callback : this.handleCreateBoard.bind(this)
+                url: "/api/boards",
+                method: "POST",
+                body: JSON.stringify(this.getCreateBoardRequestData()),
+                callback: this.handleCreateBoard.bind(this)
             })
         });
 
     }
 
     getCreateBoardRequestData() {
-        const data  = {
-            "title" : this.titleNode.value,
-            "teamId" : this.teamSelectBoxNode.value,
-            "color" : rgbToHex(this.selectedColorNode.style.backgroundColor)
+        const data = {
+            "title": this.titleNode.value,
+            "teamId": this.teamSelectBoxNode.value,
+            "color": rgbToHex(this.selectedColorNode.style.backgroundColor)
         };
         return data;
     }
 
     handleCreateBoard(status, response) {
-        if(status === 400) {
+        if (status === 400) {
             this.handleCreateBoardError(response)
             return;
         }
@@ -161,7 +161,7 @@ class CreateBoard {
     drawCreatedBoard(board) {
         const teamBoardNode = this.parent.querySelector(`#team-${board.team.id}`);
         const createBoardCard = teamBoardNode.querySelector(".create-board-card");
-        createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).boardNode);
+        createBoardCard.insertAdjacentElement("beforebegin", new BoardCard(board).boardNode);
     }
 
     handleCreateBoardError(response) {

@@ -34,7 +34,7 @@ public class S3Service {
     public String upload(MultipartFile multipartFile, String dirName) {
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new UnsupportedFileFormatException(ErrorType.UNSUPPORTED_FILE
-                        ,"MultipartFile을 File로 전환이 실패했습니다."));
+                        , "MultipartFile을 File로 전환이 실패했습니다."));
         return upload(uploadFile, dirName);
     }
 
@@ -83,8 +83,7 @@ public class S3Service {
         try {
             String decodeLink = URLDecoder.decode(link, "UTF-8");
             return decodeLink.substring(decodeLink.indexOf(dirName), decodeLink.length());
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             throw new UnsupportedFileFormatException(ErrorType.UNSUPPORTED_FILE, "파일 링크 잘못됐습니다.");
         }
     }

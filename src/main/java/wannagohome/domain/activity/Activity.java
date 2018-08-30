@@ -6,7 +6,9 @@ public interface Activity {
     Object[] getArguments();
 
     String getCode();
+
     Date getRegisteredDate();
+
     String getLink();
 }
 

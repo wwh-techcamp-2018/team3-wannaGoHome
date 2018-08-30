@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TeamInvitationDto {
-    private Long id ;
+    private Long id;
     private String isAgree;
 
     public boolean getIsAgree() {

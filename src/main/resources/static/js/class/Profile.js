@@ -31,24 +31,24 @@ class Profile {
         this.profileAvatorHolder.querySelector(".avatar-option").addEventListener("click", (evt) => {
             evt.stopPropagation();
             fetchManager({
-                url : "/api/users/profile/init",
-                method : "POST",
-                callback : this.handleInitProfile.bind(this)
+                url: "/api/users/profile/init",
+                method: "POST",
+                callback: this.handleInitProfile.bind(this)
             })
         });
     }
 
     addUploadImageClickEvent() {
-        this.profileAvatorHolder.querySelector(".profile-upload").addEventListener("click", (evt) =>{
+        this.profileAvatorHolder.querySelector(".profile-upload").addEventListener("click", (evt) => {
             evt.stopPropagation();
         });
     }
 
     addUploadImageOninputEvent() {
-        this.profileAvatorHolder.querySelector(".profile-upload").oninput = function(evt) {
+        this.profileAvatorHolder.querySelector(".profile-upload").oninput = function (evt) {
             const uploadFiles = this.profileAvatorHolder
                 .querySelector(".profile-upload-button").files;
-            if(uploadFiles.length !== 0) {
+            if (uploadFiles.length !== 0) {
                 fileFetchManager({
                     url: "/api/users/profile",
                     body: getFileFormData(uploadFiles),
@@ -83,7 +83,7 @@ class Profile {
     }
 
     handleUploadProfileImage(status, response) {
-        if(status === 200) {
+        if (status === 200) {
             this.profileAvatorHolder.querySelector(".profile-upload").reset();
             this.changeProfileImage(response.profile);
             this.hideProfileImageHolder();

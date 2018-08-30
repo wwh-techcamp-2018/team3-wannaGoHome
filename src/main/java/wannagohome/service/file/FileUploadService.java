@@ -13,7 +13,7 @@ public class FileUploadService implements UploadService {
     public static final String ATTACHMENT_PATH = "attachment";
 
     @Override
-    public String  fileUpload(MultipartFile multipartFile) {
+    public String fileUpload(MultipartFile multipartFile) {
         return s3Service.upload(multipartFile, ATTACHMENT_PATH);
     }
 

@@ -17,10 +17,10 @@ class Message {
             this.handleMessage.call(this, this.message);
         }
 
-        if(this.selector(".profile-image")) {
+        if (this.selector(".profile-image")) {
             this.profileImage = this.selector(".profile-image");
-            this.profileImage.addEventListener("load", function(evt) {
-                if(imageDimensions(evt.currentTarget)) {
+            this.profileImage.addEventListener("load", function (evt) {
+                if (imageDimensions(evt.currentTarget)) {
                     evt.currentTarget.classList.toggle("profile-image-wide")
                 } else {
                     evt.currentTarget.classList.toggle("profile-image-long")
@@ -46,7 +46,7 @@ class Message {
 
         // creating and assigning messageElem
         this.messageElem = newMessage;
-        this.messageElem.querySelector(".speech-bubble-text").addEventListener("mouseup", function(evt) {
+        this.messageElem.querySelector(".speech-bubble-text").addEventListener("mouseup", function (evt) {
             evt.preventDefault();
             evt.stopPropagation();
         });
@@ -91,7 +91,7 @@ class Message {
     prependDateDivider() {
         const dateDividerTemplate = Handlebars.templates["precompile/board/date_divider_template"];
         const dateObject = {
-            date : getFormattedDate(new Date(this.message.messageCreated))
+            date: getFormattedDate(new Date(this.message.messageCreated))
         };
         const dateElem = createElementFromHTML(dateDividerTemplate(dateObject));
         this.messageElem.parentNode.insertBefore(dateElem, this.messageElem);

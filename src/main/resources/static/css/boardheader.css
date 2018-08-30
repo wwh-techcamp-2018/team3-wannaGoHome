@@ -97,7 +97,7 @@
 }
 
 .board-header-menu-button:hover {
-    background-color: rgba(255,255,255,.3);
+    background-color: rgba(255, 255, 255, .3);
     cursor: pointer;
 }
 
@@ -118,7 +118,6 @@
 .board-header-remove-button-hide, .board-header-title-hide {
     display: none;
 }
-
 
 .board-header-options-holder {
     font-size: 0.85em;

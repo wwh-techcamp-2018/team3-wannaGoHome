@@ -2,6 +2,7 @@ package wannagohome.domain.team;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.validation.constraints.NotNull;
 
 @Getter

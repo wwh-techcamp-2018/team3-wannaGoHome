@@ -1,5 +1,5 @@
 let boardSummary;
-document.addEventListener("DOMContentLoaded", function(evt) {
+document.addEventListener("DOMContentLoaded", function (evt) {
     boardSummary = new BoardSummary($_(".board-summary"));
     boardSummary.requestBoardSummary();
     init();
@@ -11,8 +11,10 @@ function init() {
     initClickEvent();
     createTeam();
 
-    document.addEventListener("click", (evt)=>{hideMakeTeamBox();});
-    $_(".sidebar-makeTeam-container").addEventListener("click", (evt)=>{
+    document.addEventListener("click", (evt) => {
+        hideMakeTeamBox();
+    });
+    $_(".sidebar-makeTeam-container").addEventListener("click", (evt) => {
         evt.stopPropagation();
     });
 
@@ -21,21 +23,23 @@ function init() {
 
     limitInputSize($_(".sidebar-makeTeam-name-box"), 20);
     limitInputSize($_(".sidebar-makeTeam-description-box"), 255);
-    for(let input of inputfield) {
+    for (let input of inputfield) {
         checkValidInput(input, button);
     }
 }
+
 function hideMakeTeamBox() {
     $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
     $_(".sidebar-makeTeam-name-box").placeholder = "";
-    $_(".sidebar-makeTeam-description-box").placeholder="";
+    $_(".sidebar-makeTeam-description-box").placeholder = "";
 }
+
 function addPageShowEvent() {
-    window.addEventListener( "pageshow", function ( event ) {
+    window.addEventListener("pageshow", function (event) {
         const historyTraversal = event.persisted ||
-            ( typeof window.performance != "undefined" &&
-                window.performance.navigation.type === 2 );
-        if ( historyTraversal ) {
+            (typeof window.performance != "undefined" &&
+                window.performance.navigation.type === 2);
+        if (historyTraversal) {
             // Handle page restore.
             window.location.reload();
         }
@@ -45,7 +49,7 @@ function addPageShowEvent() {
 function initClickEvent() {
     $_(".sidebar-makeTeam-button").addEventListener("click", (evt) => {
         evt.preventDefault();
-        if($_(".sidebar-makeTeam-box").style.display === 'none') {
+        if ($_(".sidebar-makeTeam-box").style.display === 'none') {
             $_(".sidebar-makeTeam-box").style.display = 'block';
             $_(".sidebar-makeTeam-name-box").focus();
         } else {
@@ -53,7 +57,7 @@ function initClickEvent() {
         }
     })
 
-    $_(".sidebar-makeTeam-title>span").addEventListener("click", (evt)=> {
+    $_(".sidebar-makeTeam-title>span").addEventListener("click", (evt) => {
         $_(".sidebar-makeTeam-box").style.display = 'none';
     })
 }
@@ -63,20 +67,20 @@ function drawinitTeams() {
         url: "/api/teams",
         method: "GET",
         headers: {"content-type": "application/json"},
-        callback : drawTeams
+        callback: drawTeams
     });
 }
 
 function drawTeams(status, result) {
     const template = Handlebars.templates["precompile/sidebar_template"];
-    for(const team of result) {
+    for (const team of result) {
         $_(".sidebar-team-list").appendChild(createElementFromHTML(template(team)));
     }
     selectTeam();
 }
 
 function createTeam() {
-    $_(".sidebar-makeTeam-submit-button").addEventListener("click", (evt)=>{
+    $_(".sidebar-makeTeam-submit-button").addEventListener("click", (evt) => {
         evt.preventDefault();
         const postObject = {
             "name": $_value(".sidebar-makeTeam-name-box"),
@@ -95,7 +99,7 @@ function createTeam() {
 }
 
 function displayTeam(status, result) {
-    if(status === 201) {
+    if (status === 201) {
         $_(".sidebar-makeTeam-container .sidebar-makeTeam-box").style.display = 'none';
         $_(".sidebar-makeTeam-name-box").value = "";
         $_(".sidebar-makeTeam-description-box").value = "";
@@ -106,7 +110,7 @@ function displayTeam(status, result) {
         selectTeam();
 
     } else {
-        result.forEach(function(result){
+        result.forEach(function (result) {
             document.getElementsByName(result.errorType)[0].placeholder = result.message;
         });
     }
@@ -115,8 +119,8 @@ function displayTeam(status, result) {
 
 function selectTeam() {
     lists = $_all(".sidebar-team-list > li");
-    for(let i = 0; i < lists.length ; i ++) {
-        lists[i].addEventListener("click", (evt)=>{
+    for (let i = 0; i < lists.length; i++) {
+        lists[i].addEventListener("click", (evt) => {
             window.location.href = `/team/${evt.target.getAttribute("data-id")}`;
         })
     }

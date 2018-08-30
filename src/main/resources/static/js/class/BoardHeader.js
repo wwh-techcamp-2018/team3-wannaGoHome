@@ -82,7 +82,9 @@ class BoardHeader {
 
         addEscapedText(this.boardTitle, boardHeader.boardTitle);
         addEscapedText(this.teamTitle, boardHeader.teamTitle);
-        this.teamTitle.addEventListener("click", (evt) => {window.location.href = "/team/" + boardHeader.teamId});
+        this.teamTitle.addEventListener("click", (evt) => {
+            window.location.href = "/team/" + boardHeader.teamId
+        });
         this.drawBoardHeaderMembers(boardHeader.members);
 
         if (!this.isAdminPermission()) {
@@ -108,8 +110,8 @@ class BoardHeader {
             const imageNode = createElementFromHTML(html)
             this.boardHeaderMemberContainer.appendChild(imageNode);
 
-            imageNode.querySelector("img").addEventListener("load", function(evt) {
-                if(imageDimensions(evt.currentTarget)) {
+            imageNode.querySelector("img").addEventListener("load", function (evt) {
+                if (imageDimensions(evt.currentTarget)) {
                     evt.currentTarget.classList.toggle("profile-image-wide")
                 } else {
                     evt.currentTarget.classList.toggle("profile-image-long")

@@ -1,13 +1,10 @@
 package wannagohome.service.file;
+
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import wannagohome.support.SpringTest;
 
 public class S3ServiceTest extends SpringTest {
-
-    private static final Logger log = LoggerFactory.getLogger(S3ServiceTest.class);
 
     @Autowired
     S3Service s3Service;

@@ -45,16 +45,16 @@ public class TaskService {
         Task task = findTaskById(taskId);
 
         //다른 테스크로 이동할 때
-        if(task.getCards().stream().noneMatch(card -> card.equalsId(cardOrderDto.getOriginId()))) {
-            Card movingCard =  cardRepository.findById(cardOrderDto.getOriginId())
-                    .orElseThrow(()-> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
+        if (task.getCards().stream().noneMatch(card -> card.equalsId(cardOrderDto.getOriginId()))) {
+            Card movingCard = cardRepository.findById(cardOrderDto.getOriginId())
+                    .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "일치하는 카드가 없습니다."));
 
             Task beforeTask = movingCard.getTask();
             beforeTask.getCards().remove(movingCard);
             movingCard.setTask(task);
             task.getCards().add(cardOrderDto.getDestinationIndex(), movingCard);
 
-            for(int i = 0; i < beforeTask.getCards().size(); ++i) {
+            for (int i = 0; i < beforeTask.getCards().size(); ++i) {
                 beforeTask.getCards().get(i).setOrderId(i);
             }
             taskRepository.save(beforeTask);
@@ -66,7 +66,7 @@ public class TaskService {
             task.getCards().remove(movingCard);
             task.getCards().add(cardOrderDto.getDestinationIndex(), movingCard);
         }
-        for(int i = 0; i < task.getCards().size(); ++i) {
+        for (int i = 0; i < task.getCards().size(); ++i) {
             task.getCards().get(i).setOrderId(i);
         }
         return taskRepository.save(task);

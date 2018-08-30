@@ -23,15 +23,15 @@ public class ChatMessage {
     private Long id;
 
     @Column(nullable = false)
-    @ColumnDefault(value="0")
+    @ColumnDefault(value = "0")
     private Long messageOrder;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User author;
 
     @ManyToOne
-    @JoinColumn(name="board_id", nullable=false)
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
     @Column(name = "message_created", updatable = false)

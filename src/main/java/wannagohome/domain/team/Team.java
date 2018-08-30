@@ -42,7 +42,7 @@ public class Team {
     private boolean deleted;
 
     public String getProfile() {
-        if(profile == null || profile.isEmpty())
+        if (profile == null || profile.isEmpty())
             return DEFAULT_PROFILE;
         return this.profile;
     }

@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface TeamInviteRepository extends JpaRepository<TeamInvite, Long> {
 
     Optional<TeamInvite> findByMemberEqualsAndTeamEquals(User member, Team team);
+
     List<TeamInvite> findAllByMember(User member);
 
 

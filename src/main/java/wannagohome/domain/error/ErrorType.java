@@ -1,8 +1,6 @@
 package wannagohome.domain.error;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -31,9 +29,6 @@ public enum ErrorType {
     TEAM_INVITE_ID("teamInviteId"),
     TASK_ID("taskId");
 
-
-    private static final Logger log = LoggerFactory.getLogger(ErrorType.class);
-
     private String errorType;
 
     ErrorType(String errorType) {
@@ -46,7 +41,6 @@ public enum ErrorType {
     }
 
     public static ErrorType of(String errorType) {
-        log.debug("errorType: {}", errorType);
         return Arrays.stream(ErrorType.values())
                 .filter(e -> e.getErrorType().equals(errorType))
                 .findFirst()

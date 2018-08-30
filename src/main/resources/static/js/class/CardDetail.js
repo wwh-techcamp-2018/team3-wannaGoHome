@@ -394,7 +394,7 @@ class CardDetail {
     }
 
     drawErrorComment(error) {
-        console.log(error.errors[0].defaultMessage);
+        //TODO : 에러경우 처리하세요
     }
 
     drawSummaryLabels(labels) {

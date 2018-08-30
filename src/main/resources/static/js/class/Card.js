@@ -18,8 +18,8 @@ class Card {
 
     init() {
         this.cardListTemplate = Handlebars.templates["precompile/board/card_list_template"];
-        if(this.card.dueDate) {
-            this.card.dueDate = this.card.dueDate.slice(0,10);
+        if (this.card.dueDate) {
+            this.card.dueDate = this.card.dueDate.slice(0, 10);
         }
         const newCard = createElementFromHTML(this.cardListTemplate(this.card));
         // replacing innerHTML susceptible to html injection
@@ -120,32 +120,32 @@ class Card {
         let destCardIndex = -1;
 
         let i = 0;
-        for(const task of this.board.taskList) {
+        for (const task of this.board.taskList) {
             let insideBound = task.isInsideBound.call(task, centerX, this);
-            if(insideBound) {
+            if (insideBound) {
                 destTaskIndex = i;
                 let j = 0;
-                for(const card of task.cardList) {
+                for (const card of task.cardList) {
                     insideBound = card.isInsideBoundY.call(card, centerY, this);
-                    if(insideBound) {
+                    if (insideBound) {
                         destCardIndex = j;
                     }
                     j++;
                 }
-                if(destCardIndex == -1) {
+                if (destCardIndex == -1) {
                     const cardRect = getBoundingRect(task.cardListContainer);
-                    if(centerY > cardRect.bottom) {
+                    if (centerY > cardRect.bottom) {
                         destCardIndex = task.cardList.length;
-                    } else if(centerY < cardRect.top) {
+                    } else if (centerY < cardRect.top) {
                         destCardIndex = 0;
                     }
                 }
             }
-            if(this.task == task) {
+            if (this.task == task) {
                 thisTaskIndex = i;
                 let j = 0;
-                for(const card of task.cardList) {
-                    if(this == card) {
+                for (const card of task.cardList) {
+                    if (this == card) {
                         thisCardIndex = j;
                     }
                     j++;
@@ -154,11 +154,11 @@ class Card {
             i++;
         }
 
-        if(destTaskIndex != -1 && destCardIndex != -1) {
+        if (destTaskIndex != -1 && destCardIndex != -1) {
             const destinationTask = this.board.taskList[destTaskIndex];
 
             // same Task Index
-            if(destTaskIndex == thisTaskIndex) {
+            if (destTaskIndex == thisTaskIndex) {
                 if (thisCardIndex > destCardIndex) {
                     this.task.cardList[destCardIndex].handleInsideBound.call(this.task.cardList[destCardIndex], centerX, centerY, this, true);
                     this.task.cardList.splice(thisCardIndex, 1);
@@ -177,7 +177,7 @@ class Card {
                 }
             }
             else { // different task Index
-                if(destinationTask.cardList.length == destCardIndex) { // empty list
+                if (destinationTask.cardList.length == destCardIndex) { // empty list
                     destinationTask.insertCardNode.call(destinationTask, this);
                     this.task.cardList.splice(thisCardIndex, 1);
                     destinationTask.cardList.splice(destCardIndex, 0, this);
@@ -210,12 +210,12 @@ class Card {
 
             if (prev) {
                 container.insertBefore(card.cardHolder, this.cardHolder);
-            } else if(!this.cardHolder.nextSibling) {
+            } else if (!this.cardHolder.nextSibling) {
                 container.appendChild(card.cardHolder);
             } else {
                 container.insertBefore(card.cardHolder, this.cardHolder.nextSibling);
             }
-        } else if(rect.top > y) {
+        } else if (rect.top > y) {
             container.insertBefore(card.cardHolder, this.cardHolder);
         }
     }

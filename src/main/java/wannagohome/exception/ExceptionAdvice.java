@@ -12,8 +12,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(UnAuthorizedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public String handleUnAuthorizedException(UnAuthorizedException exception, Model model)
-    {
+    public String handleUnAuthorizedException(UnAuthorizedException exception, Model model) {
         model.addAttribute("code", HttpStatus.NOT_FOUND.value());
         model.addAttribute("description", "WAS FORBIDDEN");
         return "error";

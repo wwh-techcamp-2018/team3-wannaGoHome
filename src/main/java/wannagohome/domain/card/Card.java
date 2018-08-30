@@ -152,14 +152,14 @@ public class Card {
     }
 
     public void removeLabel(Label getLabel) {
-        if(!containsLabel(getLabel)) {
+        if (!containsLabel(getLabel)) {
             throw new BadRequestException(ErrorType.CARD_LABEL_NOT_EXIST, "해당 라벨은 카드에 존재하지 않습니다.");
         }
         labels.remove(getLabel);
     }
 
     public void removeDueDate() {
-        if(this.endDate == null) {
+        if (this.endDate == null) {
             throw new BadRequestException(ErrorType.CARD_DUE_DATE_NOT_EXIST, "카드에 Due Date가 존재하지 않습니다.");
         }
         this.endDate = null;

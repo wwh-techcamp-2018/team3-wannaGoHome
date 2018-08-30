@@ -528,7 +528,7 @@ body {
 
 .container {
     position: absolute;
-    top: 190px;
+    top: 200px;
     bottom: 0px;
     left: 50%;
     transform: translateX(-50%);

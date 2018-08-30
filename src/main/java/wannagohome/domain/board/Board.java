@@ -102,6 +102,10 @@ public class Board {
         deleted = true;
     }
 
+    public void delete() {
+        deleted = true;
+    }
+
     public void rename(UserIncludedInBoard userIncludedInBoard, BoardHeaderDto dto) {
         if (!userIncludedInBoard.isAdmin()) {
             throw new UnAuthorizedException(ErrorType.UNAUTHORIZED, "보드명을 수정할 권한이 없습니다.");

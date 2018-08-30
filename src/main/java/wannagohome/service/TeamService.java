@@ -7,21 +7,24 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import wannagohome.domain.activity.ActivityType;
+import wannagohome.domain.activity.TeamActivity;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
+import wannagohome.domain.team.RemoveUserFromTeamDto;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamPermissionChangeDto;
-import wannagohome.domain.user.User;
-import wannagohome.domain.user.UserDto;
-import wannagohome.domain.user.UserIncludedInTeam;
-import wannagohome.domain.user.UserPermission;
+import wannagohome.domain.user.*;
+import wannagohome.event.PersonalEvent;
+import wannagohome.event.TeamEvent;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
-import wannagohome.repository.TeamRepository;
-import wannagohome.repository.UserIncludedInTeamRepository;
+import wannagohome.repository.*;
 import wannagohome.service.file.UploadService;
 
 import javax.annotation.Resource;
@@ -37,10 +40,22 @@ public class TeamService {
     private TeamRepository teamRepository;
 
     @Autowired
+    private BoardRepository boardRepository;
+
+    @Autowired
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
 
     @Autowired
+    private UserIncludedInBoardRepository userIncludedInBoardRepository;
+
+    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
+    private SimpMessageSendingOperations simpMessageSendingOperations;
+
+    @Resource(name = "biDirectionEncoder")
+    private PasswordEncoder encoder;
 
     @Autowired
     private UserService userService;
@@ -81,7 +96,7 @@ public class TeamService {
     @Cacheable(value = "teamsByUser", key = "#user.id")
     public List<Team> findTeamsByUser(User user) {
         List<Team> teams = new ArrayList<>();
-        userIncludedInTeamRepository.findAllByUser(user)
+        userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)
                 .stream()
                 .forEach(userIncludedInTeam -> teams.add(userIncludedInTeam.getTeam()));
         return teams;
@@ -109,7 +124,7 @@ public class TeamService {
     }
 
     public List<Team> findByUser(User user) {
-        return userIncludedInTeamRepository.findAllByUser(user)
+        return userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)
                 .stream().map(UserIncludedInTeam::getTeam).collect(Collectors.toList());
     }
 
@@ -150,12 +165,85 @@ public class TeamService {
         return userIncludedInTeamRepository.save(userIncludedInTeam);
     }
 
-    public UserIncludedInTeam changePermission(TeamPermissionChangeDto permissionDto) {
+
+    @CacheEvict(value = "teamById", key = "#permissionDto.teamId")
+    public UserIncludedInTeam changePermission(User source, TeamPermissionChangeDto permissionDto) {
         User user = userService.findByUserId(permissionDto.getUserId());
         Team team = findTeamById(permissionDto.getTeamId());
         UserIncludedInTeam userIncludedInTeam = userIncludedInTeamRepository.findByUserAndTeam(user,team).get();
         userIncludedInTeam.changePermission(UserPermission.of(permissionDto.getPermission()));
-        return userIncludedInTeamRepository.save(userIncludedInTeam);
+        userIncludedInTeam = userIncludedInTeamRepository.save(userIncludedInTeam);
+
+        TeamActivity activity = TeamActivity.valueOf(source, team, ActivityType.TEAM_AUTHORITY, user, UserPermission.of(permissionDto.getPermission()));
+        activity.setReceiver(user);
+        applicationEventPublisher.publishEvent(new PersonalEvent(this, activity));
+        return userIncludedInTeam;
     }
 
+    @Transactional
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "boardSummary", key = "#removeUserFromTeamDto.userId"),
+                    @CacheEvict(value = "recentlyViewBoard", key = "#removeUserFromTeamDto.userId"),
+                    @CacheEvict(value = "teamsByUser", key = "#removeUserFromTeamDto.userId"),
+                    @CacheEvict(value = "createBoardInfo", allEntries = true)
+            }
+    )
+    public UserDto removeUserFromTeam(User user, RemoveUserFromTeamDto removeUserFromTeamDto) {
+        Team team = findTeamById(removeUserFromTeamDto.getTeamId());
+        User target = userService.findByUserId(removeUserFromTeamDto.getUserId());
+        userIncludedInTeamRepository
+                .findByUserAndTeam(user, team)
+                .filter(userIncludedInTeam -> userIncludedInTeam.isAdmin())
+                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "유저에 권한이 없습니다."));
+
+        UserIncludedInTeam targetIncludeInTeam
+                = userIncludedInTeamRepository.findByUserAndTeam(target, team)
+                .orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "팀에 해당하는 유저기 없습니다."));
+        userIncludedInTeamRepository.delete(targetIncludeInTeam);
+        List<UserIncludedInBoard> userIncludedInBoards = userIncludedInBoardRepository
+                .findByBoardTeamAndUser(targetIncludeInTeam.getTeam(), targetIncludeInTeam.getUser());
+
+        String userCode = target.encodedCode(encoder);
+        userIncludedInBoardRepository.deleteAll(userIncludedInBoards);
+
+        userIncludedInBoards.forEach((userIncludedInBoard -> {
+            simpMessageSendingOperations.convertAndSend(
+                    String.format("/topic/boards/%d/%s", userIncludedInBoard.getBoard().getId(), userCode),
+                    ""
+            );
+        }));
+
+        TeamActivity teamActivity = TeamActivity.valueOf(user,team,ActivityType.TEAM_MEMBER_REMOVE, target);
+        teamActivity.setReceiver(target);
+        applicationEventPublisher.publishEvent(new PersonalEvent(this, teamActivity));
+        return UserDto.valueOf(targetIncludeInTeam.getUser());
+    }
+
+    @Transactional
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "boardSummary", allEntries = true),
+                    @CacheEvict(value = "recentlyViewBoard", allEntries = true),
+                    @CacheEvict(value = "teamsByUser", allEntries = true),
+                    @CacheEvict(value = "createBoardInfo", allEntries = true)
+            }
+    )
+    public Team deleteTeam(User user, Long teamId) {
+        Team team = findTeamById(teamId);
+        userIncludedInTeamRepository.findByUserAndTeam(user, team)
+                .filter(UserIncludedInTeam::isAdmin)
+                .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "팀을 지울 권한일 없습니다."));
+
+        team.delete();
+        boardRepository.findAllByTeamAndDeletedFalse(team).forEach(board -> {
+            board.delete();
+            boardRepository.save(board);
+        });
+        teamRepository.save(team);
+
+        TeamActivity activity = TeamActivity.valueOf(user, team, ActivityType.TEAM_DELETE);
+        applicationEventPublisher.publishEvent(new TeamEvent(this, activity));
+        return team;
+    }
 }

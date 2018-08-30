@@ -84,9 +84,9 @@ public class TeamServiceMockTest {
 
     @Test
     public void findTeamsByUser() {
-        when(userIncludedInTeamRepository.findAllByUser(user)).thenReturn(userIncludedInTeams);
+        when(userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)).thenReturn(userIncludedInTeams);
         teamService.findTeamsByUser(user);
-        verify(userIncludedInTeamRepository, times(1)).findAllByUser(user);
+        verify(userIncludedInTeamRepository, times(1)).findAllByUserAndTeamDeletedFalse(user);
     }
 
     @Test(expected = NotFoundException.class)

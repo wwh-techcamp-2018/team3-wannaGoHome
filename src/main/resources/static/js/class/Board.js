@@ -40,26 +40,29 @@ class Board {
             this.selector(".hidden-list-title-form").style.display = "block";
             this.selector(".hidden-list-title-form input").value = "";
             this.selector(".hidden-list-title-form input").focus();
+            checkValidInput(this.selector(".hidden-list-title-form input"), this.selector(".add-list-inner-button"));
         }.bind(this));
 
         this.selector(".hidden-list-title-form").addEventListener("click", function (evt) {
             evt.stopPropagation();
         }.bind(this));
 
+       checkValidInput(this.selector(".hidden-list-title-form input"), this.selector(".add-list-inner-button"));
+
         this.selector(".add-list-inner-button").addEventListener("click", function (evt) {
-            evt.preventDefault();
-            const obj = {};
-            obj.title = this.selector(".hidden-list-title-form input").value.trim();
+            if(checkNullInput(this.selector(".hidden-list-title-form input"))) {
+                evt.preventDefault();
+                const obj = {};
+                obj.title = this.selector(".hidden-list-title-form input").value.trim();
 
-            this.selector(".hidden-list-title-form").style.display = "none";
+                this.selector(".hidden-list-title-form").style.display = "none";
 
-            if(obj.title.length > 0) {
-                // hide addListButton temporarily
-                this.addListButton.style.display = "none";
-                this.addTask(obj);
-
+                if(obj.title.length > 0) {
+                    // hide addListButton temporarily
+                    this.addListButton.style.display = "none";
+                    this.addTask(obj);
+                }
             }
-
         }.bind(this));
 
         const taskTitleInput = this.selector(".hidden-list-title-form input");
@@ -153,6 +156,15 @@ class Board {
             this.stompClient.subscribe(`/topic/board/${this.boardIndex}/header`, function (frame) {
                 this.boardHeader.setBoardHeader(JSON.parse(frame.body));
             }.bind(this));
+
+            this.expelSubscribe = this.stompClient.subscribe("/topic/boards/expel/init", function (frame) {
+                this.expelSubscribe.unsubscribe();
+                const topic = frame.body;
+                this.stompClient.subscribe(topic, (evt) => {
+                    showDialog("쫒겨났습니다", "홈으로 돌아갑니다.", () => {window.location.href = "/"})
+                });
+            }.bind(this));
+            this.stompClient.send(`/app/boards/${this.boardIndex}/expel/init`);
 
             this.cardDetailForm.setClient(this.stompClient);
             this.fetchBoardState();

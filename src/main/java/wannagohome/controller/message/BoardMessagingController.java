@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import wannagohome.domain.board.BoardDto;
 import wannagohome.domain.card.Card;
@@ -22,6 +23,7 @@ import wannagohome.service.BoardService;
 import wannagohome.service.TaskService;
 import wannagohome.util.SessionUtil;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -36,6 +38,9 @@ public class BoardMessagingController {
 
     @Autowired
     private TaskService taskService;
+
+    @Resource(name = "biDirectionEncoder")
+    private PasswordEncoder encoder;
 
     // headerAccessor maintains link to session
     @MessageMapping("/message/board/{boardId}")
@@ -93,4 +98,10 @@ public class BoardMessagingController {
         return task.getBoard().getBoardDto();
     }
 
+    @MessageMapping("/boards/{boardId}/expel/init")
+    @SendTo("/topic/boards/expel/init")
+    public String sendTopicForExpel(@DestinationVariable Long boardId, SimpMessageHeaderAccessor headerAccessor) {
+        User user = SessionUtil.getUserSession(headerAccessor);
+        return String.format("/topic/boards/%d/%s", boardId, user.encodedCode(encoder));
+    }
 }

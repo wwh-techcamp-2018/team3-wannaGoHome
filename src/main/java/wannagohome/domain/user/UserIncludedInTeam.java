@@ -55,4 +55,8 @@ public class UserIncludedInTeam {
 
         return Objects.hash(id);
     }
+
+    public boolean isAdmin() {
+        return UserPermission.ADMIN == permission;
+    }
 }

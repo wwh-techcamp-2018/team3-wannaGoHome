@@ -188,8 +188,8 @@ a.header-logo {
     margin-top: 4px;
     font-size: 0.9em;
     height: 30px;
-    background-color: #5aac44;
-    color: #fff;
+    background-color: #c4c9cc;
+    color: #f8f9f9;
     font-weight: bold;
 }
 
@@ -357,12 +357,12 @@ a.header-logo {
     height: 35px;
     text-align: center;
     line-height: 35px;
-    background-color: #5aac44;
     border-radius: 5px;
     border-style: none;
     font-weight: bold;
     font-size: 1.0em;
-    color: #fff;
+    background-color: #c4c9cc;
+    color: #f8f9f9;
 }
 
 .new-card-wrapper> i {

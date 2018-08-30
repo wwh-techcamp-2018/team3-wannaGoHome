@@ -81,6 +81,7 @@ class BoardHeader {
 
         addEscapedText(this.boardTitle, boardHeader.boardTitle);
         addEscapedText(this.teamTitle, boardHeader.teamTitle);
+        this.teamTitle.addEventListener("click", (evt) => {window.location.href = "/team/" + boardHeader.teamId});
         this.drawBoardHeaderMembers(boardHeader.members);
 
         if (!this.isAdminPermission()) {

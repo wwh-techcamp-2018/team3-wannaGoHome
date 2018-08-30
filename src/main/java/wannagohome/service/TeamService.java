@@ -205,13 +205,15 @@ public class TeamService {
                 .findByBoardTeamAndUser(targetIncludeInTeam.getTeam(), targetIncludeInTeam.getUser());
 
         String userCode = target.encodedCode(encoder);
+        userIncludedInBoardRepository.deleteAll(userIncludedInBoards);
+
         userIncludedInBoards.forEach((userIncludedInBoard -> {
             simpMessageSendingOperations.convertAndSend(
                     String.format("/topic/boards/%d/%s", userIncludedInBoard.getBoard().getId(), userCode),
                     ""
             );
         }));
-        userIncludedInBoardRepository.deleteAll(userIncludedInBoards);
+
         TeamActivity teamActivity = TeamActivity.valueOf(user,team,ActivityType.TEAM_MEMBER_REMOVE, target);
         teamActivity.setReceiver(target);
         applicationEventPublisher.publishEvent(new PersonalEvent(this, teamActivity));

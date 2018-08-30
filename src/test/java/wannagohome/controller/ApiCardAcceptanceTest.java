@@ -2,8 +2,6 @@ package wannagohome.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -27,7 +25,6 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ApiCardAcceptanceTest extends AcceptanceTest {
-    private static final Logger log = LoggerFactory.getLogger(ApiCardAcceptanceTest.class);
 
     private static final String CARD_BASE_URL = "/api/cards/1";
 
@@ -72,7 +69,6 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         card = cardRepository.findById(1L).orElseThrow(RuntimeException::new);
-        log.debug("after assignCardToUser: {}", card.getAssignees());
         assertThat(card.getAssignees()).contains(actual);
 
         RequestEntity dischargeEntity = new RequestEntity.Builder()
@@ -87,7 +83,6 @@ public class ApiCardAcceptanceTest extends AcceptanceTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         card = cardRepository.findById(1L).orElseThrow(RuntimeException::new);
-        log.debug("after dischargeCardFromUser: {}", card.getAssignees());
         assertThat(card.getAssignees()).doesNotContain(actual);
     }
 

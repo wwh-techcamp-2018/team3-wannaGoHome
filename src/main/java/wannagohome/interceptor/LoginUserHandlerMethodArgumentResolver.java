@@ -1,7 +1,5 @@
 package wannagohome.interceptor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -13,7 +11,6 @@ import wannagohome.exception.UnAuthenticationException;
 import wannagohome.util.SessionUtil;
 
 public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
-    private static final Logger log = LoggerFactory.getLogger(LoginUserHandlerMethodArgumentResolver.class);
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -23,7 +20,6 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         User user = SessionUtil.getUserFromWebRequest(webRequest);
-        log.debug("username: {}", user.getName());
         if (!user.isGuestUser()) {
             return user;
         }

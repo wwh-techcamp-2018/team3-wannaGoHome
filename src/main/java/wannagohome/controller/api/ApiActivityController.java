@@ -25,7 +25,7 @@ public class ApiActivityController {
     private ActivityService activityService;
 
     @ApiOperation(value = "해당 유저의 activity 불러오기")
-    @ApiImplicitParam(name = "activity", value = "activity Dto 리스트", required = true,  paramType = "json")
+    @ApiImplicitParam(name = "activity", value = "activity Dto 리스트", required = true, paramType = "json")
     @PostMapping("/fetch")
     public List<ActivityDto> fetch(@LoginUser User user, @RequestBody RequestActivityDto requestActivityDto) {
         return activityService.fetchActivity(user, requestActivityDto.getRegisteredDate());

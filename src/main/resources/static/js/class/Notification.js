@@ -41,7 +41,7 @@ class Notification {
             this.showNotification();
             $_(".header-button-boardlist").style.display = 'none';
             const calendar = $_("#calendar");
-            if(calendar) {
+            if (calendar) {
                 calendar.style.display = 'none';
             }
         });
@@ -81,16 +81,15 @@ class Notification {
     appendNotification(notification) {
         const elem = createElementFromHTML(this.template(notification));
         this.ul.appendChild(elem);
-        elem.addEventListener("mouseover", function(evt) {
+        elem.addEventListener("mouseover", function (evt) {
             $_(".header-notification-extra").innerHTML = elem.querySelector("a").text;
             $_(".header-notification-extra").style.display = "inline-block";
             const holderRect = getBoundingRect($_(".header-notification-holder"));
             const thisRect = getBoundingRect(this);
-            console.log(holderRect.right, evt.pageX);
             $_(".header-notification-extra").style.right = (holderRect.right - thisRect.left) + "px";
             $_(".header-notification-extra").style.top = (thisRect.bottom - holderRect.top) - $_("body").scrollTop - 10 + "px";
         });
-        elem.addEventListener("mouseleave", function(evt) {
+        elem.addEventListener("mouseleave", function (evt) {
             $_(".header-notification-extra").style.display = "none";
         });
         this.scrollable.scrollTop = this.scrollable.scrollHeight;
@@ -99,16 +98,15 @@ class Notification {
     prependNotification(notification) {
         const elem = createElementFromHTML(this.template(notification));
         this.ul.prepend(elem);
-        elem.addEventListener("mouseover", function(evt) {
+        elem.addEventListener("mouseover", function (evt) {
             $_(".header-notification-extra").innerHTML = elem.querySelector("a").text;
             $_(".header-notification-extra").style.display = "inline-block";
             const holderRect = getBoundingRect($_(".header-notification-holder"));
             const thisRect = getBoundingRect(this);
-            console.log(holderRect.right, evt.pageX);
             $_(".header-notification-extra").style.right = (holderRect.right - thisRect.left) + "px";
             $_(".header-notification-extra").style.top = (thisRect.bottom - holderRect.top) - $_("body").scrollTop - 10 + "px";
         });
-        elem.addEventListener("mouseleave", function(evt) {
+        elem.addEventListener("mouseleave", function (evt) {
             $_(".header-notification-extra").style.display = "none";
         });
         this.scrollable.scrollTop = this.scrollable.scrollHeight;
@@ -120,7 +118,7 @@ class Notification {
     }
 
     hideNotification() {
-        if(!this.holder.classList.contains("header-notification-hide")) {
+        if (!this.holder.classList.contains("header-notification-hide")) {
             this.holder.classList.toggle("header-notification-hide");
         }
     }

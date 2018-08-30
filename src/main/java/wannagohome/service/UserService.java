@@ -68,7 +68,7 @@ public class UserService {
 
     @Transactional
     public User initializeProfile(User user) {
-        if(!user.isDefaultProfile()) {
+        if (!user.isDefaultProfile()) {
             uploadService.fileDelete(user.getProfile());
         }
         user.initializeProfile();
@@ -77,7 +77,7 @@ public class UserService {
 
     @Transactional
     public User changeProfile(User user, MultipartFile file) {
-        if(!user.isDefaultProfile()) {
+        if (!user.isDefaultProfile()) {
             uploadService.fileDelete(user.getProfile());
         }
         user.setProfile(uploadService.fileUpload(file));
@@ -90,9 +90,9 @@ public class UserService {
 
     public TeamInvite processTeamInvitation(User user, TeamInvitationDto invitationDto) {
         TeamInvite teamInvite = teamInviteService.findById(invitationDto.getId());
-        if(invitationDto.getIsAgree()) {
+        if (invitationDto.getIsAgree()) {
             teamService.includeInTeam(teamInvite.getMember(), teamInvite.getTeam());
-            TeamActivity teamActivity  = TeamActivity.valueOf(user, teamInvite.getTeam(), ActivityType.TEAM_MEMBER_ADD);
+            TeamActivity teamActivity = TeamActivity.valueOf(user, teamInvite.getTeam(), ActivityType.TEAM_MEMBER_ADD);
             publisher.publishEvent(new TeamEvent(this, teamActivity));
         }
         teamInviteService.deleteById(invitationDto.getId());
@@ -108,6 +108,6 @@ public class UserService {
     }
 
     public User findByUserId(Long userId) {
-        return userRepository.findById(userId).orElseThrow(()-> new NotFoundException(ErrorType.USER_ID, "해당하는 유저가 없습니다."));
+        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException(ErrorType.USER_ID, "해당하는 유저가 없습니다."));
     }
 }

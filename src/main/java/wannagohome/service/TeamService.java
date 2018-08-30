@@ -1,7 +1,5 @@
 package wannagohome.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,7 +24,10 @@ import wannagohome.event.TeamEvent;
 import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
-import wannagohome.repository.*;
+import wannagohome.repository.BoardRepository;
+import wannagohome.repository.TeamRepository;
+import wannagohome.repository.UserIncludedInBoardRepository;
+import wannagohome.repository.UserIncludedInTeamRepository;
 import wannagohome.service.file.UploadService;
 
 import javax.annotation.Resource;
@@ -64,8 +65,6 @@ public class TeamService {
 
     @Resource(name = "imageUploadService")
     private UploadService uploadService;
-    
-    private static final Logger log = LoggerFactory.getLogger(TeamService.class);
 
     @Transactional
     @Caching(
@@ -122,7 +121,7 @@ public class TeamService {
     }
 
     public UserDto findByUserOfTeam(User user, Team team) {
-        return UserDto.userDtoWithPermission(userIncludedInTeamRepository.findByUserAndTeam(user,team).get());
+        return UserDto.userDtoWithPermission(userIncludedInTeamRepository.findByUserAndTeam(user, team).get());
     }
 
     public List<Team> findByUser(User user) {
@@ -141,13 +140,13 @@ public class TeamService {
     }
 
     private UserIncludedInTeam confirmAuthorityOfUser(User user, Team team) {
-        return userIncludedInTeamRepository.findByUserAndTeam(user,team)
+        return userIncludedInTeamRepository.findByUserAndTeam(user, team)
                 .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Team에 접근할 권한이 없습니다."));
     }
 
     @Transactional
     public Team changeProfile(Team team, MultipartFile file) {
-        if(!team.isDefaultProfile()) {
+        if (!team.isDefaultProfile()) {
             uploadService.fileDelete(team.getProfile());
         }
         team.setProfile(uploadService.fileUpload(file));
@@ -172,7 +171,7 @@ public class TeamService {
     public UserIncludedInTeam changePermission(User source, TeamPermissionChangeDto permissionDto) {
         User user = userService.findByUserId(permissionDto.getUserId());
         Team team = findTeamById(permissionDto.getTeamId());
-        UserIncludedInTeam userIncludedInTeam = userIncludedInTeamRepository.findByUserAndTeam(user,team).get();
+        UserIncludedInTeam userIncludedInTeam = userIncludedInTeamRepository.findByUserAndTeam(user, team).get();
         userIncludedInTeam.changePermission(UserPermission.of(permissionDto.getPermission()));
         userIncludedInTeam = userIncludedInTeamRepository.save(userIncludedInTeam);
 
@@ -216,7 +215,7 @@ public class TeamService {
             );
         }));
 
-        TeamActivity teamActivity = TeamActivity.valueOf(user,team,ActivityType.TEAM_MEMBER_REMOVE, target);
+        TeamActivity teamActivity = TeamActivity.valueOf(user, team, ActivityType.TEAM_MEMBER_REMOVE, target);
         teamActivity.setReceiver(target);
         applicationEventPublisher.publishEvent(new PersonalEvent(this, teamActivity));
         return UserDto.valueOf(targetIncludeInTeam.getUser());

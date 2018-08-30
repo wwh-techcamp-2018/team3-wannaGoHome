@@ -25,7 +25,7 @@ public class TaskActivity extends AbstractActivity {
     }
 
     public static TaskActivity valueOf(User source, Task task, ActivityType activityType) {
-        return  new TaskActivity(source, task, activityType);
+        return new TaskActivity(source, task, activityType);
     }
 
     @Override

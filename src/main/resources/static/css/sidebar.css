@@ -76,7 +76,6 @@
     border-bottom: 1px solid #aaaaaa;
     font-size: 13px;
 
-
 }
 
 .sidebar-makeTeam-title.span {
@@ -90,6 +89,7 @@
     font-size: 12px;
     font-weight: bold;
 }
+
 .sidebar-makeTeam-name-box {
     display: block;
     width: 100%;
@@ -116,6 +116,7 @@
     color: #e25b52;
     padding: 1px;
 }
+
 .sidebar-makeTeam-submit-button {
     text-align: center;
     background-color: #f8f9f9;

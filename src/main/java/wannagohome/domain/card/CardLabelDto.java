@@ -1,4 +1,5 @@
 package wannagohome.domain.card;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -234,22 +234,23 @@ class PageObject {
         }.bind(this))
     }
 }
+
 function checkValidInput(input, button) {
     activeSubmitButton(input, button);
-    input.addEventListener("input", (evt)=> {
+    input.addEventListener("input", (evt) => {
         activeSubmitButton(input, button);
     })
 }
 
 function checkNullInput(input) {
-    if(input.value.length === 0) {
+    if (input.value.length === 0) {
         return false;
     }
     return true;
 }
 
 function activeSubmitButton(input, button) {
-    if(checkNullInput(input)) {
+    if (checkNullInput(input)) {
         button.classList.add("active-button");
         button.classList.remove("inactive-button");
     } else {

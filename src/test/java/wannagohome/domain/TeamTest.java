@@ -1,15 +1,12 @@
 package wannagohome.domain;
 
 import org.junit.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserIncludedInTeam;
 
 public class TeamTest {
-    private static final Logger log = LoggerFactory.getLogger(TeamTest.class);
 
     private Team team;
     private User user;

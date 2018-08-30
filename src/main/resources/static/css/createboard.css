@@ -1,6 +1,7 @@
 .create-board-whole-container {
     box-sizing: border-box;
 }
+
 .create-board-background {
     position: fixed;
     z-index: 5;
@@ -11,8 +12,9 @@
     top: 0;
     background-color: rgba(0, 0, 0, 0.75);
 }
+
 .create-board-container {
-    z-index:10;
+    z-index: 10;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -22,15 +24,15 @@
     width: 420px;
 }
 
-.create-board-descirption{
+.create-board-descirption {
     width: 296px;
     height: 100px;
     background-color: #026aa7;
-    border-radius : 3px;
+    border-radius: 3px;
     display: inline-block;
 }
 
-.board-description-style{
+.board-description-style {
     background: transparent;
     color: #fff;
     font-size: 16px;
@@ -44,31 +46,30 @@
     position: relative;
 }
 
-.create-board-title{
-    top : 12px;
+.create-board-title {
+    top: 12px;
     left: 8px;
-    border-radius : 5px;
+    border-radius: 5px;
 }
 
-.create-board-title-icon{
+.create-board-title-icon {
     position: relative;
-    top : 11px;
+    top: 11px;
     left: 10px;
-    color : #fff
+    color: #fff
 }
 
-.create-board-title:hover{
-    background: hsla(0,0%,100%,.15);
+.create-board-title:hover {
+    background: hsla(0, 0%, 100%, .15);
 }
 
-.create-board-title:focus{
-    background: hsla(0,0%,100%,.15);
+.create-board-title:focus {
+    background: hsla(0, 0%, 100%, .15);
 }
-
 
 .team-select-box {
     position: relative;
-    top : 24px;
+    top: 24px;
     left: 8px;
     width: 202px;
     height: 28px;
@@ -79,9 +80,9 @@
     height: 100%;
 }
 
-.team-select:hover{
+.team-select:hover {
     cursor: pointer;
-    background: hsla(0,0%,100%,.15);
+    background: hsla(0, 0%, 100%, .15);
 }
 
 .create-board-submit-button {
@@ -94,10 +95,10 @@
     padding: 6px 16px;
     text-align: center;
     border: none;
-    border-radius : 3px;
+    border-radius: 3px;
 }
 
-.create-board-submit-button:hover{
+.create-board-submit-button:hover {
     cursor: pointer;
 }
 
@@ -107,18 +108,19 @@
     width: 110px;
     height: 100px;
 }
+
 .color-box {
     padding-left: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
     border-collapse: collapse;
     border-spacing: 0;
-    width : 107px;
+    width: 107px;
     height: 108px;
 }
 
 .color-box tr td {
-    width : 27px;
+    width: 27px;
     height: 27px;
     border-style: solid;
     border-width: 5px;
@@ -129,16 +131,16 @@
 }
 
 .color-box tr td div {
-    width : 27px;
+    width: 27px;
     height: 27px;
     border-radius: 3px;
     text-align: center;
     color: #fff;
 }
-.color-box tr td div:hover{
+
+.color-box tr td div:hover {
     cursor: pointer;
 }
-
 
 .disable {
     color: #D3D3D3;

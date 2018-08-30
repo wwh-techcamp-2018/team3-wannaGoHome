@@ -25,7 +25,10 @@ import wannagohome.event.TeamEvent;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.exception.UnAuthorizedException;
-import wannagohome.repository.*;
+import wannagohome.repository.BoardRepository;
+import wannagohome.repository.RecentlyViewBoardRepository;
+import wannagohome.repository.UserIncludedInBoardRepository;
+import wannagohome.repository.UserIncludedInTeamRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -58,22 +61,23 @@ public class BoardService {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
-    @Cacheable(value = "boardSummary",key= "#user.id")
+    @Cacheable(value = "boardSummary", key = "#user.id")
     public BoardSummaryDto getBoardSummary(User user) {
         BoardSummaryDto boardSummaryDTO = new BoardSummaryDto();
         boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user).stream()
                 .map(BoardCardDto::valueOf).collect(Collectors.toList()));
         userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)
                 .forEach(userIncludedInTeam ->
-                    boardSummaryDTO.addBoardOfTeamsDTO(
+                        boardSummaryDTO.addBoardOfTeamsDTO(
                                 new BoardOfTeamDto(
                                         userIncludedInTeam.getTeam(),
                                         getBoardByTeam(userIncludedInTeam.getTeam()).stream().map(BoardCardDto::valueOf).collect(Collectors.toList())
                                 )
-                    )
+                        )
                 );
         return boardSummaryDTO;
     }
+
     @Caching(
             evict = {
                     @CacheEvict(value = "recentlyViewBoard", key = "#user.id"),
@@ -90,9 +94,10 @@ public class BoardService {
     }
 
     private UserIncludedInTeam confirmAuthorityOfUser(User user, Board board) {
-        return userIncludedInTeamRepository.findByUserAndTeam(user,board.getTeam())
+        return userIncludedInTeamRepository.findByUserAndTeam(user, board.getTeam())
                 .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Board에 접근할 권한이 없습니다."));
     }
+
     private RecentlyViewBoard saveRecentlyViewBoard(User user, Board board) {
         return recentlyViewBoardRepository.save(
                 RecentlyViewBoard.builder()
@@ -119,7 +124,7 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    @Cacheable(value = "recentlyViewBoard",key= "#user.id")
+    @Cacheable(value = "recentlyViewBoard", key = "#user.id")
     public List<Board> getRecentlyViewBoard(User user) {
         return recentlyViewBoardRepository
                 .findFirst4ByUserOrderByIdDesc(user.getId())
@@ -130,7 +135,7 @@ public class BoardService {
     public Board findById(Long boardId) {
         return boardRepository
                 .findByIdAndDeletedFalse(boardId)
-                .orElseThrow(()-> new BadRequestException(ErrorType.BOARD_ID, "ID에 해당하는 Board가 존재하지 않습니다."));
+                .orElseThrow(() -> new BadRequestException(ErrorType.BOARD_ID, "ID에 해당하는 Board가 존재하지 않습니다."));
     }
 
     public BoardInitDto getBoardInitInfo(User user, Long boardId) {
@@ -170,7 +175,7 @@ public class BoardService {
         return boardHeaderDto;
     }
 
-    @Cacheable(value = "boardByTeam",key= "#team.id")
+    @Cacheable(value = "boardByTeam", key = "#team.id")
     public List<Board> getBoardByTeam(Team team) {
         return boardRepository.findAllByTeamAndDeletedFalse(team);
     }
@@ -199,8 +204,8 @@ public class BoardService {
 
     public UserIncludedInBoard saveUserIncludedInBoard(User user, Board board, UserPermission permission) {
         Optional<UserIncludedInBoard> maybeUserIncludedInBoard =
-                userIncludedInBoardRepository.findByUserAndBoard(user,board);
-        if(maybeUserIncludedInBoard.isPresent()) {
+                userIncludedInBoardRepository.findByUserAndBoard(user, board);
+        if (maybeUserIncludedInBoard.isPresent()) {
             return maybeUserIncludedInBoard.get();
         }
 

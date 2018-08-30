@@ -46,7 +46,7 @@ public class TaskServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        beforeTask =  beforeTask.builder()
+        beforeTask = beforeTask.builder()
                 .title("task title")
                 .deleted(false)
                 .id(1L)

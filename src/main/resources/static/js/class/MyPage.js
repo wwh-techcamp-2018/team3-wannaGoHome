@@ -48,16 +48,17 @@ class MyPage {
             evt.stopPropagation();
             const name = this.profileHolderSelector(".content-update-input").value;
             const obj = {
-                "name" : name
+                "name": name
             }
             fetchManager({
-                url : "/api/users/profile",
-                body : JSON.stringify(obj),
-                method : "PUT",
-                callback : this.handleProfileContentUpdate.bind(this)
+                url: "/api/users/profile",
+                body: JSON.stringify(obj),
+                method: "PUT",
+                callback: this.handleProfileContentUpdate.bind(this)
             })
         })
     }
+
     addContentUpdateCancelClickEvent() {
         this.profileHolderSelector(".content-update-cancel").addEventListener("click", (evt) => {
             evt.stopPropagation();
@@ -67,14 +68,14 @@ class MyPage {
 
     addProfileImageLoadedEvent() {
         this.profileHolderSelector(".profile-image-section").addEventListener("load", (evt) => {
-            if(evt.currentTarget.classList.contains("profile-image-wide")) {
+            if (evt.currentTarget.classList.contains("profile-image-wide")) {
                 evt.currentTarget.classList.toggle("profile-image-wide")
             }
-            if(evt.currentTarget.classList.contains("profile-image-long")) {
+            if (evt.currentTarget.classList.contains("profile-image-long")) {
                 evt.currentTarget.classList.toggle("profile-image-long")
             }
 
-            if(imageDimensions(evt.currentTarget)) {
+            if (imageDimensions(evt.currentTarget)) {
                 evt.currentTarget.classList.toggle("profile-image-wide")
             } else {
                 evt.currentTarget.classList.toggle("profile-image-long")
@@ -153,7 +154,7 @@ class MyPage {
     drawTeamInvitation(teamInvites) {
         const template = Handlebars.templates["precompile/mypage/mypage_invitation_template"];
         const invitationListNode = this.invitationHolder.querySelector(".invitation-list");
-        for(const invitation of teamInvites) {
+        for (const invitation of teamInvites) {
             const invitationNode = createElementFromHTML(template(invitation));
             invitationListNode.appendChild(invitationNode);
             this.addInvitationButtonClickEvent(invitationNode);
@@ -176,15 +177,15 @@ class MyPage {
 
     requestTeamInvitation(id, isAgree) {
         const obj = {
-            "id" : id,
-            "isAgree" : isAgree
+            "id": id,
+            "isAgree": isAgree
         }
 
         fetchManager({
-            url : "/api/users/invitation",
-            method : "POST",
-            body : JSON.stringify(obj),
-            callback : this.handleTeamInvitation.bind(this)
+            url: "/api/users/invitation",
+            method: "POST",
+            body: JSON.stringify(obj),
+            callback: this.handleTeamInvitation.bind(this)
         })
     }
 
@@ -193,7 +194,7 @@ class MyPage {
     }
 
     handleProfileContentUpdate(status, response) {
-        if(status === 200) {
+        if (status === 200) {
             this.profileHolderSelector(".profile-name").innerHTML = response.name;
             this.hideProfileContentUpdateHolder();
             return;
@@ -206,7 +207,7 @@ class MyPage {
 
     handleTeamInvitation(status, response) {
         const invitationNode = this.invitationHolder.querySelector(`#invitation-${response.id}`);
-        if(this.invitationResult) {
+        if (this.invitationResult) {
             const template = Handlebars.templates["precompile/mypage/mypage_team_template"];
             const teamListNode = this.teamHolder.querySelector(".team-list");
             teamListNode.appendChild(createElementFromHTML(template(response.team)));

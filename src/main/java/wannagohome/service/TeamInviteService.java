@@ -9,16 +9,13 @@ import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.team.TeamInvite;
 import wannagohome.domain.user.User;
-import wannagohome.event.ActivityEventHandler;
 import wannagohome.event.PersonalEvent;
 import wannagohome.exception.BadRequestException;
 import wannagohome.exception.NotFoundException;
-import wannagohome.repository.ActivityRepository;
 import wannagohome.repository.TeamInviteRepository;
 import wannagohome.repository.UserRepository;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -38,7 +35,6 @@ public class TeamInviteService {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
 
 
     @Transactional
@@ -63,7 +59,7 @@ public class TeamInviteService {
     }
 
     public TeamInvite findById(Long id) {
-        return teamInviteRepository.findById(id).orElseThrow(()->new NotFoundException(ErrorType.TEAM_INVITE_ID,"팀 초대를 찾을 수 없습니다."));
+        return teamInviteRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.TEAM_INVITE_ID, "팀 초대를 찾을 수 없습니다."));
     }
 
     private void notifyInvitation(User invitor, User receiver, Team team) {

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(evt) {
+document.addEventListener("DOMContentLoaded", function (evt) {
     const profileNode = $_(".mypage-profile-holder");
     const teamNode = $_(".maypage-team-holder");
     const activitiesNode = $_(".maypage-activity-holder");

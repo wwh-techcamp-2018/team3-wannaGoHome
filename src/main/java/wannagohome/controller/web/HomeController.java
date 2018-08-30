@@ -27,4 +27,7 @@ public class HomeController {
     public String error(@LoginUser User user) {
         return "error";
     }
+
+    @GetMapping("/intro")
+    public String intro() {return "intro";}
 }

@@ -32,19 +32,40 @@
 }
 
 .board-header-team-member {
-    vertical-align: bottom;
+    vertical-align: middle;
     line-height: 30px;
     margin-left: 5px;
     display: inline-block;
     height: 30px;
 }
 
-.board-header-team-member-img {
+.board-header-team-member-holder {
     display: inline-block;
+    vertical-align: top;
     width: 30px;
     height: 30px;
     margin-left: -5px;
     border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.board-header-team-member-holder .profile-image-long {
+    max-width: 30px;
+    transform: translateY(-50%);
+    margin-top: 50%;
+    display: none;
+    position: absolute;
+    top: 0px;
+}
+
+.board-header-team-member-holder .profile-image-wide {
+    max-height: 30px;
+    transform: translateX(-50%);
+    margin-left: 50%;
+    display: none;
+    position: absolute;
+    top: 0px;
 }
 
 .board-header-right-menu {

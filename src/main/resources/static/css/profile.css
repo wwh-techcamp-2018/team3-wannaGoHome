@@ -14,6 +14,7 @@ body {
 
 .mypage-header-container {
     background-color : #edeff0;
+    height: 150px;
     text-align: center;
 }
 
@@ -74,7 +75,8 @@ body {
     bottom: 0;
     color: #fff;
     display: none;
-    height: 40px;
+    height: 30px;
+    font-size: 0.8em;
     line-height: 30px;
     right: 0;
     width: 100%;
@@ -356,7 +358,7 @@ body {
 }
 
 .profile-avatar-contents {
-    verflow-x: hidden;
+    overflow-x: hidden;
     overflow-y: auto;
     padding: 0 12px 12px;
 }
@@ -372,7 +374,7 @@ body {
 }
 
 .avatar-option:hover {
-    background: #e2e4e6;
+
 }
 
 .profile-init {
@@ -472,7 +474,6 @@ body {
     font-weight: 600;
     line-height: 16px;
     display: block;
-    margin-top: 12px;
     margin-bottom: 4px;
     text-align: left;
 
@@ -494,6 +495,9 @@ body {
     color: #e25b52;
 }
 
+.profile-content-update-holder button {
+    border-radius: 4px;
+}
 
 .content-update-submit {
     background: #5aac44;
@@ -507,6 +511,8 @@ body {
     font-weight: 700;
     line-height: 20px;
     text-align: center;
+    float: right;
+    margin-right: 6px;
 }
 
 .content-update-cancel {
@@ -521,6 +527,7 @@ body {
     font-weight: 700;
     line-height: 20px;
     text-align: center;
+    float: right;
 }
 
 .container {

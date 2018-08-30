@@ -8,6 +8,10 @@ a:hover {
     color: #444;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 .mypage-header-container {
     background-color : #edeff0;
     text-align: center;
@@ -123,9 +127,7 @@ a:hover {
 .mypage-contents-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 32px;
     position: relative;
-    max-height: 470px;
     overflow: auto;
 }
 
@@ -522,4 +524,45 @@ a:hover {
     font-weight: 700;
     line-height: 20px;
     text-align: center;
+}
+
+.container {
+    position: absolute;
+    top: 190px;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0px;
+}
+
+.col-9::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: rgba(100,100,100,.12);
+    opacity: 0.7;
+}
+
+.col-9::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 10px;
+    opacity: 0.7;
+    background-color: rgba(100,100,100,.12);
+}
+
+.col-9::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(80, 80, 80, 0.5);
+}
+
+.col-3 {
+    overflow-y: auto;
+}
+
+.col-9 {
+    overflow-y: auto;
+    padding: 0px;
+}
+
+.row {
+    height: 100%;
 }

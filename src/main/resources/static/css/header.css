@@ -1,7 +1,13 @@
 header {
-    background-color: #026aa7;
-    height: 40px;
+    background-color: #338E60;
+    height: 50px;
     min-width: 600px;
+    padding: 0 6px;
+}
+
+header .row {
+    height: 50px;
+    line-height: 47px;
 }
 
 ul {
@@ -14,9 +20,9 @@ ul {
 }
 
 a.header-logo {
-     line-height: 45px;
-     font-size: 20px;
-     color: #98c0da;
+    line-height: 45px;
+    font-size: 20px;
+    color: rgba(255,255,255,.5);
  }
 
 .header-logo:hover {
@@ -24,16 +30,17 @@ a.header-logo {
     text-decoration-line: none;
 }
 .header-button {
-    background-color: #5497c2;
-    margin: 2px auto;
+    background-color: rgba(255,255,255,.3) !important;
+    margin: 0px auto;
     padding: 0px 5px;
     color: #fff;
     font-weight: bold;
-    min-width: 35px;
-    min-height: 35px;
+    min-width: 45px;
+    min-height: 45px;
     border-style: none;
     border-radius: 3px;
-
+    vertical-align: middle;
+    font-size: 1.2em;
 }
 
 .header-button:focus {

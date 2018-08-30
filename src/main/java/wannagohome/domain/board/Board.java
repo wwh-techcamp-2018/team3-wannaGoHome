@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class Board {
+    public static final String BOARD_HEADER_TOPIC_URL = "/topic/board/%d/header";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

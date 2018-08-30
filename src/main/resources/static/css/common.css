@@ -46,7 +46,7 @@ button:focus {
     display: inline-block;
     vertical-align: top;
     text-align: center;
-    line-height: 45px;
+    line-height: 40px;
 }
 
 .overlay-box-shadow {

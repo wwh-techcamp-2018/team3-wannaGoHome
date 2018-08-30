@@ -24,6 +24,13 @@ a.header-logo {
     font-size: 20px;
     color: rgba(255,255,255,.95);
  }
+.header-logo > img {
+    width: 120px;
+}
+
+.header-logo > i {
+    color: #ecba24;
+}
 
 .header-logo:hover {
     color: #e4f0f6;
@@ -35,10 +42,10 @@ a.header-logo {
     margin: 0px auto;
     padding: 0px 5px;
     color: #fff;
-    font-weight: bold;
-    min-width: 45px;
-    min-height: 45px;
-    border-style: none;
+    font-weight: lighter;
+    min-width: 40px;
+    min-height: 40px;
+    /*height: 30px;*/
     border-radius: 3px;
     vertical-align: middle;
     font-size: 1.2em;

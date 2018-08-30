@@ -122,6 +122,37 @@ a.header-logo {
     right: 10px;
 }
 
+.header-notification-extra {
+    position: absolute;
+    display: none;
+    top: 20px;
+    z-index: 3;
+    background-color: #4ebecf;
+    color: #FFF;
+    width: 100px;
+    font-size: 0.7em;
+    line-height: 16px;
+    padding: 4px 6px;
+    border-radius: 3px;
+    border-top-right-radius: 0px;
+    word-break: break-word;
+}
+
+.header-notification-extra:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0%;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-left-color: #4ebecf;
+    border-right: 0;
+    border-top: 0;
+    margin-top: 0px;
+    margin-right: -6px;
+}
+
 
 .header-notification-content {
     font-size: 14px;
@@ -137,7 +168,7 @@ a.header-logo {
     text-overflow: ellipsis;
     white-space: nowrap;
     list-style: none;
-    /*position: relative;*/
+    position: relative;
 }
 
 .header-notification-content div {

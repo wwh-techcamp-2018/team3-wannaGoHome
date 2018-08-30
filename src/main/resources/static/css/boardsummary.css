@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 .recent-board-list , .my-board-list {
     margin: 20px;
 }

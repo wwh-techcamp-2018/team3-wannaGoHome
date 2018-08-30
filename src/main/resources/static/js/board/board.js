@@ -37,12 +37,7 @@ document.addEventListener("DOMContentLoaded", function (evt) {
 
     window.dispatchEvent(new Event("resize"));
 
-    $_(".board-header .calendar-holder").addEventListener("click", (evt) => {
-        evt.stopPropagation();
-        showCalender(calendar);
-    });
-
-    $_(".board-header .fa-calendar").addEventListener("click", (evt) => {
+    $_(".board-header .fa-calendar").parentNode.addEventListener("click", (evt) => {
         evt.stopPropagation();
         showCalender(calendar);
     });
@@ -66,7 +61,7 @@ function initEvent(calendar, board) {
 
     })
 
-    $_(".fa-calendar").addEventListener("click", (evt) => {
+    $_(".fa-calendar").parentNode.addEventListener("click", (evt) => {
         evt.stopPropagation();
         $_(".header-button-boardlist").style.display = 'none';
     });

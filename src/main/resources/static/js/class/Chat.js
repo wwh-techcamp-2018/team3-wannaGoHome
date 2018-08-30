@@ -53,7 +53,7 @@ class Chat {
         }.bind(this));
 
         this.chattingBar.addEventListener("click", function (evt) {
-            this.selector(".chatting-input-holder textarea").focus();
+            // this.selector(".chatting-input-holder textarea").focus();
         }.bind(this));
 
     }

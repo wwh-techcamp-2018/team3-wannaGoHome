@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 .recent-board-list , .my-board-list {
     margin: 20px;
 }
@@ -48,6 +52,10 @@
 .create-board-card:hover {
     cursor: pointer;
     background-color: #C8C8C8;
+}
+
+.board-setting-button i {
+    margin-right: 6px;
 }
 
 .board-setting-button:hover {

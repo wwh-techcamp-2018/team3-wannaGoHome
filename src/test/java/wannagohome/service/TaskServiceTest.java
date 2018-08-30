@@ -90,8 +90,8 @@ public class TaskServiceTest {
 
         when(taskRepository.save(beforeTask)).thenReturn(beforeTask);
         when(taskRepository.save(afterTask)).thenReturn(afterTask);
-        when(taskRepository.findById(beforeTask.getId())).thenReturn(Optional.ofNullable(beforeTask));
-        when(taskRepository.findById(afterTask.getId())).thenReturn(Optional.ofNullable(afterTask));
+        when(taskRepository.findByIdAndDeletedFalse(beforeTask.getId())).thenReturn(Optional.ofNullable(beforeTask));
+        when(taskRepository.findByIdAndDeletedFalse(afterTask.getId())).thenReturn(Optional.ofNullable(afterTask));
 
     }
 
@@ -122,7 +122,6 @@ public class TaskServiceTest {
 
     @Test
     public void reorderCard_같은태스크내에서카드이동할때() {
-
         taskService.addCard(user, beforeTask.getId(), card3);
         taskService.addCard(user, beforeTask.getId(), card2);
         taskService.addCard(user, beforeTask.getId(), card1);

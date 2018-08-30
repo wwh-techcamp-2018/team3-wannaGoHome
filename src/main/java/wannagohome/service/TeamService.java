@@ -75,7 +75,7 @@ public class TeamService {
             }
     )
     public BoardOfTeamDto create(Team team, User user) {
-        if (teamRepository.findByNameAnAndDeletedFalse(team.getName()).isPresent()) {
+        if (teamRepository.findByNameAndDeletedFalse(team.getName()).isPresent()) {
             throw new DuplicationException(ErrorType.TEAM_NAME, "이미 같은 이름의 팀이 존재합니다.");
         }
         Team newTeam = teamRepository.save(team);

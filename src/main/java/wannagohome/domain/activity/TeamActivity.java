@@ -67,9 +67,9 @@ public class TeamActivity extends AbstractActivity {
     }
 
     public String getLink() {
-        if(ActivityType.TEAM_MEMBER_REMOVE == type || ActivityType.TEAM_DELETE == type)
+        if (ActivityType.TEAM_MEMBER_REMOVE == type || ActivityType.TEAM_DELETE == type)
             return "/";
-        if(ActivityType.TEAM_MEMBER_INVITE == type)
+        if (ActivityType.TEAM_MEMBER_INVITE == type)
             return "/users/profile";
         return "/team/" + getTeam().getId();
     }

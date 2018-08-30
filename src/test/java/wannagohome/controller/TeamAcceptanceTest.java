@@ -2,8 +2,6 @@ package wannagohome.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,8 +19,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TeamAcceptanceTest extends AcceptanceTest {
-    private static final Logger log = LoggerFactory.getLogger(TeamAcceptanceTest.class);
-
     private static final String CREATE_URL = "/api/teams";
     private static final String READ_URL = "/api/teams";
 
@@ -57,8 +53,6 @@ public class TeamAcceptanceTest extends AcceptanceTest {
                 new SignInDto("kimyeon@woowahan.com", "password1")
         );
         Team responseTeam = createResponseEntity.getBody().getTeam();
-        log.debug("description: {}", responseTeam.getDescription());
-        log.debug("name: {}", responseTeam.getName());
         assertThat(createResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(team.getName()).isEqualTo(responseTeam.getName());
         assertThat(team.getDescription()).isEqualTo(responseTeam.getDescription());
@@ -74,14 +68,12 @@ public class TeamAcceptanceTest extends AcceptanceTest {
         );
         assertThat(createResponseEntity2.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         Team responseTeam2 = createResponseEntity2.getBody().getTeam();
-        log.debug("description: {}", responseTeam2.getDescription());
-        log.debug("name: {}", responseTeam2.getName());
         assertThat(createResponseEntity2.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(team2.getName()).isEqualTo(responseTeam2.getName());
         assertThat(team2.getDescription()).isEqualTo(responseTeam2.getDescription());
 
 
-        ResponseEntity<Team[]> responseEntity  = basicAuthRequest(new RequestEntity.Builder()
+        ResponseEntity<Team[]> responseEntity = basicAuthRequest(new RequestEntity.Builder()
                         .withUrl(READ_URL)
                         .withMethod(HttpMethod.GET)
                         .withReturnType(Team[].class)
@@ -99,16 +91,14 @@ public class TeamAcceptanceTest extends AcceptanceTest {
     public void readTeam() {
         ResponseEntity<Team> readResponseEntity = basicAuthRequest(
                 new RequestEntity.Builder()
-                .withMethod(HttpMethod.GET)
-                .withUrl(READ_URL + "/1")
-                .withReturnType(Team.class)
-                .build(),
+                        .withMethod(HttpMethod.GET)
+                        .withUrl(READ_URL + "/1")
+                        .withReturnType(Team.class)
+                        .build(),
                 new SignInDto("junsulime@woowahan.com", "password1")
         );
         assertThat(readResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         Team responseTeam = readResponseEntity.getBody();
-        log.debug("description: {}", responseTeam.getDescription());
-        log.debug("name: {}", responseTeam.getName());
         assertThat(responseTeam.getName()).isEqualTo("WannaGoHome");
     }
 

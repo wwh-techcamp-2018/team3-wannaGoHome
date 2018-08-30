@@ -11,14 +11,12 @@ import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
 import wannagohome.domain.user.UserIncludedInTeam;
 import wannagohome.domain.user.UserPermission;
-import wannagohome.exception.DuplicationException;
 import wannagohome.exception.NotFoundException;
 import wannagohome.repository.TeamRepository;
 import wannagohome.repository.UserIncludedInTeamRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

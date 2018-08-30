@@ -100,7 +100,7 @@ class Task {
 
 
         this.cardWrapper.querySelector(".new-card-button").addEventListener("click", (evt) => {
-            if(checkNullInput(this.cardWrapper.querySelector(".new-card-title"))) {
+            if (checkNullInput(this.cardWrapper.querySelector(".new-card-title"))) {
                 const obj = {};
                 obj.title = this.cardWrapper.querySelector(".new-card-title").value;
                 obj.createDate = new Date();
@@ -135,7 +135,7 @@ class Task {
 
         }.bind(this));
 
-        this.task.querySelector(".task-list-title").addEventListener("click", function(evt) {
+        this.task.querySelector(".task-list-title").addEventListener("click", function (evt) {
             this.taskTitleInput.value = this.taskListTitle.innerHTML.trim();
             this.taskTitleInput.style.display = "block";
             this.taskTitleInput.focus();
@@ -145,17 +145,17 @@ class Task {
 
         }.bind(this));
 
-        this.taskTitleInput.addEventListener("blur", function(evt) {
+        this.taskTitleInput.addEventListener("blur", function (evt) {
             this.taskTitleInput.style.display = "none";
 
             // make the board updatable again
-            if(this.board.dragObject === true) {
+            if (this.board.dragObject === true) {
                 this.board.unsetDraggable();
             }
         }.bind(this));
 
-        this.taskTitleInput.addEventListener("keypress", function(evt) {
-            if(detectEnter(evt)) {
+        this.taskTitleInput.addEventListener("keypress", function (evt) {
+            if (detectEnter(evt)) {
                 evt.preventDefault();
                 const newTitle = evt.currentTarget.value.trim();
                 this.taskObject.title = newTitle;
@@ -163,13 +163,13 @@ class Task {
                 evt.currentTarget.blur();
 
                 // make the board updatable again
-                if(this.board.dragObject === true) {
+                if (this.board.dragObject === true) {
                     this.board.unsetDraggable();
                 }
             }
         }.bind(this));
 
-        this.taskListOptionButton.addEventListener("click", function(evt) {
+        this.taskListOptionButton.addEventListener("click", function (evt) {
             evt.preventDefault();
             evt.stopPropagation();
             document.querySelector("body").click();
@@ -183,13 +183,13 @@ class Task {
 
         }.bind(this));
 
-        this.taskListDeleteButton.addEventListener("click", function(evt) {
+        this.taskListDeleteButton.addEventListener("click", function (evt) {
             evt.preventDefault();
             evt.stopPropagation();
             document.querySelector("body").click();
 
             // make the board updatable again
-            if(this.board.dragObject === true) {
+            if (this.board.dragObject === true) {
                 this.board.unsetDraggable();
             }
 

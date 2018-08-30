@@ -42,7 +42,9 @@ document.addEventListener("DOMContentLoaded", function (evt) {
         showCalender(calendar);
     });
 
-    $_("#calendar").addEventListener("click", (evt)=>{evt.stopPropagation()});
+    $_("#calendar").addEventListener("click", (evt) => {
+        evt.stopPropagation()
+    });
 
 });
 
@@ -54,8 +56,8 @@ function initEvent(calendar, board) {
 
     });
 
-    document.addEventListener("keyup", (evt)=>{
-        if(evt.key === "Escape") {
+    document.addEventListener("keyup", (evt) => {
+        if (evt.key === "Escape") {
             document.querySelector("body").click();
         }
 
@@ -66,7 +68,7 @@ function initEvent(calendar, board) {
         $_(".header-button-boardlist").style.display = 'none';
     });
 
-    $_(".card-detail-container").addEventListener("click", (evt)=>{
+    $_(".card-detail-container").addEventListener("click", (evt) => {
         evt.stopPropagation();
         $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
         $_(".card-detail-label-container").style.display = 'none';
@@ -78,14 +80,14 @@ function initEvent(calendar, board) {
 
 function getCalendarCardList(calendar, boardId) {
     fetchManager({
-        url: "/api/boards/"+ boardId + "/cards",
+        url: "/api/boards/" + boardId + "/cards",
         method: "GET",
         callback: drawCalendarCardList.bind(calendar)
     });
 }
 
 function drawCalendarCardList(status, cards) {
-    if(status === 200) {
+    if (status === 200) {
         this.constructCard(cards);
     }
 }

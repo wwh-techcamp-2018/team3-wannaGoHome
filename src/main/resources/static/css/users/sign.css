@@ -34,7 +34,7 @@
     font-weight: lighter;
 }
 
-.sign-container span,input,button {
+.sign-container span, input, button {
     width: 100%;
     display: block;
 }
@@ -48,15 +48,15 @@
     padding-left: 8px;
     padding-right: 8px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;         /* Opera/IE 8+ */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
 }
 
 .sign-container .sign-component {
     margin-top: 30px;
 }
 
-.sign-container .sign-component>span {
+.sign-container .sign-component > span {
     font-size: 20px;
     margin-top: 3px;
     margin-bottom: 3px;
@@ -74,7 +74,6 @@
 .sign-container .sign-button:focus {
     outline: none;
 }
-
 
 .sign-container .sign-button.inactive {
     background-color: #f8f9f9;

@@ -1,4 +1,5 @@
 const BLANK = '&nbsp;&nbsp;#';
+
 class Calendar {
     constructor() {
         this.board;
@@ -24,14 +25,14 @@ class Calendar {
         this.clickSchedule();
         this.clickCalendar();
         this.dragSchedule();
-        this.cardList= [];
+        this.cardList = [];
         // this.calendar.createSchedules(this.cardList);
-     }
+    }
 
 
     constructCard(cards) {
         this.cards = cards;
-        this.cards.forEach((card)=>{
+        this.cards.forEach((card) => {
             this.constructCardForm(card);
         });
         this.calendar.clear();
@@ -44,7 +45,7 @@ class Calendar {
     }
 
     constructCardCallBack(status, card) {
-        if(status === 200) {
+        if (status === 200) {
             this.constructCardForm(card);
         }
     }
@@ -67,7 +68,7 @@ class Calendar {
     }
 
     getRandomColor() {
-        const colorList = ['#ffe5d4', '#D9C4DE', '#d1e1bf', '#f3ff99','#ffd5b8', '#e5e5d8', '#f9a287', '#ff6a6a', '#dddfff', '#70ae9b', '#ffe8ab' , '#7e98b0'];
+        const colorList = ['#ffe5d4', '#D9C4DE', '#d1e1bf', '#f3ff99', '#ffd5b8', '#e5e5d8', '#f9a287', '#ff6a6a', '#dddfff', '#70ae9b', '#ffe8ab', '#7e98b0'];
         return colorList[Math.floor(Math.random() * colorList.length)];
     }
 
@@ -78,16 +79,18 @@ class Calendar {
             }.bind(this)
         })
     }
+
     clickCalendar() {
         this.calendar.on({
-            'beforeCreateSchedule': function(e) {
+            'beforeCreateSchedule': function (e) {
                 e.guide.clearGuideElement();
             }
 
         });
     }
+
     dragSchedule() {
-        this.calendar.on('beforeUpdateSchedule', function(event) {
+        this.calendar.on('beforeUpdateSchedule', function (event) {
             var schedule = event.schedule;
             var startTime = event.start;
             var endTime = event.end;
@@ -96,19 +99,19 @@ class Calendar {
                 end: endTime
             });
 
-            let mm = (startTime.getMonth()+1 > 9 ? '' : '0') +(startTime.getMonth()+1);
-            let dd = (startTime.getDate() > 9 ? '' : '0') +(startTime.getDate());
-            const startDate = startTime.getFullYear() +"-" + mm + "-" + dd;
-            mm = (endTime.getMonth()+1 > 9 ? '' : '0') +(endTime.getMonth()+1);
-            dd = (endTime.getDate() > 9 ? '' : '0') +(endTime.getDate());
-            const endDate = endTime.getFullYear() +"-" + mm + "-" + dd;
+            let mm = (startTime.getMonth() + 1 > 9 ? '' : '0') + (startTime.getMonth() + 1);
+            let dd = (startTime.getDate() > 9 ? '' : '0') + (startTime.getDate());
+            const startDate = startTime.getFullYear() + "-" + mm + "-" + dd;
+            mm = (endTime.getMonth() + 1 > 9 ? '' : '0') + (endTime.getMonth() + 1);
+            dd = (endTime.getDate() > 9 ? '' : '0') + (endTime.getDate());
+            const endDate = endTime.getFullYear() + "-" + mm + "-" + dd;
 
             const cardDetailDto = {
                 endDate: endDate,
                 createDate: startDate
             }
             fetchManager({
-                url: "/api/cards/"+schedule.id+"/date",
+                url: "/api/cards/" + schedule.id + "/date",
                 method: "PUT",
                 body: JSON.stringify(cardDetailDto),
                 callback: this.handleUpdateSchedule.bind(this)
@@ -118,7 +121,7 @@ class Calendar {
     }
 
     handleUpdateSchedule(status, card) {
-        if(status !== 200) {
+        if (status !== 200) {
             return;
         }
     }

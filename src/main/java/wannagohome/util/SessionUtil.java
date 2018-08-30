@@ -54,7 +54,7 @@ public class SessionUtil {
     }
 
     public static Board getBoardInSession(HttpSession session) {
-        if(session.getAttribute(BOARD_SESSION_KEY) == null) SessionUtil.setBoardInSession(session);
+        if (session.getAttribute(BOARD_SESSION_KEY) == null) SessionUtil.setBoardInSession(session);
         return (Board) session.getAttribute(BOARD_SESSION_KEY);
     }
 }

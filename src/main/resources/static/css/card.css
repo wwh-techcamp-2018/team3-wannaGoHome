@@ -76,7 +76,7 @@
     resize: none;
 }
 
-.card-detail-save-button, .card-comment-save-button  {
+.card-detail-save-button, .card-comment-save-button {
     border-radius: 3px;
     /*backgroundColor: #f8f9f9;*/
     /*color: #aaaaaa;*/
@@ -94,6 +94,7 @@
     padding: 5px;
 
 }
+
 .card-detail-comment-list-wrapper > ul > li > span {
     font-size: 14px;
     font-weight: bold;
@@ -255,33 +256,33 @@ input[type="date"] {
     font-size: 12px;
     width: 100%;
     padding-left: 5px;
-    border-style:none;
+    border-style: none;
     background-color: #f8f9f9;
     border-radius: 3px;
     box-shadow: 1px 1px 1px #b4b6b8;
 }
 
 input[type="date"]:focus {
-    outline: none; !important;
+    outline: none;
+!important;
     color: #95a5a6;
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
 }
 
-
 /*.card-detail-date {*/
-    /*color: #95a5a6;*/
-    /*background-color: #f8f9f9;*/
-    /*font-size: 12px;*/
-    /*height: 20px;*/
-    /*border-radius: 3px;*/
-    /*z-index: 200;*/
-    /*position: relative;*/
-    /*width: 200px;*/
-    /*margin-left: -20px;*/
-    /*margin-top: -10px;*/
-    /*box-shadow: 1px 1px 1px #b4b6b8;*/
+/*color: #95a5a6;*/
+/*background-color: #f8f9f9;*/
+/*font-size: 12px;*/
+/*height: 20px;*/
+/*border-radius: 3px;*/
+/*z-index: 200;*/
+/*position: relative;*/
+/*width: 200px;*/
+/*margin-left: -20px;*/
+/*margin-top: -10px;*/
+/*box-shadow: 1px 1px 1px #b4b6b8;*/
 
 /*}*/
 
@@ -325,13 +326,14 @@ input[type="date"]:focus {
 
 .card-detail-title-edit-text:focus {
     outline: none;
-    border-style: none; !important;
+    border-style: none;
+!important;
 }
-
 
 .filebox label {
     cursor: pointer;
 }
+
 .filebox input[type="file"] {
     /* 파일 필드 숨기기 */
     position: absolute;
@@ -340,7 +342,7 @@ input[type="date"]:focus {
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip:rect(0,0,0,0);
+    clip: rect(0, 0, 0, 0);
     border: 0;
 }
 
@@ -355,9 +357,9 @@ input[type="date"]:focus {
     color: #888888;
 }
 
-
 .card-detail-summary-attachment-list > p {
-    margin-bottom: 0; !important;
+    margin-bottom: 0;
+!important;
     font-size: 11px;
     color: #000000;
     overflow: hidden;
@@ -371,7 +373,6 @@ input[type="date"]:focus {
     text-decoration: none;
     color: #003d5e;
 }
-
 
 .card-detail-summary-attachment-list > p > .file-delete-button {
     color: #e25b52;

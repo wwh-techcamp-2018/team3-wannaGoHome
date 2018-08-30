@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 public class Task {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -36,12 +36,12 @@ public class Task {
     private User author;
 
     @JsonBackReference
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
     @NotBlank
-    @Size(min=1, max = 30)
+    @Size(min = 1, max = 30)
     @Column(length = 30, nullable = false)
     private String title;
 
@@ -55,8 +55,8 @@ public class Task {
     @ColumnDefault(value = "false")
     private boolean deleted;
 
-    @Column(name="order_id", nullable = false)
-    @ColumnDefault(value="0")
+    @Column(name = "order_id", nullable = false)
+    @ColumnDefault(value = "0")
     private Integer orderId;
 
     public Task(String title) {
@@ -93,7 +93,7 @@ public class Task {
 
     public Task addCard(Card card) {
         this.cards.add(card);
-        if(card.getTask() != this) {
+        if (card.getTask() != this) {
             card.setOrderId(this.cards.size());
         }
         card.setTask(this);

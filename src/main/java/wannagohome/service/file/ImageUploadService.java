@@ -13,12 +13,12 @@ public class ImageUploadService implements UploadService {
     @Autowired
     private S3Service s3Service;
 
-    public static final String PROFILE_PATH = "profile" ;
+    public static final String PROFILE_PATH = "profile";
     public static final String IMAGE_FILE_PREFIX = "image";
 
 
     @Transactional
-    public String fileUpload(MultipartFile multipartFile){
+    public String fileUpload(MultipartFile multipartFile) {
         assertEmptyFile(multipartFile);
         assertFileFormat(multipartFile);
         return s3Service.upload(multipartFile, PROFILE_PATH);

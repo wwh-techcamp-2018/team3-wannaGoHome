@@ -96,19 +96,19 @@ public class BoardServiceTest {
     public void getBoardByTeam_조회() {
         when(boardRepository.findAllByTeamAndDeletedFalse(team)).thenReturn(boards);
         assertThat(boardService.getBoardByTeam(team).size()).isEqualTo(4);
-        verify(boardRepository,times(1)).findAllByTeamAndDeletedFalse(team);
+        verify(boardRepository, times(1)).findAllByTeamAndDeletedFalse(team);
     }
 
     @Test
-    public void viewBoard_요청시_RecentlyViewBoard_등록(){
+    public void viewBoard_요청시_RecentlyViewBoard_등록() {
         when(recentlyViewBoardRepository.save(any())).thenReturn(null);
         when(boardRepository.findByIdAndDeletedFalse(boards.get(0).getId())).thenReturn(Optional.ofNullable(boards.get(0)));
-        when(userIncludedInTeamRepository.findByUserAndTeam(user,boards.get(0).getTeam()))
+        when(userIncludedInTeamRepository.findByUserAndTeam(user, boards.get(0).getTeam()))
                 .thenReturn(Optional.ofNullable(UserIncludedInTeam.builder().id(1L).team(team).user(user).build()));
         when(userIncludedInBoardRepository.save(any())).thenReturn(new UserIncludedInBoard());
         assertThat(boardService.viewBoard(boards.get(0).getId(), user)).isEqualTo(boards.get(0));
-        verify(boardRepository,times(1)).findByIdAndDeletedFalse(boards.get(0).getId());
-        verify(recentlyViewBoardRepository,times(1)).save(any());
+        verify(boardRepository, times(1)).findByIdAndDeletedFalse(boards.get(0).getId());
+        verify(recentlyViewBoardRepository, times(1)).save(any());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class BoardServiceTest {
         when(recentlyViewBoardRepository.findFirst4ByUserOrderByIdDesc(user.getId())).thenReturn(recentlyViewBoards);
         List<Board> recentlyViewBoards = boardService.getRecentlyViewBoard(user);
         assertThat(recentlyViewBoards.size()).isEqualTo(4);
-        verify(recentlyViewBoardRepository,times(1)).findFirst4ByUserOrderByIdDesc(user.getId());
+        verify(recentlyViewBoardRepository, times(1)).findFirst4ByUserOrderByIdDesc(user.getId());
     }
 
 
@@ -148,11 +148,11 @@ public class BoardServiceTest {
         when(boardRepository.save(any())).thenReturn(boards.get(0));
         when(userIncludedInBoardRepository.save(any())).thenReturn(new UserIncludedInBoard());
         when(teamService.findTeamById(team.getId())).thenReturn(team);
-        Board createBoard = boardService.createBoard(user,boardDTO);
+        Board createBoard = boardService.createBoard(user, boardDTO);
         assertThat(createBoard).isEqualTo(boards.get(0));
-        verify(boardRepository,times(1)).save(any());
-        verify(userIncludedInBoardRepository,times(1)).save(any());
-        verify(teamService,times(1)).findTeamById(any());
+        verify(boardRepository, times(1)).save(any());
+        verify(userIncludedInBoardRepository, times(1)).save(any());
+        verify(teamService, times(1)).findTeamById(any());
     }
 
     @Test
@@ -163,9 +163,9 @@ public class BoardServiceTest {
                 .permission(UserPermission.ADMIN)
                 .build();
         when(userIncludedInBoardRepository.save(any())).thenReturn(userIncludedInBoard);
-        assertThat(boardService.saveUserIncludedInBoard(user,boards.get(0),UserPermission.ADMIN))
+        assertThat(boardService.saveUserIncludedInBoard(user, boards.get(0), UserPermission.ADMIN))
                 .isEqualTo(userIncludedInBoard);
-        verify(userIncludedInBoardRepository,times(1)).save(any());
+        verify(userIncludedInBoardRepository, times(1)).save(any());
     }
 
     @Test

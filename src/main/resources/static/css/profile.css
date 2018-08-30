@@ -1,4 +1,4 @@
-a{
+a {
     color: #444;
     text-decoration: none !important;
 }
@@ -13,7 +13,7 @@ body {
 }
 
 .mypage-header-container {
-    background-color : #edeff0;
+    background-color: #edeff0;
     height: 150px;
     text-align: center;
 }
@@ -44,10 +44,11 @@ body {
     z-index: 0;
 }
 
-.profile-image:hover .profile-image-change-text{
+.profile-image:hover .profile-image-change-text {
     display: block;
     text-decoration: underline;
 }
+
 .profile-image-section-holder {
     height: 85px;
     width: 85px;
@@ -59,11 +60,13 @@ body {
     display: none;
     z-index: 2;
 }
+
 .profile-image-section-holder .profile-image-long {
     max-width: 85px;
     transform: translateY(-50%);
     margin-top: 50%;
 }
+
 .profile-image-section-holder .profile-image-wide {
     max-height: 85px;
     transform: translateX(-50%);
@@ -71,7 +74,7 @@ body {
 }
 
 .profile-image-change-text {
-    background: rgba(0,0,0,.5);
+    background: rgba(0, 0, 0, .5);
     bottom: 0;
     color: #fff;
     display: none;
@@ -169,19 +172,23 @@ body {
 .team-list-holder, .activity-list-holder {
     margin-left: 40px;
 }
+
 .team-list, .activity-list, .invitation-list {
     list-style: none;
 }
+
 .team-link, .activity-link {
     display: block;
     padding: 3px 0px 3px 8px;
     position: relative;
 }
+
 .team-link:hover, .activity-link:hover {
     background: #f6f9fe;
     color: #333;
 }
-.team-list > li , .activity-list > li, .invitation-list > li{
+
+.team-list > li, .activity-list > li, .invitation-list > li {
     border-bottom: 1px solid #d6dadc;
     padding: 0 0;
     position: relative;
@@ -294,7 +301,7 @@ body {
     padding-bottom: 0;
 }
 
-.show-more > a{
+.show-more > a {
     clear: both;
     color: #8c8c8c;
     display: block;
@@ -314,7 +321,7 @@ body {
     border-radius: 3px;
     border: 1px solid #d6dadc;
     border-bottom-color: #c4c9cc;
-    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .15);
     display: none;
     overflow: hidden;
     position: absolute;
@@ -323,6 +330,7 @@ body {
     top: 40px;
     left: 20px;
 }
+
 .profile-avatar-header {
     height: 40px;
     position: relative;
@@ -344,6 +352,7 @@ body {
     white-space: nowrap;
     z-index: 1;
 }
+
 .profile-avatar-holder-icon {
     padding: 10px 10px 10px 6px;
     position: absolute;
@@ -421,8 +430,9 @@ body {
     padding: 0;
     width: 100%;
 }
-.profile-upload-button:hover{
-    cursor:  pointer;
+
+.profile-upload-button:hover {
+    cursor: pointer;
 }
 
 .profile-upload-text {
@@ -438,7 +448,6 @@ body {
     line-height: 35px;
     display: inline-block;
 }
-
 
 .profile-upload-icon {
     height: 20px;
@@ -480,7 +489,7 @@ body {
 }
 
 .content-update-input {
-    transition: background 85ms ease-in,border-color 85ms ease-in;
+    transition: background 85ms ease-in, border-color 85ms ease-in;
     width: 250px;
     box-sizing: border-box;
     background-color: #e2e4e6;
@@ -491,7 +500,7 @@ body {
     padding: 6px 8px;
 }
 
-.content-update-input::placeholder{
+.content-update-input::placeholder {
     color: #e25b52;
 }
 
@@ -541,7 +550,7 @@ body {
 
 .col-9::-webkit-scrollbar-track {
     border-radius: 10px;
-    background-color: rgba(100,100,100,.12);
+    background-color: rgba(100, 100, 100, .12);
     opacity: 0.7;
 }
 
@@ -550,7 +559,7 @@ body {
     height: 8px;
     border-radius: 10px;
     opacity: 0.7;
-    background-color: rgba(100,100,100,.12);
+    background-color: rgba(100, 100, 100, .12);
 }
 
 .col-9::-webkit-scrollbar-thumb {

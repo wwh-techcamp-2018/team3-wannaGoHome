@@ -1,8 +1,6 @@
 package wannagohome.controller;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,8 +19,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserAcceptanceTest extends AcceptanceTest {
-    private static final Logger log = LoggerFactory.getLogger(UserAcceptanceTest.class);
-
     private static final String SIGNUP_URL = "/api/users";
     private static final String SIGNIN_URL = "/api/users/signin";
 
@@ -44,9 +40,6 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
         User user = responseEntity.getBody();
-        log.debug("email: {}", user.getEmail());
-        log.debug("name: {}", user.getName());
-        log.debug("encoded password: {}", user.getPassword());
 
         assertThat(signUpDto.getName()).isEqualTo(user.getName());
         assertThat(signUpDto.getEmail()).isEqualTo(user.getEmail());
@@ -60,7 +53,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .name("kimyeon")
                 .password("password1")
                 .build();
-        ResponseEntity<List> responseEntity = template().postForEntity(SIGNUP_URL, signUpDto, List.class);
+//        ResponseEntity<List> responseEntity = template().postForEntity(SIGNUP_URL, signUpDto, List.class);
+        RequestEntity requestEntity = new RequestEntity.Builder()
+                .withReturnType(List.class)
+                .withMethod(HttpMethod.POST)
+                .withBody(signUpDto)
+                .withUrl(SIGNUP_URL)
+                .build();
+        ResponseEntity<List> responseEntity = request(template(), requestEntity);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -76,10 +76,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
         ErrorEntity errorEntity = responseEntity.getBody()[0];
-        log.debug("error type: {}", errorEntity.getErrorType());
-        log.debug("error message: {}", errorEntity.getMessage());
         Arrays.stream(responseEntity.getBody())
-                .filter(error-> error.sameErrorType(ErrorType.USER_PASSWORD))
+                .filter(error -> error.sameErrorType(ErrorType.USER_PASSWORD))
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
     }
@@ -100,7 +98,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     public void profile() {
         activityRepository.deleteAll();
         SignInDto signInDto = new SignInDto("songintae@woowahan.com", "password1");
-        RequestEntity requestEntity= new RequestEntity.Builder()
+        RequestEntity requestEntity = new RequestEntity.Builder()
                 .withUrl("/api/users/profile")
                 .withMethod(HttpMethod.GET)
                 .withReturnType(MyPageDto.class)
@@ -116,7 +114,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Test
     public void initializeProfile() {
         SignInDto signInDto = new SignInDto("songintae@woowahan.com", "password1");
-        RequestEntity requestEntity= new RequestEntity.Builder()
+        RequestEntity requestEntity = new RequestEntity.Builder()
                 .withUrl("/api/users/profile/init")
                 .withMethod(HttpMethod.POST)
                 .withReturnType(UserDto.class)
@@ -136,7 +134,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
                         .build()
         );
 
-        RequestEntity requestEntity= new RequestEntity.Builder()
+        RequestEntity requestEntity = new RequestEntity.Builder()
                 .withUrl("/api/users/profile")
                 .withMethod(HttpMethod.PUT)
                 .withBody(userDto)

@@ -140,7 +140,7 @@ class Chat {
     }
 
     handleSiblingMessage(beforeMessage, nextMessage) {
-        if(!nextMessage.equalsDate(beforeMessage)) {
+        if (!nextMessage.equalsDate(beforeMessage)) {
             nextMessage.prependDateDivider();
             return;
         }

@@ -13,7 +13,9 @@ input:focus {
     border: 1px solid #0079bf !important;
 }
 
-textarea, select, input, button { outline: none; }
+textarea, select, input, button {
+    outline: none;
+}
 
 .container {
     margin: 20px;
@@ -25,7 +27,7 @@ textarea, select, input, button { outline: none; }
     -moz-user-select: -moz-none;
     -webkit-user-select: none;
     -khtml-user-select: none;
-    user-select:none;
+    user-select: none;
 }
 
 button:hover {
@@ -38,7 +40,7 @@ button {
 }
 
 button:focus {
-    outline: none!important;
+    outline: none !important;
     border: none;
 }
 
@@ -50,7 +52,7 @@ button:focus {
 }
 
 .overlay-box-shadow {
-    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .15);
 }
 
 .popup {
@@ -124,7 +126,6 @@ button:focus {
 .popup-normal-ok-button {
     background-color: #ecba24;
 }
-
 
 .popup-button-hide {
     display: none;

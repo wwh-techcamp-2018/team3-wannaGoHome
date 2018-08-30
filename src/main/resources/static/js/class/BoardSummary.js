@@ -28,7 +28,8 @@ class BoardSummary {
     drawAllTeamBoards(teamBoards) {
         for (const teamBoard of teamBoards) {
             this.drawTeamBoards(teamBoard)
-        };
+        }
+        ;
     }
 
     drawTeamBoards(teamBoard) {
@@ -39,11 +40,12 @@ class BoardSummary {
         this.addCreateNewBoardEvent(createBoardCard);
         this.addMembersClickEvent(teamBoardNode);
         for (const board of teamBoard.boards) {
-            createBoardCard.insertAdjacentElement("beforebegin",new BoardCard(board).boardNode);
+            createBoardCard.insertAdjacentElement("beforebegin", new BoardCard(board).boardNode);
         }
 
 
     }
+
     addMembersClickEvent(teamBoardNode) {
         const membersButton = teamBoardNode.querySelector(".board-setting-button");
         membersButton.addEventListener("click", (evt) => {
@@ -51,6 +53,7 @@ class BoardSummary {
             window.location.href = `/team/${teamBoardNode.getAttribute("data-id")}`;
         });
     }
+
     addCreateNewBoardEvent(createBoardCard) {
         createBoardCard.addEventListener("click", (evt) => {
             evt.preventDefault();

@@ -11,8 +11,8 @@ header .row {
 }
 
 ul {
-    list-style:none;
-    padding-left:0px;
+    list-style: none;
+    padding-left: 0px;
 }
 
 .header-logo-div {
@@ -24,6 +24,7 @@ a.header-logo {
     font-size: 20px;
     color: rgba(255,255,255,.95);
  }
+
 .header-logo > img {
     width: 120px;
 }
@@ -38,7 +39,7 @@ a.header-logo {
 }
 
 .header-button {
-    background-color: rgba(255,255,255,.3) !important;
+    background-color: rgba(255, 255, 255, .3) !important;
     margin: 0px auto;
     padding: 0px 5px;
     color: #fff;
@@ -59,7 +60,7 @@ a.header-logo {
     color: #d8d8d8;
 }
 
-.header-button-boardlist{
+.header-button-boardlist {
     width: 300px;
     background-color: #fff;
     margin: 3px 0px;
@@ -114,7 +115,6 @@ a.header-logo {
     display: none;
 }
 
-
 .header-notification-holder {
     width: 300px;
     background-color: #fff;
@@ -160,7 +160,6 @@ a.header-logo {
     margin-right: -6px;
 }
 
-
 .header-notification-content {
     font-size: 14px;
     font-weight: bold;
@@ -203,12 +202,10 @@ a.header-logo {
     cursor: pointer;
 }
 
-
 .notification-swing {
     animation: swing ease-in-out 0.5s infinite alternate;
     color: #e25b52;
 }
-
 
 .notification-tooltoptext {
     display: none;
@@ -227,6 +224,7 @@ a.header-logo {
     background-color: #4ebecf;
 
 }
+
 .notification-tooltoptext:after {
     content: '';
     position: absolute;
@@ -254,8 +252,12 @@ a.header-logo {
 }
 
 @keyframes swing {
-    0% { transform: rotate(30deg); }
-    100% { transform: rotate(-30deg); }
+    0% {
+        transform: rotate(30deg);
+    }
+    100% {
+        transform: rotate(-30deg);
+    }
 }
 
 .header-notification-more {
@@ -280,7 +282,7 @@ a.header-logo {
 
 .header-notification-scrollable::-webkit-scrollbar-track {
     border-radius: 10px;
-    background-color: rgba(100,100,100,.12);
+    background-color: rgba(100, 100, 100, .12);
     opacity: 0.7;
 }
 
@@ -289,7 +291,7 @@ a.header-logo {
     height: 8px;
     border-radius: 10px;
     opacity: 0.7;
-    background-color: rgba(100,100,100,.12);
+    background-color: rgba(100, 100, 100, .12);
 }
 
 .header-notification-scrollable::-webkit-scrollbar-thumb {

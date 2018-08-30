@@ -15,6 +15,7 @@ import wannagohome.support.AcceptanceTest;
 import wannagohome.support.RequestEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 public class ApiBoardAcceptanceTest extends AcceptanceTest {
 
 
@@ -30,6 +31,7 @@ public class ApiBoardAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private RecentlyViewBoardRepository recentlyViewBoardRepository;
+
     @Before
     public void setUp() throws Exception {
         signInDto = SignInDto.builder()

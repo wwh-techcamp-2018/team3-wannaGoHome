@@ -188,8 +188,6 @@ a.header-logo {
     margin-top: 4px;
     font-size: 0.9em;
     height: 30px;
-    background-color: #c4c9cc;
-    color: #f8f9f9;
     font-weight: bold;
 }
 
@@ -361,8 +359,6 @@ a.header-logo {
     border-style: none;
     font-weight: bold;
     font-size: 1.0em;
-    background-color: #c4c9cc;
-    color: #f8f9f9;
 }
 
 .new-card-wrapper> i {

@@ -22,16 +22,20 @@ class CardDetail {
         this.commentListContainer = this.selector(".card-detail-comment-list-container");
         this.commentText = this.selector(".card-detail-comment");
         this.deleteButton = this.selector(".card-detail-side-button.delete");
+        this.descriptionSaveButton = this.selector(".card-detail-save-button");
 
         this.deleteButton.addEventListener("click", (evt) => {
             evt.stopPropagation();
             this.onClickDeleteButton();
         });
 
+        this.descriptionText.addEventListener("input", (evt) => {
+            checkValidInput(this.descriptionText, this.descriptionSaveButton);
+        });
+
         this.cardTitleText.addEventListener("click", (evt) => {
             this.setCardTitleEditMode();
         });
-
 
         this.cardTitleEditText.addEventListener("keypress", function (evt) {
             if (!detectEnter(evt)) {
@@ -52,7 +56,7 @@ class CardDetail {
             }
         });
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
-        this.selector(".card-detail-save-button").addEventListener("click", this.onClickUpdateDescription.bind(this));
+        this.descriptionSaveButton.addEventListener("click", this.onClickUpdateDescription.bind(this));
     }
 
     initSummaryView() {
@@ -530,6 +534,7 @@ class CardDetail {
         this.attachmentSummaryList.innerHTML = "";
         this.attachmentSummaryList.style.display = 'none';
         this.deleteButton.classList.remove("card-delete-button-danger");
+        checkValidInput(this.descriptionText, this.descriptionSaveButton);
         this.setCardTitleNormalMode();
         this.setDescriptionNormalMode();
     }
@@ -555,6 +560,7 @@ class CardDetail {
         this.descriptionEditBox.classList.remove("card-detail-description-hide");
 
         this.descriptionText.value = this.descriptionShowBox.innerText;
+        checkValidInput(this.descriptionText, this.descriptionSaveButton);
     }
 
     setDescriptionNormalMode() {

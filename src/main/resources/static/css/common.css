@@ -146,3 +146,13 @@ button:focus {
     width: 100%;
     position: absolute;
 }
+
+.active-button {
+    background-color: #61bd4f;
+    color: #ffffff;
+}
+
+.inactive-button {
+    background-color: #c4c9cc;
+    color: #f8f9f9;
+}

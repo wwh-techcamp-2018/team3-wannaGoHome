@@ -55,3 +55,7 @@
 <img src= "https://user-images.githubusercontent.com/19780879/44855672-91796200-aca6-11e8-94be-e4fecf739257.png" width = 700px>
 
 <br>
+
+### 여덟,
+마감일이 정해진 할일들을 달력에서 한번에 모아볼 수 있습니다. 또한 달력에서 카드 관리를 동시에 진행할 수 있습니다.
+

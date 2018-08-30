@@ -23,9 +23,4 @@ public class BoardController {
         return "/board";
     }
 
-    @ExceptionHandler(value = ErrorEntityException.class)
-    public String handleBadRequestException(ErrorEntityException exception) {
-        return "redirect:/error";
-    }
-
 }

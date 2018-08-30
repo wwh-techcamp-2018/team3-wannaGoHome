@@ -76,6 +76,7 @@ public class S3Service {
     }
 
     public void delete(String link, String dirName) {
+
         amazonS3Client.deleteObject(new DeleteObjectRequest(BUCKET_NAME, getKey(link, dirName)));
     }
 

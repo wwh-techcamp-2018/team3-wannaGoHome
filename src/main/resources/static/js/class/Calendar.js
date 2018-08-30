@@ -97,9 +97,11 @@ class Calendar {
             });
 
             let mm = (startTime.getMonth()+1 > 9 ? '' : '0') +(startTime.getMonth()+1);
-            const startDate = startTime.getFullYear() +"-" + mm + "-" + startTime.getDate();
+            let dd = (startTime.getDate() > 9 ? '' : '0') +(startTime.getDate());
+            const startDate = startTime.getFullYear() +"-" + mm + "-" + dd;
             mm = (endTime.getMonth()+1 > 9 ? '' : '0') +(endTime.getMonth()+1);
-            const endDate = endTime.getFullYear() +"-" + mm + "-" + endTime.getDate();
+            dd = (endTime.getDate() > 9 ? '' : '0') +(endTime.getDate());
+            const endDate = endTime.getFullYear() +"-" + mm + "-" + dd;
 
             const cardDetailDto = {
                 endDate: endDate,

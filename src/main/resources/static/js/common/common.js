@@ -250,10 +250,10 @@ function checkNullInput(input) {
 
 function activeSubmitButton(input, button) {
     if(checkNullInput(input)) {
-        button.style.backgroundColor = '#61bd4f';
-        button.style.color = '#ffffff';
+        button.classList.add("active-button");
+        button.classList.remove("inactive-button");
     } else {
-        button.style.backgroundColor = '#c4c9cc';
-        button.style.color = '#f8f9f9';
+        button.classList.remove("active-button");
+        button.classList.add("inactive-button");
     }
 }

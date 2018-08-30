@@ -22,19 +22,23 @@ class CardDetail {
         this.commentListContainer = this.selector(".card-detail-comment-list-container");
         this.commentText = this.selector(".card-detail-comment");
         this.deleteButton = this.selector(".card-detail-side-button.delete");
+        this.descriptionSaveButton = this.selector(".card-detail-save-button");
 
         this.deleteButton.addEventListener("click", (evt) => {
             evt.stopPropagation();
             this.onClickDeleteButton();
         });
 
+        this.descriptionText.addEventListener("input", (evt) => {
+            checkValidInput(this.descriptionText, this.descriptionSaveButton);
+        });
+
         this.cardTitleText.addEventListener("click", (evt) => {
             this.setCardTitleEditMode();
         });
 
-
-        this.cardTitleEditText.addEventListener("keypress", function(evt) {
-            if(!detectEnter(evt)) {
+        this.cardTitleEditText.addEventListener("keypress", function (evt) {
+            if (!detectEnter(evt)) {
                 return;
             }
             evt.preventDefault();
@@ -46,13 +50,13 @@ class CardDetail {
         limitInputSize(this.descriptionText, 255);
         limitInputSize(this.commentText, 255);
 
-        this.selector(".card-comment-save-button").addEventListener("click", (evt)=>{
-            if(checkNullInput(this.commentText)) {
+        this.selector(".card-comment-save-button").addEventListener("click", (evt) => {
+            if (checkNullInput(this.commentText)) {
                 this.onClickAddCommentButton();
             }
         });
         this.selector(".card-detail-description-edit-button").addEventListener("click", this.onClickDescriptionModeButton.bind(this));
-        this.selector(".card-detail-save-button").addEventListener("click", this.onClickUpdateDescription.bind(this));
+        this.descriptionSaveButton.addEventListener("click", this.onClickUpdateDescription.bind(this));
     }
 
     initSummaryView() {
@@ -89,20 +93,20 @@ class CardDetail {
             this.onClickLabelButton();
         });
 
-        this.selector("#card-detail-file-upload").addEventListener("input", (evt)=>{
+        this.selector("#card-detail-file-upload").addEventListener("input", (evt) => {
             this.onClickAttachmentButton(evt.target.files);
         });
 
-        this.attachmentSummaryTitle.addEventListener("click", (evt)=>{
+        this.attachmentSummaryTitle.addEventListener("click", (evt) => {
             this.onClickLoadAttachments();
         });
 
         this.labelContainer.addEventListener("click", (evt) => evt.stopPropagation());
-        this.assigneeContainer.addEventListener("click", (evt) =>  evt.stopPropagation());
+        this.assigneeContainer.addEventListener("click", (evt) => evt.stopPropagation());
         this.assigneeListContainer.addEventListener("click", this.onClickAssignee.bind(this));
         this.assigneeSearchBox.addEventListener("input", this.onChangeAssigneeSearch.bind(this));
-        this.dueDateContainer.addEventListener("click", (evt)=>evt.stopPropagation());
-        this.attachmentSummary.addEventListener("click", (evt)=>evt.stopPropagation());
+        this.dueDateContainer.addEventListener("click", (evt) => evt.stopPropagation());
+        this.attachmentSummary.addEventListener("click", (evt) => evt.stopPropagation());
     }
 
     initHandlebarTemplates() {
@@ -121,7 +125,7 @@ class CardDetail {
     }
 
     onClickAttachmentButton(files) {
-        if(files.length === 0) {
+        if (files.length === 0) {
             return;
         }
         fileFetchManager({
@@ -132,7 +136,7 @@ class CardDetail {
     }
 
     onClickLoadAttachments() {
-        if(this.attachmentSummaryList.style.display === 'none') {
+        if (this.attachmentSummaryList.style.display === 'none') {
             this.hideAllSidePopup();
             this.attachmentSummaryList.style.display = 'block';
         } else {
@@ -151,7 +155,7 @@ class CardDetail {
 
     onClickAddCommentButton() {
         const contents = this.commentText.value;
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/comments`,
             method: "POST",
             body: JSON.stringify({contents: contents}),
@@ -171,7 +175,7 @@ class CardDetail {
     onClickAssigneeButton() {
         if (this.assigneeContainer.classList.contains("card-detail-assignee-container-hide")) {
             this.hideAllSidePopup();
-            fetchManager({
+            this.fetchCard({
                 url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
                 method: "GET",
                 callback: this.handleUpdateAssignee.bind(this)
@@ -184,7 +188,7 @@ class CardDetail {
     }
 
     onClickUpdateDescription() {
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/description`,
             method: "POST",
             body: JSON.stringify({description: this.descriptionText.value}),
@@ -204,7 +208,7 @@ class CardDetail {
         const userId = userLi.getAttribute("data-id");
         const method = userLi.getAttribute("data-assigned") === "true" ? "DELETE" : "POST";
 
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/assign`,
             method: method,
             body: JSON.stringify({userId: userId}),
@@ -216,7 +220,7 @@ class CardDetail {
         if (this.dueDateContainer.style.display === 'none') {
             this.hideAllSidePopup();
             this.dueDateContainer.style.display = 'block';
-            this.dueDateContainer.querySelector("input").addEventListener("input", (evt)=>{
+            this.dueDateContainer.querySelector("input").addEventListener("input", (evt) => {
                 this.setDueDate(evt.target.value);
             })
         } else {
@@ -227,7 +231,7 @@ class CardDetail {
 
     onClickDeleteButton() {
         if (this.deleteButton.classList.contains("card-delete-button-danger")) {
-            fetchManager({
+            this.fetchCard({
                 url: `/api/cards/${this.cardId}`,
                 method: "DELETE",
                 callback: this.handleDeleteCard.bind(this)
@@ -238,14 +242,15 @@ class CardDetail {
     }
 
     onClickDeleteDueDateButton() {
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/date`,
             method: "DELETE",
             callback: this.handleDeleteDueDate.bind(this)
         });
     }
+
     onChangeAssigneeSearch() {
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/members?keyword=` + encodeURI(this.assigneeSearchKeyword),
             method: "GET",
             callback: this.handleUpdateAssignee.bind(this)
@@ -254,7 +259,7 @@ class CardDetail {
 
     onEnterKeyPress(evt) {
         const cardTitle = evt.currentTarget.value;
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/title`,
             method: "PUT",
             body: JSON.stringify({cardTitle: cardTitle}),
@@ -263,7 +268,7 @@ class CardDetail {
     }
 
     onClickAttachmentDeleteButton(fileId) {
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/file/${fileId}`,
             method: "DELETE",
             callback: this.handleDeleteAttachment.bind(this)
@@ -271,15 +276,15 @@ class CardDetail {
     }
 
     handleDeleteAttachment(status, attachments) {
-        if(status !== 200) {
+        if (status !== 200) {
             return;
         }
         this.drawAttachmentTitle(attachments);
     }
 
     handleAttachment(status, attachments) {
-        if(status !== 201){
-            showDialog("파일 첨부 실패", attachments[0].message );
+        if (status !== 201) {
+            showDialog("파일 첨부 실패", attachments[0].message);
         } else {
             this.drawAttachmentTitle(attachments);
         }
@@ -290,11 +295,11 @@ class CardDetail {
         if (status !== 201) {
             return;
         }
-        this.drawSummaryDueDate(card.endDate.slice(0,10));
+        this.drawSummaryDueDate(card.endDate.slice(0, 10));
     }
 
     handleDeleteDueDate(status, card) {
-        if(status!==200) {
+        if (status !== 200) {
             return;
         }
         this.dueDateSummary.innerHTML = "";
@@ -337,7 +342,7 @@ class CardDetail {
                 } else {
                     method = "POST";
                 }
-                fetchManager({
+                this.fetchCard({
                     url: "/api/cards/" + this.cardId + "/label",
                     method: method,
                     body: JSON.stringify({id: evt.target.getAttribute("data-id")}),
@@ -373,7 +378,7 @@ class CardDetail {
     drawSummaryDueDate(endDate) {
         this.dueDateSummary.innerHTML = "";
         this.dueDateSummary.appendChild(createElementFromHTML(`<span><i class="far fa-calendar-alt"></i> ${endDate} <i class="fas fa-times-circle date-delete-button"></i></span>`));
-        this.dueDateSummary.querySelector(".date-delete-button").addEventListener("click", (evt)=>{
+        this.dueDateSummary.querySelector(".date-delete-button").addEventListener("click", (evt) => {
             this.onClickDeleteDueDateButton();
         })
     }
@@ -428,7 +433,7 @@ class CardDetail {
 
     drawAttachmentTitle(attachments) {
         this.attachmentSummaryTitle.innerHTML = "";
-        if(attachments.length !==0) {
+        if (attachments.length !== 0) {
             this.attachmentSummaryTitle.appendChild(createElementFromHTML(`<span><i class="fas fa-file-upload"></i> ${attachments.length}개의 첨부 파일</span>`));
             this.attachmentSummaryList.innerHTML = "";
             this.drawAttachmentList(attachments);
@@ -437,8 +442,8 @@ class CardDetail {
             this.attachmentSummaryList.style.display = 'none';
         }
         const fileList = this.attachmentSummaryList.querySelectorAll(".file-delete-button");
-        for(let file of fileList) {
-            file.addEventListener("click", (evt)=>{
+        for (let file of fileList) {
+            file.addEventListener("click", (evt) => {
                 this.onClickAttachmentDeleteButton(evt.target.closest("p").getAttribute("data-id"));
             })
         }
@@ -467,8 +472,8 @@ class CardDetail {
         this.attachmentSummary.style.display = 'block';
         this.drawAttachmentTitle(body.attachments);
         checkValidInput(this.commentText, this.selector(".card-comment-save-button"));
-        if(body.endDate) {
-            const endDate = body.endDate.slice(0,10);
+        if (body.endDate) {
+            const endDate = body.endDate.slice(0, 10);
             this.dueDateContainer.querySelector("input").value = endDate;
             this.drawSummaryDueDate(endDate);
         }
@@ -510,7 +515,7 @@ class CardDetail {
         this.form.style.display = "block";
         this.cardId = cardId;
 
-        fetchManager({
+        this.fetchCard({
             url: "/api/cards/" + this.cardId,
             method: "GET",
             callback: this.handleInitCardForm.bind(this)
@@ -529,6 +534,7 @@ class CardDetail {
         this.attachmentSummaryList.innerHTML = "";
         this.attachmentSummaryList.style.display = 'none';
         this.deleteButton.classList.remove("card-delete-button-danger");
+        checkValidInput(this.descriptionText, this.descriptionSaveButton);
         this.setCardTitleNormalMode();
         this.setDescriptionNormalMode();
     }
@@ -554,6 +560,7 @@ class CardDetail {
         this.descriptionEditBox.classList.remove("card-detail-description-hide");
 
         this.descriptionText.value = this.descriptionShowBox.innerText;
+        checkValidInput(this.descriptionText, this.descriptionSaveButton);
     }
 
     setDescriptionNormalMode() {
@@ -565,7 +572,7 @@ class CardDetail {
         const cardDetailDto = {
             endDate: date
         };
-        fetchManager({
+        this.fetchCard({
             url: `/api/cards/${this.cardId}/date`,
             method: "POST",
             body: JSON.stringify(cardDetailDto),
@@ -573,8 +580,29 @@ class CardDetail {
         });
     }
 
+    fetchCard({url, method, body, callback}) {
+        fetchManager({
+            url: url,
+            method: method,
+            body: body,
+            callback: (status, body) => {
+                if (status === 400 && body.filter((error) => error.errorType === "cardId").length !== 0) {
+                    showDialog("Deleted", "삭제된 카드입니다.");
+                    this.exit();
+                    return;
+                }
+                callback(status, body);
+            }
+        });
+    }
+
+
     get assigneeSearchKeyword() {
         return this.assigneeSearchBox.value;
+    }
+
+    exit() {
+        document.querySelector("body").click();
     }
 
     selector(selector) {

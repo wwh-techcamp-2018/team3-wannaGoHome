@@ -144,7 +144,8 @@ public class CardService {
     }
 
     public Card findCardById(Long id) {
-        return cardRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
+        return cardRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new NotFoundException(ErrorType.CARD_ID, "없는 카드 아이디 입니다."));
     }
 
     public List<Label> addLabel(User user, Long cardId, Label label) {
@@ -240,5 +241,4 @@ public class CardService {
     public Attachment findAttachmentById(Long fileId) {
         return attachmentRepository.findById(fileId).orElseThrow(()->new NotFoundException(ErrorType.FILE_ID, "일치하는 파일이 없습니다."));
     }
-
 }

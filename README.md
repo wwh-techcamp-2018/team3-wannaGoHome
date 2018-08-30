@@ -10,35 +10,35 @@
 ### 하나,
 주변 사람들과 함께 팀을 구성하고 업무 별로 보드를 만들어 관리할 수 있습니다.
 
-<img src = "https://user-images.githubusercontent.com/19780879/44855664-90483500-aca6-11e8-9b37-ad4b762a6e91.png" >
+<img src = "https://user-images.githubusercontent.com/17852124/44857696-4ca3fa00-acab-11e8-92e5-b5ce18c39c8d.gif" >
 
 <br>
 
 ### 둘, 
 자신만의 Task와 card를 생성하여 자유롭게 일정을 관리할 수 있습니다. 
 
-<img src = "https://user-images.githubusercontent.com/19780879/44855666-90e0cb80-aca6-11e8-9bb5-6a5dae2d1247.png" >
+<img src = "https://user-images.githubusercontent.com/17852124/44857768-778e4e00-acab-11e8-9bca-b64f55e30309.gif" >
 
 <br>
 
 ### 셋,
 여러 사람들과 동시에 작업을 진행할 수 있습니다. 실시간으로 업데이트되는 보드 상황을 확인하고 팀원들과 대화해 보세요.
 
-<img src="https://user-images.githubusercontent.com/19780879/44855667-90e0cb80-aca6-11e8-902d-a3e8c67d94aa.png" width = 300px >
+<img src="https://user-images.githubusercontent.com/17852124/44857807-8c6ae180-acab-11e8-88cd-67181fc70e61.gif" width = 300px >
 
 <br>
 
 ### 넷,
 카드를 분리하는 라벨을 달고, 카드에 담당자를 할당하고, 카드의 마감일정을 정해주고, 카드 관련 파일을 첨부할 수도 있습니다.
 
-<img src= "https://user-images.githubusercontent.com/19780879/44855668-90e0cb80-aca6-11e8-8aad-b77bf5bab68a.png" width = 500px>
+<img src= "https://user-images.githubusercontent.com/17852124/44857887-b45a4500-acab-11e8-81aa-0b193fe66686.gif" width = 500px>
 
 <br>
 
 ### 다섯,
 팀 프로필 설정 및 팀원 관리를 할 수 있습니다. 팀 초대를 통해 새로운 사람과 함께 작업할 수 있습니다.
 
-<img src="https://user-images.githubusercontent.com/19780879/44855669-90e0cb80-aca6-11e8-909a-b5786a4ea0ed.png" width = 700px>
+<img src="https://user-images.githubusercontent.com/17852124/44857929-ca680580-acab-11e8-9611-81bd1572120c.gif" width = 700px>
 
 <br>
 

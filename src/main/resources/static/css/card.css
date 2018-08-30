@@ -72,8 +72,8 @@
     width: 100%;
     margin: 10px 0px;
     font-size: 14px;
-    padding: 5px;
-
+    padding: 5px 8px;
+    resize: none;
 }
 
 .card-detail-save-button, .card-comment-save-button  {
@@ -84,6 +84,7 @@
     text-align: center;
     padding: 5px 8px;
     margin-bottom: 10px;
+
 }
 
 .card-detail-comment-list-wrapper > ul > li {

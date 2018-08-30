@@ -562,7 +562,7 @@ a.header-logo {
 }
 
 .speech-bubble-text::selection {
-    background: #ccfff1; /* WebKit/Blink Browsers */
+    background: #808297; /* WebKit/Blink Browsers */
 }
 
 
@@ -577,7 +577,7 @@ a.header-logo {
     display: inline-block;
     max-width: 100%;
     word-wrap:break-word;
-    background-color: #97acbf;
+    background-color: #b8cfe4;
     border-radius: 6px;
     padding: 4px 12px 4px 12px;
 
@@ -593,7 +593,7 @@ a.header-logo {
     width: 0;
     height: 0;
     border: 8px solid transparent;
-    border-right-color: #97acbf;
+    border-right-color: #b8cfe4;
     border-left: 0;
     border-top: 0;
     margin-top: 8px;

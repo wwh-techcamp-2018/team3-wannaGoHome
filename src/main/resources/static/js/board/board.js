@@ -37,16 +37,14 @@ document.addEventListener("DOMContentLoaded", function (evt) {
 
     window.dispatchEvent(new Event("resize"));
 
+    $_(".board-header .calendar-holder").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        showCalender(calendar);
+    });
+
     $_(".board-header .fa-calendar").addEventListener("click", (evt) => {
         evt.stopPropagation();
-        if ($_("#calendar").style.display == 'block') {
-            $_("#calendar").style.display = 'none';
-            calendar.clearCalendar();
-        } else {
-            //카드 날짜 정하기 전까지 임시 카드리스트
-            getCalendarCardList(calendar, calendar.board.boardIndex);
-            $_("#calendar").style.display = 'block';
-        }
+        showCalender(calendar);
     });
 
     $_("#calendar").addEventListener("click", (evt)=>{evt.stopPropagation()});
@@ -96,4 +94,16 @@ function drawCalendarCardList(status, cards) {
         this.constructCard(cards);
     }
 }
+
+function showCalender(calendar) {
+    if ($_("#calendar").style.display == 'block') {
+        $_("#calendar").style.display = 'none';
+        calendar.clearCalendar();
+    } else {
+        //카드 날짜 정하기 전까지 임시 카드리스트
+        getCalendarCardList(calendar, calendar.board.boardIndex);
+        $_("#calendar").style.display = 'block';
+    }
+}
+
 

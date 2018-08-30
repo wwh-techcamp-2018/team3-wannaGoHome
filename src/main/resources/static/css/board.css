@@ -18,7 +18,7 @@ header .header-button {
 }
 
 a.header-logo {
-    color: rgba(255,255,255,.3);
+    color: rgba(255,255,255,.5);
 }
 
 .board-header-right-menu span:hover {
@@ -40,7 +40,7 @@ a.header-logo {
 
 .board-scroll-container {
     position: absolute;
-    top: 80px;
+    top: 90px;
     left: 0px;
     bottom: 4px;
     padding: 4px;
@@ -537,6 +537,7 @@ a.header-logo {
     display: inline-block;
 }
 
+
 .time-holder {
     font-weight: lighter;
     position: absolute;
@@ -553,7 +554,13 @@ a.header-logo {
 .speech-bubble-text {
     text-align: left;
     white-space: pre-wrap;
+    user-select: text;
 }
+
+.speech-bubble-text::selection {
+    background: #808297; /* WebKit/Blink Browsers */
+}
+
 
 .message-holder-left .speech-bubble-holder {
     margin-left: 40px;
@@ -566,7 +573,7 @@ a.header-logo {
     display: inline-block;
     max-width: 100%;
     word-wrap:break-word;
-    background-color: #97acbf;
+    background-color: #b8cfe4;
     border-radius: 6px;
     padding: 4px 12px 4px 12px;
 
@@ -582,7 +589,7 @@ a.header-logo {
     width: 0;
     height: 0;
     border: 8px solid transparent;
-    border-right-color: #97acbf;
+    border-right-color: #b8cfe4;
     border-left: 0;
     border-top: 0;
     margin-top: 8px;
@@ -650,7 +657,7 @@ a.header-logo {
 }
 
 .chatting-input-holder textarea {
-    vertical-align: top;
+    vertical-align: bottom;
     padding: 0px 6px 0px 6px;
     width: 240px;
     border-radius: 3px;
@@ -666,7 +673,7 @@ a.header-logo {
 .chatting-input-holder button {
     vertical-align: top;
     display: inline-block;
-    background-color: #61bd4f;
+    background-color: #4ebecf;
     color: #fff;
     padding-left: 10px;
     padding-right: 10px;
@@ -686,8 +693,10 @@ a.header-logo {
     top: 4px;
     font-size: 30px;
     color: #777;
+    border-radius: 4px;
 }
 
 .chatting-bar-closer:hover {
     cursor: pointer;
+    background-color: rgba(150,150,150,.3);
 }

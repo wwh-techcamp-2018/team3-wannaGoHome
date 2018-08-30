@@ -41,9 +41,6 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
     private RecentlyViewBoardRepository recentlyViewBoardRepository;
 
     @Autowired
@@ -65,13 +62,14 @@ public class BoardService {
     public BoardSummaryDto getBoardSummary(User user) {
         BoardSummaryDto boardSummaryDTO = new BoardSummaryDto();
         boardSummaryDTO.addRecentlyViewBoard(getRecentlyViewBoard(user).stream()
-                .map(board -> BoardCardDto.valueOf(board)).collect(Collectors.toList()));
+                .map(BoardCardDto::valueOf).collect(Collectors.toList()));
         userIncludedInTeamRepository.findAllByUserAndTeamDeletedFalse(user)
                 .forEach(userIncludedInTeam ->
                     boardSummaryDTO.addBoardOfTeamsDTO(
-                                new BoardOfTeamDto(userIncludedInTeam.getTeam(),
-                                        getBoardByTeam(userIncludedInTeam.getTeam()).stream()
-                                                .map(board -> BoardCardDto.valueOf(board)).collect(Collectors.toList()))
+                                new BoardOfTeamDto(
+                                        userIncludedInTeam.getTeam(),
+                                        getBoardByTeam(userIncludedInTeam.getTeam()).stream().map(BoardCardDto::valueOf).collect(Collectors.toList())
+                                )
                     )
                 );
         return boardSummaryDTO;
@@ -94,7 +92,6 @@ public class BoardService {
     private UserIncludedInTeam confirmAuthorityOfUser(User user, Board board) {
         return userIncludedInTeamRepository.findByUserAndTeam(user,board.getTeam())
                 .orElseThrow(() -> new UnAuthorizedException(ErrorType.UNAUTHORIZED, "Board에 접근할 권한이 없습니다."));
-
     }
     private RecentlyViewBoard saveRecentlyViewBoard(User user, Board board) {
         return recentlyViewBoardRepository.save(
@@ -132,7 +129,7 @@ public class BoardService {
 
     public Board findById(Long boardId) {
         return boardRepository
-                .findById(boardId)
+                .findByIdAndDeletedFalse(boardId)
                 .orElseThrow(()-> new BadRequestException(ErrorType.BOARD_ID, "ID에 해당하는 Board가 존재하지 않습니다."));
     }
 
@@ -236,8 +233,7 @@ public class BoardService {
     }
 
     public List<Card> findCardsByDueDate(Long boardId) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new NotFoundException(ErrorType.BOARD_ID, "일치하는 보드가 없습니다."));
+        Board board = findById(boardId);
         List<Card> cardList = new ArrayList<>();
         board.getTasks().forEach(task -> {
             cardList.addAll(task.getCards().stream().filter(Card::existDueDate).collect(Collectors.toList()));

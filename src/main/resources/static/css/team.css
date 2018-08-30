@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 .team-page-header {
     background-color: #edeff0;
 }
@@ -106,7 +110,7 @@
 .invite-team-button {
 
     display: inline-block;
-    background-color: #61bd4f;
+    background-color: #ecba24;
     padding: 6px 8px 6px 11px;
     color: #FFF;
     font-size: 0.9em;

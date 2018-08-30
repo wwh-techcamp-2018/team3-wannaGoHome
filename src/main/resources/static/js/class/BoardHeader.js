@@ -38,6 +38,7 @@ class BoardHeader {
     }
 
     onClickBoardOptionButton(evt) {
+        $_("body").click();
         evt.stopPropagation();
         this.showMenuOptions(evt)
     }
@@ -101,8 +102,20 @@ class BoardHeader {
         }
         this.boardHeaderMemberContainer.innerHTML = "";
         members.forEach((member) => {
-            const html = `<img src="${member.profile}" class="board-header-team-member-img" alt="${member.name}">`;
-            this.boardHeaderMemberContainer.appendChild(createElementFromHTML(html));
+            const html = `<div class="board-header-team-member-holder">
+                            <img src="${member.profile}" alt="${member.name}">
+                          </div>`;
+            const imageNode = createElementFromHTML(html)
+            this.boardHeaderMemberContainer.appendChild(imageNode);
+
+            imageNode.querySelector("img").addEventListener("load", function(evt) {
+                if(imageDimensions(evt.currentTarget)) {
+                    evt.currentTarget.classList.toggle("profile-image-wide")
+                } else {
+                    evt.currentTarget.classList.toggle("profile-image-long")
+                }
+                evt.currentTarget.style.display = "inline-block";
+            });
         });
     }
 

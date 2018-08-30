@@ -79,12 +79,38 @@ class Notification {
     }
 
     appendNotification(notification) {
-        this.ul.appendChild(createElementFromHTML(this.template(notification)));
+        const elem = createElementFromHTML(this.template(notification));
+        this.ul.appendChild(elem);
+        elem.addEventListener("mouseover", function(evt) {
+            $_(".header-notification-extra").innerHTML = elem.querySelector("a").text;
+            $_(".header-notification-extra").style.display = "inline-block";
+            const holderRect = getBoundingRect($_(".header-notification-holder"));
+            const thisRect = getBoundingRect(this);
+            console.log(holderRect.right, evt.pageX);
+            $_(".header-notification-extra").style.right = (holderRect.right - thisRect.left) + "px";
+            $_(".header-notification-extra").style.top = (thisRect.bottom - holderRect.top) - $_("body").scrollTop - 10 + "px";
+        });
+        elem.addEventListener("mouseleave", function(evt) {
+            $_(".header-notification-extra").style.display = "none";
+        });
         this.scrollable.scrollTop = this.scrollable.scrollHeight;
     }
 
     prependNotification(notification) {
-        this.ul.prepend(createElementFromHTML(this.template(notification)));
+        const elem = createElementFromHTML(this.template(notification));
+        this.ul.prepend(elem);
+        elem.addEventListener("mouseover", function(evt) {
+            $_(".header-notification-extra").innerHTML = elem.querySelector("a").text;
+            $_(".header-notification-extra").style.display = "inline-block";
+            const holderRect = getBoundingRect($_(".header-notification-holder"));
+            const thisRect = getBoundingRect(this);
+            console.log(holderRect.right, evt.pageX);
+            $_(".header-notification-extra").style.right = (holderRect.right - thisRect.left) + "px";
+            $_(".header-notification-extra").style.top = (thisRect.bottom - holderRect.top) - $_("body").scrollTop - 10 + "px";
+        });
+        elem.addEventListener("mouseleave", function(evt) {
+            $_(".header-notification-extra").style.display = "none";
+        });
         this.scrollable.scrollTop = this.scrollable.scrollHeight;
     }
 

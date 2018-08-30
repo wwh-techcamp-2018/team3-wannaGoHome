@@ -72,8 +72,8 @@
     width: 100%;
     margin: 10px 0px;
     font-size: 14px;
-    padding: 5px;
-
+    padding: 5px 8px;
+    resize: none;
 }
 
 .card-detail-save-button, .card-comment-save-button  {
@@ -82,9 +82,9 @@
     /*color: #aaaaaa;*/
     font-size: 13px;
     text-align: center;
-    padding: 5px;
-    width: 70px;
+    padding: 5px 8px;
     margin-bottom: 10px;
+
 }
 
 .card-detail-comment-list-wrapper > ul > li {
@@ -117,7 +117,7 @@
 
 .card-detail-comment-list-container {
     max-height: 200px;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .card-detail-label-container {

@@ -78,8 +78,8 @@
 
 .card-detail-save-button, .card-comment-save-button  {
     border-radius: 3px;
-    background-color: #5aac44;
-    color: #fff;
+    backgroundColor: #f8f9f9;
+    color: #aaaaaa;
     font-size: 13px;
     text-align: center;
     padding: 5px;

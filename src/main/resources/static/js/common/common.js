@@ -210,3 +210,26 @@ class PageObject {
         }.bind(this))
     }
 }
+function checkValidInput(input, button) {
+    activeSubmitButton(input, button);
+    input.addEventListener("input", (evt)=> {
+        activeSubmitButton(input, button);
+    })
+}
+
+function checkNullInput(input) {
+    if(input.value.length === 0) {
+        return false;
+    }
+    return true;
+}
+
+function activeSubmitButton(input, button) {
+    if(checkNullInput(input)) {
+        button.style.backgroundColor = '#61bd4f';
+        button.style.color = '#ffffff';
+    } else {
+        button.style.backgroundColor = '#c4c9cc';
+        button.style.color = '#f8f9f9';
+    }
+}

@@ -62,4 +62,8 @@ public class CardActivity extends AbstractActivity {
         return card.getTeam();
     }
 
+    public String getLink() {
+        return "/board/" + getBoard().getId();
+    }
+
 }

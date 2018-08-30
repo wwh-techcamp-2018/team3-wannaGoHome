@@ -25,7 +25,10 @@ public enum ErrorType {
     CARD_ASSIGN_NOT_EXIST("cardAssigneeNotExist"),
     CARD_LABEL_NOT_EXIST("cardLabelNotExist"),
     COMMENT_ID("commendId"),
-    LABEL_ID("labelId");
+    LABEL_ID("labelId"),
+    CARD_DUE_DATE_NOT_EXIST("cardDueDateNotExist"),
+    FILE_ID("fileId"),
+    TEAM_INVITE_ID("teamInviteId");
 
     private static final Logger log = LoggerFactory.getLogger(ErrorType.class);
 

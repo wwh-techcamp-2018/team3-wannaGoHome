@@ -1,6 +1,7 @@
 {{#partial "head"}}
 <link rel="stylesheet" href="/css/card.css"/>
 <link rel="stylesheet" href="/css/board.css"/>
+<link rel="stylesheet" href="/css/boardheader.css"/>
 <script src="/js/common/stomp.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
@@ -9,14 +10,14 @@
 <script src="/js/class/Card.js"></script>
 <script src="/js/class/Calendar.js"></script>
 <script src="/js/class/CardDetail.js"></script>
-<script src="/js/class/SmallCalendar.js"></script>
+<script src="/js/class/BoardHeader.js"></script>
+<script src="/js/class/Message.js"></script>
 
 <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
 <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css"/>
 
 
-<script src="/js/class/Message.js"></script>
 <script src="/js/class/Chat.js"></script>
 <script src="/js/board/board.js"></script>
 {{/partial}}
@@ -30,14 +31,15 @@
 
 <div class="board-header">
     <div class="board-header-left-menu">
-        <span class="board-header-title">
-
-        </span>
+        <span class="board-header-title"></span>
+        <input class="board-header-title board-header-title-input board-header-title-hide">
+        <div class="board-header-team-title-wrapper">| <span class="board-header-team-title"></span> |</div>
+        <div class="board-header-team-member"></div>
+        <i class="fas fa-ellipsis-v board-header-menu-button"></i>
     </div>
 
     <div class="board-header-right-menu">
         <span><i class="fa fa-calendar"></i></span>
-        <span><i class="fa fa-filter"></i></span>
         <span class="chatting-bar-closer"><i class="fas fa-comment-dots"></i></span>
     </div>
 </div>
@@ -61,9 +63,23 @@
     <div class="card-detail-background"></div>
     <div class="card-detail-container">
         <div class="card-detail-title-wrapper">
-            <p class="card-detail-title"><i class="fas fa-check"></i> <span class="card-detail-title-text"></span></p>
+            <p class="card-detail-title">
+                <i class="fas fa-check"></i>
+                <input class="card-detail-title-edit-text card-detail-title-hide">
+                <span class="card-detail-title-text"></span>
+            </p>
             <p class="card-detail-task-title"></p>
         </div>
+        <div class="card-detail-summary-wrapper">
+            <div class="card-detail-summary-members"></div>
+            <div class="card-detail-summary-due-date"></div>
+            <div class="card-detail-summary-attachment-wrapper">
+                <div class="card-detail-summary-attachment-title"></div>
+                <div class="card-detail-summary-attachment-list" style="display: none"></div>
+            </div>
+            <div class="card-detail-summary-labels" style="display: block"></div>
+        </div>
+
         <div class="card-detail-main-container">
             <div class="card-detail-desc-wrapper">
                 <p class="card-detail-title">
@@ -106,10 +122,17 @@
                 </div>
             </div>
             <div class="card-detail-side-button due-date"><i class="far fa-calendar-alt"></i> Due Date
-                <div id="smallCalendar" style="display: none"></div>
+                <div class="card-detail-date-container" style="display: none;">
+                    <input type="date" class="card-detail-date">
+                </div>
+
             </div>
-            <div class="card-detail-side-button"><i class="fas fa-file-upload"></i> Attachment</div>
-            <div class="card-detail-side-button"><i class="far fa-trash-alt"></i> Delete</div>
+            <div class="filebox card-detail-side-button">
+                <label for="card-detail-file-upload"><i class="fas fa-file-upload"></i> Attachment</label>
+                <form class="card-detail-file-upload-form"><input type="file" id="card-detail-file-upload"></form>
+            </div>
+
+            <div class="card-detail-side-button delete"><i class="far fa-trash-alt"></i> Delete</div>
         </div>
     </div>
 </div>
@@ -148,6 +171,9 @@
         {{precompile "precompile/board/card_label_template"}}
         {{precompile "precompile/board/card_assignee_item_template"}}
         {{precompile "precompile/board/task_options_template"}}
+        {{precompile "precompile/board/card_detail_label_summary_template"}}
+        {{precompile "precompile/board/header/option_container_template"}}
+        {{precompile "precompile/board/card_detail_file_list_template"}}
     </script>
 {{/partial}}
 {{#partial "contents"}}

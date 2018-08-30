@@ -30,7 +30,7 @@ function fetchManager({url, method, body, callback}) {
 }
 
 function fileFetchManager({url, body, callback}) {
-    fetch(url, {method : "POST", body, credentials: "same-origin"})
+    fetch(url, {method: "POST", body, credentials: "same-origin"})
         .then((response) => {
             res = response;
             return response.json();
@@ -38,6 +38,7 @@ function fileFetchManager({url, body, callback}) {
         callback(res.status, result);
     });
 }
+
 function rgbToHex(rgb) {
     rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     return ("#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])).toUpperCase();
@@ -45,7 +46,7 @@ function rgbToHex(rgb) {
 
 function hex(x) {
     const hexDigits = new Array
-    ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
+    ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
     return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
 }
 
@@ -72,7 +73,7 @@ function pasteIntoInput(el, text) {
         const value = val.slice(0, selStart) + text + val.slice(el.selectionEnd);
 
         // need to use setTimeout due to a slight bug in Chrome
-        setTimeout(function(value) {
+        setTimeout(function (value) {
             this.selectionStart = this.selectionEnd = value.length;
             this.value = value;
             this.scrollTop = this.scrollHeight;
@@ -95,7 +96,7 @@ function getFormattedTime(date) {
 
 function getFormattedDate(date) {
     return date.getFullYear() + "/" + checkTime(date.getMonth() + 1) + "/" +
-            checkTime(date.getDate());
+        checkTime(date.getDate());
 }
 
 function addEscapedText(elem, text) {
@@ -103,37 +104,90 @@ function addEscapedText(elem, text) {
     elem.appendChild(document.createTextNode(text));
 }
 
-String.prototype.replaceAll = function(search, replacement) {
+String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 
 // if true landscape non jquery
 function imageDimensions(img) {
-    if(img.height > img.width) {
+    if (img.height > img.width) {
         return false;
     } else {
         return true;
     }
 }
 
-function setOverlayClickFunctions(elem, clickCallBack, backgroundCallBack) {
-    elem.addEventListener("click", function(evt) {
-        elem.stopPropagation();
+function setOverlayClickFunctions(elem, stopPropagateElem, clickCallBack, backgroundCallBack) {
+    stopPropagateElem.addEventListener("click", function (evt) {
+        evt.stopPropagation();
+    });
+    elem.addEventListener("click", function (evt) {
+        evt.stopPropagation();
         document.querySelector("body").click();
         clickCallBack(evt);
     });
 
-    document.addEventListener("click", function(evt) {
-       backgroundCallBack(evt);
+    document.addEventListener("click", function (evt) {
+        backgroundCallBack(evt);
     });
 }
 
 function limitInputSize(inputElem, size) {
     inputElem.addEventListener("input", (evt) => {
-        const currentValue = evt.currentTarget.value.trim();
+        const currentValue = evt.currentTarget.value;
         evt.currentTarget.value = currentValue.substring(0, Math.min(currentValue.length, size));
     });
+}
+
+function showDialog(title, description, okCallback, cancelCallback) {
+    const popupElement = createElementFromHTML(`
+        <div class="popup-wrapper">
+            <div class="popup-background"></div>
+            <div class="popup">
+                <div class="popup-title">${title}</div>
+                <p class="popup-description">${description}</p>
+                <div class="popup-button-wrapper">
+                    <button class="popup-ok-button">OK</button>
+                    <button class="popup-cancel-button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    `);
+    document.body.appendChild(popupElement);
+
+    popupElement.querySelector(".popup-ok-button").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        popupElement.remove();
+        if (okCallback)
+            okCallback();
+    });
+
+    const cancelButton = popupElement.querySelector(".popup-cancel-button");
+    if (cancelCallback) {
+        cancelButton.addEventListener("click", (evt) => {
+            popupElement.remove();
+            cancelCallback();
+        });
+    }
+    else {
+        cancelButton.classList.add("popup-button-hide");
+    }
+}
+
+function square(x) {
+    return x * x;
+}
+
+function distance(x1, y1, x2, y2) {
+    return Math.sqrt(this.square(x1 - x2) + this.square(y1 - y2));
+}
+
+function getFileFormData(uploadFiles) {
+    const body = new FormData();
+    body.append("file", uploadFiles[0]);
+    return body;
 }
 
 class PageObject {

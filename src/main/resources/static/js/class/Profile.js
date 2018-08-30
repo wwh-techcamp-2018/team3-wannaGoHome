@@ -21,7 +21,6 @@ class Profile {
             window.location.href = "/";
         });
         document.addEventListener("click", (evt) => {
-            evt.preventDefault();
             if (this.profileAvatorHolder.style.display === "block") {
                 this.hideProfileImageHolder();
             }
@@ -52,21 +51,17 @@ class Profile {
             if(uploadFiles.length !== 0) {
                 fileFetchManager({
                     url: "/api/users/profile",
-                    body: this.getProfileFormData(uploadFiles),
+                    body: getFileFormData(uploadFiles),
                     callback: this.handleUploadProfileImage.bind(this)
                 })
             }
         }.bind(this);
     }
 
-    getProfileFormData(uploadFiles) {
-        const body = new FormData();
-        body.append("file", uploadFiles[0]);
-        return body;
-    }
-
-    showProfileImageHolder() {
+    showProfileImageHolder(evt) {
         this.profileAvatorHolder.style.display = "block";
+        this.profileAvatorHolder.style.left = evt.pageX + "px";
+        this.profileAvatorHolder.style.top = document.querySelector("body").scrollTop + evt.pageY + "px";
     }
 
     hideProfileImageHolder() {

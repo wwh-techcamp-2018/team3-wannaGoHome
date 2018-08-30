@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import wannagohome.domain.team.Team;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Builder
@@ -35,5 +36,23 @@ public class UserIncludedInTeam {
         this.user = user;
         this.team = team;
         this.permission = userPermission;
+    }
+
+    public void changePermission(UserPermission permission) {
+        this.permission = permission;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserIncludedInTeam that = (UserIncludedInTeam) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

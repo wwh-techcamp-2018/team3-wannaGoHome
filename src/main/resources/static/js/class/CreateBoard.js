@@ -12,6 +12,8 @@ class CreateBoard {
         this.TR_COUNT = 3;
         this.TOP_MARGIN = 64;
 
+        limitInputSize(this.titleNode, 20);
+
         this.addBackgroundClickEvent();
         this.addTitleInputEvent();
         this.addSubmitButtonClickEvent();
@@ -46,6 +48,7 @@ class CreateBoard {
         this.initializeFormValue();
         this.node.parentElement.classList.toggle("scroll-overflow");
         this.node.style.display = "";
+        limitInputSize(this.titleNode,20);
         this.titleNode.focus();
     }
 

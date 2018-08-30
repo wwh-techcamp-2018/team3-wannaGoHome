@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
+import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.task.Task;
 import wannagohome.domain.task.TaskDto;
 import wannagohome.domain.task.TaskOrderDto;
 import wannagohome.domain.team.Team;
+import wannagohome.domain.user.UserIncludedInBoard;
+import wannagohome.exception.UnAuthorizedException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -33,7 +37,6 @@ public class Board {
     @NotBlank
     @Size(max = 20)
     @Column(length = 20, nullable = false)
-    @Getter
     private String title;
 
     @ManyToOne
@@ -42,10 +45,10 @@ public class Board {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "board")
     @OrderBy("order_id ASC")
+    @Where(clause = "deleted = false")
     private List<Task> tasks;
 
     @Enumerated(EnumType.STRING)
-    @Getter
     private Color color;
 
     @Column(nullable = false)
@@ -62,7 +65,8 @@ public class Board {
         boardDto.setId(id);
         boardDto.setTitle(title);
         boardDto.setColor(color);
-        List<TaskDto> taskDtoList =  tasks.stream().map(task -> task.getTaskDto()).collect(Collectors.toList());
+        List<TaskDto> taskDtoList =  tasks.stream().filter(task -> !task.isDeleted())
+                .map(task -> task.getTaskDto()).collect(Collectors.toList());
         boardDto.setTasks(taskDtoList);
         return boardDto;
     }
@@ -77,7 +81,6 @@ public class Board {
         if(taskOrderDto.getDestinationIndex() >= tasks.size()) {
             return this;
         }
-
         for(int i = 0; i < tasks.size(); ++i) {
             if(tasks.get(i).equalsId(taskOrderDto.getOriginId())) {
                 Task movingTask = tasks.get(i);
@@ -86,12 +89,23 @@ public class Board {
                 break;
             }
         }
-
         for(int i = 0; i < tasks.size(); ++i) {
             tasks.get(i).setOrderId(i);
         }
-
         return this;
     }
 
+    public void delete(UserIncludedInBoard userIncludedInBoard) {
+        if (!userIncludedInBoard.isAdmin()) {
+            throw new UnAuthorizedException(ErrorType.UNAUTHORIZED, "보드를 삭제할 권한이 없습니다.");
+        }
+        deleted = true;
+    }
+
+    public void rename(UserIncludedInBoard userIncludedInBoard, BoardHeaderDto dto) {
+        if (!userIncludedInBoard.isAdmin()) {
+            throw new UnAuthorizedException(ErrorType.UNAUTHORIZED, "보드명을 수정할 권한이 없습니다.");
+        }
+        this.title = dto.getBoardTitle();
+    }
 }

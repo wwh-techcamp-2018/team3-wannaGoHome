@@ -74,8 +74,7 @@ class Calendar {
     clickSchedule() {
         this.calendar.on({
             'clickSchedule': function (e) {
-                console.log(e.schedule);
-                this.board.cardDetailForm.showCardDetailForm(e.schedule.id);
+                this.board.cardDetailForm.show(e.schedule.id);
             }.bind(this)
         })
     }
@@ -113,13 +112,13 @@ class Calendar {
                 callback: this.handleUpdateSchedule.bind(this)
 
             })
-            //TODO schedule에서 업데이트 된 정보를 카드에도 업데이트 시켜줘야함
         }.bind(this));
     }
 
     handleUpdateSchedule(status, card) {
-        console.log(status);
-        console.log(card);
+        if(status !== 200) {
+            return;
+        }
     }
 
 

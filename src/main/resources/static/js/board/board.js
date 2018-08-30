@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function (evt) {
         }
     });
 
+    $_("#calendar").addEventListener("click", (evt)=>{evt.stopPropagation()});
+
 });
 
 function initEvent(calendar, board) {
@@ -59,15 +61,24 @@ function initEvent(calendar, board) {
 
     });
 
-    $_("#calendar").addEventListener("click", (evt) => {
-        evt.stopPropagation();
+    document.addEventListener("keyup", (evt)=>{
+        if(evt.key === "Escape") {
+            document.querySelector("body").click();
+        }
+
     })
+
+    $_(".fa-calendar").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        $_(".header-button-boardlist").style.display = 'none';
+    });
 
     $_(".card-detail-container").addEventListener("click", (evt)=>{
         evt.stopPropagation();
         $_(".card-detail-assignee-container").classList.add("card-detail-assignee-container-hide");
         $_(".card-detail-label-container").style.display = 'none';
-        $_("#smallCalendar").style.display = 'none';
+        $_(".card-detail-date-container").style.display = 'none';
+        $_(".card-detail-summary-attachment-list").style.display = 'none';
     })
 
 }

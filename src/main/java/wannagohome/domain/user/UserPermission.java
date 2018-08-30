@@ -1,13 +1,26 @@
 package wannagohome.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.Arrays;
+
 public enum UserPermission {
-    ADMIN(0),
-    MANAGER(1),
-    MEMBER(2);
+    ADMIN("Admin"),
+    MANAGER("Manager"),
+    MEMBER("Member");
 
-    private int permission;
+    private String permission;
 
-    UserPermission(int permission) {
+    public static UserPermission of(String permission) {
+        return Arrays.stream(values()).filter(userPermission -> userPermission.permission.equals(permission)).findFirst().orElseThrow(() -> new IllegalArgumentException());
+    }
+
+    UserPermission(String permission) {
         this.permission = permission;
+    }
+
+    @JsonValue
+    public String getPermission() {
+        return permission;
     }
 }

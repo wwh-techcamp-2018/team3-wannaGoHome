@@ -6,7 +6,7 @@ INSERT INTO user (email, name, password, deleted) VALUES('songintae@woowahan.com
 INSERT INTO user (email, name, password, deleted) VALUES('kimyeon@woowahan.com', 'kimyeon', '$2a$10$yKTRTpg8iaZBSGe.kIQYzuAF0A2nrUQ2YAMwz50mqllpo9fqpk0XO',  false);
 INSERT INTO user (email, name, password, deleted) VALUES('boobby@woowahan.com', 'booby', '$2a$10$yKTRTpg8iaZBSGe.kIQYzuAF0A2nrUQ2YAMwz50mqllpo9fqpk0XO',  false);
 
-INSERT INTO team (profile_image, name, description, deleted) VALUES ('http://urlrul', 'WannaGoHome', 'WannaGoHome description', false);
+INSERT INTO team (name, description, deleted) VALUES ('WannaGoHome', 'WannaGoHome description', false);
 
 INSERT INTO user_included_in_team(permission,team_id,user_id)VALUES('ADMIN',1,1);
 INSERT INTO user_included_in_team(permission,team_id,user_id)VALUES('ADMIN',1,2);
@@ -30,7 +30,7 @@ INSERT INTO user (email, name, password, deleted) VALUES('example3@woowahan.com'
 INSERT INTO user (email, name, password, deleted) VALUES('example4@woowahan.com', 'example4', '$2a$10$yKTRTpg8iaZBSGe.kIQYzuAF0A2nrUQ2YAMwz50mqllpo9fqpk0XO',  false);
 
 
-INSERT INTO team (profile_image, name, description, deleted) VALUES ('http://urlrul', '우아한테크캠프', '우아한형제들 테크캠프', false);
+INSERT INTO team (name, description, deleted) VALUES ('우아한테크캠프', '우아한형제들 테크캠프', false);
 
 INSERT INTO user_included_in_team(permission,team_id,user_id)VALUES('ADMIN',2,6);
 INSERT INTO user_included_in_team(permission,team_id,user_id)VALUES('ADMIN',2,7);

@@ -20,18 +20,33 @@ class Notification {
                 const {topic, messages} = JSON.parse(frame.body);
                 this.initSubscription(topic);
                 this.handleNotification(messages);
+                this.bell.classList.remove("notification-swing");
 
             });
 
             this.stompClient.send("/app/activity/init");
         });
 
-        this.notificationButton.addEventListener("click", (evt) => {
-            this.onClickNotificationButton();
+        document.addEventListener("click", (evt) => {
+            this.hideNotification();
         });
+
         this.showMoreButton.addEventListener("click", (evt) => {
+            evt.stopPropagation();
             this.onClickShowMoreButton();
         });
+
+        this.notificationButton.addEventListener("click", (evt) => {
+            evt.stopPropagation();
+            this.showNotification();
+            $_(".header-button-boardlist").style.display = 'none';
+            $_("#calendar").style.display = 'none';
+        });
+
+        this.holder.addEventListener("click", (evt) => {
+            evt.stopPropagation();
+        });
+
     }
 
     initSubscription(topic) {
@@ -70,10 +85,14 @@ class Notification {
         this.scrollable.scrollTop = this.scrollable.scrollHeight;
     }
 
-    onClickNotificationButton() {
+    showNotification() {
         this.holder.classList.toggle("header-notification-hide");
-        if (!this.holder.classList.contains("header-notification-hide")) {
-            this.bell.classList.remove("notification-swing");
+        this.bell.classList.remove("notification-swing");
+    }
+
+    hideNotification() {
+        if(!this.holder.classList.contains("header-notification-hide")) {
+            this.holder.classList.toggle("header-notification-hide");
         }
     }
 

@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import wannagohome.domain.board.*;
 import wannagohome.domain.team.Team;
 import wannagohome.domain.user.User;
@@ -31,12 +32,18 @@ public class BoardServiceTest {
 
     @Mock
     private BoardRepository boardRepository;
+
     @Mock
     private RecentlyViewBoardRepository recentlyViewBoardRepository;
+
     @Mock
     private UserIncludedInBoardRepository userIncludedInBoardRepository;
+
     @Mock
     private UserIncludedInTeamRepository userIncludedInTeamRepository;
+
+    @Mock
+    private SimpMessageSendingOperations simpMessageSendingOperations;
 
     @Mock
     private ApplicationEventPublisher applicationEventPublisher;
@@ -59,7 +66,7 @@ public class BoardServiceTest {
                 .id(1L)
                 .name("wannagohome")
                 .description("wannagohome 화이팅")
-                .profileImage("default.png")
+                .profile("default.png")
                 .build();
 
         user = User.builder()
@@ -98,6 +105,7 @@ public class BoardServiceTest {
         when(boardRepository.findById(boards.get(0).getId())).thenReturn(Optional.ofNullable(boards.get(0)));
         when(userIncludedInTeamRepository.findByUserAndTeam(user,boards.get(0).getTeam()))
                 .thenReturn(Optional.ofNullable(UserIncludedInTeam.builder().id(1L).team(team).user(user).build()));
+        when(userIncludedInBoardRepository.save(any())).thenReturn(new UserIncludedInBoard());
         assertThat(boardService.viewBoard(boards.get(0).getId(), user)).isEqualTo(boards.get(0));
         verify(boardRepository,times(1)).findById(boards.get(0).getId());
         verify(recentlyViewBoardRepository,times(1)).save(any());
@@ -138,7 +146,7 @@ public class BoardServiceTest {
                 .color(Color.DARK_LIME_GREEN.getCode())
                 .build();
         when(boardRepository.save(any())).thenReturn(boards.get(0));
-        when(userIncludedInBoardRepository.save(any())).thenReturn(null);
+        when(userIncludedInBoardRepository.save(any())).thenReturn(new UserIncludedInBoard());
         when(teamService.findTeamById(team.getId())).thenReturn(team);
         Board createBoard = boardService.createBoard(user,boardDTO);
         assertThat(createBoard).isEqualTo(boards.get(0));

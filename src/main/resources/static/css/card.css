@@ -4,6 +4,10 @@
     /*text-align: center;*/
 }
 
+.card-list-title {
+    white-space: pre-wrap;
+}
+
 .card-detail-background {
     position: fixed;
     z-index: 20;
@@ -182,7 +186,7 @@
     height: 30px;
 }
 
-.card-detail-assignee-container-hide, .card-detail-description-hide {
+.card-detail-assignee-container-hide, .card-detail-description-hide, .card-detail-title-hide {
     display: none;
 }
 
@@ -197,6 +201,7 @@
 
 .card-detail-assignee-list-container .assignee-img {
     width: 20px;
+    height: 20px;
     border-radius: 50%;
 }
 
@@ -211,5 +216,191 @@
     font-size: 13px;
     margin-left: 3px;
     color: #888888;
+}
 
+.card-label-bar {
+    margin: 2px;
+    width: 20px;
+    height: 8px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.card-delete-button-danger {
+    background-color: #e25b52;
+    color: #fff;
+}
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #b4b6b8;
+}
+
+/*!* A few custom styles for date inputs *!*/
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    color: #95a5a6;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 12px;
+    width: 100%;
+    padding-left: 5px;
+    border-style:none;
+    background-color: #f8f9f9;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px #b4b6b8;
+}
+
+input[type="date"]:focus {
+    outline: none; !important;
+    color: #95a5a6;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+
+/*.card-detail-date {*/
+    /*color: #95a5a6;*/
+    /*background-color: #f8f9f9;*/
+    /*font-size: 12px;*/
+    /*height: 20px;*/
+    /*border-radius: 3px;*/
+    /*z-index: 200;*/
+    /*position: relative;*/
+    /*width: 200px;*/
+    /*margin-left: -20px;*/
+    /*margin-top: -10px;*/
+    /*box-shadow: 1px 1px 1px #b4b6b8;*/
+
+/*}*/
+
+.card-detail-date-container {
+    background-color: #f8f9f9;
+    border-radius: 3px;
+    z-index: 200;
+    position: relative;
+    width: 200px;
+    margin-left: -20px;
+    margin-top: 2px;
+    box-shadow: 1px 1px 1px #b4b6b8;
+}
+
+.card-detail-summary-due-date > span {
+    font-size: 10px;
+    color: #888888;
+}
+
+.card-detail-summary-due-date > span > .date-delete-button {
+    color: #e25b52;
+    cursor: pointer;
+}
+
+.card-detail-summary-wrapper > div {
+    display: inline-block;
+}
+
+.card-detail-title-edit-text {
+    border-radius: 3px;
+    height: 26px;
+    width: 260px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 3px;
+    background-color: #f8f9f9;
+    border-style: none;
+    color: #888888;
+    font-size: 15px;
+}
+
+.card-detail-title-edit-text:focus {
+    outline: none;
+    border-style: none; !important;
+}
+
+
+.filebox label {
+    cursor: pointer;
+}
+.filebox input[type="file"] {
+    /* 파일 필드 숨기기 */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+}
+
+.card-detail-summary-attachment-wrapper {
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.card-detail-summary-attachment-wrapper > span, .card-detail-summary-attachment-title > span {
+    font-size: 10px;
+    color: #888888;
+}
+
+
+.card-detail-summary-attachment-list > p {
+    margin-bottom: 0; !important;
+    font-size: 11px;
+    color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+}
+
+.card-detail-summary-attachment-list > p > a {
+    text-decoration: none;
+    color: #003d5e;
+}
+
+
+.card-detail-summary-attachment-list > p > .file-delete-button {
+    color: #e25b52;
+    padding-left: 3px;
+    cursor: pointer;
+    float: right;
+}
+
+.card-detail-summary-attachment-title {
+    float: right;
+}
+
+.card-detail-summary-attachment-list {
+    padding: 5px;
+    background-color: #f8f9f9;
+    border-radius: 3px;
+    z-index: 200;
+    position: absolute;
+    width: 150px;
+    margin-top: 23px;
+    box-shadow: 1px 1px 1px #b4b6b8;
+}
+
+.card-list-calendar, .card-list-label {
+    display: inline-block;
+    color: #888888;
+    font-size: 11px;
+}
+
+.card-detail-summary-members > img {
+    margin-left: -5px;
 }

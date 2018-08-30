@@ -8,8 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import static wannagohome.domain.user.User.DEFAULT_PROFILE;
+
 @Builder
 @Getter
+@Setter
 @Entity
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -21,8 +24,8 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 255)
-    private String profileImage;
+    @Lob
+    private String profile;
 
     @NotBlank
     @Size(min = 1, max = 20)
@@ -37,5 +40,15 @@ public class Team {
     @Column(nullable = false)
     @ColumnDefault(value = "false")
     private boolean deleted;
+
+    public String getProfile() {
+        if(profile == null || profile.isEmpty())
+            return DEFAULT_PROFILE;
+        return this.profile;
+    }
+
+    public boolean isDefaultProfile() {
+        return getProfile().equals(DEFAULT_PROFILE);
+    }
 
 }

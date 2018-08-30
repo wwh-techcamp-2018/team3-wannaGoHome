@@ -61,6 +61,11 @@
     background: hsla(0,0%,100%,.15);
 }
 
+.create-board-title:focus{
+    background: hsla(0,0%,100%,.15);
+}
+
+
 .team-select-box {
     position: relative;
     top : 24px;

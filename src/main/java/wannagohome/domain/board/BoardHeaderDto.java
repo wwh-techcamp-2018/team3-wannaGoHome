@@ -24,6 +24,16 @@ public class BoardHeaderDto {
 
     private UserPermission permission;
 
+    public static BoardHeaderDto valueOf(Board board) {
+        return new BoardHeaderDto(
+                board.getTitle(),
+                board.getTeam().getName(),
+                board.isDeleted(),
+                null,
+                null
+        );
+    }
+
     public static BoardHeaderDto valueOf(Board board, UserIncludedInBoard userIncludedInBoard) {
         return new BoardHeaderDto(
                 board.getTitle(),

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import wannagohome.domain.activity.ActivityType;
 import wannagohome.domain.activity.TeamActivity;
+import wannagohome.domain.board.Board;
+import wannagohome.domain.board.BoardHeaderDto;
 import wannagohome.domain.board.BoardOfTeamDto;
 import wannagohome.domain.error.ErrorType;
 import wannagohome.domain.team.RemoveUserFromTeamDto;
@@ -238,7 +240,11 @@ public class TeamService {
         team.delete();
         boardRepository.findAllByTeamAndDeletedFalse(team).forEach(board -> {
             board.delete();
-            boardRepository.save(board);
+            board = boardRepository.save(board);
+            simpMessageSendingOperations.convertAndSend(
+                    String.format(Board.BOARD_HEADER_TOPIC_URL, board.getId()),
+                    BoardHeaderDto.valueOf(board)
+            );
         });
         teamRepository.save(team);
 

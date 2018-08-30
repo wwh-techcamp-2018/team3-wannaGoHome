@@ -37,8 +37,6 @@ import java.util.stream.Collectors;
 @Service
 public class BoardService {
 
-    private static final String BOARD_HEADER_TOPIC_URL = "/topic/board/%d/header";
-
     @Autowired
     private BoardRepository boardRepository;
 
@@ -159,7 +157,7 @@ public class BoardService {
         recentlyViewBoardRepository.deleteByBoard(board);
 
         BoardHeaderDto boardHeaderDto = BoardHeaderDto.valueOf(board, userIncludedInBoard);
-        simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
+        simpMessageSendingOperations.convertAndSend(String.format(Board.BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
         return boardHeaderDto;
     }
 
@@ -171,7 +169,7 @@ public class BoardService {
         boardRepository.save(board);
 
         BoardHeaderDto boardHeaderDto = BoardHeaderDto.valueOf(board, userIncludedInBoard);
-        simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
+        simpMessageSendingOperations.convertAndSend(String.format(Board.BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
         return boardHeaderDto;
     }
 
@@ -224,7 +222,7 @@ public class BoardService {
                 userIncludedInBoardRepository.findAllByBoard(board).stream().map(UserIncludedInBoard::getUser).collect(Collectors.toList()),
                 userIncludedInBoard
         );
-        simpMessageSendingOperations.convertAndSend(String.format(BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
+        simpMessageSendingOperations.convertAndSend(String.format(Board.BOARD_HEADER_TOPIC_URL, board.getId()), boardHeaderDto);
 
         return userIncludedInBoard;
     }

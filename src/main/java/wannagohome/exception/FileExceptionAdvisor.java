@@ -1,5 +1,7 @@
 package wannagohome.exception;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,7 +14,8 @@ import wannagohome.domain.error.ErrorType;
 import java.util.Arrays;
 import java.util.List;
 
-@RestControllerAdvice(annotations = RestController.class)
+@RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class FileExceptionAdvisor {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)

@@ -53,7 +53,6 @@
 
 <img src= "https://user-images.githubusercontent.com/17852124/44858103-3a768b80-acac-11e8-919f-2d122b8ad364.gif" width= 400px>
 
-<br>
 
 ### 일곱,
 마이페이지에서 자신의 활동을 볼 수 있으며, 프로필 사진도 바꿀 수 있습니다.

@@ -1,6 +1,6 @@
 ### team3-wannaGoHome
 
-# 서비스 주소 : www.wannagohome.xyz
+## www.wannagohome.xyz
 
 # Sticky Board는,
 
@@ -8,6 +8,10 @@
 포스트잇을 떼고 붙이는 것처럼 쉽고 간단하게 일정을 관리할 수 있습니다.
 
 다양한 사람들과 함께 협업하여 프로젝트를 관리할 수 있도록 돕는 서비스입니다.
+
+<img src= "https://user-images.githubusercontent.com/19780879/44887459-4e031000-ad07-11e8-9ee2-13e11ef23593.png" width=400px >
+
+<br>
 
 ### 하나,
 주변 사람들과 함께 팀을 구성하고 업무 별로 보드를 만들어 관리할 수 있습니다.

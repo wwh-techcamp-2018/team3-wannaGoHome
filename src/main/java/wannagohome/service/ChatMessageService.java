@@ -22,7 +22,7 @@ public class ChatMessageService {
     private BoardService boardService;
 
     public List<ChatMessage> getRecentMessagesFromBoard(Board board) {
-        List<ChatMessage> messages = chatMessageRepository.findFirst20ByBoardEqualsOrderByMessageCreatedDesc(board);
+        List<ChatMessage> messages = chatMessageRepository.findFirst40ByBoardEqualsOrderByMessageCreatedDesc(board);
         return Lists.reverse(messages);
     }
 
